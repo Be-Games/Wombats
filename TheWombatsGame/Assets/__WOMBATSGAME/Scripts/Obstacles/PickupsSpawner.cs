@@ -1,14 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PickupsSpawner : MonoBehaviour
 {
-    public GameObject boostPrefab;
-    public Transform[] boostPositions;
-
+    
+    public Collider[] totalBoosts;
     public Collider[] boostInRange;
+    public Collider[] boostOutRange;
 
     public GameObject playerVehicle;
     public float rangeOfSphere;
@@ -18,19 +19,22 @@ public class PickupsSpawner : MonoBehaviour
     private void Start()
     {
         playerVehicle = LevelManager.Instance.currentPlayerCarModel;
-
-        foreach (var x in boostPositions)
-        {
-            Instantiate(boostPrefab, x.position, Quaternion.identity);
-        }
+        
     }
 
     private void FixedUpdate()
     {
         
         boostInRange = Physics.OverlapSphere(playerVehicle.transform.position, rangeOfSphere,boostPickupsLayerMask);
-
+    
         foreach (var boost in boostInRange)
+        {
+            boost.gameObject.SetActive(true);
+        }
+
+        boostOutRange = totalBoosts.Except(boostInRange).ToArray();
+        
+        foreach (var boost in boostOutRange)
         {
             boost.gameObject.SetActive(false);
         }

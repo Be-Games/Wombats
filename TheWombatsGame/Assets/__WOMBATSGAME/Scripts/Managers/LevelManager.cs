@@ -46,6 +46,7 @@ public class LevelManager : MonoBehaviour
     public int totalLaps;
     public bool isLapTriggered;
     public GameObject[] levelTimeObjects;
+    public GameObject[] lapObjects;
 
     [Header("EnemyCar")] 
     public GameObject enemy1;
@@ -83,8 +84,6 @@ public class LevelManager : MonoBehaviour
     public bool adStuff;
     public bool isGameEnded;
     
-    [Header("Car Effects")]
-    public GameObject NOSeffect;
     
     public GameObject gameOverPanel;
     public GameObject gameEndPanel;
@@ -131,7 +130,7 @@ public class LevelManager : MonoBehaviour
         //Initilization
         lapText.text = (lapCounter+1) + "/" + totalLaps;
         startTime = Time.time;
-        
+        LevelManager.Instance.lapObjects[lapCounter].SetActive(true);
         //OverHeadUIs
         //currentPlayerCarModel.transform.GetChild(3).localScale = Vector3.zero;
         
@@ -229,8 +228,7 @@ public class LevelManager : MonoBehaviour
     public void LapManager()
     {
         
-        
-        
+       
 
         if ((lapCounter) == totalLaps)
         {
@@ -420,10 +418,9 @@ public class LevelManager : MonoBehaviour
         
        // UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = false;
        // UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = false;
+       
         
-        
-        
-        NOSeffect.SetActive(true);                                                                    //NOS Particle Effect
+       currentPlayerCarModel.transform.GetChild(0).GetChild(2).GetChild(3).gameObject.SetActive(true);                     //NOS Particle Effect
         PlayerController.Instance.targetSpeed = boostSpeed;                                            //Set speed to boost speed
         UiManager.BoostBtn.GetComponent<Button>().enabled = false;
         
@@ -473,7 +470,7 @@ public class LevelManager : MonoBehaviour
         }
             
         
-        NOSeffect.SetActive(false);       
+        currentPlayerCarModel.transform.GetChild(0).GetChild(2).GetChild(3).gameObject.SetActive(false);                     //NOS Particle Effect
         PlayerController.Instance.targetSpeed = normalSpeed;
         
         //unblur
