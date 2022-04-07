@@ -147,12 +147,12 @@ public class LevelManager : MonoBehaviour
         flyOverCameraGO.SetActive(false);
         mainCameraGO.SetActive(true);
         
-        DOTween.To(() => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset, 
-                x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = x, 0.5f)
-            .OnUpdate(() => {
-                        
-            });
-        
+        // DOTween.To(() => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset, 
+        //         x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = x, 0.5f)
+        //     .OnUpdate(() => {
+        //                 
+        //     });
+        //
         iniCMVCCam.Priority = 1;
         defCMVCCam.Priority = 0;
         
