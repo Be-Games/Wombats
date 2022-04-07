@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator IniCarPush()
     {
         PlayercarVisual.transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(false); 
-        playerPF.speed = 0.5f;
+        playerPF.speed = 0f;
         PlayercarVisual.transform.localPosition = new Vector3(PlayercarVisual.transform.localPosition.x,0.01f,0f);
         yield return new WaitForSeconds(0.5f);
         PlayercarVisual.transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true); 

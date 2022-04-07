@@ -30,4 +30,6 @@ public class UIManager : MonoBehaviour
     public GameObject extraLifePanel;
     public GameObject pauseScreen;
 
+    public TextMeshProUGUI playerPosition;
+
 }
