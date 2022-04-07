@@ -147,12 +147,6 @@ public class LevelManager : MonoBehaviour
         flyOverCameraGO.SetActive(false);
         mainCameraGO.SetActive(true);
         
-        // DOTween.To(() => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset, 
-        //         x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = x, 0.5f)
-        //     .OnUpdate(() => {
-        //                 
-        //     });
-        //
         iniCMVCCam.Priority = 1;
         defCMVCCam.Priority = 0;
         
@@ -168,7 +162,7 @@ public class LevelManager : MonoBehaviour
         countdownLights[1].SetActive(true);
         yield return new WaitForSeconds(1f);
         
-        UIManager.Instance.gameUIPanel.GetComponent<RectTransform>().DOAnchorPos(Vector2.zero,0.4f);
+        UIManager.Instance.gameUIPanel.GetComponent<RectTransform>().DOAnchorPos(Vector2.zero,0.7f);
         iniCMVCCam.Priority = 0;
         defCMVCCam.Priority = 1;
         gameMusic.enabled = true;
