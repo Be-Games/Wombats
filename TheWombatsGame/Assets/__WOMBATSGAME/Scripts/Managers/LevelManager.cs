@@ -28,11 +28,14 @@ public class LevelManager : MonoBehaviour
     {
         _instance = this;
     }
-    
+
 
     [Header("Camera Refs")]
-    public CinemachineVirtualCamera threePlayerCMVC;
+    public GameObject mainCameraGO;
+    public CinemachineVirtualCamera defCMVCCam;
     public CinemachineCameraOffset cmCameraOffset;
+    public GameObject flyOverCameraGO;
+    public CinemachineVirtualCamera iniCMVCCam;
     
     [Header("Player Car ")]
     public GameObject currentPlayerCarModel;
@@ -93,7 +96,10 @@ public class LevelManager : MonoBehaviour
 
     [Header("DoTween Sequences")] 
     private Sequence boostBtnSeq;
-    
+
+    [Header("GameUI DOTween Coordinates")] 
+    [SerializeField] private float initial;
+    [SerializeField] private float final;
     
     [Header("Misc Stuff")]
     public float startTime;
@@ -112,24 +118,24 @@ public class LevelManager : MonoBehaviour
     public GameObject cameraRotator;
     public GameObject blackScreenFadingPanel;
     
-    
-
     public CinemachineVirtualCamera cmvc;
     //other script references
     
     private void Start()
     {
-        lapText.text = (lapCounter+1) + "/" + totalLaps;
+        //Game Start - Flyover Camera 
+        flyOverCameraGO.SetActive(true);
+        mainCameraGO.SetActive(false);
         
-        UiManager.BoostBtn.transform.localScale = Vector3.zero;
-        UiManager.BoostBtn.transform.GetComponent<Button>().enabled = false;
+
+        //Initilization
+        lapText.text = (lapCounter+1) + "/" + totalLaps;
+        startTime = Time.time;
         
         //OverHeadUIs
         //currentPlayerCarModel.transform.GetChild(3).localScale = Vector3.zero;
         
         
-       startTime = Time.time;
-       
        
        
     }
@@ -137,19 +143,40 @@ public class LevelManager : MonoBehaviour
     
     public void StartBtn()
     {
-        isTimerStarted = true;
-        StartCoroutine("CountDownTimer");
+        //Game Start - Normal Camera 
+        flyOverCameraGO.SetActive(false);
+        mainCameraGO.SetActive(true);
+        
+        DOTween.To(() => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset, 
+                x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = x, 0.5f)
+            .OnUpdate(() => {
+                        
+            });
+        
+        iniCMVCCam.Priority = 1;
+        defCMVCCam.Priority = 0;
+        
+         isTimerStarted = true;
+         StartCoroutine("CountDownTimer");
     }
 
     IEnumerator CountDownTimer()
     {
+        yield return new WaitForSeconds(1.3f);
         countdownLights[0].SetActive(true);
         yield return new WaitForSeconds(1f);
         countdownLights[1].SetActive(true);
         yield return new WaitForSeconds(1f);
+        
+        UIManager.Instance.gameUIPanel.GetComponent<RectTransform>().DOAnchorPos(Vector2.zero,0.4f);
+        iniCMVCCam.Priority = 0;
+        defCMVCCam.Priority = 1;
+        gameMusic.enabled = true;
+        
         countdownLights[2].SetActive(true);
         yield return new WaitForSeconds(1f);
-        gameMusic.enabled = true;
+        
+        
         countdownLights[0].SetActive(false);
         countdownLights[1].SetActive(false);
         countdownLights[2].SetActive(false);
@@ -167,9 +194,9 @@ public class LevelManager : MonoBehaviour
     void RaceStarted()
     {
         GameManager.Instance.canControlCar = true;                        // Car Gestures Enabled
-        UiManager.BoostBtn.transform.DOScale(new Vector3(0.6f,0.6f,0.6f), 1f).SetEase(Ease.OutBounce);
-        
-        currentPlayerCarModel.transform.GetChild(3).DOScale(new Vector3(1f,1f,1f), 1f).SetEase(Ease.OutBounce);
+        // UiManager.BoostBtn.transform.DOScale(new Vector3(0.6f,0.6f,0.6f), 1f).SetEase(Ease.OutBounce);
+        //
+        // currentPlayerCarModel.transform.GetChild(3).DOScale(new Vector3(1f,1f,1f), 1f).SetEase(Ease.OutBounce);
         
     }
 

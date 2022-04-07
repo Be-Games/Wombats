@@ -29,9 +29,12 @@ public class PlayerController : MonoBehaviour
     public PathFollower playerPF;
     public float xOffSet;
     public GameObject PlayercarVisual;
+    public Color universalCarColor;
 
-    
-    public float Acc, Dec, targetSpeed;
+    [Header("Car Settings")]
+    public float Acc;
+    public float Dec;
+    public float targetSpeed;
 
     
 

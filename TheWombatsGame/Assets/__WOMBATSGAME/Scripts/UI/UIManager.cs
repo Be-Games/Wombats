@@ -26,11 +26,15 @@ public class UIManager : MonoBehaviour
     public GameObject BoostBtn;
 
     [Header("Game Panels")] 
+    public GameObject gameUIPanel;
     public GameObject crashedPanel;
     public GameObject extraLifePanel;
     public GameObject pauseScreen;
     public GameObject postAdCrashPanel;
 
     public TextMeshProUGUI playerPosition;
+    
+    
+    
 
 }

@@ -7,6 +7,8 @@ public class EnvironmentSettingsManager : MonoBehaviour
 {
     private static EnvironmentSettingsManager _instance;
 
+    public Color dayLightingColor;
+    
     public static EnvironmentSettingsManager Instance
     {
         get
@@ -46,14 +48,26 @@ public class EnvironmentSettingsManager : MonoBehaviour
     {
         nightLightingGO.SetActive(true);
         dayLightingGO.SetActive(false);
-        RenderSettings.fogDensity = 0.017f;
+        
+        RenderSettings.ambientLight = Color.white;
+        
+        RenderSettings.fogColor = Color.black;
+        RenderSettings.fogMode = FogMode.Exponential;
+        RenderSettings.fogDensity = 0.025f;
     }
     
     public void DayMode()
     {
         nightLightingGO.SetActive(false);
         dayLightingGO.SetActive(true);
-        RenderSettings.fogDensity = 0f;
+        
+
+        RenderSettings.ambientLight = dayLightingColor;
+
+        RenderSettings.fogMode = FogMode.Linear;
+        RenderSettings.fogColor = dayLightingColor;
+        RenderSettings.fogStartDistance = 25;
+        RenderSettings.fogEndDistance = 182;
     }
 
     public void Clear()
