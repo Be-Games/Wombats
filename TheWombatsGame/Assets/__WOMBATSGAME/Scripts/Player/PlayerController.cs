@@ -63,8 +63,8 @@ public class PlayerController : MonoBehaviour
     IEnumerator IniCarPush()
     {
         PlayercarVisual.transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(false); 
-        playerPF.speed = 0f;
-        PlayercarVisual.transform.localPosition = new Vector3(PlayercarVisual.transform.localPosition.x,0.01f,0f);
+        playerPF.speed = 0.5f;
+        PlayercarVisual.transform.localPosition = new Vector3(PlayercarVisual.transform.localPosition.x,0.02f,0f);
         yield return new WaitForSeconds(0.5f);
         PlayercarVisual.transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true); 
         playerPF.speed = 0;
@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
                     }
                     
                     //Other Effects
-                    PlayercarVisual.transform.GetChild(0).GetChild(2).GetChild(2).GetChild(0).gameObject.SetActive(true);            //CAR LIGHTS
+                    PlayercarVisual.transform.GetChild(0).GetChild(2).GetChild(3).GetChild(0).gameObject.SetActive(true);            //CAR LIGHTS + TIRES SMOKES
                     
                     Debug.Log("Break");
                 }
@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour
                     playerPF.speed += delta;
                     
                     //Other Effects
-                    PlayercarVisual.transform.GetChild(0).GetChild(2).GetChild(2).GetChild(0).gameObject.SetActive(false);            //CAR LIGHTS
+                    PlayercarVisual.transform.GetChild(0).GetChild(2).GetChild(3).GetChild(0).gameObject.SetActive(false);            //CAR LIGHTS + TIRES SMOKES
 
                 }
                 

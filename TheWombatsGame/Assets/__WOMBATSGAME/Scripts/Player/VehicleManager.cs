@@ -21,12 +21,21 @@ public class VehicleManager : MonoBehaviour
     }
     
     
-
     [System.Serializable]
     public class CarWheels
     {
         public GameObject[] wheels;
     }
+    
+    [Header("Car Settings")]
+    public float Acc;
+    public float Dec;
+    public float targetSpeed;
+    
 
+    [Header("Mis Settings")] 
+    public Color universalCarColor;
+    
+    
     
 }
