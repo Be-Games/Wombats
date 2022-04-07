@@ -497,30 +497,43 @@ public class LevelManager : MonoBehaviour
         PlayerController.Instance.gameControlsClass.gestureState = GameControls.GestureState.Release;
     }
 
+    public void SetContinueCounterForPostAd()
+    {
+        continueCounter = 5;
+    }
+
     public void ResetCar()
     {
         // PickUpTrigger.Instance.HideHuman();
-        if (continueCounter < 3)
+        if (continueCounter < 2)
         {
             StartCoroutine("CarReset");
         }
-        
-        
+
+        if (LevelManager.Instance.continueCounter == 5)
+        {
+            StartCoroutine("CarReset");
+            
+        }
+            
         
     }
 
     IEnumerator CarReset()
     {
         
-        if(!adStuff)
+        if(!adStuff && continueCounter!=5)
             continueCounter++;
         
-        if (continueCounter == 3)
+        if (continueCounter == 2)
         {
-            UiManager.crashedPanel.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
-            UiManager.crashedPanel.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+            UiManager.crashedPanel.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);           //ADD GET MORE LIVES BUTTON
+            UiManager.crashedPanel.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);         //CONTINUE BUTTON REMOVE
             
         }
+        
+
+        
         
         isGameStarted = true;
         

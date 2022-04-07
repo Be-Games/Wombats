@@ -9,7 +9,12 @@ public class FrontColliderTriggers : MonoBehaviour
 {
     private GameObject currentPersonRagdoll;
     public GameObject explosionParticleEffect;
-    
+
+
+    public void testCrash()
+    {
+        StartCoroutine("CarTotalled");
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Boost"))                                                                        //Boost Trigger 
@@ -72,7 +77,14 @@ public class FrontColliderTriggers : MonoBehaviour
     {
         //PlayerController.Instance.playerPF.enabled = false;
        
-        UIManager.Instance.crashedPanel.SetActive(true);
+        
+        LevelManager.Instance.Vibrate();
+        
+        if(LevelManager.Instance.continueCounter != 5)
+            UIManager.Instance.crashedPanel.SetActive(true);
+        
+        if(LevelManager.Instance.continueCounter == 5)
+            UIManager.Instance.postAdCrashPanel.SetActive(true);
 
         if (!LevelManager.Instance.isCrashedWithPpl)
         {
@@ -83,7 +95,7 @@ public class FrontColliderTriggers : MonoBehaviour
             LevelManager.Instance.isCrashed = true;
             LevelManager.Instance.currentPlayerCarModel.transform.GetChild(2).gameObject.SetActive(true);        //explosion effect
             
-            foreach (GameObject x in LevelManager.Instance.pplToDisable)
+            foreach (GameObject x in LevelManager.Instance.pplToDisable)                                        //DISABLE PPL WHEN CRASHED
             {
                 x.SetActive(false);
             }
@@ -93,7 +105,7 @@ public class FrontColliderTriggers : MonoBehaviour
        
         
         
-        LevelManager.Instance.carContinueChances.text = "" + (3 - LevelManager.Instance.continueCounter);
+        LevelManager.Instance.carContinueChances.text = "" + (2 - LevelManager.Instance.continueCounter);
             
         LevelManager.Instance.isGameStarted = false;
         GameManager.Instance.canControlCar = false;

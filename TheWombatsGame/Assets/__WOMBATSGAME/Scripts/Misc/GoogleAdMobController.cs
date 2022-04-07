@@ -38,6 +38,8 @@ public class GoogleAdMobController : MonoBehaviour
         deviceIds.Add("75EF8D155528C04DACBBA6F36F433035");
 #endif
 
+        RequestAndLoadRewardedAd();
+
         // Configure TagForChildDirectedTreatment and test device IDs.
         RequestConfiguration requestConfiguration =
             new RequestConfiguration.Builder()

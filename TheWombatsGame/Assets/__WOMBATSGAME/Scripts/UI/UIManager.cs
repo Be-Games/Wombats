@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour
     public GameObject crashedPanel;
     public GameObject extraLifePanel;
     public GameObject pauseScreen;
+    public GameObject postAdCrashPanel;
 
     public TextMeshProUGUI playerPosition;
 
