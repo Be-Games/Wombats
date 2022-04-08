@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
-//using Coffee.UIEffects;
+using Coffee.UIEffects;
 using DG.Tweening;
+using Lofelt.NiceVibrations;
 using PathCreation.Examples;
 using TMPro;
 using UnityEngine;
@@ -37,8 +38,10 @@ public class LevelManager : MonoBehaviour
     public GameObject flyOverCameraGO;
     public CinemachineVirtualCamera iniCMVCCam;
     
-    [Header("Player Car ")]
+    [Header("All Cars ")]
     public GameObject currentPlayerCarModel;
+    public GameObject enemy1;
+    public GameObject enemy2;
     
     [Header("Lap Settings")]
     public int lapCounter = 0;
@@ -48,9 +51,6 @@ public class LevelManager : MonoBehaviour
     public GameObject[] levelTimeObjects;
     public GameObject[] lapObjects;
 
-    [Header("EnemyCar")] 
-    public GameObject enemy1;
-    public GameObject enemy2;
 
     [Header("Boost Settings")] 
     public int totalBoostNumber;                                                                            //Total Times boost can be done
@@ -61,6 +61,7 @@ public class LevelManager : MonoBehaviour
     public GameObject[] boostPickUps;
     public GameObject envToBlur;
     public FocusSwitcher focus;
+    public GameObject speedLinesEffect;
     
     
     [Header("Level Speeds")]
@@ -84,11 +85,6 @@ public class LevelManager : MonoBehaviour
     public bool adStuff;
     public bool isGameEnded;
     
-    
-    public GameObject gameOverPanel;
-    public GameObject gameEndPanel;
-    public GameObject popUpPanel;
-
     [Header("Weather Effects")] 
     public GameObject slowWind;
     public GameObject FastWind;
@@ -125,12 +121,13 @@ public class LevelManager : MonoBehaviour
         //Game Start - Flyover Camera 
         flyOverCameraGO.SetActive(true);
         mainCameraGO.SetActive(false);
-        
+
 
         //Initilization
         lapText.text = (lapCounter+1) + "/" + totalLaps;
         startTime = Time.time;
         LevelManager.Instance.lapObjects[lapCounter].SetActive(true);
+        UiManager.BoostBtn.GetComponent<Button>().enabled = false;
         //OverHeadUIs
         //currentPlayerCarModel.transform.GetChild(3).localScale = Vector3.zero;
         
@@ -192,11 +189,7 @@ public class LevelManager : MonoBehaviour
         // currentPlayerCarModel.transform.GetChild(3).DOScale(new Vector3(1f,1f,1f), 1f).SetEase(Ease.OutBounce);
         
     }
-
-    public void Vibrate()
-    {
-        Handheld.Vibrate();
-    }
+    
 
     private void Update()
     {
@@ -305,9 +298,11 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene("StadiumWin");
     }
 
+    #region ALLABOUTBOOST
+    
     public void BoostManager()
     {
-        individualBoostCounter += 1;
+        individualBoostCounter += 1;                
         
         //BOOST FILL AMOUNT
         switch (individualBoostCounter)
@@ -360,37 +355,24 @@ public class LevelManager : MonoBehaviour
     {
         individualBoostCounter = 0;
         
-        
+        //ENABLE BOOST BTN
         UiManager.BoostBtn.GetComponent<Button>().enabled = true;
         
         //DISABLE ALL THE BOOST PICKUPS
         foreach (GameObject x in boostPickUps)                                                            //Dissable all the boost pickups
         {
-            x.SetActive(false);
+            if(x != null)
+                x.SetActive(false);
         }
-
         
         
-            // boostBtnSeq = DOTween.Sequence();
-            //
-            // boostBtnSeq.Append(  UiManager.BoostBtn.transform.DOScale(new Vector3(0.8f,0.8f,0.8f), 0.6f).SetEase(Ease.OutBounce));
-            //
-            // boostBtnSeq.AppendInterval(0.2f);
-            //    
-            // boostBtnSeq.Append( UiManager.BoostBtn.transform.DOScale(new Vector3(0.6f,0.6f,0.6f), 0.6f)
-            //     .SetEase(Ease.OutBounce));
-            //
-            // boostBtnSeq.AppendInterval(0.2f);
-            //
-            // boostBtnSeq.SetLoops(loopNo);
-            
-
-
-                
+        //SHINY EFFECT
+        UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = true;
+        UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = true;
+        UiManager.BoostBtn.transform.DOScale(new Vector3(0.7f,0.7f,0.7f), 0.5f);
+        
+        //BOOST ACTIVATED INDICATOR ABOVE        
         UiManager.StatusIndicatorPanelGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "BOOST ACTIVATED";
-        
-        //UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = true;
-        //UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = true;
         
         var mySequence = DOTween.Sequence();
             
@@ -403,7 +385,6 @@ public class LevelManager : MonoBehaviour
             
       
     }
-
     
     
     public void BoostCarButton()
@@ -415,18 +396,27 @@ public class LevelManager : MonoBehaviour
     IEnumerator BoostCarSettings()
     {
         isBoosting = true;
+
+        //VIBRATE ON BOOST BTN PRESSED
+        if(GameManager.Instance.isHapticEnabled)
+            UiManager.BoostBtn.GetComponent<HapticSource>().Play();
         
-       // UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = false;
-       // UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = false;
-       
+        speedLinesEffect.SetActive(true);
         
-       currentPlayerCarModel.transform.GetChild(0).GetChild(2).GetChild(3).gameObject.SetActive(true);                     //NOS Particle Effect
-        PlayerController.Instance.targetSpeed = boostSpeed;                                            //Set speed to boost speed
+        //disable shiny effect
+       UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = false;
+       UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectFactor = 0;
+       UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = false;
+       UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectFactor = 0;
+       UiManager.BoostBtn.transform.DOScale(new Vector3(0.5f,0.5f,0.5f), 0.5f);
+        
+       currentPlayerCarModel.transform.GetChild(0).GetChild(2).GetChild(2).gameObject.SetActive(true);                     //NOS Particle Effect
+        PlayerController.Instance.targetSpeed = boostSpeed;                                                                //Set speed to boost speed
         UiManager.BoostBtn.GetComponent<Button>().enabled = false;
         
-        focus.SetFocused(envToBlur);                                                                    //blur effects
+        focus.SetFocused(envToBlur);                                                                                        //blur effects
         
-        DOTween.To(() => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,         ////damping camera effect
+        DOTween.To(() => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
                 x => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -3f, 0.3f)
             .OnUpdate(() => {
                         
@@ -434,13 +424,14 @@ public class LevelManager : MonoBehaviour
        
         
 
-        foreach (GameObject x in pplToDisable)                                                            //Dissable all the people
+        foreach (GameObject x in pplToDisable)                                                                            //Disable all the people
         {
-            x.SetActive(false);
+            if(x!= null)
+                x.SetActive(false);
         }
         
        
-            
+            //Boost Image back to original
         foreach (var abc in boostFiller)                    
         {
             DOTween.To(() => abc.fillAmount, 
@@ -450,31 +441,32 @@ public class LevelManager : MonoBehaviour
                 });
         }
         
-        
+        //WHEN BOOST IS DONE
         yield return new WaitForSeconds(5f);
 
+        
+        
+        speedLinesEffect.SetActive(false);
+        
         foreach (GameObject x in boostPickUps)                                                            //Dissable all the boost pickups
         {
-            x.SetActive(true);
+            if(x != null)
+                x.SetActive(true);
         }
+        
         isBoosting = false;
         
         foreach (GameObject x in pplToDisable)
         {
-            x.SetActive(true);
+            if(x != null)
+                x.SetActive(true);
         }
-        //DISABLE ALL THE BOOST PICKUPS
-        foreach (GameObject x in boostPickUps)                                                            //Dissable all the boost pickups
-        {
-            x.SetActive(true);
-        }
-            
-        
+
         currentPlayerCarModel.transform.GetChild(0).GetChild(2).GetChild(3).gameObject.SetActive(false);                     //NOS Particle Effect
-        PlayerController.Instance.targetSpeed = normalSpeed;
+        PlayerController.Instance.targetSpeed = normalSpeed;                                                                //normal speed
         
-        //unblur
-        focus.SetFocused(null);
+        
+        focus.SetFocused(null);                                                                                            //unblur
         
         DOTween.To(() => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,         ////damping camera effect
                 x => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -2.24f, 0.8f)
@@ -482,6 +474,8 @@ public class LevelManager : MonoBehaviour
                         
             });
     }
+    
+    #endregion
 
     public void ResetGame()
     {
@@ -493,11 +487,7 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadSceneAsync(0);
     }
 
-    public void PauseMenu()
-    {
-        isGameStarted = false;
-        GameManager.Instance.canControlCar = false;
-    }
+    
 
     public void ResumeGame()
     {
@@ -562,6 +552,7 @@ public class LevelManager : MonoBehaviour
         PlayerController.Instance.playerPF.speed = normalSpeed;
         PlayerController.Instance.playerPF.enabled = true;
         
+        GameManager.Instance.canControlCar = true;
         
         objPlayerCarToReset[0].SetActive(false); //smoke effect
         objPlayerCarToReset[1].SetActive(true); //original car
@@ -638,8 +629,8 @@ public class LevelManager : MonoBehaviour
             
         }
         
-        yield return new WaitForSeconds(0.1f);
-        GameManager.Instance.canControlCar = true;
+        yield return new WaitForSeconds(0f);
+        
     }
 
     

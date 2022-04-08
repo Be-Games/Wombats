@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
+using Lofelt.NiceVibrations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -24,11 +26,56 @@ public class MainMenuManager : MonoBehaviour
 
     public DayNightSwitchHandler DNClass;
     public Toggle dayNightToggle;
-
+    
+    [Header("Main Menu Panels")] 
+    public RectTransform HomeScreen;
+    public RectTransform settings;
+    public RectTransform playerSelection;
+    public RectTransform levelSelection;
+    
     private void Start()
     {
         DNClass = this.gameObject.GetComponent<DayNightSwitchHandler>();
+
+        HomeScreen.DOAnchorPos(Vector2.zero, 0.25f);
     }
+    
+    //DO TWEEN ANIMATION UIS
+    
+    public void settingsBtnDT()
+    {
+        settings.DOAnchorPos(Vector2.zero, 0.25f);
+        
+    }
+    
+    public void settingsReturnDT()
+    {
+        settings.DOAnchorPos(new Vector2(1500,0f), 0.25f);
+    }
+    public void playerSelectionDT()
+    {
+        HomeScreen.DOAnchorPos(new Vector2(0,2800f), 0.25f);
+        playerSelection.DOAnchorPos(Vector2.zero, 0.25f);
+    }
+    
+    public void playerSelectionReturnDT()
+    {
+        HomeScreen.DOAnchorPos(Vector2.zero, 0.25f);
+        playerSelection.DOAnchorPos(new Vector2(0,2800f), 0.25f);
+    }
+    
+    public void levelSelectionDT()
+    {
+        levelSelection.DOAnchorPos(Vector2.zero, 0.25f);
+        playerSelection.DOAnchorPos(new Vector2(0,-2800f), 0.25f);
+    }
+    
+    public void levelSelectionReturnDT()
+    {
+        playerSelection.DOAnchorPos(Vector2.zero, 0.25f);
+        levelSelection.DOAnchorPos(new Vector2(0,2800f), 0.25f);
+    }
+    
 
     //Home Screen Stuff
     public void PlayBtn(string levelSelectionName)
@@ -119,7 +166,7 @@ public class MainMenuManager : MonoBehaviour
     
     public void GameLevels(string sceneName)
         {
-            StartCoroutine(LoadingScreen(sceneName));
+            GameManager.Instance.LoadScene(sceneName);
         }
         
        
@@ -141,5 +188,7 @@ public class MainMenuManager : MonoBehaviour
                 yield return null;
             
             }
-        }    
+        }
+
+    
 }

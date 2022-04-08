@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -29,12 +30,30 @@ public class UIManager : MonoBehaviour
     public GameObject gameUIPanel;
     public GameObject crashedPanel;
     public GameObject extraLifePanel;
-    public GameObject pauseScreen;
+    public RectTransform pauseScreen;
     public GameObject postAdCrashPanel;
 
     public TextMeshProUGUI playerPosition;
     
+    //DO TWEEN ANIMATION UIS
+    
+    public void settingsBtnDT()
+    {
+        pauseScreen.DOAnchorPos(Vector2.zero, 0.25f);
+        
+    }
+    
+    public void settingsReturnDT()
+    {
+        pauseScreen.DOAnchorPos(new Vector2(1500,0f), 0.25f);
+    }
     
     
+    
+    public void PauseMenu()
+    {
+        LevelManager.Instance.isGameStarted = false;
+        GameManager.Instance.canControlCar = false;
+    }
 
 }

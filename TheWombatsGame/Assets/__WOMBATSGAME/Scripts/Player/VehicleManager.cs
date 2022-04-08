@@ -19,7 +19,8 @@ public class VehicleManager : MonoBehaviour
     {
         _instance = this;
     }
-    
+
+    public bool isEnemy;
     
     [System.Serializable]
     public class CarWheels

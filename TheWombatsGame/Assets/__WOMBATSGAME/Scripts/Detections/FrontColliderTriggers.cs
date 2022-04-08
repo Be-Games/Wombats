@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using SWS;
 using UnityEngine;
+using Lofelt.NiceVibrations;
 
 public class FrontColliderTriggers : MonoBehaviour
 {
@@ -11,27 +12,26 @@ public class FrontColliderTriggers : MonoBehaviour
     public GameObject explosionParticleEffect;
 
 
-    public void testCrash()
-    {
-        StartCoroutine("CarTotalled");
-    }
+    
     private void OnTriggerEnter(Collider other)
     {
+        #region BoostTrigger
         if (other.gameObject.CompareTag("Boost"))                                                                        //Boost Trigger 
         {
             
             LevelManager.Instance.BoostManager();
             
             
-            other.gameObject.GetComponent<BoxCollider>().enabled = false;
+            other.gameObject.GetComponent<BoxCollider>().enabled = false;                                            //For the triggered pickup
             other.transform.GetChild(0).gameObject.SetActive(false);
             other.transform.GetChild(1).gameObject.GetComponent<ParticleSystem>().Play();
             
-            //Destroy the boost pickup
+            PlayerController.Instance.PlayercarVisual.transform.GetChild(0).GetChild(2).GetChild(4).gameObject.GetComponent<ParticleSystem>().Play();           //under car effect show once
             
-                        
+            
         }
         
+        #endregion
         if (other.gameObject.CompareTag("People"))
         {
             Debug.Log("Coll with People");
@@ -72,13 +72,20 @@ public class FrontColliderTriggers : MonoBehaviour
             }
         }
     }
-    
+
+
+    void DestroyBoostpickUp()
+    {
+        
+    }
     IEnumerator CarTotalled()
     {
         //PlayerController.Instance.playerPF.enabled = false;
        
+        //VIBRATE ON CRASH PRESSED
+        if(GameManager.Instance.isHapticEnabled)
+           PlayerController.Instance.gameObject.GetComponent<HapticSource>().Play();
         
-        LevelManager.Instance.Vibrate();
         
         if(LevelManager.Instance.continueCounter != 5)
             UIManager.Instance.crashedPanel.SetActive(true);
