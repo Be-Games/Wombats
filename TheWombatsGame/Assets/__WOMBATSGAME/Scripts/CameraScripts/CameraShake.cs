@@ -32,6 +32,7 @@ public class CameraShake : MonoBehaviour {
         {
             ShakeElapsedTime = ShakeDuration;
         }
+        
 
         // If the Cinemachine componet is not set, avoid update
         if (VirtualCamera != null && virtualCameraNoise != null)

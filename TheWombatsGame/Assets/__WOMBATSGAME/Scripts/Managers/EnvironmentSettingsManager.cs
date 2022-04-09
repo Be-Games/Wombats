@@ -53,7 +53,7 @@ public class EnvironmentSettingsManager : MonoBehaviour
         
         RenderSettings.fogColor = Color.black;
         RenderSettings.fogMode = FogMode.Exponential;
-        RenderSettings.fogDensity = 0.025f;
+        RenderSettings.fogDensity = 0.04f;
     }
     
     public void DayMode()

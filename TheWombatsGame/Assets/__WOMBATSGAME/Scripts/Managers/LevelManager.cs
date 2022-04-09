@@ -303,7 +303,7 @@ public class LevelManager : MonoBehaviour
     {
         if (LevelProgressUi.playerPosi == 1)
         {
-            SceneManager.LoadScene("StadiumWin");
+            SceneManager.LoadScene("Concert_Scn");
         }
         
     }

@@ -36,7 +36,7 @@ public class FrontColliderTriggers : MonoBehaviour
         {
             Debug.Log("Coll with People");
             
-            //PlayerController.Instance.playerPF.speed = 0;
+            PlayerController.Instance.playerPF.speed = 0;
             
             
             LevelManager.Instance.isCrashedWithPpl = true;
@@ -44,7 +44,7 @@ public class FrontColliderTriggers : MonoBehaviour
             currentPersonRagdoll = other.gameObject;
             other.GetComponent<splineMove>().Stop();
             
-            other.transform.rotation = new Quaternion(0,138f,0f,0f);
+            //other.transform.rotation = new Quaternion(0,138f,0f,0f);
             
             Invoke("WaitAndRag",0.05f);
             
@@ -67,7 +67,8 @@ public class FrontColliderTriggers : MonoBehaviour
                             
                 PlayerController.Instance.playerPF.speed = 0;
                 //PlayerController.Instance.playerPF.enabled = false;
-                            
+
+                other.gameObject.GetComponent<Collider>().enabled = false;
                             
                 StartCoroutine("CarTotalled");
             
@@ -82,8 +83,8 @@ public class FrontColliderTriggers : MonoBehaviour
         //PlayerController.Instance.playerPF.enabled = false;
        
         //VIBRATE ON CRASH PRESSED
-        if(GameManager.Instance.isHapticEnabled)
-           PlayerController.Instance.gameObject.GetComponent<HapticSource>().Play();
+        // if(GameManager.Instance.isHapticEnabled)
+        //    PlayerController.Instance.gameObject.GetComponent<HapticSource>().Play();
         
         
         if(LevelManager.Instance.continueCounter != 5)
@@ -113,7 +114,7 @@ public class FrontColliderTriggers : MonoBehaviour
         
         LevelManager.Instance.carContinueChances.text = "" + (2 - LevelManager.Instance.continueCounter);
             
-        LevelManager.Instance.isGameStarted = false;
+       // LevelManager.Instance.isGameStarted = false;
         GameManager.Instance.canControlCar = false;
         PlayerController.Instance.gameControlsClass.gestureState = GameControls.GestureState.Break;
         LevelManager.Instance.FastWind.SetActive(false);
