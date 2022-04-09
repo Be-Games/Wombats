@@ -77,6 +77,8 @@ public class LevelManager : MonoBehaviour
 
     [Header("Other Class Ref")] 
     public UIManager UiManager;
+    public LevelProgressUI LevelProgressUi;
+    public AudioManager AudioManager;
     
     [Header("Bool Values")]
     public bool isGameStarted;
@@ -111,6 +113,7 @@ public class LevelManager : MonoBehaviour
     
     //Race Finish Stuff
     public GameObject cameraRotator;
+    public RectTransform continueButton,exitButton;
     public GameObject blackScreenFadingPanel;
     
     public CinemachineVirtualCamera cmvc;
@@ -153,6 +156,10 @@ public class LevelManager : MonoBehaviour
     IEnumerator CountDownTimer()
     {
         yield return new WaitForSeconds(1.3f);
+        
+        if(GameManager.Instance.isSFXenabled)
+            AudioManager.countDownSound.Play();
+        
         countdownLights[0].SetActive(true);
         yield return new WaitForSeconds(1f);
         countdownLights[1].SetActive(true);
@@ -220,8 +227,6 @@ public class LevelManager : MonoBehaviour
 
     public void LapManager()
     {
-        
-       
 
         if ((lapCounter) == totalLaps)
         {
@@ -268,34 +273,39 @@ public class LevelManager : MonoBehaviour
     
     IEnumerator RaceFinished()
     {
+        if (LevelProgressUi.playerPosi == 1)
+        {
+            endConfetti.SetActive(true);
+            yield return new WaitForSeconds(0.1f);
+            continueButton.DOScale(Vector3.one, 0.5f);
+            
+        }
+
+        else
+        {
+            exitButton.DOScale(Vector3.one, 0.5f);
+        }
         
+
         yield return new WaitForSeconds(0f);
         isGameEnded = true;
         UiManager.BoostBtn.gameObject.SetActive(false);
-        // float alpha = blackScreenFadingPanel.GetComponent<Image>().color.a;
-        // DOTween.To(() => alpha, 
-        //         x => alpha = x, 255, 2f)
-        //     .OnUpdate(() => {
-        //                 
-        //     });
+        cameraRotator.SetActive(true);
 
-        blackScreenFadingPanel.transform.GetChild(0).DOScale(new Vector3(5, 5, 1), 1f).SetEase(Ease.OutBounce);
+        //blackScreenFadingPanel.transform.GetChild(0).DOScale(new Vector3(5, 5, 1), 1f).SetEase(Ease.OutBounce);
         
         isGameStarted = false;
         GameManager.Instance.canControlCar = false;
         
-        endConfetti.SetActive(true);
-        
-        
-        
-        yield return new WaitForSeconds(0.1f);
-        cameraRotator.SetActive(true);
-        //LevelManager.Instance.gameEndPanel.SetActive(true);
     }
 
     public void GoToStadium()
     {
-        SceneManager.LoadScene("StadiumWin");
+        if (LevelProgressUi.playerPosi == 1)
+        {
+            SceneManager.LoadScene("StadiumWin");
+        }
+        
     }
 
     #region ALLABOUTBOOST

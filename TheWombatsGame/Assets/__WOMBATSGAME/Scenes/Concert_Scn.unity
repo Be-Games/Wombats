@@ -289,7 +289,6 @@ GameObject:
   - component: {fileID: 673684921}
   - component: {fileID: 673684920}
   - component: {fileID: 673684919}
-  - component: {fileID: 673684918}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -312,23 +311,11 @@ RectTransform:
   m_Father: {fileID: 1179652954}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 11, y: 192}
-  m_SizeDelta: {x: 106, y: 36}
-  m_Pivot: {x: 0.5, y: 0}
---- !u!114 &673684918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 673684916}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a293b14bbea1dd458c1b1390aef64a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -730}
+  m_SizeDelta: {x: 113.7706, y: 45.2472}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &673684919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,9 +360,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 673684918}
-        m_TargetAssemblyTypeName: TDEMO, Assembly-CSharp
-        m_MethodName: menu
+      - m_Target: {fileID: 1703094869}
+        m_TargetAssemblyTypeName: ConcertManagement, Assembly-CSharp
+        m_MethodName: backtoHome
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -405,7 +392,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b0719a4c2f9c8174bba7d03cb95a237d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4ff1cd2d3071cbf448847c22fc5baaeb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -630,7 +617,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1179652951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1147,7 +1134,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1290005568}
   m_LocalRotation: {x: -0.022050876, y: 0.004416342, z: -0.0010158577, w: -0.99974656}
-  m_LocalPosition: {x: -0.61, y: 9.12, z: -233.94}
+  m_LocalPosition: {x: -0.61, y: 7, z: -233.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1492865489}
@@ -1833,7 +1820,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8454393484978832573, guid: 02a76b222f210974db97415cbbc98fc6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -197.24
+      value: -200.49
       objectReference: {fileID: 0}
     - target: {fileID: 8454393484978832573, guid: 02a76b222f210974db97415cbbc98fc6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2431,6 +2418,49 @@ Transform:
   m_Father: {fileID: 1774578823}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1 &1703094867
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1703094868}
+  - component: {fileID: 1703094869}
+  m_Layer: 0
+  m_Name: ConcertManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1703094868
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703094867}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1703094869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703094867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675f39b14ef15544a83764c87e716257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1740368330
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2813,8 +2843,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2093304223}
   m_LocalRotation: {x: -0.49999985, y: 0.49999863, z: 0.5000014, w: 0.5000003}
-  m_LocalPosition: {x: -9.6, y: 6.04, z: 0.33}
-  m_LocalScale: {x: 10.224129, y: 0.1, z: 0.84738994}
+  m_LocalPosition: {x: -3.44, y: 10.38, z: -0.09}
+  m_LocalScale: {x: 13.443707, y: 0.13149, z: 1.114233}
   m_Children: []
   m_Father: {fileID: 1546924009}
   m_RootOrder: 266
@@ -2902,7 +2932,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1284}
+  m_AnchoredPosition: {x: 20, y: -310}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2112767267
@@ -2925,17 +2955,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: YOU WIN
+  m_text: congratulations !!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f3d1c7364df490349a67684c8f93d155, type: 2}
-  m_sharedMaterial: {fileID: 4168558106884780435, guid: f3d1c7364df490349a67684c8f93d155, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2868aff4b79531544ab793a69df10d61, type: 2}
+  m_sharedMaterial: {fileID: 2842832578875754661, guid: 2868aff4b79531544ab793a69df10d61, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190335
-  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
+    rgba: 4294929408
+  m_fontColor: {r: 0, g: 0.4252677, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2952,8 +2982,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 143
-  m_fontSizeBase: 143
+  m_fontSize: 79.64
+  m_fontSizeBase: 79.64
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

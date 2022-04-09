@@ -42,7 +42,10 @@ public class FrontColliderTriggers : MonoBehaviour
             LevelManager.Instance.isCrashedWithPpl = true;
 
             currentPersonRagdoll = other.gameObject;
-            other.GetComponent<splineMove>().ChangeSpeed(0);
+            other.GetComponent<splineMove>().Stop();
+            
+            other.transform.rotation = new Quaternion(0,138f,0f,0f);
+            
             Invoke("WaitAndRag",0.05f);
             
             StartCoroutine("CarTotalled");
@@ -73,11 +76,7 @@ public class FrontColliderTriggers : MonoBehaviour
         }
     }
 
-
-    void DestroyBoostpickUp()
-    {
-        
-    }
+    
     IEnumerator CarTotalled()
     {
         //PlayerController.Instance.playerPF.enabled = false;
@@ -117,6 +116,8 @@ public class FrontColliderTriggers : MonoBehaviour
         LevelManager.Instance.isGameStarted = false;
         GameManager.Instance.canControlCar = false;
         PlayerController.Instance.gameControlsClass.gestureState = GameControls.GestureState.Break;
+        LevelManager.Instance.FastWind.SetActive(false);
+        LevelManager.Instance.slowWind.SetActive(false);
         
         yield return new WaitForSeconds(4f);
 
@@ -129,7 +130,7 @@ public class FrontColliderTriggers : MonoBehaviour
 
     void WaitAndRag()
     {
-        currentPersonRagdoll.GetComponent<Ragdoll>().DoRagDoll(true);
+        currentPersonRagdoll.GetComponent<Animator>().SetBool("isDead",true);
     }
     
     public void HideHuman()
