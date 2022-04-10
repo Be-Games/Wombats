@@ -1,7 +1,10 @@
 # Wombats
 Official Wombats Racing Game - new
 
+**IMPORTANT** - AFTER CLONING , OPEN UNITY PROJECT , GO TO EDIT ->PROJECT SETTINGS ->EDITOR
 
+VERSION CONTROL , MODE - SET AS VISIBLE META FILES
+ASSET SERIALIZATION , MODE - FORCE TEXT
 
 1.How To Build on ios [ATT] : https://youtu.be/soAb1SPsTOg?t=76
 
