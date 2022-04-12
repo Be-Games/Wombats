@@ -375,6 +375,7 @@ GameObject:
   - component: {fileID: 288582163}
   - component: {fileID: 288582165}
   - component: {fileID: 288582164}
+  - component: {fileID: 242628939}
   m_Layer: 5
   m_Name: PostAdCrashPanel[Return to Home ]
   m_TagString: Untagged
@@ -443,6 +444,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &242628939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288582162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97afc556caea1c44969477eb7ddec74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConformX: 1
+  ConformY: 1
+  Logging: 0
 --- !u!1 &355021483
 GameObject:
   m_ObjectHideFlags: 0
@@ -5365,6 +5381,7 @@ GameObject:
   - component: {fileID: 4663382150121500868}
   - component: {fileID: 6154093425563959623}
   - component: {fileID: 3106496443073905994}
+  - component: {fileID: 1530476134}
   m_Layer: 5
   m_Name: Crash Panel
   m_TagString: Untagged
@@ -5430,6 +5447,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1530476134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3940610580010890651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97afc556caea1c44969477eb7ddec74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConformX: 1
+  ConformY: 1
+  Logging: 0
 --- !u!1 &4061040122550950562
 GameObject:
   m_ObjectHideFlags: 0
@@ -5809,6 +5841,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 222752772766995456}
+  - component: {fileID: 1299643697}
   m_Layer: 5
   m_Name: FlyThrough Scene
   m_TagString: Untagged
@@ -5832,11 +5865,26 @@ RectTransform:
   m_Father: {fileID: 8300425479397049296}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1299643697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6052195203583920791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97afc556caea1c44969477eb7ddec74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConformX: 1
+  ConformY: 1
+  Logging: 0
 --- !u!1 &6267965663024369873
 GameObject:
   m_ObjectHideFlags: 0
@@ -9789,6 +9837,7 @@ GameObject:
   - component: {fileID: 7730507503593654608}
   - component: {fileID: 7730507503593654614}
   - component: {fileID: 7730507503593654615}
+  - component: {fileID: 689010012}
   m_Layer: 5
   m_Name: InGameUI
   m_TagString: Untagged
@@ -9820,10 +9869,10 @@ RectTransform:
   m_Father: {fileID: 8300425479397049296}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 2308}
-  m_SizeDelta: {x: 1124.0996, y: 2248.1992}
+  m_SizeDelta: {x: 1024.0996, y: 2148.1992}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7730507503593654614
 CanvasRenderer:
@@ -9863,6 +9912,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &689010012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7730507503593654609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97afc556caea1c44969477eb7ddec74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConformX: 1
+  ConformY: 1
+  Logging: 0
 --- !u!1 &7730507503675687196
 GameObject:
   m_ObjectHideFlags: 0
@@ -9953,6 +10017,7 @@ GameObject:
   - component: {fileID: 7730507503693050947}
   - component: {fileID: 7730507503693050945}
   - component: {fileID: 7730507503693050946}
+  - component: {fileID: 1770016779}
   m_Layer: 5
   m_Name: Game Win Panel
   m_TagString: Untagged
@@ -10021,6 +10086,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1770016779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7730507503693050956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97afc556caea1c44969477eb7ddec74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConformX: 1
+  ConformY: 1
+  Logging: 0
 --- !u!1 &7730507503693457523
 GameObject:
   m_ObjectHideFlags: 0
@@ -10854,7 +10934,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7730507503890512147
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12084,6 +12164,7 @@ GameObject:
   - component: {fileID: 4357835511129680797}
   - component: {fileID: 7843449187430014500}
   - component: {fileID: 6352961681301810140}
+  - component: {fileID: 817261446}
   m_Layer: 5
   m_Name: Pause Panel
   m_TagString: Untagged
@@ -12171,6 +12252,21 @@ MonoBehaviour:
   switchBtnM: {fileID: 719661870}
   onTextM: {fileID: 1691878872}
   offTextM: {fileID: 1881162536}
+--- !u!114 &817261446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8653824398919438219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97afc556caea1c44969477eb7ddec74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConformX: 1
+  ConformY: 1
+  Logging: 0
 --- !u!1 &8942752288721360920
 GameObject:
   m_ObjectHideFlags: 0
@@ -12254,6 +12350,7 @@ GameObject:
   - component: {fileID: 1550849996517508110}
   - component: {fileID: 7748433901249658804}
   - component: {fileID: 3559897822776707555}
+  - component: {fileID: 529915532}
   m_Layer: 5
   m_Name: Recieve Life Panel
   m_TagString: Untagged
@@ -12319,6 +12416,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &529915532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8957134514804511780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97afc556caea1c44969477eb7ddec74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConformX: 1
+  ConformY: 1
+  Logging: 0
 --- !u!1 &9193911685667181361
 GameObject:
   m_ObjectHideFlags: 0
