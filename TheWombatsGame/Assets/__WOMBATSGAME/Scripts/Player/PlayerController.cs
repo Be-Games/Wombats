@@ -27,14 +27,15 @@ public class PlayerController : MonoBehaviour
     
     [Header("Player Car Stuff")]
     public PathFollower playerPF;
-    public float xOffSet;
-    public GameObject PlayercarVisual;
-    public Color universalCarColor;
+    public float xOffSet;                      //FOR TRACK POSITION ON ROAD
+    public GameObject PlayercarVisual;        //CAR MODEL GO
 
     [Header("Car Settings")]
     public float Acc;
     public float Dec;
     public float targetSpeed;
+    public float normalSpeed;
+    public float boostSpeed;
 
     
 
@@ -45,7 +46,6 @@ public class PlayerController : MonoBehaviour
     private Transform leftCarTransform,rightCarTransform,centreCarTransform;
     private Vector3 Velocity = Vector3.zero;
     [SerializeField]
-    private float smoothTime,smoothTimeCamera;
     public int currentPosition;
     public float cameraOffsetxOffset;
     public float movementDuration,rotationDuration;
@@ -53,8 +53,13 @@ public class PlayerController : MonoBehaviour
     
     private void Start()
     {
-        targetSpeed = LevelManager.Instance.normalSpeed;
-        PlayercarVisual = LevelManager.Instance.currentPlayerCarModel;
+        Acc = LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carSpeedSettings.Acc;
+        Dec = LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carSpeedSettings.Dec;
+        normalSpeed = LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carSpeedSettings.normalSpeed;
+        boostSpeed = LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carSpeedSettings.boostSpeed;
+        
+        targetSpeed = normalSpeed;
+        PlayercarVisual = LevelManager.Instance.CARMODELgo;
         StartCoroutine("IniCarPush");
         
         
@@ -62,11 +67,11 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator IniCarPush()
     {
-        PlayercarVisual.transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(false); 
+        // PlayercarVisual.transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(false); 
         playerPF.speed = 0.5f;
         PlayercarVisual.transform.localPosition = new Vector3(PlayercarVisual.transform.localPosition.x,0.02f,0f);
         yield return new WaitForSeconds(0.5f);
-        PlayercarVisual.transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true); 
+        // PlayercarVisual.transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true); 
         playerPF.speed = 0;
         
     }
@@ -100,8 +105,8 @@ public class PlayerController : MonoBehaviour
                     }
                     
                     //Other Effects
-                    PlayercarVisual.transform.GetChild(0).GetChild(2).GetChild(3).GetChild(0).gameObject.SetActive(true);            //CAR LIGHTS + TIRES SMOKES
-                    
+                    LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carEffects.breakLight.SetActive(true);        //CAR LIGHTS + TIRES SMOKES
+                    LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carEffects.carBreakGO.SetActive(true);
                     
                     
                 }
@@ -118,7 +123,8 @@ public class PlayerController : MonoBehaviour
                     playerPF.speed += delta;
                     
                     //Other Effects
-                    PlayercarVisual.transform.GetChild(0).GetChild(2).GetChild(3).GetChild(0).gameObject.SetActive(false);            //CAR LIGHTS + TIRES SMOKES
+                    LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carEffects.breakLight.SetActive(false);        //CAR LIGHTS + TIRES SMOKES
+                    LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carEffects.carBreakGO.SetActive(false);
 
                     if(GameManager.Instance.isSFXenabled)
                         LevelManager.Instance.AudioManager.brakeSound.Play();

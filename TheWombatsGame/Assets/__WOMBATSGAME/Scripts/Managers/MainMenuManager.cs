@@ -56,12 +56,16 @@ public class MainMenuManager : MonoBehaviour
     {
         HomeScreen.DOAnchorPos(new Vector2(0,2800f), 0.25f);
         playerSelection.DOAnchorPos(Vector2.zero, 0.25f);
+        
+        
     }
     
     public void playerSelectionReturnDT()
     {
         HomeScreen.DOAnchorPos(Vector2.zero, 0.25f);
         playerSelection.DOAnchorPos(new Vector2(0,2800f), 0.25f);
+        
+        
     }
     
     public void levelSelectionDT()

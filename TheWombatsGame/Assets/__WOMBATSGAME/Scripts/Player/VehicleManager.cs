@@ -27,16 +27,39 @@ public class VehicleManager : MonoBehaviour
     {
         public GameObject[] wheels;
     }
+    [System.Serializable]
+    public class BodyTrigger
+    {
+        public GameObject body;
+        public GameObject trigger;
+    }
     
-    [Header("Car Settings")]
-    public float Acc;
-    public float Dec;
-    public float targetSpeed;
+    [System.Serializable]
+    public class CarSpeedSettings
+    {
+        public float Acc;
+        public float Dec;
+        public float normalSpeed;
+        public float boostSpeed;
+    }
     
-
+    [System.Serializable]
+    public class CarEffects
+    {
+        public GameObject carTrailLineGO;
+        public GameObject carBreakGO;
+        public ParticleSystem NOSEffectsPS;
+        public GameObject breakLight;
+        public ParticleSystem boostCapturedEffectPS;
+    }
+    
+    
+    
     [Header("Mis Settings")] 
     public Color universalCarColor;
-    
-    
-    
+    public CarSpeedSettings carSpeedSettings;
+    public BodyTrigger bodyTrigger;
+    public CarWheels carWheels;
+    public CarEffects carEffects;
+
 }

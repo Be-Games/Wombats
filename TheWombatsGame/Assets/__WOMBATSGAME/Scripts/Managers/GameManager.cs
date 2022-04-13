@@ -29,6 +29,14 @@ public class GameManager : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(gameObject);
         }
+        
+        isHapticEnabled = true;
+        isSFXenabled = true;
+        isMusicEnabled = true;
+
+        selectedCarModelPLAYER = 0;
+        enemyCar1 = 0;
+        enemyCar2 = enemyCar1 + 1;
     }
 
     [Header("Variables for Full Game")] 
@@ -41,6 +49,15 @@ public class GameManager : MonoBehaviour
     public int charNumber = 1;                                                    //1= MM , 2 = DH , 3 = TO 
     public int podiumPos = 1;
 
+    [Header("Car Setups for Game")]
+    public GameObject[] playerCarModels;
+    public GameObject[] enemyCarModels;
+    public int selectedCarModelPLAYER;
+    public int enemyCar1;
+    public int enemyCar2;
+    
+    [Space]
+    
     [SerializeField] private GameObject LoadingScreenPanel;
     [SerializeField] private Image wombatsLoadingImg;
     private float time, second;
@@ -48,11 +65,11 @@ public class GameManager : MonoBehaviour
     public bool isHapticEnabled,isSFXenabled,isMusicEnabled;
 
 
+    
+
     private void Start()
     {
-        isHapticEnabled = true;
-        isSFXenabled = true;
-        isMusicEnabled = true;
+        
     }
 
     public void setCharacter(int charNo)

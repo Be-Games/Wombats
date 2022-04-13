@@ -28,6 +28,8 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+        
+        
     }
 
 
@@ -42,14 +44,14 @@ public class LevelManager : MonoBehaviour
     public GameObject currentPlayerCarModel;
     public GameObject enemy1;
     public GameObject enemy2;
+    public GameObject CARMODELgo, ENEMYLEFTgo, ENEMYRIGHTgo;
     
     [Header("Lap Settings")]
     public int lapCounter = 0;
     public TextMeshProUGUI lapText;
-    public int totalLaps;
+    
     public bool isLapTriggered;
     public GameObject[] levelTimeObjects;
-    public GameObject[] lapObjects;
 
 
     [Header("Boost Settings")] 
@@ -58,16 +60,10 @@ public class LevelManager : MonoBehaviour
     public Image[] boostFiller;
     public bool isBoosting;
     public Button boostBtn;
-    public GameObject[] boostPickUps;
-    public GameObject envToBlur;
+    
+    public GameObject envToNotBlur;
     public FocusSwitcher focus;
     public GameObject speedLinesEffect;
-    
-    
-    [Header("Level Speeds")]
-  [Range(10,15)]  public float boostSpeed;
-    [Range(6,20)] public float normalSpeed;
-    public float singleLapDistance;
     
 
     [Header("CountDownTimer Settings")]
@@ -101,26 +97,45 @@ public class LevelManager : MonoBehaviour
     [Header("Misc Stuff")]
     public float startTime;
     public AudioSource gameMusic;
-    public GameObject endConfetti;
-    public GameObject[] pplToDisable;
     public GameObject[] objPlayerCarToReset;
     public GameObject[] playerCarCollidersToToggle;
-
     public TextMeshProUGUI carContinueChances;
     public int continueCounter;
-    public CinemachineVirtualCamera originalCM, finishCM;
-    
-    
     //Race Finish Stuff
     public GameObject cameraRotator;
     public RectTransform continueButton,exitButton;
-    public GameObject blackScreenFadingPanel;
-    
     public CinemachineVirtualCamera cmvc;
-    //other script references
+
+    [Header("Stuff to Manually Modify For Each Level")]
+    public int totalLaps;
+    public GameObject[] lapObjects;
+    public GameObject[] boostPickUps;
+    public float singleLapDistance;
+    public GameObject[] pplToDisable;
+    public GameObject endConfetti;
+    
     
     private void Start()
     {
+        currentPlayerCarModel = GameManager.Instance.playerCarModels[GameManager.Instance.selectedCarModelPLAYER];
+        enemy1 = GameManager.Instance.enemyCarModels[0];
+        enemy2 = GameManager.Instance.enemyCarModels[1];
+
+        envToNotBlur = currentPlayerCarModel.transform.GetChild(0).GetChild(0).gameObject;
+
+        //SET the UP and DOWN gameobject of player car
+        objPlayerCarToReset[1] = currentPlayerCarModel.transform.GetChild(0).gameObject;
+        objPlayerCarToReset[2] = currentPlayerCarModel.transform.GetChild(1).gameObject;
+
+        for (int i = 0; i < 4; i++)
+        {
+            playerCarCollidersToToggle[i] = currentPlayerCarModel.GetComponent<VehicleManager>().carWheels.wheels[i];
+        }
+
+        playerCarCollidersToToggle[4] = currentPlayerCarModel.GetComponent<VehicleManager>().bodyTrigger.body;
+        playerCarCollidersToToggle[4] = currentPlayerCarModel.GetComponent<VehicleManager>().bodyTrigger.trigger;
+        
+        
         //Game Start - Flyover Camera 
         flyOverCameraGO.SetActive(true);
         mainCameraGO.SetActive(false);
@@ -132,11 +147,8 @@ public class LevelManager : MonoBehaviour
         LevelManager.Instance.lapObjects[lapCounter].SetActive(true);
         UiManager.BoostBtn.GetComponent<Button>().enabled = false;
         //OverHeadUIs
-        //currentPlayerCarModel.transform.GetChild(3).localScale = Vector3.zero;
+        //currentPlayerCarModel.transform.GetChild(3).localScale = Vector3.zero;   
         
-        
-       
-       
     }
     
     
@@ -421,10 +433,10 @@ public class LevelManager : MonoBehaviour
        UiManager.BoostBtn.transform.DOScale(new Vector3(0.5f,0.5f,0.5f), 0.5f);
         
        currentPlayerCarModel.transform.GetChild(0).GetChild(2).GetChild(2).gameObject.SetActive(true);                     //NOS Particle Effect
-        PlayerController.Instance.targetSpeed = boostSpeed;                                                                //Set speed to boost speed
+        PlayerController.Instance.targetSpeed = PlayerController.Instance.boostSpeed;                                       //Set speed to boost speed
         UiManager.BoostBtn.GetComponent<Button>().enabled = false;
         
-        focus.SetFocused(envToBlur);                                                                                        //blur effects
+        focus.SetFocused(currentPlayerCarModel);                                                                                        //blur effects
         
         DOTween.To(() => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
                 x => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -3f, 0.3f)
@@ -473,7 +485,7 @@ public class LevelManager : MonoBehaviour
         }
 
         currentPlayerCarModel.transform.GetChild(0).GetChild(2).GetChild(3).gameObject.SetActive(false);                     //NOS Particle Effect
-        PlayerController.Instance.targetSpeed = normalSpeed;                                                                //normal speed
+        PlayerController.Instance.targetSpeed = PlayerController.Instance.targetSpeed;                                                                //normal speed
         
         
         focus.SetFocused(null);                                                                                            //unblur
@@ -559,12 +571,12 @@ public class LevelManager : MonoBehaviour
         PlayerController.Instance.gameControlsClass.gestureState = GameControls.GestureState.Release;
         UiManager.crashedPanel.SetActive(false);
         
-        PlayerController.Instance.playerPF.speed = normalSpeed;
+        PlayerController.Instance.playerPF.speed = PlayerController.Instance.normalSpeed;
         PlayerController.Instance.playerPF.enabled = true;
         
         GameManager.Instance.canControlCar = true;
         
-        objPlayerCarToReset[0].SetActive(false); //smoke effect
+        objPlayerCarToReset[0].SetActive(false); //smokeCrash effect
         objPlayerCarToReset[1].SetActive(true); //original car
         objPlayerCarToReset[2].SetActive(false); // toppled over car
         

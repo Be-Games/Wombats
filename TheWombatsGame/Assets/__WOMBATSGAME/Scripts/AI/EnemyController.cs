@@ -22,14 +22,15 @@ public class EnemyController : MonoBehaviour
     }
 
     public int currentEnemyNumber;
-    [Range(6,9)] public float mySpeed;
-    public PathFollower enemyPF;
-    public float xOffSet;
-    public GameObject enemyCarVisual;
-
     
-    public float Acc, Dec;
+    public PathFollower enemyPF;
+    public float xOffSet = -3.77f;
 
+    public float Acc;
+    public float Dec;
+    public float enemySpeed;
+
+    public GameObject enemyCarModelGO;
     
 
     public bool isGoingToCollide;
@@ -39,18 +40,34 @@ public class EnemyController : MonoBehaviour
     
     private void Start()
     {
+        if (currentEnemyNumber == -1)
+        {
+            
+        }
+        if (currentEnemyNumber == 1)
+        {
+            
+        }
+        
         StartCoroutine("IniCarPush");
     }
 
     IEnumerator IniCarPush()
     {
+        yield return new WaitForSeconds(0.5f);
         if (currentEnemyNumber == -1)
         {
-            enemyCarVisual.transform.localPosition = new Vector3(enemyCarVisual.transform.localPosition.x - 3.77f,0f,0f);
+            enemyCarModelGO.transform.localPosition = new Vector3(LevelManager.Instance.enemy1.transform.localPosition.x - xOffSet,0f,0f);
+            Acc = LevelManager.Instance.enemy1.GetComponent<VehicleManager>().carSpeedSettings.Acc;
+            Dec = LevelManager.Instance.enemy1.GetComponent<VehicleManager>().carSpeedSettings.Dec;
+            enemySpeed = LevelManager.Instance.enemy1.GetComponent<VehicleManager>().carSpeedSettings.normalSpeed;
         }
         if (currentEnemyNumber == 1)
         {
-            enemyCarVisual.transform.localPosition = new Vector3(enemyCarVisual.transform.localPosition.x + 3.77f,0f,0f);
+            enemyCarModelGO.transform.localPosition = new Vector3(LevelManager.Instance.enemy2.transform.localPosition.x + xOffSet,0f,0f);
+            Acc = LevelManager.Instance.enemy2.GetComponent<VehicleManager>().carSpeedSettings.Acc;
+            Dec = LevelManager.Instance.enemy2.GetComponent<VehicleManager>().carSpeedSettings.Dec;
+            enemySpeed = LevelManager.Instance.enemy2.GetComponent<VehicleManager>().carSpeedSettings.normalSpeed;
         }
         
         yield return new WaitForSeconds(0.5f);
@@ -64,7 +81,7 @@ public class EnemyController : MonoBehaviour
         if (LevelManager.Instance.isGameStarted)
         {
 
-            float target = mySpeed;
+            float target = enemySpeed;
             
             float delta = target - enemyPF.speed;
                         
