@@ -54,14 +54,14 @@ public class FrontColliderTriggers : MonoBehaviour
         
         if (other.gameObject.CompareTag("Collision"))
         {
-            if (PlayerController.Instance.targetSpeed >= LevelManager.Instance.boostSpeed)
+            if (PlayerController.Instance.targetSpeed >=PlayerController.Instance.boostSpeed)
             {
                 Debug.Log("Break");
                 other.GetComponent<ClickOrTapToExplode>().DestroyStuff();
                             
             }
             
-            if (PlayerController.Instance.targetSpeed <=LevelManager.Instance.normalSpeed)
+            if (PlayerController.Instance.targetSpeed <=PlayerController.Instance.normalSpeed)
             {
                 // Debug.Log("Car Totalled");
                             

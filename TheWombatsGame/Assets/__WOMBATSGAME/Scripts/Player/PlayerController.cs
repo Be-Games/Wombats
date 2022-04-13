@@ -27,14 +27,15 @@ public class PlayerController : MonoBehaviour
     
     [Header("Player Car Stuff")]
     public PathFollower playerPF;
-    public float xOffSet;
-    public GameObject PlayercarVisual;
-    public Color universalCarColor;
+    public float xOffSet;                      //FOR TRACK POSITION ON ROAD
+    public GameObject PlayercarVisual;        //CAR MODEL GO
 
     [Header("Car Settings")]
     public float Acc;
     public float Dec;
     public float targetSpeed;
+    public float normalSpeed;
+    public float boostSpeed;
 
     
 
@@ -45,7 +46,6 @@ public class PlayerController : MonoBehaviour
     private Transform leftCarTransform,rightCarTransform,centreCarTransform;
     private Vector3 Velocity = Vector3.zero;
     [SerializeField]
-    private float smoothTime,smoothTimeCamera;
     public int currentPosition;
     public float cameraOffsetxOffset;
     public float movementDuration,rotationDuration;
@@ -53,7 +53,12 @@ public class PlayerController : MonoBehaviour
     
     private void Start()
     {
-        targetSpeed = LevelManager.Instance.normalSpeed;
+        Acc = LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carSpeedSettings.Acc;
+        Dec = LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carSpeedSettings.Dec;
+        normalSpeed = LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carSpeedSettings.normalSpeed;
+        boostSpeed = LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carSpeedSettings.boostSpeed;
+        
+        targetSpeed = normalSpeed;
         PlayercarVisual = LevelManager.Instance.currentPlayerCarModel;
         StartCoroutine("IniCarPush");
         
