@@ -29,6 +29,14 @@ public class GameManager : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(gameObject);
         }
+        
+        isHapticEnabled = true;
+        isSFXenabled = true;
+        isMusicEnabled = true;
+
+        selectedCarModelPLAYER = 0;
+        enemyCar1 = 0;
+        enemyCar2 = enemyCar1 + 1;
     }
 
     [Header("Variables for Full Game")] 
@@ -56,17 +64,12 @@ public class GameManager : MonoBehaviour
 
     public bool isHapticEnabled,isSFXenabled,isMusicEnabled;
 
+
     
 
     private void Start()
     {
-        isHapticEnabled = true;
-        isSFXenabled = true;
-        isMusicEnabled = true;
-
-        selectedCarModelPLAYER = 0;
-        enemyCar1 = 0;
-        enemyCar2 = enemyCar1 + 1;
+        
     }
 
     public void setCharacter(int charNo)

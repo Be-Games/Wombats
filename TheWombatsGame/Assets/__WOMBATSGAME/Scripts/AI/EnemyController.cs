@@ -29,8 +29,8 @@ public class EnemyController : MonoBehaviour
     public float Acc;
     public float Dec;
     public float enemySpeed;
-    
 
+    public GameObject enemyCarModelGO;
     
 
     public bool isGoingToCollide;
@@ -42,15 +42,11 @@ public class EnemyController : MonoBehaviour
     {
         if (currentEnemyNumber == -1)
         {
-            Acc = LevelManager.Instance.enemy1.GetComponent<VehicleManager>().carSpeedSettings.Acc;
-            Dec = LevelManager.Instance.enemy1.GetComponent<VehicleManager>().carSpeedSettings.Dec;
-            enemySpeed = LevelManager.Instance.enemy1.GetComponent<VehicleManager>().carSpeedSettings.normalSpeed;
+            
         }
         if (currentEnemyNumber == 1)
         {
-            Acc = LevelManager.Instance.enemy2.GetComponent<VehicleManager>().carSpeedSettings.Acc;
-            Dec = LevelManager.Instance.enemy2.GetComponent<VehicleManager>().carSpeedSettings.Dec;
-            enemySpeed = LevelManager.Instance.enemy2.GetComponent<VehicleManager>().carSpeedSettings.normalSpeed;
+            
         }
         
         StartCoroutine("IniCarPush");
@@ -58,13 +54,20 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator IniCarPush()
     {
+        yield return new WaitForSeconds(0.5f);
         if (currentEnemyNumber == -1)
         {
-            LevelManager.Instance.enemy1.transform.localPosition = new Vector3(LevelManager.Instance.enemy1.transform.localPosition.x - xOffSet,0f,0f);
+            enemyCarModelGO.transform.localPosition = new Vector3(LevelManager.Instance.enemy1.transform.localPosition.x - xOffSet,0f,0f);
+            Acc = LevelManager.Instance.enemy1.GetComponent<VehicleManager>().carSpeedSettings.Acc;
+            Dec = LevelManager.Instance.enemy1.GetComponent<VehicleManager>().carSpeedSettings.Dec;
+            enemySpeed = LevelManager.Instance.enemy1.GetComponent<VehicleManager>().carSpeedSettings.normalSpeed;
         }
         if (currentEnemyNumber == 1)
         {
-            LevelManager.Instance.enemy2.transform.localPosition = new Vector3(LevelManager.Instance.enemy2.transform.localPosition.x + xOffSet,0f,0f);
+            enemyCarModelGO.transform.localPosition = new Vector3(LevelManager.Instance.enemy2.transform.localPosition.x + xOffSet,0f,0f);
+            Acc = LevelManager.Instance.enemy2.GetComponent<VehicleManager>().carSpeedSettings.Acc;
+            Dec = LevelManager.Instance.enemy2.GetComponent<VehicleManager>().carSpeedSettings.Dec;
+            enemySpeed = LevelManager.Instance.enemy2.GetComponent<VehicleManager>().carSpeedSettings.normalSpeed;
         }
         
         yield return new WaitForSeconds(0.5f);

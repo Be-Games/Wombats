@@ -18,6 +18,7 @@ public class LevelProgressUI : MonoBehaviour
     
     private void Start()
     {
+
         totalLevelDistance = LevelManager.Instance.singleLapDistance * LevelManager.Instance.totalLaps;
         playerPosi = 1;
     }

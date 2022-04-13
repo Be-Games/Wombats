@@ -28,6 +28,8 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+        
+        
     }
 
 
@@ -42,6 +44,7 @@ public class LevelManager : MonoBehaviour
     public GameObject currentPlayerCarModel;
     public GameObject enemy1;
     public GameObject enemy2;
+    public GameObject CARMODELgo, ENEMYLEFTgo, ENEMYRIGHTgo;
     
     [Header("Lap Settings")]
     public int lapCounter = 0;
@@ -115,8 +118,8 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         currentPlayerCarModel = GameManager.Instance.playerCarModels[GameManager.Instance.selectedCarModelPLAYER];
-        enemy1 = GameManager.Instance.enemyCarModels[GameManager.Instance.enemyCar1];
-        enemy2 = GameManager.Instance.enemyCarModels[GameManager.Instance.enemyCar2];
+        enemy1 = GameManager.Instance.enemyCarModels[0];
+        enemy2 = GameManager.Instance.enemyCarModels[1];
 
         envToNotBlur = currentPlayerCarModel.transform.GetChild(0).GetChild(0).gameObject;
 
@@ -144,7 +147,7 @@ public class LevelManager : MonoBehaviour
         LevelManager.Instance.lapObjects[lapCounter].SetActive(true);
         UiManager.BoostBtn.GetComponent<Button>().enabled = false;
         //OverHeadUIs
-        //currentPlayerCarModel.transform.GetChild(3).localScale = Vector3.zero;
+        //currentPlayerCarModel.transform.GetChild(3).localScale = Vector3.zero;   
         
     }
     

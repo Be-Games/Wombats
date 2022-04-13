@@ -1129,7 +1129,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3164801320055785997}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7510092679308233046}
@@ -1168,6 +1168,12 @@ MonoBehaviour:
     - {fileID: 5000558004203776345}
     - {fileID: 4431686706552374409}
     - {fileID: 8597242777150920584}
+  carEffects:
+    carTrailLineGO: {fileID: 5344975098241754452}
+    carBreakGO: {fileID: 1208624890809748079}
+    NOSEffectsPS: {fileID: 364863029217496590}
+    breakLight: {fileID: 7452506218393695274}
+    boostCapturedEffectPS: {fileID: 4508103986242524539}
 --- !u!1 &3268836775589063968
 GameObject:
   m_ObjectHideFlags: 0
@@ -4282,6 +4288,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4905678554816188, guid: f1a1c60952b571c4fa485b0139d4a6b7, type: 3}
   m_PrefabInstance: {fileID: 4346120867408882593}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &4508103986242524539 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198304988862332634, guid: f1a1c60952b571c4fa485b0139d4a6b7, type: 3}
+  m_PrefabInstance: {fileID: 4346120867408882593}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4658381533274044349
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4433,6 +4444,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2357410386a644c43b1503d536de5807, type: 3}
+--- !u!198 &364863029217496590 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4907468937168926277, guid: 2357410386a644c43b1503d536de5807, type: 3}
+  m_PrefabInstance: {fileID: 4686721101397047371}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &364863029231643704 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4907468937184105587, guid: 2357410386a644c43b1503d536de5807, type: 3}

@@ -75,6 +75,14 @@ public class FrontColliderTriggers : MonoBehaviour
             
             }
         }
+
+        if (other.gameObject.CompareTag("AlmostEnd"))
+        {
+            if (LevelManager.Instance.lapCounter == LevelManager.Instance.totalLaps)
+            {
+                Debug.Log("End Reached");
+            }
+        }
     }
 
     
