@@ -23,7 +23,7 @@ public class EnemyController : MonoBehaviour
 
     public int currentEnemyNumber;
     
-    public PathFollower enemyPF;
+    
     public float xOffSet = -3.77f;
 
     public float Acc;
@@ -37,7 +37,10 @@ public class EnemyController : MonoBehaviour
     public int enemyCurrentPos = -1;
 
     public bool playerWithEnemy = false;
-    
+
+    public PathFollower playerPF;
+    public PathFollower enemyPF;
+    public float diffInDistance;
     private void Start()
     {
         if (currentEnemyNumber == -1)
@@ -81,6 +84,8 @@ public class EnemyController : MonoBehaviour
         if (LevelManager.Instance.isGameStarted)
         {
 
+            diffInDistance = playerPF.distanceTravelled - enemyPF.distanceTravelled;
+            
             float target = enemySpeed;
             
             float delta = target - enemyPF.speed;
@@ -94,6 +99,14 @@ public class EnemyController : MonoBehaviour
         else
         {
             enemyPF.speed = 0;
+        }
+
+        if (LevelManager.Instance.Easy)
+        {
+            if (Mathf.Abs(diffInDistance) > LevelManager.Instance.easyValue)
+            {
+                Debug.Log("inc enemy speed");
+            } 
         }
         
     }

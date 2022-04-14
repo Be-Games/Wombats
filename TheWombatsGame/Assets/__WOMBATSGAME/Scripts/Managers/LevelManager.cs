@@ -96,7 +96,6 @@ public class LevelManager : MonoBehaviour
     
     [Header("Misc Stuff")]
     public float startTime;
-    public AudioSource gameMusic;
     public GameObject[] objPlayerCarToReset;
     public GameObject[] playerCarCollidersToToggle;
     public TextMeshProUGUI carContinueChances;
@@ -106,6 +105,10 @@ public class LevelManager : MonoBehaviour
     public RectTransform continueButton,exitButton;
     public CinemachineVirtualCamera cmvc;
 
+    [Header("Level AI Difficulty")] 
+    public bool Easy;
+    public float easyValue;
+
     [Header("Stuff to Manually Modify For Each Level")]
     public int totalLaps;
     public GameObject[] lapObjects;
@@ -113,10 +116,13 @@ public class LevelManager : MonoBehaviour
     public float singleLapDistance;
     public GameObject[] pplToDisable;
     public GameObject endConfetti;
+    public string cityName;
     
     
     private void Start()
     {
+        UiManager.flyThroughCamCityName.text = cityName + " TOUR ";
+        
         currentPlayerCarModel = GameManager.Instance.playerCarModels[GameManager.Instance.selectedCarModelPLAYER];
         enemy1 = GameManager.Instance.enemyCarModels[0];
         enemy2 = GameManager.Instance.enemyCarModels[1];
@@ -169,8 +175,8 @@ public class LevelManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1.3f);
         
-        if(GameManager.Instance.isSFXenabled)
-            AudioManager.countDownSound.Play();
+        //COUNTDOWNTIMER SOUND
+        //AudioManager.Play(AudioManager.Instance.sfxAll.countDownSound);
         
         countdownLights[0].SetActive(true);
         yield return new WaitForSeconds(1f);
@@ -180,7 +186,8 @@ public class LevelManager : MonoBehaviour
         UIManager.Instance.gameUIPanel.GetComponent<RectTransform>().DOAnchorPos(Vector2.zero,0.7f);
         iniCMVCCam.Priority = 0;
         defCMVCCam.Priority = 1;
-        gameMusic.enabled = true;
+        
+        //AudioManager.Instance.Play(AudioManager.Instance.musicTracks.MusicTrackAudioSource);
         
         countdownLights[2].SetActive(true);
         yield return new WaitForSeconds(1f);
@@ -420,8 +427,8 @@ public class LevelManager : MonoBehaviour
         isBoosting = true;
 
         //VIBRATE ON BOOST BTN PRESSED
-        if(GameManager.Instance.isHapticEnabled)
-            UiManager.BoostBtn.GetComponent<HapticSource>().Play();
+        // if(GameManager.Instance.isHapticEnabled)
+        //     UiManager.BoostBtn.GetComponent<HapticSource>().Play();
         
         speedLinesEffect.SetActive(true);
         

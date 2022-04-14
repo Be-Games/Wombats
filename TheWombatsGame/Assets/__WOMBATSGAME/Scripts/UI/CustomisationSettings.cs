@@ -30,7 +30,7 @@ public class CustomisationSettings : MonoBehaviour
         onTextH.gameObject.SetActive(!onTextH.gameObject.activeInHierarchy);
         offTextH.gameObject.SetActive(!offTextH.gameObject.activeInHierarchy);
         
-        GameManager.Instance.isHapticEnabled = (!GameManager.Instance.isHapticEnabled);
+        //GameManager.Instance.isHapticEnabled = (!GameManager.Instance.isHapticEnabled);
     }
     
     public void SFXSwitch()
@@ -40,7 +40,7 @@ public class CustomisationSettings : MonoBehaviour
         onTextS.gameObject.SetActive(!onTextS.gameObject.activeInHierarchy);
         offTextS.gameObject.SetActive(!offTextS.gameObject.activeInHierarchy);
         
-        GameManager.Instance.isSFXenabled = (!GameManager.Instance.isSFXenabled);
+        //GameManager.Instance.isSFXenabled = (!GameManager.Instance.isSFXenabled);
     }
     
     public void MusicSwitch()
@@ -50,7 +50,7 @@ public class CustomisationSettings : MonoBehaviour
         onTextM.gameObject.SetActive(!onTextM.gameObject.activeInHierarchy);
         offTextM.gameObject.SetActive(!offTextM.gameObject.activeInHierarchy);
         
-        GameManager.Instance.isMusicEnabled = (!GameManager.Instance.isMusicEnabled);
+        //GameManager.Instance.isMusicEnabled = (!GameManager.Instance.isMusicEnabled);
     }
     
 }

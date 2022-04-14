@@ -30,9 +30,7 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         
-        isHapticEnabled = true;
-        isSFXenabled = true;
-        isMusicEnabled = true;
+        
 
         selectedCarModelPLAYER = 0;
         enemyCar1 = 0;
@@ -61,16 +59,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject LoadingScreenPanel;
     [SerializeField] private Image wombatsLoadingImg;
     private float time, second;
-
-    public bool isHapticEnabled,isSFXenabled,isMusicEnabled;
-
-
     
 
-    private void Start()
-    {
-        
-    }
 
     public void setCharacter(int charNo)
     {

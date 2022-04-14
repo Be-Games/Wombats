@@ -126,8 +126,8 @@ public class PlayerController : MonoBehaviour
                     LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carEffects.breakLight.SetActive(false);        //CAR LIGHTS + TIRES SMOKES
                     LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carEffects.carBreakGO.SetActive(false);
 
-                    if(GameManager.Instance.isSFXenabled)
-                        LevelManager.Instance.AudioManager.brakeSound.Play();
+                    //BRAKE SOUND PLAY
+                    //AudioManager.Instance.Play(AudioManager.Instance.sfxAll.brakeSound);
                 }
                 
             }

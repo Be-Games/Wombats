@@ -34,6 +34,8 @@ public class UIManager : MonoBehaviour
     public GameObject postAdCrashPanel;
 
     public TextMeshProUGUI playerPosition;
+
+    public TextMeshProUGUI flyThroughCamCityName;
     
     //DO TWEEN ANIMATION UIS
     
