@@ -26,7 +26,7 @@ public class FrontColliderTriggers : MonoBehaviour
             other.transform.GetChild(0).gameObject.SetActive(false);
             other.transform.GetChild(1).gameObject.GetComponent<ParticleSystem>().Play();
             
-            PlayerController.Instance.PlayercarVisual.transform.GetChild(0).GetChild(2).GetChild(4).gameObject.GetComponent<ParticleSystem>().Play();           //under car effect show once
+            LevelManager.Instance.playerVehicleManager.carEffects.boostCapturedEffectPS.Play();                                  //under car effect show once
             
             
         }
@@ -36,6 +36,10 @@ public class FrontColliderTriggers : MonoBehaviour
         {
             Debug.Log("Coll with People");
             
+            //VIBRATE ON trigger with coin
+            if (LevelManager.Instance._audioManager.isHapticEnabled)
+                LevelManager.Instance.currentPlayerCarModel.GetComponent<HapticSource>().Play();
+            
             PlayerController.Instance.playerPF.speed = 0;
             
             
@@ -44,6 +48,11 @@ public class FrontColliderTriggers : MonoBehaviour
             currentPersonRagdoll = other.gameObject;
             other.GetComponent<splineMove>().Stop();
             
+            if (other.transform.localRotation.y >= 0)
+            {
+                other.transform.localRotation = new Quaternion(0,-0.6f,0f,0.6f);
+         
+            }
             //other.transform.rotation = new Quaternion(0,138f,0f,0f);
             
             Invoke("WaitAndRag",0.05f);
@@ -63,8 +72,12 @@ public class FrontColliderTriggers : MonoBehaviour
             
             if (PlayerController.Instance.targetSpeed <=PlayerController.Instance.normalSpeed)
             {
-                // Debug.Log("Car Totalled");
-                            
+                 Debug.Log("Car Totalled");
+                 //VIBRATE ON trigger with coin
+                 if (LevelManager.Instance._audioManager.isHapticEnabled)
+                     LevelManager.Instance.currentPlayerCarModel.GetComponent<HapticSource>().Play();        
+                 
+                 
                 PlayerController.Instance.playerPF.speed = 0;
                 //PlayerController.Instance.playerPF.enabled = false;
 
@@ -82,6 +95,19 @@ public class FrontColliderTriggers : MonoBehaviour
             {
                 Debug.Log("End Reached");
             }
+        }
+
+        if (other.gameObject.CompareTag("Coin"))
+        {
+            LevelManager.Instance.currentScore++;
+            UIManager.Instance.scoreText.text = LevelManager.Instance.currentScore.ToString();
+            other.gameObject.GetComponent<BoxCollider>().enabled = false;                                            //For the triggered pickup
+            other.transform.gameObject.GetComponent<ParticleSystem>().Stop();
+            other.transform.GetChild(0).GetChild(0).gameObject.GetComponent<ParticleSystem>().Play();
+            
+            //VIBRATE ON trigger with coin
+            if (LevelManager.Instance._audioManager.isHapticEnabled)
+                LevelManager.Instance.currentPlayerCarModel.GetComponent<HapticSource>().Play();
         }
     }
 

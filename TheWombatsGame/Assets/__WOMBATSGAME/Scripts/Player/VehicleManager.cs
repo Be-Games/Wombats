@@ -50,6 +50,7 @@ public class VehicleManager : MonoBehaviour
         public GameObject carBreakGO;
         public ParticleSystem NOSEffectsPS;
         public GameObject breakLight;
+        public GameObject headLight;
         public ParticleSystem boostCapturedEffectPS;
     }
     
@@ -62,4 +63,23 @@ public class VehicleManager : MonoBehaviour
     public CarWheels carWheels;
     public CarEffects carEffects;
 
+    private GameManager _gameManager;
+
+
+    private void Start()
+    {
+        _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+
+        if (_gameManager.lightingMode == 2)
+        {
+            //Night
+            carEffects.headLight.SetActive(true);
+        }
+
+        else
+        {
+            //Day
+            carEffects.headLight.SetActive(false);
+        }
+    }
 }

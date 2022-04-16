@@ -36,6 +36,9 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI playerPosition;
 
     public TextMeshProUGUI flyThroughCamCityName;
+
+    [Header("Scoring Stuff")] 
+    public TextMeshProUGUI scoreText;
     
     //DO TWEEN ANIMATION UIS
     
