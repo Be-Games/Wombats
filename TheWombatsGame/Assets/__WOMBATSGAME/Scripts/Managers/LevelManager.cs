@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using VoxelBusters.Demos.ReplayKit;
 using Random = System.Random;
 
 public class LevelManager : MonoBehaviour
@@ -82,12 +83,14 @@ public class LevelManager : MonoBehaviour
     [SerializeField]private GameManager _gameManager;
     public VehicleManager playerVehicleManager;
     
+    
     [Header("Bool Values")]
     public bool isGameStarted;
     public bool isCrashed;
     public bool isCrashedWithPpl;
     public bool adStuff;
     public bool isGameEnded;
+    public bool isFinalLap;
     
     [Header("Weather Effects")] 
     public GameObject slowWind;
@@ -107,7 +110,7 @@ public class LevelManager : MonoBehaviour
     public int continueCounter;
     //Race Finish Stuff
     public GameObject cameraRotator;
-    public RectTransform continueButton,exitButton;
+    public RectTransform continueButton,shareBtn;
     public CinemachineVirtualCamera cmvc;
 
     [Header("Level AI Difficulty")] 
@@ -121,6 +124,14 @@ public class LevelManager : MonoBehaviour
     public float singleLapDistance;
     public GameObject endConfetti;
     public string cityName;
+    
+    [Header("Stadium Spawn Things")] 
+    public GameObject stadiumPrefab;
+    public GameObject[] stuffToRemove;
+    public Transform stadiumTransform;
+
+    [Header("Social Sharing Stuff")] 
+    public ReplayKitDemo ReplayKitDemo;
 
     public Transform sampleCartransform;
     public List<GameObject> carHeadLights;
@@ -132,6 +143,7 @@ public class LevelManager : MonoBehaviour
         _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
         playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
         _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        
         // if (_gameManager)
         // {
         //     currentPlayerCarModel = _gameManager.playerCarModels;
@@ -143,6 +155,8 @@ public class LevelManager : MonoBehaviour
         // Instantiate(currentPlayerCarModel, CARMODELgo.transform.position, sampleCartransform.rotation, CARMODELgo.transform);
         // Instantiate(enemy1, ENEMYLEFTgo.transform.position, sampleCartransform.rotation, ENEMYLEFTgo.transform);
         // Instantiate(enemy2, ENEMYRIGHTgo.transform.position, sampleCartransform.rotation, ENEMYRIGHTgo.transform);
+        
+        _audioManager.LoadIcons();
         
         boostPickUps = new List<GameObject>();
         boostPickUps.AddRange(GameObject.FindGameObjectsWithTag("Boost"));
@@ -197,6 +211,8 @@ public class LevelManager : MonoBehaviour
                 hl.SetActive(false);
             }
         }
+
+        isFinalLap = false;
     }
     
     
@@ -325,6 +341,8 @@ public class LevelManager : MonoBehaviour
                 UiManager.StatusIndicatorPanelGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
                     "FINAL LAP";
             }
+
+            isFinalLap = true;
             #region STATUS INDICATOR
             
             var mySequence = DOTween.Sequence();
@@ -361,28 +379,29 @@ public class LevelManager : MonoBehaviour
     {
         if (LevelProgressUi.playerPosi == 1)
         {
+            continueButton.DOScale(Vector3.zero, 0f);
+            shareBtn.DOScale(Vector3.zero, 0f);
             endConfetti.SetActive(true);
-            yield return new WaitForSeconds(0.1f);
-            continueButton.DOScale(Vector3.one, 0.5f);
             
+            yield return new WaitForSeconds(0.15f);
+            
+            isGameEnded = true;
+            UiManager.BoostBtn.gameObject.SetActive(false);
+            cameraRotator.SetActive(true);
+            isGameStarted = false;
+            GameManager.Instance.canControlCar = false;
+            
+            yield return new WaitForSeconds(1f);
+            
+            ReplayKitDemo.StopRecording();                                //recording Stop
+            
+            yield return new WaitForSeconds(0.1f);
+            
+            continueButton.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
+            shareBtn.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
         }
-
-        else
-        {
-            exitButton.DOScale(Vector3.one, 0.5f);
-        }
         
-
-        yield return new WaitForSeconds(0f);
-        isGameEnded = true;
-        UiManager.BoostBtn.gameObject.SetActive(false);
-        cameraRotator.SetActive(true);
-
-        //blackScreenFadingPanel.transform.GetChild(0).DOScale(new Vector3(5, 5, 1), 1f).SetEase(Ease.OutBounce);
-        
-        isGameStarted = false;
-        GameManager.Instance.canControlCar = false;
-        
+     
     }
 
     public void GoToStadium()
@@ -391,7 +410,13 @@ public class LevelManager : MonoBehaviour
         {
             _gameManager.LoadScene("Concert_Scn");
         }
+        ReplayKitDemo.Discard();
         
+    }
+
+    public void sharePreview()
+    {
+        ReplayKitDemo.SharePreview();
     }
 
     #region ALLABOUTBOOST
@@ -570,11 +595,13 @@ public class LevelManager : MonoBehaviour
 
     public void ResetGame()
     {
+        Time.timeScale = 1;
         _gameManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void ReturnToMainMenu()
     {
+        Time.timeScale = 1;
         _gameManager.LoadScene("HomeScreen");
     }
 
@@ -620,6 +647,8 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator CarReset()
     {
+       
+        
         UiManager.crashedPanel.SetActive(false);
         yield return new WaitForSeconds(0.1f);
         
@@ -724,17 +753,7 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(0f);
         
     }
-
     
-
-   
-
-    public void OnAdClosed()
-    {
-        UiManager.crashedPanel.SetActive(false);
-        UiManager.extraLifePanel.SetActive(true);
-        
-    }
 
     public void ReceiveLifeBtn()
     {

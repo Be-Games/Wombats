@@ -113,13 +113,22 @@ public class GameManager : MonoBehaviour
 
         while (!operation.isDone)
         {
-            wombatsLoadingImg.fillAmount = operation.progress;
+            DOTween.To(() => wombatsLoadingImg.fillAmount, 
+                    x => wombatsLoadingImg.fillAmount = x, operation.progress, 0.5f).SetEase(Ease.Flash)
+                .OnUpdate(() => {
+                        
+                });
+            //wombatsLoadingImg.fillAmount = operation.progress;
             
             if (operation.progress == 0.9f)
             {
                 operation.allowSceneActivation = true;
                 
-                wombatsLoadingImg.fillAmount = 1f;
+                DOTween.To(() => wombatsLoadingImg.fillAmount, 
+                        x => wombatsLoadingImg.fillAmount = x, 1, 0.5f).SetEase(Ease.Flash)
+                    .OnUpdate(() => {
+                        
+                    });
                 
                 yield return new WaitForSeconds(0.5f);
                 wombatsLoadingImg.transform.parent.GetComponent<RectTransform>().DOScale(0f, 0.5f).SetEase(Ease.Flash).OnComplete(abc);
@@ -143,6 +152,11 @@ public class GameManager : MonoBehaviour
     void def()
     {
         LoadingScreenPanel.SetActive(false);
+        DOTween.To(() => wombatsLoadingImg.fillAmount, 
+                x => wombatsLoadingImg.fillAmount = x, 0, 0.5f).SetEase(Ease.Flash)
+            .OnUpdate(() => {
+                        
+            });
     }
     
     #endregion

@@ -9,8 +9,9 @@ using Lofelt.NiceVibrations;
 public class FrontColliderTriggers : MonoBehaviour
 {
     private GameObject currentPersonRagdoll;
-    public GameObject explosionParticleEffect;
+    
 
+   
 
     
     private void OnTriggerEnter(Collider other)
@@ -167,26 +168,8 @@ public class FrontColliderTriggers : MonoBehaviour
     {
         currentPersonRagdoll.GetComponent<Animator>().SetBool("isDead",true);
     }
-
-    void ResetHuman()
-    {
-        if (currentPersonRagdoll != null)
-        {
-            currentPersonRagdoll.GetComponent<Collider>().enabled = true;
-            currentPersonRagdoll.GetComponent<splineMove>().StartMove();
-        }
-        
-        
-    }
     
-    public void HideHuman()
-    {
-        if (currentPersonRagdoll != null)
-        {
-            currentPersonRagdoll.SetActive(false);
-        }
-        
-    }
+    
 
     private void OnTriggerExit(Collider other)
     {
@@ -194,6 +177,28 @@ public class FrontColliderTriggers : MonoBehaviour
         {
             StartCoroutine("LapSystemDelay");
            
+        }
+
+        if (other.gameObject.CompareTag("FirstTrigger") && LevelManager.Instance.isFinalLap)
+        {
+            Instantiate(LevelManager.Instance.stadiumPrefab, LevelManager.Instance.stadiumTransform.position,
+                LevelManager.Instance.stadiumTransform.rotation);
+            foreach (var x in LevelManager.Instance.stuffToRemove)
+            {
+                x.SetActive(false);
+            }
+            
+            //Video Replay
+            LevelManager.Instance.ReplayKitDemo.Initialise();
+        }
+        
+        if (other.gameObject.CompareTag("SecondTrigger") && LevelManager.Instance.isFinalLap)
+        {
+            //Record Video
+            LevelManager.Instance.ReplayKitDemo.SetMicrophoneStatus();
+            LevelManager.Instance.ReplayKitDemo.PrepareRecording();
+            LevelManager.Instance.ReplayKitDemo.StartRecording();
+            
         }
     }
 

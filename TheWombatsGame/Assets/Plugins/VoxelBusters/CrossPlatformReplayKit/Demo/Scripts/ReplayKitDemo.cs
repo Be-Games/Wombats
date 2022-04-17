@@ -101,7 +101,7 @@ namespace VoxelBusters.Demos.ReplayKit
 
         public void SetMicrophoneStatus()
         {
-            ReplayKitManager.SetMicrophoneStatus(true);
+            ReplayKitManager.SetMicrophoneStatus(false);
         }
 
         public void PrepareRecording()

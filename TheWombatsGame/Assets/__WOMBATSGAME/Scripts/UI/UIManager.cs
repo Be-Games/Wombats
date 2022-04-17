@@ -44,21 +44,23 @@ public class UIManager : MonoBehaviour
     
     public void settingsBtnDT()
     {
-        pauseScreen.DOAnchorPos(Vector2.zero, 0.25f);
         
+        pauseScreen.DOAnchorPos(Vector2.zero, 0.25f).SetEase(Ease.Flash).OnComplete(PauseMenu);
     }
     
     public void settingsReturnDT()
     {
-        pauseScreen.DOAnchorPos(new Vector2(1500,0f), 0.25f);
+        Time.timeScale = 1;
+        pauseScreen.DOAnchorPos(new Vector2(1500,0f), 0.25f).SetEase(Ease.Flash);
     }
     
     
     
     public void PauseMenu()
     {
-        LevelManager.Instance.isGameStarted = false;
-        GameManager.Instance.canControlCar = false;
+        Time.timeScale = 0;
+        //LevelManager.Instance.isGameStarted = false;
+        //GameManager.Instance.canControlCar = false;
     }
 
 }

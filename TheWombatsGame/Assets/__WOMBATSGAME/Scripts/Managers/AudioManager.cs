@@ -85,15 +85,20 @@ public class AudioManager : MonoBehaviour
             musicTracks.MusicTrackAudioSource.gameObject.SetActive(false);
 
 
-            sfxAll.SFXONIcon = GameObject.FindGameObjectWithTag("SFXON").GetComponent<Image>();
-            sfxAll.SFXOFFIcon = GameObject.FindGameObjectWithTag("SFXOFF").GetComponent<Image>();
             
-            musicTracks.musicONIcon = GameObject.FindGameObjectWithTag("MUSICON").GetComponent<Image>();
-            musicTracks.musicOFFIcon = GameObject.FindGameObjectWithTag("MUSICOFF").GetComponent<Image>();
-            
-            UpdateMusicBtnIcon();
-            UpdateSoundBtnIcon();
         }
+    }
+
+    public void LoadIcons()
+    {
+        sfxAll.SFXONIcon = GameObject.FindGameObjectWithTag("SFXON").GetComponent<Image>();
+        sfxAll.SFXOFFIcon = GameObject.FindGameObjectWithTag("SFXOFF").GetComponent<Image>();
+            
+        musicTracks.musicONIcon = GameObject.FindGameObjectWithTag("MUSICON").GetComponent<Image>();
+        musicTracks.musicOFFIcon = GameObject.FindGameObjectWithTag("MUSICOFF").GetComponent<Image>();
+            
+        UpdateMusicBtnIcon();
+        UpdateSoundBtnIcon();
     }
 
     public void Play(AudioSource audioSource)
