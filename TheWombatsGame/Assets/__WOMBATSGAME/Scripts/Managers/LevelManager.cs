@@ -102,7 +102,6 @@ public class LevelManager : MonoBehaviour
     
     [Header("Misc Stuff")]
     public float startTime;
-    public GameObject[] objPlayerCarToReset;
     public GameObject[] playerCarCollidersToToggle;
     public TextMeshProUGUI carContinueChances;
     public int continueCounter;
@@ -124,6 +123,7 @@ public class LevelManager : MonoBehaviour
     public string cityName;
 
     public Transform sampleCartransform;
+    public List<GameObject> carHeadLights;
     
     private void Start()
     {
@@ -140,9 +140,9 @@ public class LevelManager : MonoBehaviour
         // }
         
 
-        Instantiate(currentPlayerCarModel, CARMODELgo.transform.position, sampleCartransform.rotation, CARMODELgo.transform);
-        Instantiate(enemy1, ENEMYLEFTgo.transform.position, sampleCartransform.rotation, ENEMYLEFTgo.transform);
-        Instantiate(enemy2, ENEMYRIGHTgo.transform.position, sampleCartransform.rotation, ENEMYRIGHTgo.transform);
+        // Instantiate(currentPlayerCarModel, CARMODELgo.transform.position, sampleCartransform.rotation, CARMODELgo.transform);
+        // Instantiate(enemy1, ENEMYLEFTgo.transform.position, sampleCartransform.rotation, ENEMYLEFTgo.transform);
+        // Instantiate(enemy2, ENEMYRIGHTgo.transform.position, sampleCartransform.rotation, ENEMYRIGHTgo.transform);
         
         boostPickUps = new List<GameObject>();
         boostPickUps.AddRange(GameObject.FindGameObjectsWithTag("Boost"));
@@ -151,10 +151,7 @@ public class LevelManager : MonoBehaviour
         pplToDisable.AddRange(GameObject.FindGameObjectsWithTag("People"));
         
         envToNotBlur = currentPlayerCarModel.transform.GetChild(0).GetChild(0).gameObject;
-
-        //SET the UP and DOWN gameobject of player car
-        objPlayerCarToReset[1] = currentPlayerCarModel.transform.GetChild(0).gameObject;
-        objPlayerCarToReset[2] = currentPlayerCarModel.transform.GetChild(1).gameObject;
+        
 
         for (int i = 0; i < 4; i++)
         {
@@ -162,7 +159,7 @@ public class LevelManager : MonoBehaviour
         }
 
         playerCarCollidersToToggle[4] = currentPlayerCarModel.GetComponent<VehicleManager>().bodyTrigger.body;
-        playerCarCollidersToToggle[4] = currentPlayerCarModel.GetComponent<VehicleManager>().bodyTrigger.trigger;
+        playerCarCollidersToToggle[5] = currentPlayerCarModel.GetComponent<VehicleManager>().bodyTrigger.trigger;
         
         
         //Game Start - Flyover Camera 
@@ -179,6 +176,27 @@ public class LevelManager : MonoBehaviour
 
         currentScore = 0;
         UiManager.scoreText.text = currentScore.ToString();
+        
+        carHeadLights = new List<GameObject>();
+        carHeadLights.AddRange(GameObject.FindGameObjectsWithTag("Headlight"));
+        if (_gameManager.lightingMode == 2)
+        {
+            
+            //Night
+            foreach (var hl in carHeadLights)
+            {
+                hl.SetActive(true);
+            }
+        }
+
+        else
+        {
+            //Day
+            foreach (var hl in carHeadLights)
+            {
+                hl.SetActive(false);
+            }
+        }
     }
     
     
@@ -371,7 +389,7 @@ public class LevelManager : MonoBehaviour
     {
         if (LevelProgressUi.playerPosi == 1)
         {
-            SceneManager.LoadScene("Concert_Scn");
+            _gameManager.LoadScene("Concert_Scn");
         }
         
     }
@@ -483,6 +501,7 @@ public class LevelManager : MonoBehaviour
         UiManager.BoostBtn.GetComponent<Button>().enabled = false;
         
         //focus.SetFocused(currentPlayerCarModel);                                                                                        //blur effects
+        playerVehicleManager.carEffects.boostActivatedEffect.Play();                                                    //Shield effect
         
         DOTween.To(() => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
                 x => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -3f, 0.3f)
@@ -535,6 +554,8 @@ public class LevelManager : MonoBehaviour
         
         
         //focus.SetFocused(null);                                                                                            //unblur
+        playerVehicleManager.carEffects.boostActivatedEffect.Stop();
+        
         
         DOTween.To(() => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,         ////damping camera effect
                 x => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -2.24f, 0.8f)
@@ -544,15 +565,17 @@ public class LevelManager : MonoBehaviour
     }
     
     #endregion
+    
+    
 
     public void ResetGame()
     {
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+        _gameManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void ReturnToMainMenu()
     {
-        SceneManager.LoadSceneAsync(0);
+        _gameManager.LoadScene("HomeScreen");
     }
 
     
@@ -597,6 +620,8 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator CarReset()
     {
+        UiManager.crashedPanel.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
         
         if(!adStuff && continueCounter!=5)
             continueCounter++;
@@ -608,24 +633,23 @@ public class LevelManager : MonoBehaviour
             
         }
         
-
-        
         
         isGameStarted = true;
-        
         isCrashed = false;
-        PlayerController.Instance.gameControlsClass.gestureState = GameControls.GestureState.Release;
-        UiManager.crashedPanel.SetActive(false);
         
-        PlayerController.Instance.playerPF.speed = PlayerController.Instance.normalSpeed;
+        
+        
+
+        PlayerController.Instance.playerPF.speed = playerVehicleManager.carSpeedSettings.normalSpeed;
         PlayerController.Instance.playerPF.enabled = true;
         
         GameManager.Instance.canControlCar = true;
-        
-        objPlayerCarToReset[0].SetActive(false); //smokeCrash effect
-        objPlayerCarToReset[1].SetActive(true); //original car
-        objPlayerCarToReset[2].SetActive(false); // toppled over car
-        
+        PlayerController.Instance.gameControlsClass.gestureState = GameControls.GestureState.Release;
+
+        playerVehicleManager.postCrashStuff.crashPS.Stop();
+        playerVehicleManager.postCrashStuff.up_car.SetActive(true);
+        playerVehicleManager.postCrashStuff.down_car.SetActive(false);
+
         foreach (GameObject x in pplToDisable)
         {
             x.SetActive(true);
@@ -719,7 +743,15 @@ public class LevelManager : MonoBehaviour
         StartCoroutine("CarReset");
     }
 
-    
+    public void ToggleSFX()
+    {
+        _audioManager.ToggleSFX();
+    }
+
+    public void ToggleMusic()
+    {
+        _audioManager.ToggleMusic();
+    }
     
     
 }

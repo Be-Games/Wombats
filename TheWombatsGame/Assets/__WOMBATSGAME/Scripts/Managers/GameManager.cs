@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
     [Space] 
     public bool isSettingVisible;
     public GameObject settingsPanel;
-    public GameObject canvas;
+    public GameObject settingsBtn;
 
 
     private void Start()
@@ -165,6 +165,7 @@ public class GameManager : MonoBehaviour
             
     }
 
+    
 
     private void Update()
     {
@@ -172,11 +173,13 @@ public class GameManager : MonoBehaviour
             SceneManager.GetActiveScene().name == "PlayerSelection" ||
                 SceneManager.GetActiveScene().name == "LevelSelection")
         {
-            canvas.SetActive(true);
+            settingsPanel.SetActive(true);
+            settingsBtn.SetActive(true);
         }
         else
         {
-            canvas.SetActive(false);
+            settingsPanel.SetActive(false);
+            settingsBtn.SetActive(false);
         }
     }
 }

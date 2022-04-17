@@ -14,11 +14,11 @@ GameObject:
   - component: {fileID: 31001058}
   m_Layer: 5
   m_Name: OFF (1)
-  m_TagString: Untagged
+  m_TagString: SFXOFF
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &31001057
 RectTransform:
   m_ObjectHideFlags: 0
@@ -121,7 +121,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: ToggleSFX
         m_Mode: 1
         m_Arguments:
@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 59630208}
   m_Layer: 5
   m_Name: ON (1)
-  m_TagString: Untagged
+  m_TagString: SFXON
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -352,7 +352,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: ToggleSFX
         m_Mode: 1
         m_Arguments:
@@ -931,7 +931,7 @@ GameObject:
   - component: {fileID: 275762927}
   m_Layer: 5
   m_Name: ON (1)
-  m_TagString: Untagged
+  m_TagString: MUSICON
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1038,7 +1038,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: ToggleMusic
         m_Mode: 1
         m_Arguments:
@@ -2170,11 +2170,11 @@ GameObject:
   - component: {fileID: 673364758}
   m_Layer: 5
   m_Name: OFF (1)
-  m_TagString: Untagged
+  m_TagString: MUSICOFF
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &673364757
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2277,7 +2277,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: ToggleMusic
         m_Mode: 1
         m_Arguments:
@@ -3898,7 +3898,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 283, y: -393.52628}
+  m_AnchoredPosition: {x: 283, y: -417}
   m_SizeDelta: {x: 128, y: 128}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1651497667
@@ -4548,7 +4548,7 @@ RectTransform:
   m_GameObject: {fileID: 1909419941}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.3, y: 2.3, z: 0.3}
+  m_LocalScale: {x: 2, y: 2, z: 0.3}
   m_Children:
   - {fileID: 355021484}
   - {fileID: 2085859854}
@@ -4558,7 +4558,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 781}
+  m_AnchoredPosition: {x: 0, y: 823}
   m_SizeDelta: {x: 256, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1909419944
@@ -7478,7 +7478,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -480, y: -39}
+  m_AnchoredPosition: {x: -404, y: -39}
   m_SizeDelta: {x: 140, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7730507502443282830
@@ -11548,7 +11548,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.00005861179, y: 48}
+  m_AnchoredPosition: {x: 0, y: 0.000015258789}
   m_SizeDelta: {x: 1583.8318, y: 2813.4744}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7730507504069719585
@@ -11782,7 +11782,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.94832873, b: 0, a: 1}
+  m_Color: {r: 0.9490197, g: 0.8980393, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -11838,7 +11838,6 @@ GameObject:
   - component: {fileID: 4457460335015566741}
   - component: {fileID: 294927944}
   - component: {fileID: 841037273}
-  - component: {fileID: 2142861766}
   - component: {fileID: 2142861765}
   m_Layer: 5
   m_Name: BoostBtn/Indicator
@@ -11979,21 +11978,6 @@ MonoBehaviour:
   _loop: 0
   _level: 3
   _frequencyShift: -1
---- !u!114 &2142861766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8284084683760053450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 40306178, guid: aa0b1eebb5db27a419fa4564bbe5c9c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  preset: 0
-  onEnableBehaviour: 1
-  onDisableBehaviour: 4
 --- !u!114 &2142861765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12040,7 +12024,7 @@ MonoBehaviour:
   targetGO: {fileID: 0}
   tweenTargetIsTargetGO: 1
   delay: 0
-  duration: 1.2
+  duration: 1
   easeType: 32
   easeCurve:
     serializedVersion: 2
@@ -12200,7 +12184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.3764706}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.6156863}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -12477,7 +12461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.5921569, b: 0.21176472, a: 1}
+  m_Color: {r: 0.91372555, g: 0.27450982, b: 0.36078432, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
