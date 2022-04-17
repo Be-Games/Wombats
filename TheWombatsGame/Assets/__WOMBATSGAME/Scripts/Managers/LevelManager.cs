@@ -48,10 +48,14 @@ public class LevelManager : MonoBehaviour
     
     [Header("Lap Settings")]
     public int lapCounter = 0;
-    public TextMeshProUGUI lapText;
+    //public TextMeshProUGUI lapText;
     
     public bool isLapTriggered;
     public GameObject[] levelTimeObjects;
+
+    [Header("Scoring Stuff")] 
+    public int currentScore;
+    public int levelHighScore;
 
 
     [Header("Boost Settings")] 
@@ -74,7 +78,9 @@ public class LevelManager : MonoBehaviour
     [Header("Other Class Ref")] 
     public UIManager UiManager;
     public LevelProgressUI LevelProgressUi;
-    public AudioManager AudioManager;
+    public AudioManager _audioManager;
+    [SerializeField]private GameManager _gameManager;
+    public VehicleManager playerVehicleManager;
     
     [Header("Bool Values")]
     public bool isGameStarted;
@@ -96,7 +102,6 @@ public class LevelManager : MonoBehaviour
     
     [Header("Misc Stuff")]
     public float startTime;
-    public GameObject[] objPlayerCarToReset;
     public GameObject[] playerCarCollidersToToggle;
     public TextMeshProUGUI carContinueChances;
     public int continueCounter;
@@ -111,27 +116,42 @@ public class LevelManager : MonoBehaviour
 
     [Header("Stuff to Manually Modify For Each Level")]
     public int totalLaps;
-    public GameObject[] lapObjects;
-    public GameObject[] boostPickUps;
+    public List<GameObject> boostPickUps;
+    public List<GameObject> pplToDisable;
     public float singleLapDistance;
-    public GameObject[] pplToDisable;
     public GameObject endConfetti;
     public string cityName;
-    
+
+    public Transform sampleCartransform;
+    public List<GameObject> carHeadLights;
     
     private void Start()
     {
         UiManager.flyThroughCamCityName.text = cityName + " TOUR ";
+
+        _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+        playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
+        _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        // if (_gameManager)
+        // {
+        //     currentPlayerCarModel = _gameManager.playerCarModels;
+        //     enemy1 = _gameManager.enemyCarModels[0];
+        //     enemy2 = _gameManager.enemyCarModels[1];
+        // }
         
-        currentPlayerCarModel = GameManager.Instance.playerCarModels[GameManager.Instance.selectedCarModelPLAYER];
-        enemy1 = GameManager.Instance.enemyCarModels[0];
-        enemy2 = GameManager.Instance.enemyCarModels[1];
 
+        // Instantiate(currentPlayerCarModel, CARMODELgo.transform.position, sampleCartransform.rotation, CARMODELgo.transform);
+        // Instantiate(enemy1, ENEMYLEFTgo.transform.position, sampleCartransform.rotation, ENEMYLEFTgo.transform);
+        // Instantiate(enemy2, ENEMYRIGHTgo.transform.position, sampleCartransform.rotation, ENEMYRIGHTgo.transform);
+        
+        boostPickUps = new List<GameObject>();
+        boostPickUps.AddRange(GameObject.FindGameObjectsWithTag("Boost"));
+        
+        pplToDisable = new List<GameObject>();
+        pplToDisable.AddRange(GameObject.FindGameObjectsWithTag("People"));
+        
         envToNotBlur = currentPlayerCarModel.transform.GetChild(0).GetChild(0).gameObject;
-
-        //SET the UP and DOWN gameobject of player car
-        objPlayerCarToReset[1] = currentPlayerCarModel.transform.GetChild(0).gameObject;
-        objPlayerCarToReset[2] = currentPlayerCarModel.transform.GetChild(1).gameObject;
+        
 
         for (int i = 0; i < 4; i++)
         {
@@ -139,7 +159,7 @@ public class LevelManager : MonoBehaviour
         }
 
         playerCarCollidersToToggle[4] = currentPlayerCarModel.GetComponent<VehicleManager>().bodyTrigger.body;
-        playerCarCollidersToToggle[4] = currentPlayerCarModel.GetComponent<VehicleManager>().bodyTrigger.trigger;
+        playerCarCollidersToToggle[5] = currentPlayerCarModel.GetComponent<VehicleManager>().bodyTrigger.trigger;
         
         
         //Game Start - Flyover Camera 
@@ -148,13 +168,35 @@ public class LevelManager : MonoBehaviour
 
 
         //Initilization
-        lapText.text = (lapCounter+1) + "/" + totalLaps;
+        //lapText.text = (lapCounter+1) + "/" + totalLaps;
         startTime = Time.time;
-        LevelManager.Instance.lapObjects[lapCounter].SetActive(true);
         UiManager.BoostBtn.GetComponent<Button>().enabled = false;
         //OverHeadUIs
         //currentPlayerCarModel.transform.GetChild(3).localScale = Vector3.zero;   
+
+        currentScore = 0;
+        UiManager.scoreText.text = currentScore.ToString();
         
+        carHeadLights = new List<GameObject>();
+        carHeadLights.AddRange(GameObject.FindGameObjectsWithTag("Headlight"));
+        if (_gameManager.lightingMode == 2)
+        {
+            
+            //Night
+            foreach (var hl in carHeadLights)
+            {
+                hl.SetActive(true);
+            }
+        }
+
+        else
+        {
+            //Day
+            foreach (var hl in carHeadLights)
+            {
+                hl.SetActive(false);
+            }
+        }
     }
     
     
@@ -210,10 +252,11 @@ public class LevelManager : MonoBehaviour
     void RaceStarted()
     {
         GameManager.Instance.canControlCar = true;                        // Car Gestures Enabled
+        PlayerController.Instance.gameControlsClass.gestureState = GameControls.GestureState.Release;
         // UiManager.BoostBtn.transform.DOScale(new Vector3(0.6f,0.6f,0.6f), 1f).SetEase(Ease.OutBounce);
         //
         // currentPlayerCarModel.transform.GetChild(3).DOScale(new Vector3(1f,1f,1f), 1f).SetEase(Ease.OutBounce);
-        
+
     }
     
 
@@ -254,19 +297,19 @@ public class LevelManager : MonoBehaviour
        
         if (lapCounter == totalLaps - 1)
         {
-
-            #region FINAL LAP STATUS INDICATOR
-            UiManager.StatusIndicatorPanelGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
-                "FINAL LAP";
+            
+            
+            #region STATUS INDICATOR
             
             var mySequence = DOTween.Sequence();
             
-            mySequence.Append( UiManager.StatusIndicatorPanelGO.transform.DOScaleX(1.5f, 0.4f)
-                .OnComplete(() => UiManager.StatusIndicatorPanelGO.transform.DOScaleX(1f, 0.1f)));
+            mySequence.Append( UiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-921,545f), 0f)
+                .OnComplete(() => UiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0,545f), 0.3f).SetEase(Ease.Flash)));
+            
             
             mySequence.AppendInterval(2);
 
-            mySequence.OnComplete(() => UiManager.StatusIndicatorPanelGO.transform.DOScaleX(0f, 0.4f));
+            mySequence.OnComplete(() => UiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(921,545f), 0.3f).SetEase(Ease.Flash));
             
             #endregion
             
@@ -274,11 +317,35 @@ public class LevelManager : MonoBehaviour
         
         if (lapCounter < totalLaps)
         {
-            lapText.text = (lapCounter+1) + "/" + totalLaps;
+            UiManager.StatusIndicatorPanelGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
+                "LAP : " + (lapCounter+1) + "/" + totalLaps;
+
+            if (lapCounter == totalLaps - 1)
+            {
+                UiManager.StatusIndicatorPanelGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
+                    "FINAL LAP";
+            }
+            #region STATUS INDICATOR
+            
+            var mySequence = DOTween.Sequence();
+            
+            mySequence.Append( UiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-921,545f), 0f)
+                .OnComplete(() => UiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0,545f), 0.3f).SetEase(Ease.Flash)));
+            
+            
+            mySequence.AppendInterval(2);
+
+            mySequence.OnComplete(() => UiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(921,545f), 0.3f).SetEase(Ease.Flash));
+            
+            #endregion
+            
+            //lapText.text = (lapCounter+1) + "/" + totalLaps;
             lapCounter++;
             levelTimeObjects[lapCounter-1].SetActive(true);
             startTime = Time.time;
         }
+        
+       
 
        Invoke("DisableCountDownLights",2f);
         
@@ -322,7 +389,7 @@ public class LevelManager : MonoBehaviour
     {
         if (LevelProgressUi.playerPosi == 1)
         {
-            SceneManager.LoadScene("Concert_Scn");
+            _gameManager.LoadScene("Concert_Scn");
         }
         
     }
@@ -398,21 +465,9 @@ public class LevelManager : MonoBehaviour
         //SHINY EFFECT
         UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = true;
         UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = true;
-        UiManager.BoostBtn.transform.DOScale(new Vector3(0.7f,0.7f,0.7f), 0.5f);
+        UiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPlay();
         
-        //BOOST ACTIVATED INDICATOR ABOVE        
-        UiManager.StatusIndicatorPanelGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "BOOST ACTIVATED";
         
-        var mySequence = DOTween.Sequence();
-            
-        mySequence.Append( UiManager.StatusIndicatorPanelGO.transform.DOScaleX(1.5f, 0.4f)
-            .OnComplete(() => UiManager.StatusIndicatorPanelGO.transform.DOScaleX(1f, 0.1f)));
-            
-        mySequence.AppendInterval(1);
-
-        mySequence.OnComplete(() => UiManager.StatusIndicatorPanelGO.transform.DOScaleX(0f, 0.4f));
-            
-      
     }
     
     
@@ -427,23 +482,26 @@ public class LevelManager : MonoBehaviour
         isBoosting = true;
 
         //VIBRATE ON BOOST BTN PRESSED
-        // if(GameManager.Instance.isHapticEnabled)
-        //     UiManager.BoostBtn.GetComponent<HapticSource>().Play();
-        
-        speedLinesEffect.SetActive(true);
+        if (_audioManager.isHapticEnabled)
+            currentPlayerCarModel.GetComponent<HapticSource>().Play();
+
+         speedLinesEffect.SetActive(true);
         
         //disable shiny effect
        UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = false;
        UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectFactor = 0;
        UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = false;
        UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectFactor = 0;
-       UiManager.BoostBtn.transform.DOScale(new Vector3(0.5f,0.5f,0.5f), 0.5f);
+
+       UiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPause();
+       UiManager.BoostBtn.transform.DOScale(new Vector3(0.5f,0.5f,0.5f), 0f);
         
-       currentPlayerCarModel.transform.GetChild(0).GetChild(2).GetChild(2).gameObject.SetActive(true);                     //NOS Particle Effect
+       LevelManager.Instance.playerVehicleManager.carEffects.NOSEffectsPS.Play();                  //NOS Particle Effect
         PlayerController.Instance.targetSpeed = PlayerController.Instance.boostSpeed;                                       //Set speed to boost speed
         UiManager.BoostBtn.GetComponent<Button>().enabled = false;
         
-        focus.SetFocused(currentPlayerCarModel);                                                                                        //blur effects
+        //focus.SetFocused(currentPlayerCarModel);                                                                                        //blur effects
+        playerVehicleManager.carEffects.boostActivatedEffect.Play();                                                    //Shield effect
         
         DOTween.To(() => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
                 x => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -3f, 0.3f)
@@ -491,11 +549,13 @@ public class LevelManager : MonoBehaviour
                 x.SetActive(true);
         }
 
-        currentPlayerCarModel.transform.GetChild(0).GetChild(2).GetChild(3).gameObject.SetActive(false);                     //NOS Particle Effect
+        LevelManager.Instance.playerVehicleManager.carEffects.NOSEffectsPS.Stop();                    //NOS Particle Effect
         PlayerController.Instance.targetSpeed = PlayerController.Instance.targetSpeed;                                                                //normal speed
         
         
-        focus.SetFocused(null);                                                                                            //unblur
+        //focus.SetFocused(null);                                                                                            //unblur
+        playerVehicleManager.carEffects.boostActivatedEffect.Stop();
+        
         
         DOTween.To(() => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,         ////damping camera effect
                 x => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -2.24f, 0.8f)
@@ -505,15 +565,17 @@ public class LevelManager : MonoBehaviour
     }
     
     #endregion
+    
+    
 
     public void ResetGame()
     {
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+        _gameManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void ReturnToMainMenu()
     {
-        SceneManager.LoadSceneAsync(0);
+        _gameManager.LoadScene("HomeScreen");
     }
 
     
@@ -558,6 +620,8 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator CarReset()
     {
+        UiManager.crashedPanel.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
         
         if(!adStuff && continueCounter!=5)
             continueCounter++;
@@ -569,24 +633,23 @@ public class LevelManager : MonoBehaviour
             
         }
         
-
-        
         
         isGameStarted = true;
-        
         isCrashed = false;
-        PlayerController.Instance.gameControlsClass.gestureState = GameControls.GestureState.Release;
-        UiManager.crashedPanel.SetActive(false);
         
-        PlayerController.Instance.playerPF.speed = PlayerController.Instance.normalSpeed;
+        
+        
+
+        PlayerController.Instance.playerPF.speed = playerVehicleManager.carSpeedSettings.normalSpeed;
         PlayerController.Instance.playerPF.enabled = true;
         
         GameManager.Instance.canControlCar = true;
-        
-        objPlayerCarToReset[0].SetActive(false); //smokeCrash effect
-        objPlayerCarToReset[1].SetActive(true); //original car
-        objPlayerCarToReset[2].SetActive(false); // toppled over car
-        
+        PlayerController.Instance.gameControlsClass.gestureState = GameControls.GestureState.Release;
+
+        playerVehicleManager.postCrashStuff.crashPS.Stop();
+        playerVehicleManager.postCrashStuff.up_car.SetActive(true);
+        playerVehicleManager.postCrashStuff.down_car.SetActive(false);
+
         foreach (GameObject x in pplToDisable)
         {
             x.SetActive(true);
@@ -680,7 +743,15 @@ public class LevelManager : MonoBehaviour
         StartCoroutine("CarReset");
     }
 
-    
+    public void ToggleSFX()
+    {
+        _audioManager.ToggleSFX();
+    }
+
+    public void ToggleMusic()
+    {
+        _audioManager.ToggleMusic();
+    }
     
     
 }

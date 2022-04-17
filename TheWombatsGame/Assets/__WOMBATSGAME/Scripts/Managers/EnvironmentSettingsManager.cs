@@ -7,8 +7,6 @@ public class EnvironmentSettingsManager : MonoBehaviour
 {
     private static EnvironmentSettingsManager _instance;
 
-    public Color dayLightingColor;
-    
     public static EnvironmentSettingsManager Instance
     {
         get
@@ -24,17 +22,28 @@ public class EnvironmentSettingsManager : MonoBehaviour
     
     
     public GameObject nightLightingGO,dayLightingGO;
+    public GameObject dayObstacles, nightObstacles;
+
+    [System.Serializable]
+    public class DayStuff
+    {
+        public Material daySkyboxMat;
+        public Color fogColor;
+        public float fogDensity;
+    }
     
-    // public List<WeatherEffects> weatherEffects;
-    //
-    // [System.Serializable]
-    // public class WeatherEffects
-    // {
-    //     public GameObject weatherEffect;
-    //     public string nameEffect;
-    // }
+    [System.Serializable]
+    public class NightStuff
+    {
+        public Material nightSkyboxMat;
+        public Color fogColor;
+        public float fogDensity;
+    }
 
     public GameObject[] weatherEffects;  //0 - rain , 1 - snow , 2 - fog . 3- Windy
+    public DayStuff dayStuff;
+    public NightStuff nightStuff;
+    
     
     private void Start()
     {
@@ -46,28 +55,28 @@ public class EnvironmentSettingsManager : MonoBehaviour
 
     public void NightMode()
     {
+        nightObstacles.SetActive(true);
+        dayObstacles.SetActive(false);
         nightLightingGO.SetActive(true);
         dayLightingGO.SetActive(false);
         
-        RenderSettings.ambientLight = Color.white;
-        
-        RenderSettings.fogColor = Color.black;
         RenderSettings.fogMode = FogMode.Exponential;
-        RenderSettings.fogDensity = 0.04f;
+        RenderSettings.fogColor = nightStuff.fogColor;
+        RenderSettings.skybox = nightStuff.nightSkyboxMat;
+        RenderSettings.fogDensity = nightStuff.fogDensity;
     }
     
     public void DayMode()
     {
+        dayObstacles.SetActive(true);
+        nightObstacles.SetActive(false);
         nightLightingGO.SetActive(false);
         dayLightingGO.SetActive(true);
         
-
-        RenderSettings.ambientLight = dayLightingColor;
-
-        RenderSettings.fogMode = FogMode.Linear;
-        RenderSettings.fogColor = dayLightingColor;
-        RenderSettings.fogStartDistance = 25;
-        RenderSettings.fogEndDistance = 182;
+        RenderSettings.fogMode = FogMode.Exponential;
+        RenderSettings.fogColor = dayStuff.fogColor;
+        RenderSettings.skybox = dayStuff.daySkyboxMat;
+        RenderSettings.fogDensity = dayStuff.fogDensity;
     }
 
     public void Clear()

@@ -17,8 +17,11 @@ public class PlayerSelection : MonoBehaviour
 
     public int index;
 
+   [SerializeField] private GameObject _gameManager;
+
     private void Start()
     {
+        _gameManager = GameObject.FindWithTag("GameManager");
         index = 0;
 
     }
@@ -62,14 +65,15 @@ public class PlayerSelection : MonoBehaviour
     public void Previous()
     {
         index -= 1;
-
     }
 
     public void ContinueBtn()
     {
         //set selected player animation to blowing kiss
         //wait few secs
-        //loading screen/fading panel
-        SceneManager.LoadSceneAsync("LevelSelection");
+
+        _gameManager.GetComponent<GameManager>().charNumber = index;
+        _gameManager.GetComponent<GameManager>().LoadScene("LevelSelection");
     }
+    
 }

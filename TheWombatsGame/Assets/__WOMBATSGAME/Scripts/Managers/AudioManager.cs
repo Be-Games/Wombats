@@ -32,9 +32,13 @@ public class AudioManager : MonoBehaviour
         isHapticEnabled = true;
         isMusicEnabled = true;
         isSFXenabled = true;
-        
-        UpdateMusicBtnIcon();
-        UpdateSoundBtnIcon();
+
+        if (SceneManager.GetActiveScene().name == "HomeScreen")
+        {
+            UpdateMusicBtnIcon();
+            UpdateSoundBtnIcon();
+        }
+       
     }
 
     [System.Serializable]
@@ -66,6 +70,7 @@ public class AudioManager : MonoBehaviour
     }
 
     public MusicTracks musicTracks;
+    [Space]
     public SFX_All sfxAll;
    
     
@@ -78,6 +83,16 @@ public class AudioManager : MonoBehaviour
         {
             musicTracks.mainMenuAudioSource.gameObject.SetActive(true);
             musicTracks.MusicTrackAudioSource.gameObject.SetActive(false);
+
+
+            sfxAll.SFXONIcon = GameObject.FindGameObjectWithTag("SFXON").GetComponent<Image>();
+            sfxAll.SFXOFFIcon = GameObject.FindGameObjectWithTag("SFXOFF").GetComponent<Image>();
+            
+            musicTracks.musicONIcon = GameObject.FindGameObjectWithTag("MUSICON").GetComponent<Image>();
+            musicTracks.musicOFFIcon = GameObject.FindGameObjectWithTag("MUSICOFF").GetComponent<Image>();
+            
+            UpdateMusicBtnIcon();
+            UpdateSoundBtnIcon();
         }
     }
 
@@ -103,6 +118,8 @@ public class AudioManager : MonoBehaviour
             
             if(musicTracks.mainMenuAudioSource.gameObject.activeInHierarchy)
                 musicTracks.mainMenuAudioSource.Pause();
+
+            isMusicEnabled = false;
         }
 
         else
@@ -112,6 +129,8 @@ public class AudioManager : MonoBehaviour
             
             if(musicTracks.mainMenuAudioSource.gameObject.activeInHierarchy)
                 musicTracks.mainMenuAudioSource.Play();
+
+            isMusicEnabled = true;
         }
         
         UpdateMusicBtnIcon();
@@ -138,13 +157,17 @@ public class AudioManager : MonoBehaviour
         {
             sfxAll.mutedTrack = true;
             sfxAll.countDownSound.mute = true;
-            
+
+            isSFXenabled = false;
+
         }
 
         else
         {
             sfxAll.mutedTrack = false;
             sfxAll.countDownSound.mute = false;
+
+            isSFXenabled = true;
         }
         
         UpdateSoundBtnIcon();

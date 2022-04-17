@@ -50,7 +50,17 @@ public class VehicleManager : MonoBehaviour
         public GameObject carBreakGO;
         public ParticleSystem NOSEffectsPS;
         public GameObject breakLight;
+        public GameObject headLight;
         public ParticleSystem boostCapturedEffectPS;
+        public ParticleSystem boostActivatedEffect;
+    }
+    
+    [System.Serializable]
+    public class PostCrashStuff
+    {
+        public ParticleSystem crashPS;
+        public GameObject down_car;
+        public GameObject up_car;
     }
     
     
@@ -61,5 +71,9 @@ public class VehicleManager : MonoBehaviour
     public BodyTrigger bodyTrigger;
     public CarWheels carWheels;
     public CarEffects carEffects;
+    public PostCrashStuff postCrashStuff;
 
+    private GameManager _gameManager;
+
+    
 }

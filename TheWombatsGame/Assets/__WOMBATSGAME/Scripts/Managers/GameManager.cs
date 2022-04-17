@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -44,12 +45,14 @@ public class GameManager : MonoBehaviour
 
 
     [Header("Stadium Scene Stuff")] 
-    public int charNumber = 1;                                                    //1= MM , 2 = DH , 3 = TO 
-    public int podiumPos = 1;
+    public int charNumber = 0;                                                    //0= MM , 1 = DH , 2 = TO 
+    //public int podiumPos = 1;
 
-    [Header("Car Setups for Game")]
-    public GameObject[] playerCarModels;
-    public GameObject[] enemyCarModels;
+    [Header("Car Setups for Game")] 
+    public GameObject playerCarModels;
+    public List<GameObject> enemyCarModels;
+    // public GameObject[] playerCarModels;
+    // public GameObject[] enemyCarModels;
     public int selectedCarModelPLAYER;
     public int enemyCar1;
     public int enemyCar2;
@@ -59,50 +62,124 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject LoadingScreenPanel;
     [SerializeField] private Image wombatsLoadingImg;
     private float time, second;
+
+    [Space] 
+    public bool isSettingVisible;
+    public GameObject settingsPanel;
+    public GameObject settingsBtn;
+
+
+    private void Start()
+    {
+        //INITIALISE LIST
+        enemyCarModels = new List<GameObject>();
+        
+        charNumber = 0;
+        
+        isSettingVisible = false;
+        settingsPanel.GetComponent<RectTransform>().localScale = new Vector3(1f,0f,1f);
+    }
     
 
-
-    public void setCharacter(int charNo)
-    {
-        charNumber = charNo;
-    }
-
     #region LoadingScreen
-
+    private AsyncOperation operation;
+    private string nameOfScene;
     public void LoadScene(string sceneName)
     {
+        nameOfScene = sceneName;
+        LoadingScreenPanel.transform.GetChild(0).GetComponent<RectTransform>().DOScale(new Vector3(15f,0f,15f), 0f).SetEase(Ease.Flash);
+        LoadingScreenPanel.transform.GetChild(1).GetComponent<RectTransform>().DOScale(new Vector3(15f,0f,15f), 0f).SetEase(Ease.Flash);
+        wombatsLoadingImg.transform.parent.GetComponent<RectTransform>().DOScale(0, 0f).SetEase(Ease.Flash);
         
-        StartCoroutine(LoadSceneAsync(sceneName));
+        LoadingScreenPanel.SetActive(true);
+        LoadingScreenPanel.transform.GetChild(0).GetComponent<RectTransform>().DOScale(new Vector3(15f,15f,15f), 0.5f).SetEase(Ease.Flash);
+        LoadingScreenPanel.transform.GetChild(1).GetComponent<RectTransform>().DOScale(new Vector3(15f, 15f, 15f), 0.5f)
+            .SetEase(Ease.Flash);
+        wombatsLoadingImg.transform.parent.GetComponent<RectTransform>().DOScale(0.7f, 0.5f).SetEase(Ease.Flash).OnComplete(StartStuff);
+        
+    }
+
+    void StartStuff()
+    {
+        StartCoroutine(LoadSceneAsync(nameOfScene));
     }
     
     IEnumerator LoadSceneAsync(string sceneName)
     {
-        LoadingScreenPanel.SetActive(true);
         
-        yield return new WaitForSeconds(1f);
-        
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        operation = SceneManager.LoadSceneAsync(sceneName);
         operation.allowSceneActivation = false;
-        
+        yield return new WaitForSeconds(1f);
+
         while (!operation.isDone)
         {
             wombatsLoadingImg.fillAmount = operation.progress;
             
             if (operation.progress == 0.9f)
             {
-                wombatsLoadingImg.fillAmount = 1f;
                 operation.allowSceneActivation = true;
+                
+                wombatsLoadingImg.fillAmount = 1f;
+                
+                yield return new WaitForSeconds(0.5f);
+                wombatsLoadingImg.transform.parent.GetComponent<RectTransform>().DOScale(0f, 0.5f).SetEase(Ease.Flash).OnComplete(abc);
+                
             }
+
             yield return null;
+            
         }
-        if(operation.isDone)
-            LoadingScreenPanel.SetActive(false);
-        
-        
+    }
+    
+    void abc()
+    {
+        LoadingScreenPanel.transform.GetChild(0).GetComponent<RectTransform>().DOScale(new Vector3(15f,0f,15f), 0.5f).SetEase(Ease.Flash);
+        LoadingScreenPanel.transform.GetChild(1).GetComponent<RectTransform>()
+            .DOScale(new Vector3(15f, 0f, 15f), 0.5f).SetEase(Ease.Flash).OnComplete(def);
+       
+           
+    }
+
+    void def()
+    {
+        LoadingScreenPanel.SetActive(false);
     }
     
     #endregion
     
+    
+    public void settingsBtnDT()
+    {
+        if (!isSettingVisible)
+        {
+            settingsPanel.GetComponent<RectTransform>().DOScale(new Vector3(1f,1f,1f), 0.1f).SetEase(Ease.Flash);
+            isSettingVisible = true;
+        }
+
+        else
+        {
+            settingsPanel.GetComponent<RectTransform>().DOScale(new Vector3(1f,0f,1f), 0.1f).SetEase(Ease.Flash);
+            isSettingVisible = false;
+        }
+        
+            
+    }
 
     
+
+    private void Update()
+    {
+        if(SceneManager.GetActiveScene().name == "HomeScreen" ||
+            SceneManager.GetActiveScene().name == "PlayerSelection" ||
+                SceneManager.GetActiveScene().name == "LevelSelection")
+        {
+            settingsPanel.SetActive(true);
+            settingsBtn.SetActive(true);
+        }
+        else
+        {
+            settingsPanel.SetActive(false);
+            settingsBtn.SetActive(false);
+        }
+    }
 }

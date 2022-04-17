@@ -20,10 +20,16 @@ public class GameControls : MonoBehaviour
     }
 
     public GestureState gestureState;
+    [SerializeField]private GameManager _gameManager;
+
+    private void Start()
+    {
+        _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+    }
 
     private void Update()
     {
-        if (GameManager.Instance.canControlCar)
+        if (_gameManager.canControlCar)
         {
             if (Input.touchCount > 0)
             {

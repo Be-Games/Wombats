@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
     
     [Header("Player Car Stuff")]
     public PathFollower playerPF;
-    public float xOffSet;                      //FOR TRACK POSITION ON ROAD
     public GameObject PlayercarVisual;        //CAR MODEL GO
 
     [Header("Car Settings")]
@@ -53,10 +52,10 @@ public class PlayerController : MonoBehaviour
     
     private void Start()
     {
-        Acc = LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carSpeedSettings.Acc;
-        Dec = LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carSpeedSettings.Dec;
-        normalSpeed = LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carSpeedSettings.normalSpeed;
-        boostSpeed = LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carSpeedSettings.boostSpeed;
+        Acc = LevelManager.Instance.playerVehicleManager.carSpeedSettings.Acc;
+        Dec = LevelManager.Instance.playerVehicleManager.carSpeedSettings.Dec;
+        normalSpeed = LevelManager.Instance.playerVehicleManager.carSpeedSettings.normalSpeed;
+        boostSpeed = LevelManager.Instance.playerVehicleManager.carSpeedSettings.boostSpeed;
         
         targetSpeed = normalSpeed;
         PlayercarVisual = LevelManager.Instance.CARMODELgo;
@@ -86,7 +85,7 @@ public class PlayerController : MonoBehaviour
                 if (gameControlsClass.gestureState == GameControls.GestureState.Break)                                // Apply Breaks
                 {
                     
-                    
+                    //SLOW WINDS ON
                     LevelManager.Instance.slowWind.SetActive(true);
                     LevelManager.Instance.FastWind.SetActive(false);
                     
@@ -105,14 +104,17 @@ public class PlayerController : MonoBehaviour
                     }
                     
                     //Other Effects
-                    LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carEffects.breakLight.SetActive(true);        //CAR LIGHTS + TIRES SMOKES
-                    LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carEffects.carBreakGO.SetActive(true);
+                    LevelManager.Instance.playerVehicleManager.carEffects.breakLight.SetActive(true);        //CAR LIGHTS + TIRES SMOKES
                     
+                    LevelManager.Instance.playerVehicleManager.carEffects.carBreakGO.transform.GetChild(0).GetComponent<ParticleSystem>().Stop();
+                    LevelManager.Instance.playerVehicleManager.carEffects.carBreakGO.transform.GetChild(1).GetComponent<ParticleSystem>().Stop();
                     
                 }
 
                 if (gameControlsClass.gestureState == GameControls.GestureState.Release)                            //Release Breaks
                 {
+                    
+                    //FAST WINDS ON
                     LevelManager.Instance.slowWind.SetActive(false);
                     LevelManager.Instance.FastWind.SetActive(true);
                     
@@ -123,8 +125,11 @@ public class PlayerController : MonoBehaviour
                     playerPF.speed += delta;
                     
                     //Other Effects
-                    LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carEffects.breakLight.SetActive(false);        //CAR LIGHTS + TIRES SMOKES
-                    LevelManager.Instance.currentPlayerCarModel.GetComponent<VehicleManager>().carEffects.carBreakGO.SetActive(false);
+                    LevelManager.Instance.playerVehicleManager.carEffects.breakLight.SetActive(false);        //CAR LIGHTS + TIRES SMOKES
+
+                    LevelManager.Instance.playerVehicleManager.carEffects.carBreakGO.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+                    LevelManager.Instance.playerVehicleManager.carEffects.carBreakGO.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+                    
 
                     //BRAKE SOUND PLAY
                     //AudioManager.Instance.Play(AudioManager.Instance.sfxAll.brakeSound);
@@ -221,68 +226,7 @@ public class PlayerController : MonoBehaviour
         
     }
     
-    public void RightSwipe()
-    {
-        if (currentPosition == 0)
-        {
-            //currentPosition = 1;
-            
-            PlayercarVisual.GetComponent<Animator>().SetBool("isRight",true);
-            Invoke("AnimPLayedTrue",0.1f);
-           
-        }
-        
-        if (currentPosition == -1)
-        {
-            //currentPosition = 0;
-            
-            PlayercarVisual.GetComponent<Animator>().SetBool("isRight",true);
-            Invoke("AnimPLayedTrue",0.1f);
-           
-        }
-    }
-
     
-
-    public void LeftSwipe()
-    {
-        if (currentPosition == 0)
-        {
-            //currentPosition = -1;
-            
-            PlayercarVisual.GetComponent<Animator>().SetBool("isLeft",true);
-            Invoke("AnimPLayedTrue",0.1f);
-        }
-        
-        if (currentPosition == 1)
-        {
-           // currentPosition = 0;
-            
-            PlayercarVisual.GetComponent<Animator>().SetBool("isLeft",true);
-            Invoke("AnimPLayedTrue",0.1f);
-        }
-    }
-
-    void AnimPLayedFalse()
-    {
-        if (isAnimPlayed)
-        {
-            isAnimPlayed = false;
-            PlayercarVisual.GetComponent<Animator>().SetBool("isLeft",false);
-            PlayercarVisual.GetComponent<Animator>().SetBool("isRight",false);
-        }
-       
-    }
-   
-    void AnimPLayedTrue()
-    {
-        if (!isAnimPlayed)
-        {
-            isAnimPlayed = true;
-           
-        }
-      
-    }
 
     #endregion
     
