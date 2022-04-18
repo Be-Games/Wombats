@@ -16,7 +16,6 @@ public class LevelSelection : MonoBehaviour
 
     public Material daySkyboxmat, nightSkyboxmat;
     public Color daycolor, nightColor;
-    public GameObject dayLight, nightLight;
 
     public string currentSceneName;
     public int lightingIndex;
@@ -47,16 +46,12 @@ public class LevelSelection : MonoBehaviour
 
     void DAYMODE()
     {
-        dayLight.SetActive(true);
-        nightLight.SetActive(false);
         RenderSettings.skybox = daySkyboxmat;
         RenderSettings.ambientSkyColor = daycolor;
     }
 
     void NIGHTMODE()
     {
-        dayLight.SetActive(false);
-        nightLight.SetActive(true);
         RenderSettings.skybox = nightSkyboxmat;
         RenderSettings.ambientSkyColor = nightColor;
     }
@@ -80,8 +75,7 @@ public class LevelSelection : MonoBehaviour
     IEnumerator Index()
     {
         yield return  new WaitForSeconds(0f);
-
-       
+        
 
 
         if (index == 0)                                    //london day
@@ -140,7 +134,7 @@ public class LevelSelection : MonoBehaviour
         
         if (index == 3)                                    //ROME night
         {
-            currentSceneName = "LONDON";
+            currentSceneName = "ROME";
             lightingIndex = 2;
             
             NIGHTMODE();
@@ -156,13 +150,13 @@ public class LevelSelection : MonoBehaviour
             allLevelsGO[1].transform.GetChild(0).gameObject.SetActive(false);
         }
         
-        if (index == 4)                                    //SYDNEY day
+        if (index == 4)                                    //paaris day
         {
-            currentSceneName = "SYDNEY";
+            currentSceneName = "PARIS";
             lightingIndex = 1;
             
             DAYMODE();
-            levelDetailTxt.text = " SYDNEY DAY";
+            levelDetailTxt.text = " PARIS DAY";
             allLevelsGO[2].SetActive(true);
         
             for (int i = 0; i < allLevelsGO.Length; i++)
@@ -174,13 +168,13 @@ public class LevelSelection : MonoBehaviour
             allLevelsGO[2].transform.GetChild(1).gameObject.SetActive(false);
         }
         
-        if (index == 5)                                    //SYDNEY night
+        if (index == 5)                                    //paris night
         {
-            currentSceneName = "SYDNEY";
+            currentSceneName = "PARIS";
             lightingIndex = 2;
             
             NIGHTMODE();
-            levelDetailTxt.text = " SYDNEY NIGHT";
+            levelDetailTxt.text = " PARIS NIGHT";
             allLevelsGO[2].SetActive(true);
         
             for (int i = 0; i < allLevelsGO.Length; i++)
@@ -190,6 +184,78 @@ public class LevelSelection : MonoBehaviour
             }
             allLevelsGO[2].transform.GetChild(1).gameObject.SetActive(true);
             allLevelsGO[2].transform.GetChild(0).gameObject.SetActive(false);
+        }
+        
+        if (index == 6)                                    //SYDNEY day
+        {
+            currentSceneName = "SYDNEY";
+            lightingIndex = 1;
+            
+            DAYMODE();
+            levelDetailTxt.text = " SYDNEY DAY";
+            allLevelsGO[3].SetActive(true);
+        
+            for (int i = 0; i < allLevelsGO.Length; i++)
+            {
+                if(i !=3)
+                    allLevelsGO[i].SetActive(false);
+            }
+            allLevelsGO[3].transform.GetChild(0).gameObject.SetActive(true);
+            allLevelsGO[3].transform.GetChild(1).gameObject.SetActive(false);
+        }
+        
+        if (index == 7)                                    //SYDNEY night
+        {
+            currentSceneName = "SYDNEY";
+            lightingIndex = 2;
+            
+            NIGHTMODE();
+            levelDetailTxt.text = " SYDNEY NIGHT";
+            allLevelsGO[3].SetActive(true);
+        
+            for (int i = 0; i < allLevelsGO.Length; i++)
+            {
+                if(i != 3)
+                    allLevelsGO[i].SetActive(false);
+            }
+            allLevelsGO[3].transform.GetChild(1).gameObject.SetActive(true);
+            allLevelsGO[3].transform.GetChild(0).gameObject.SetActive(false);
+        }
+        
+        if (index == 8)                                    //EGYPT day
+        {
+            currentSceneName = "EGYPT";
+            lightingIndex = 1;
+            
+            DAYMODE();
+            levelDetailTxt.text = " EGYPT DAY";
+            allLevelsGO[4].SetActive(true);
+        
+            for (int i = 0; i < allLevelsGO.Length; i++)
+            {
+                if(i !=4)
+                    allLevelsGO[i].SetActive(false);
+            }
+            allLevelsGO[4].transform.GetChild(0).gameObject.SetActive(true);
+            allLevelsGO[4].transform.GetChild(1).gameObject.SetActive(false);
+        }
+        
+        if (index == 9)                                    //EGYPT night
+        {
+            currentSceneName = "EGYPT";
+            lightingIndex = 2;
+            
+            NIGHTMODE();
+            levelDetailTxt.text = " EGYPT NIGHT";
+            allLevelsGO[4].SetActive(true);
+        
+            for (int i = 0; i < allLevelsGO.Length; i++)
+            {
+                if(i != 4)
+                    allLevelsGO[i].SetActive(false);
+            }
+            allLevelsGO[4].transform.GetChild(1).gameObject.SetActive(true);
+            allLevelsGO[4].transform.GetChild(0).gameObject.SetActive(false);
         }
         
         

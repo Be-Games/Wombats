@@ -163,7 +163,7 @@ public class PlayerController : MonoBehaviour
                 
                 
                 DOTween.To(() => LevelManager.Instance.cmCameraOffset.m_Offset.x, 
-                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, -cameraOffsetxOffset, 0.5f)
+                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, -cameraOffsetxOffset, 0.3f)
                     .OnUpdate(() => {
                         
                     });
@@ -179,7 +179,7 @@ public class PlayerController : MonoBehaviour
                     .OnComplete(()=> PlayercarVisual.transform.DOLocalRotate(new Vector3(0f,0f,0f), rotationDuration));
                 
                 DOTween.To(() => LevelManager.Instance.cmCameraOffset.m_Offset.x, 
-                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, 0, 0.5f)
+                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, 0, 0.3f)
                     .OnUpdate(() => {
                         
                     });
@@ -201,7 +201,7 @@ public class PlayerController : MonoBehaviour
                     .OnComplete(()=> PlayercarVisual.transform.DOLocalRotate(new Vector3(0f,0f,0f), rotationDuration));
                 
                 DOTween.To(() => LevelManager.Instance.cmCameraOffset.m_Offset.x, 
-                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, cameraOffsetxOffset, 0.5f)
+                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, cameraOffsetxOffset, 0.3f)
                     .OnUpdate(() => {
                         
                     });
@@ -215,7 +215,7 @@ public class PlayerController : MonoBehaviour
                     .OnComplete(()=> PlayercarVisual.transform.DOLocalRotate(new Vector3(0f,0f,0f), rotationDuration));
                 
                 DOTween.To(() => LevelManager.Instance.cmCameraOffset.m_Offset.x, 
-                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, 0, 0.5f)
+                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, 0, 0.3f)
                     .OnUpdate(() => {
                         
                     });

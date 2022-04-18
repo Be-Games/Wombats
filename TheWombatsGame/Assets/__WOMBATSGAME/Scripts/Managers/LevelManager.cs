@@ -30,7 +30,9 @@ public class LevelManager : MonoBehaviour
     {
         _instance = this;
         
-        
+        _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+        playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
+        _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
 
 
@@ -133,16 +135,23 @@ public class LevelManager : MonoBehaviour
     [Header("Social Sharing Stuff")] 
     public ReplayKitDemo ReplayKitDemo;
 
+    [Header("Obstacles spawn Stuff")] 
+    public GameObject dayObstaclesPf;
+    public GameObject nightObstaclesPf;
+    public Transform dayParent;
+    public Transform nightParent;
+    private GameObject tempPrefab;
+
     public Transform sampleCartransform;
     public List<GameObject> carHeadLights;
+    
+    
     
     private void Start()
     {
         UiManager.flyThroughCamCityName.text = cityName + " TOUR ";
 
-        _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
-        playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
-        _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        
         
         // if (_gameManager)
         // {
@@ -213,6 +222,20 @@ public class LevelManager : MonoBehaviour
         }
 
         isFinalLap = false;
+
+        if (_gameManager.lightingMode == 1)
+        {
+            //DAY OBSTACLES
+           tempPrefab =  (GameObject)Instantiate(dayObstaclesPf, dayParent);
+           tempPrefab.tag = "TEMP";
+        }
+        
+        if (_gameManager.lightingMode == 2)
+        {
+            //NIGHT OBSTACLES
+            tempPrefab =  (GameObject)Instantiate(nightObstaclesPf, nightParent);
+            tempPrefab.tag = "TEMP";
+        }
     }
     
     
@@ -333,6 +356,27 @@ public class LevelManager : MonoBehaviour
         
         if (lapCounter < totalLaps)
         {
+            
+            if (_gameManager.lightingMode == 1)
+            {
+                Destroy(GameObject.FindGameObjectWithTag("TEMP"));
+                
+                //DAY OBSTACLES
+                tempPrefab =  (GameObject)Instantiate(dayObstaclesPf, dayParent);
+                tempPrefab.tag = "TEMP";
+            }
+        
+            if (_gameManager.lightingMode == 2)
+            {
+                Destroy(GameObject.FindGameObjectWithTag("TEMP"));
+                
+                //NIGHT OBSTACLES
+                tempPrefab =  (GameObject)Instantiate(nightObstaclesPf, nightParent);
+                tempPrefab.tag = "TEMP";
+            }
+            
+            
+            
             UiManager.StatusIndicatorPanelGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
                 "LAP : " + (lapCounter+1) + "/" + totalLaps;
 
@@ -340,9 +384,11 @@ public class LevelManager : MonoBehaviour
             {
                 UiManager.StatusIndicatorPanelGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
                     "FINAL LAP";
+                
+                isFinalLap = true;
             }
 
-            isFinalLap = true;
+            
             #region STATUS INDICATOR
             
             var mySequence = DOTween.Sequence();

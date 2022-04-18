@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
         //INITIALISE LIST
         enemyCarModels = new List<GameObject>();
         
-        charNumber = 0;
+        charNumber = 1;
         
         isSettingVisible = false;
         settingsPanel.GetComponent<RectTransform>().localScale = new Vector3(1f,0f,1f);
