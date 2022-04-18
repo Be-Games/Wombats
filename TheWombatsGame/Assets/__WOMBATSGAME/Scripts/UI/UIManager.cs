@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -39,6 +40,8 @@ public class UIManager : MonoBehaviour
 
     [Header("Scoring Stuff")] 
     public TextMeshProUGUI scoreText;
+
+    public TextMeshProUGUI currentTrackName;
     
     //DO TWEEN ANIMATION UIS
     
@@ -61,6 +64,36 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 0;
         //LevelManager.Instance.isGameStarted = false;
         //GameManager.Instance.canControlCar = false;
+    }
+
+    private void Update()
+    {
+        currentTrackName.text = LevelManager.Instance._audioManager.musicTracks.MusicTrackAudioSource.clip.name;
+    }
+
+    public void NextTrack()
+    {
+        LevelManager.Instance._audioManager.i++;
+        if (LevelManager.Instance._audioManager.i > LevelManager.Instance._audioManager.musicTracks.tracks.Length)
+        {
+            LevelManager.Instance._audioManager.i = 0;
+        }
+        LevelManager.Instance._audioManager.GameSwitchMusicCalled();
+    }
+    
+    public void PrevTrack()
+    {
+        LevelManager.Instance._audioManager.i--;
+        if (LevelManager.Instance._audioManager.i < 0)
+        {
+            LevelManager.Instance._audioManager.i = LevelManager.Instance._audioManager.musicTracks.tracks.Length-1;
+        }
+        LevelManager.Instance._audioManager.GameSwitchMusicCalled();
+    }
+
+    public void SpotifyLink()
+    {
+        Application.OpenURL(LevelManager.Instance._audioManager.musicTracks.spotifyLinks[LevelManager.Instance._audioManager.i]);
     }
 
 }

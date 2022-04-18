@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,7 +11,7 @@ public class ConcertManagement : MonoBehaviour
     public Transform fP, sP, tP;
     public Transform parentF, parentS, parentT;
     
-    public AnimatorController first, second, third;
+    public RuntimeAnimatorController first, second, third;
 
     private void Start()
     {

@@ -196,4 +196,14 @@ public class GameManager : MonoBehaviour
             settingsBtn.SetActive(false);
         }
     }
+
+    public void musictoggle()
+    {
+        AudioManager.Instance.ToggleMusic();
+    }
+    
+    public void sfxtoggle()
+    {
+        AudioManager.Instance.ToggleSFX();
+    }
 }

@@ -29,6 +29,7 @@ public class EnvironmentSettingsManager : MonoBehaviour
     {
         public Material daySkyboxMat;
         public Color fogColor;
+        public Color ambientColor;
         public float fogDensity;
     }
     
@@ -37,6 +38,7 @@ public class EnvironmentSettingsManager : MonoBehaviour
     {
         public Material nightSkyboxMat;
         public Color fogColor;
+        public Color ambientColor;
         public float fogDensity;
     }
 
@@ -62,6 +64,7 @@ public class EnvironmentSettingsManager : MonoBehaviour
         
         RenderSettings.fogMode = FogMode.Exponential;
         RenderSettings.fogColor = nightStuff.fogColor;
+        RenderSettings.ambientLight = nightStuff.ambientColor;
         RenderSettings.skybox = nightStuff.nightSkyboxMat;
         RenderSettings.fogDensity = nightStuff.fogDensity;
     }
@@ -75,6 +78,7 @@ public class EnvironmentSettingsManager : MonoBehaviour
         
         RenderSettings.fogMode = FogMode.Exponential;
         RenderSettings.fogColor = dayStuff.fogColor;
+        RenderSettings.ambientLight = dayStuff.ambientColor;
         RenderSettings.skybox = dayStuff.daySkyboxMat;
         RenderSettings.fogDensity = dayStuff.fogDensity;
     }

@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &326845301746229052
 Transform:
   m_ObjectHideFlags: 0
@@ -43,9 +43,9 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f9f1a8cdb9939b149be666465941e3ce, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.727
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -179,18 +179,25 @@ MonoBehaviour:
     - {fileID: 8300000, guid: f9f1a8cdb9939b149be666465941e3ce, type: 3}
     - {fileID: 8300000, guid: 8757ae3e7b32bdc4b8c9ffd8141a50ad, type: 3}
     - {fileID: 8300000, guid: 675669a320b9b1147b30bac7c3e29b70, type: 3}
+    spotifyLinks:
+    - https://open.spotify.com/track/3kgUL6z42w6qC6Tp5FrZrU?si=49a462b96b7d474b
+    - https://open.spotify.com/track/7tWT6Ye2xizFRpIU5P2iu3?si=fa9c3ac153954cfd
+    - https://open.spotify.com/track/6bdUYF2BSpMJ1eSVb9wbAn?si=a65d5dd0e6fb4dd0
     mutedTrack: 0
     musicONIcon: {fileID: 0}
     musicOFFIcon: {fileID: 0}
   sfxAll:
     countDownSound: {fileID: 8540762249211206008}
-    brakeSound: {fileID: 8540762249561012797}
+    switchLaneSound: {fileID: 8540762249561012797}
     mutedTrack: 0
     SFXONIcon: {fileID: 0}
     SFXOFFIcon: {fileID: 0}
   isHapticEnabled: 1
   isSFXenabled: 1
   isMusicEnabled: 1
+  i: 0
+  isTrackFinished: 0
+  isTrackFinishedG: 0
 --- !u!1 &8540762249211206014
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,7 +241,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: fed2c6db04ff3c94cbbf5f433026a848, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.289
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -334,7 +341,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8540762249470589992
 Transform:
   m_ObjectHideFlags: 0
@@ -361,9 +368,9 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f9f1a8cdb9939b149be666465941e3ce, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.861
+  m_Volume: 0.727
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -520,7 +527,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: bbd739e4fd623f44b93fbbc0576a9297, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.289
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0

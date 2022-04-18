@@ -26,14 +26,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        _instance = this;
-        
-        _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
-        playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
-        _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-    }
+    
 
 
     [Header("Camera Refs")]
@@ -145,35 +138,45 @@ public class LevelManager : MonoBehaviour
     public Transform sampleCartransform;
     public List<GameObject> carHeadLights;
     
-    
+    private void Awake()
+    {
+        _instance = this;
+        
+        _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+        if (_gameManager)
+        {
+            currentPlayerCarModel = _gameManager.playerCarModels;
+            enemy1 = _gameManager.enemyCarModels[0];
+            enemy2 = _gameManager.enemyCarModels[1];
+        }
+        
+        
+        Instantiate(currentPlayerCarModel, CARMODELgo.transform.position, sampleCartransform.rotation, CARMODELgo.transform);
+        Instantiate(enemy1, ENEMYLEFTgo.transform.position, sampleCartransform.rotation, ENEMYLEFTgo.transform);
+        Instantiate(enemy2, ENEMYRIGHTgo.transform.position, sampleCartransform.rotation, ENEMYRIGHTgo.transform);
+        
+        
+    }
     
     private void Start()
     {
         UiManager.flyThroughCamCityName.text = cityName + " TOUR ";
 
+        playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
+        _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
         
+        PlayerController.Instance.Acc = playerVehicleManager.carSpeedSettings.Acc;
+        PlayerController.Instance.Dec = playerVehicleManager.carSpeedSettings.Dec;
+        PlayerController.Instance.normalSpeed = playerVehicleManager.carSpeedSettings.normalSpeed;
+        PlayerController.Instance.boostSpeed = playerVehicleManager.carSpeedSettings.boostSpeed;
         
-        // if (_gameManager)
-        // {
-        //     currentPlayerCarModel = _gameManager.playerCarModels;
-        //     enemy1 = _gameManager.enemyCarModels[0];
-        //     enemy2 = _gameManager.enemyCarModels[1];
-        // }
-        
-
-        // Instantiate(currentPlayerCarModel, CARMODELgo.transform.position, sampleCartransform.rotation, CARMODELgo.transform);
-        // Instantiate(enemy1, ENEMYLEFTgo.transform.position, sampleCartransform.rotation, ENEMYLEFTgo.transform);
-        // Instantiate(enemy2, ENEMYRIGHTgo.transform.position, sampleCartransform.rotation, ENEMYRIGHTgo.transform);
+        PlayerController.Instance.targetSpeed = PlayerController.Instance.normalSpeed;
         
         _audioManager.LoadIcons();
         
-        boostPickUps = new List<GameObject>();
-        boostPickUps.AddRange(GameObject.FindGameObjectsWithTag("Boost"));
         
-        pplToDisable = new List<GameObject>();
-        pplToDisable.AddRange(GameObject.FindGameObjectsWithTag("People"));
         
-        envToNotBlur = currentPlayerCarModel.transform.GetChild(0).GetChild(0).gameObject;
+        //envToNotBlur = currentPlayerCarModel.transform.GetChild(0).GetChild(0).gameObject;
         
 
         for (int i = 0; i < 4; i++)
@@ -236,6 +239,15 @@ public class LevelManager : MonoBehaviour
             tempPrefab =  (GameObject)Instantiate(nightObstaclesPf, nightParent);
             tempPrefab.tag = "TEMP";
         }
+
+        if (_audioManager.isMusicEnabled)
+        {
+            _audioManager.musicTracks.mainMenuAudioSource.Stop();
+            _audioManager.musicTracks.mainMenuAudioSource.gameObject.SetActive(false);
+            _audioManager.i = 0;
+            _audioManager.isTrackFinishedG = false;
+        }
+        
     }
     
     
@@ -257,7 +269,8 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(1.3f);
         
         //COUNTDOWNTIMER SOUND
-        //AudioManager.Play(AudioManager.Instance.sfxAll.countDownSound);
+        if(_audioManager && _audioManager.isSFXenabled)
+            _audioManager.Play(_audioManager.sfxAll.countDownSound);
         
         countdownLights[0].SetActive(true);
         yield return new WaitForSeconds(1f);
@@ -267,8 +280,13 @@ public class LevelManager : MonoBehaviour
         UIManager.Instance.gameUIPanel.GetComponent<RectTransform>().DOAnchorPos(Vector2.zero,0.7f);
         iniCMVCCam.Priority = 0;
         defCMVCCam.Priority = 1;
-        
-        //AudioManager.Instance.Play(AudioManager.Instance.musicTracks.MusicTrackAudioSource);
+
+        if (_audioManager.isMusicEnabled)
+        {
+            _audioManager.musicTracks.MusicTrackAudioSource.gameObject.SetActive(true);
+            _audioManager.musicTracks.MusicTrackAudioSource.Play();
+        }
+            
         
         countdownLights[2].SetActive(true);
         yield return new WaitForSeconds(1f);
@@ -375,6 +393,24 @@ public class LevelManager : MonoBehaviour
                 tempPrefab.tag = "TEMP";
             }
             
+            boostPickUps = new List<GameObject>();
+            if (GameObject.FindGameObjectWithTag("Boost").activeInHierarchy)
+            {
+                boostPickUps.AddRange(GameObject.FindGameObjectsWithTag("Boost"));
+            }
+            
+        
+            pplToDisable = new List<GameObject>();
+            if (GameObject.FindGameObjectWithTag("People").activeInHierarchy)
+            {
+                pplToDisable.AddRange(GameObject.FindGameObjectsWithTag("People")); 
+            }
+
+            // for(var i = pplToDisable.Count - 1; i > -1; i--)
+            // {
+            //     if (pplToDisable[i] == null)
+            //         pplToDisable.RemoveAt(i);
+            // }
             
             
             UiManager.StatusIndicatorPanelGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
@@ -621,7 +657,7 @@ public class LevelManager : MonoBehaviour
         }
 
         LevelManager.Instance.playerVehicleManager.carEffects.NOSEffectsPS.Stop();                    //NOS Particle Effect
-        PlayerController.Instance.targetSpeed = PlayerController.Instance.targetSpeed;                                                                //normal speed
+        PlayerController.Instance.targetSpeed = PlayerController.Instance.normalSpeed;                                                                //normal speed
         
         
         //focus.SetFocused(null);                                                                                            //unblur
@@ -727,7 +763,8 @@ public class LevelManager : MonoBehaviour
 
         foreach (GameObject x in pplToDisable)
         {
-            x.SetActive(true);
+            if(x != null)
+                x.SetActive(true);
         }
     
         foreach (GameObject child in playerCarCollidersToToggle)
@@ -805,6 +842,7 @@ public class LevelManager : MonoBehaviour
     {
         UiManager.extraLifePanel.SetActive(false);
         adStuff = true;
+        continueCounter = 5;
         StartCoroutine("CarReset");
     }
 

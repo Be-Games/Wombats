@@ -68,6 +68,9 @@ public class FrontColliderTriggers : MonoBehaviour
             {
                 Debug.Log("Break");
                 other.GetComponent<ClickOrTapToExplode>().DestroyStuff();
+                
+                if (LevelManager.Instance._audioManager.isHapticEnabled)
+                    LevelManager.Instance.currentPlayerCarModel.GetComponent<HapticSource>().Play();
                             
             }
             
@@ -139,7 +142,8 @@ public class FrontColliderTriggers : MonoBehaviour
             
             foreach (GameObject x in LevelManager.Instance.pplToDisable)                                        //DISABLE PPL WHEN CRASHED
             {
-                x.SetActive(false);
+                if(x != null)
+                    x.SetActive(false);
             }
         }
 
@@ -189,15 +193,15 @@ public class FrontColliderTriggers : MonoBehaviour
             }
             
             //Video Replay
-            LevelManager.Instance.ReplayKitDemo.Initialise();
+            //LevelManager.Instance.ReplayKitDemo.Initialise();
         }
         
         if (other.gameObject.CompareTag("SecondTrigger") && LevelManager.Instance.isFinalLap)
         {
             //Record Video
-            LevelManager.Instance.ReplayKitDemo.SetMicrophoneStatus();
-            LevelManager.Instance.ReplayKitDemo.PrepareRecording();
-            LevelManager.Instance.ReplayKitDemo.StartRecording();
+            //LevelManager.Instance.ReplayKitDemo.SetMicrophoneStatus();
+           // LevelManager.Instance.ReplayKitDemo.PrepareRecording();
+           // LevelManager.Instance.ReplayKitDemo.StartRecording();
             
         }
     }

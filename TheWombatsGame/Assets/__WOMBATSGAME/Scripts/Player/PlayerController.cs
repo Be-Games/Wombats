@@ -52,6 +52,8 @@ public class PlayerController : MonoBehaviour
     
     private void Start()
     {
+        movementDuration = 0.2f;
+        rotationDuration = 0.1f;
         Acc = LevelManager.Instance.playerVehicleManager.carSpeedSettings.Acc;
         Dec = LevelManager.Instance.playerVehicleManager.carSpeedSettings.Dec;
         normalSpeed = LevelManager.Instance.playerVehicleManager.carSpeedSettings.normalSpeed;
@@ -153,6 +155,10 @@ public class PlayerController : MonoBehaviour
 
     public void MoveLeft()
     {
+        //COUNTDOWNTIMER SOUND
+        if(LevelManager.Instance._audioManager && LevelManager.Instance._audioManager.isSFXenabled)
+            LevelManager.Instance._audioManager.Play(LevelManager.Instance._audioManager.sfxAll.switchLaneSound);
+        
         switch (currentPosition)
         {
             case 0:
@@ -163,7 +169,7 @@ public class PlayerController : MonoBehaviour
                 
                 
                 DOTween.To(() => LevelManager.Instance.cmCameraOffset.m_Offset.x, 
-                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, -cameraOffsetxOffset, 0.3f)
+                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, -cameraOffsetxOffset, 0.2f)
                     .OnUpdate(() => {
                         
                     });
@@ -179,7 +185,7 @@ public class PlayerController : MonoBehaviour
                     .OnComplete(()=> PlayercarVisual.transform.DOLocalRotate(new Vector3(0f,0f,0f), rotationDuration));
                 
                 DOTween.To(() => LevelManager.Instance.cmCameraOffset.m_Offset.x, 
-                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, 0, 0.3f)
+                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, 0, 0.2f)
                     .OnUpdate(() => {
                         
                     });
@@ -192,6 +198,10 @@ public class PlayerController : MonoBehaviour
     
     public void MoveRight()
     {
+        //COUNTDOWNTIMER SOUND
+        if(LevelManager.Instance._audioManager && LevelManager.Instance._audioManager.isSFXenabled)
+            LevelManager.Instance._audioManager.Play(LevelManager.Instance._audioManager.sfxAll.switchLaneSound);
+        
         switch (currentPosition)
         {
             case 0:
@@ -201,7 +211,7 @@ public class PlayerController : MonoBehaviour
                     .OnComplete(()=> PlayercarVisual.transform.DOLocalRotate(new Vector3(0f,0f,0f), rotationDuration));
                 
                 DOTween.To(() => LevelManager.Instance.cmCameraOffset.m_Offset.x, 
-                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, cameraOffsetxOffset, 0.3f)
+                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, cameraOffsetxOffset, 0.2f)
                     .OnUpdate(() => {
                         
                     });
@@ -215,7 +225,7 @@ public class PlayerController : MonoBehaviour
                     .OnComplete(()=> PlayercarVisual.transform.DOLocalRotate(new Vector3(0f,0f,0f), rotationDuration));
                 
                 DOTween.To(() => LevelManager.Instance.cmCameraOffset.m_Offset.x, 
-                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, 0, 0.3f)
+                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, 0, 0.2f)
                     .OnUpdate(() => {
                         
                     });

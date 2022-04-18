@@ -18,15 +18,15 @@ public class MainMenuManager : MonoBehaviour
 
 
 
-    private void Start()
+    private void Awake()
     {
         HomeScreen.GetComponent<Image>().DOFade(0f, 0f).SetEase(Ease.Flash);
         TitleImg.GetComponent<Image>().DOFade(0f, 0f).SetEase(Ease.Flash);
 
         settingsBtn.GetComponent<Image>().DOFade(0f, 0f).SetEase(Ease.Flash);
-        playBtn.GetComponent<Text>().DOFade(0f, 0f).SetEase(Ease.Flash);
+        //playBtn.GetComponent<TextMeshProUGUI>().DOFade(0f, 0f).SetEase(Ease.Flash);
         settingsBtn.GetComponent<Button>().enabled = false;
-        playBtn.GetComponent<Button>().enabled = false;
+        //playBtn.GetComponent<Button>().enabled = false;
 
         
         
@@ -48,11 +48,15 @@ public class MainMenuManager : MonoBehaviour
     void CompleteRest()
     {
         settingsBtn.GetComponent<Image>().DOFade(1f, 2f).SetEase(Ease.Flash);
-        playBtn.GetComponent<Text>().DOFade(1f, 2f).SetEase(Ease.Flash);
+       // playBtn.GetComponent<TextMeshProUGUI>().DOFade(1f, 2f).SetEase(Ease.Flash);
         settingsBtn.GetComponent<Button>().enabled = true;
-        playBtn.GetComponent<Button>().enabled = true;
+        //playBtn.GetComponent<Button>().enabled = true;
     }
-    
+
+    public void PlayGame()
+    {
+        GameManager.Instance.LoadScene("PlayerSelection");
+    }
 
 
 }
