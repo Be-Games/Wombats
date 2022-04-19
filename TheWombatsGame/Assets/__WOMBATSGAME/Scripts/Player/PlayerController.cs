@@ -133,38 +133,42 @@ public class PlayerController : MonoBehaviour
 
                 if (gameControlsClass.gestureState == GameControls.GestureState.Release)                            //Release Breaks
                 {
-                    
-                    DOTween.To(() => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
-                            x => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -1.75f, 0.5f)
-                        .OnUpdate(() => {
+                    if (!LevelManager.Instance.isBoosting)
+                    {
+                        DOTween.To(() => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
+                                x => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -1.75f, 0.5f)
+                            .OnUpdate(() => {
                         
-                        });
+                            });
                     
-                    // DOTween.To(() => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y,                     ////damping camera effect
-                    //         x => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y = x, 1.2f, 0.5f)
-                    //     .OnUpdate(() => {
-                    //     
-                    //     });
+                        // DOTween.To(() => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y,                     ////damping camera effect
+                        //         x => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y = x, 1.2f, 0.5f)
+                        //     .OnUpdate(() => {
+                        //     
+                        //     });
                     
-                    //FAST WINDS ON
-                    LevelManager.Instance.slowWind.SetActive(false);
-                    LevelManager.Instance.FastWind.SetActive(true);
+                        //FAST WINDS ON
+                        LevelManager.Instance.slowWind.SetActive(false);
+                        LevelManager.Instance.FastWind.SetActive(true);
                     
-                    //Accelerate
-                    float target = targetSpeed;
-                    float delta = target - playerPF.speed;
-                    delta *= Time.deltaTime * Acc;
-                    playerPF.speed += delta;
+                        //Accelerate
+                        float target = targetSpeed;
+                        float delta = target - playerPF.speed;
+                        delta *= Time.deltaTime * Acc;
+                        playerPF.speed += delta;
                     
-                    //Other Effects
-                    LevelManager.Instance.playerVehicleManager.carEffects.breakLight.SetActive(false);        //CAR LIGHTS + TIRES SMOKES
+                        //Other Effects
+                        LevelManager.Instance.playerVehicleManager.carEffects.breakLight.SetActive(false);        //CAR LIGHTS + TIRES SMOKES
 
-                    LevelManager.Instance.playerVehicleManager.carEffects.carBreakGO.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
-                    LevelManager.Instance.playerVehicleManager.carEffects.carBreakGO.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+                        LevelManager.Instance.playerVehicleManager.carEffects.carBreakGO.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+                        LevelManager.Instance.playerVehicleManager.carEffects.carBreakGO.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
                     
 
-                    //BRAKE SOUND PLAY
-                    //AudioManager.Instance.Play(AudioManager.Instance.sfxAll.brakeSound);
+                        //BRAKE SOUND PLAY
+                        //AudioManager.Instance.Play(AudioManager.Instance.sfxAll.brakeSound); 
+                    }
+                    
+                    
                 }
                 
             }

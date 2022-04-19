@@ -113,34 +113,34 @@ public class EnemyController : MonoBehaviour
 
     
 
-    // public void EnemyCollisionWithObstacles()
-    // {
-    //     if (enemyCurrentPos == 1)
-    //     {
-    //         Debug.Log("Enemy Left");
-    //             
-    //         enemyCarVisual.transform.localPosition = new Vector3(enemyCarVisual.transform.localPosition.x - 2*xOffSet,0f,0f);
-    //             
-    //         enemyCurrentPos = -1;
-    //         return;
-    //     }
-    //         
-    //     if (enemyCurrentPos == -1)
-    //     {
-    //         Debug.Log("Enemy Right");
-    //             
-    //         enemyCarVisual.transform.localPosition = new Vector3(enemyCarVisual.transform.localPosition.x + 2*xOffSet,0f,0f);
-    //         //isGoingToCollide = false;
-    //         enemyCurrentPos = 1;
-    //             
-    //     }
-    //     
-    //     if (isGoingToCollide)
-    //     {
-    //         
-    //
-    //         
-    //         
-    //     }
-    // }
+    public void EnemyCollisionWithObstacles()
+    {
+        if (enemyCurrentPos == 1)
+        {
+            Debug.Log("Enemy Left");
+                
+            enemyCarModelGO.transform.localPosition = new Vector3(enemyCarModelGO.transform.localPosition.x - 2*xOffSet,0f,0f);
+                
+            enemyCurrentPos = -1;
+            return;
+        }
+            
+        if (enemyCurrentPos == -1)
+        {
+            Debug.Log("Enemy Right");
+                
+            enemyCarModelGO.transform.localPosition = new Vector3(enemyCarModelGO.transform.localPosition.x + 2*xOffSet,0f,0f);
+            //isGoingToCollide = false;
+            enemyCurrentPos = 1;
+                
+        }
+        
+        if (isGoingToCollide)
+        {
+            
+    
+            
+            
+        }
+    }
 }

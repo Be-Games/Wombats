@@ -16,9 +16,10 @@ public class EnemyRaycaster : MonoBehaviour
         if (LevelManager.Instance.isGameStarted)
         {
             isHit = Physics.Raycast(transform.position, transform.forward, out hit, raycastDistance,CollLayerMask);
-
+            Debug.Log(isHit);
             if (isHit)
             {
+                
                 CollideTrue();
             }
             else
@@ -52,7 +53,7 @@ public class EnemyRaycaster : MonoBehaviour
     void CollideTrue()
     {
         EnemyController.Instance.isGoingToCollide = true;
-        //EnemyController.Instance.EnemyCollisionWithObstacles();
+        EnemyController.Instance.EnemyCollisionWithObstacles();
     }
 
     void CollideFalse()

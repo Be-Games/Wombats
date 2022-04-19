@@ -142,21 +142,21 @@ public class LevelManager : MonoBehaviour
     {
         _instance = this;
         
-        // _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
-        // if (_gameManager)
-        // {
-        //     currentPlayerCarModel = _gameManager.playerCarModels;
-        //     enemy1 = _gameManager.enemyCarModels[0];
-        //     enemy2 = _gameManager.enemyCarModels[1];
-        // }
-        //
-        //
-        // Instantiate(currentPlayerCarModel, CARMODELgo.transform.position, sampleCartransform.rotation, CARMODELgo.transform);
-        // Instantiate(enemy1, ENEMYLEFTgo.transform.position, sampleCartransform.rotation, ENEMYLEFTgo.transform);
-        // Instantiate(enemy2, ENEMYRIGHTgo.transform.position, sampleCartransform.rotation, ENEMYRIGHTgo.transform);
-        //
-        // playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
-        // _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+        if (_gameManager)
+        {
+            currentPlayerCarModel = _gameManager.playerCarModels;
+            enemy1 = _gameManager.enemyCarModels[0];
+            enemy2 = _gameManager.enemyCarModels[1];
+        }
+        
+        
+        Instantiate(currentPlayerCarModel, CARMODELgo.transform.position, sampleCartransform.rotation, CARMODELgo.transform);
+        Instantiate(enemy1, ENEMYLEFTgo.transform.position, sampleCartransform.rotation, ENEMYLEFTgo.transform);
+        Instantiate(enemy2, ENEMYRIGHTgo.transform.position, sampleCartransform.rotation, ENEMYRIGHTgo.transform);
+        
+        playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
+        _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
     
     private void Start()
@@ -475,7 +475,7 @@ public class LevelManager : MonoBehaviour
             
             yield return new WaitForSeconds(1f);
             
-            ReplayKitDemo.StopRecording();                                //recording Stop
+            //ReplayKitDemo.StopRecording();                                //recording Stop
             
             yield return new WaitForSeconds(0.1f);
             
@@ -588,6 +588,12 @@ public class LevelManager : MonoBehaviour
     {
         isBoosting = true;
 
+        DOTween.To(() => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
+                x => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -3f, 0.5f)
+            .OnUpdate(() => {
+                        
+            });
+        
         //VIBRATE ON BOOST BTN PRESSED
         if (_audioManager.isHapticEnabled)
             currentPlayerCarModel.GetComponent<HapticSource>().Play();
@@ -610,11 +616,7 @@ public class LevelManager : MonoBehaviour
         //focus.SetFocused(currentPlayerCarModel);                                                                                        //blur effects
         //playerVehicleManager.carEffects.boostActivatedEffect.Play();                                                    //Shield effect
         
-        DOTween.To(() => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
-                x => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -3f, 0.5f)
-            .OnUpdate(() => {
-                        
-            });
+        
        
         
 
@@ -779,48 +781,48 @@ public class LevelManager : MonoBehaviour
         PlayerController.Instance.PlayercarVisual.SetActive(false);
         
     
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         
         PlayerController.Instance.PlayercarVisual.SetActive(true);
         
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         
         PlayerController.Instance.PlayercarVisual.SetActive(false);
         
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         
         PlayerController.Instance.PlayercarVisual.SetActive(true);
         
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         
         PlayerController.Instance.PlayercarVisual.SetActive(false);
         
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         
         PlayerController.Instance.PlayercarVisual.SetActive(true);
         
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         
         PlayerController.Instance.PlayercarVisual.SetActive(false);
         
     
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         
         PlayerController.Instance.PlayercarVisual.SetActive(true);
         
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         
         PlayerController.Instance.PlayercarVisual.SetActive(false);
         
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         
         PlayerController.Instance.PlayercarVisual.SetActive(true);
         
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         
         PlayerController.Instance.PlayercarVisual.SetActive(false);
         
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         
         PlayerController.Instance.PlayercarVisual.SetActive(true);
         

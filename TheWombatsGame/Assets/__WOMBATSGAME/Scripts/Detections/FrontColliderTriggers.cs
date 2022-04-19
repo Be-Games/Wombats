@@ -127,9 +127,13 @@ public class FrontColliderTriggers : MonoBehaviour
         
         if(LevelManager.Instance.continueCounter != 5)
             UIManager.Instance.crashedPanel.SetActive(true);
-        
-        if(LevelManager.Instance.continueCounter == 5)
+
+        if (LevelManager.Instance.continueCounter == 5)
+        {
             UIManager.Instance.postAdCrashPanel.SetActive(true);
+            LevelManager.Instance.isGameStarted = false;
+        }
+            
 
         if (!LevelManager.Instance.isCrashedWithPpl)
         {
