@@ -142,28 +142,28 @@ public class LevelManager : MonoBehaviour
     {
         _instance = this;
         
-        _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
-        if (_gameManager)
-        {
-            currentPlayerCarModel = _gameManager.playerCarModels;
-            enemy1 = _gameManager.enemyCarModels[0];
-            enemy2 = _gameManager.enemyCarModels[1];
-        }
-        
-        
-        Instantiate(currentPlayerCarModel, CARMODELgo.transform.position, sampleCartransform.rotation, CARMODELgo.transform);
-        Instantiate(enemy1, ENEMYLEFTgo.transform.position, sampleCartransform.rotation, ENEMYLEFTgo.transform);
-        Instantiate(enemy2, ENEMYRIGHTgo.transform.position, sampleCartransform.rotation, ENEMYRIGHTgo.transform);
-        
-        
+        // _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+        // if (_gameManager)
+        // {
+        //     currentPlayerCarModel = _gameManager.playerCarModels;
+        //     enemy1 = _gameManager.enemyCarModels[0];
+        //     enemy2 = _gameManager.enemyCarModels[1];
+        // }
+        //
+        //
+        // Instantiate(currentPlayerCarModel, CARMODELgo.transform.position, sampleCartransform.rotation, CARMODELgo.transform);
+        // Instantiate(enemy1, ENEMYLEFTgo.transform.position, sampleCartransform.rotation, ENEMYLEFTgo.transform);
+        // Instantiate(enemy2, ENEMYRIGHTgo.transform.position, sampleCartransform.rotation, ENEMYRIGHTgo.transform);
+        //
+        // playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
+        // _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
     
     private void Start()
     {
         UiManager.flyThroughCamCityName.text = cityName + " TOUR ";
 
-        playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
-        _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+       
         
         PlayerController.Instance.Acc = playerVehicleManager.carSpeedSettings.Acc;
         PlayerController.Instance.Dec = playerVehicleManager.carSpeedSettings.Dec;
@@ -570,8 +570,8 @@ public class LevelManager : MonoBehaviour
         
         
         //SHINY EFFECT
-        UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = true;
-        UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = true;
+        //UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = true;
+        //UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = true;
         UiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPlay();
         
         
@@ -595,10 +595,10 @@ public class LevelManager : MonoBehaviour
          speedLinesEffect.SetActive(true);
         
         //disable shiny effect
-       UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = false;
-       UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectFactor = 0;
-       UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = false;
-       UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectFactor = 0;
+       // UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = false;
+       // UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectFactor = 0;
+       // UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = false;
+       // UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectFactor = 0;
 
        UiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPause();
        UiManager.BoostBtn.transform.DOScale(new Vector3(0.5f,0.5f,0.5f), 0f);
@@ -608,10 +608,10 @@ public class LevelManager : MonoBehaviour
         UiManager.BoostBtn.GetComponent<Button>().enabled = false;
         
         //focus.SetFocused(currentPlayerCarModel);                                                                                        //blur effects
-        playerVehicleManager.carEffects.boostActivatedEffect.Play();                                                    //Shield effect
+        //playerVehicleManager.carEffects.boostActivatedEffect.Play();                                                    //Shield effect
         
         DOTween.To(() => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
-                x => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -3f, 0.3f)
+                x => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -3f, 0.5f)
             .OnUpdate(() => {
                         
             });
@@ -661,11 +661,11 @@ public class LevelManager : MonoBehaviour
         
         
         //focus.SetFocused(null);                                                                                            //unblur
-        playerVehicleManager.carEffects.boostActivatedEffect.Stop();
+        //playerVehicleManager.carEffects.boostActivatedEffect.Stop();
         
         
         DOTween.To(() => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,         ////damping camera effect
-                x => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -2.24f, 0.8f)
+                x => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -1.75f, 0.8f)
             .OnUpdate(() => {
                         
             });

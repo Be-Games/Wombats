@@ -78,8 +78,8 @@ public class FrontColliderTriggers : MonoBehaviour
             {
                  Debug.Log("Car Totalled");
                  //VIBRATE ON trigger with coin
-                 if (LevelManager.Instance._audioManager.isHapticEnabled)
-                     LevelManager.Instance.currentPlayerCarModel.GetComponent<HapticSource>().Play();        
+                 // if (LevelManager.Instance._audioManager.isHapticEnabled)
+                 //     LevelManager.Instance.currentPlayerCarModel.GetComponent<HapticSource>().Play();        
                  
                  
                 PlayerController.Instance.playerPF.speed = 0;

@@ -68,7 +68,11 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        currentTrackName.text = LevelManager.Instance._audioManager.musicTracks.MusicTrackAudioSource.clip.name;
+        if (LevelManager.Instance._audioManager != null)
+        {
+            currentTrackName.text = LevelManager.Instance._audioManager.musicTracks.MusicTrackAudioSource.clip.name;
+        }
+        
     }
 
     public void NextTrack()
