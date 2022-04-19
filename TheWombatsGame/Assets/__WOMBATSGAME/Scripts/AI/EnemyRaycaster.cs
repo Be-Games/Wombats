@@ -13,20 +13,20 @@ public class EnemyRaycaster : MonoBehaviour
     private void Update()
     {
 
-        if (LevelManager.Instance.isGameStarted)
+        isHit = Physics.Raycast(transform.position+new Vector3(0f,0.5f,0f), transform.forward, out hit, raycastDistance,CollLayerMask);
+        Debug.Log(isHit);
+        if (isHit)
         {
-            isHit = Physics.Raycast(transform.position, transform.forward, out hit, raycastDistance,CollLayerMask);
-            Debug.Log(isHit);
-            if (isHit)
-            {
                 
-                CollideTrue();
-            }
-            else
-            {
-                CollideFalse();
-            } 
+            CollideTrue();
         }
+        else
+        {
+            CollideFalse();
+        } 
+        // if (LevelManager.Instance.isGameStarted)
+        // {
+        // }
 
        
     }
@@ -39,7 +39,7 @@ public class EnemyRaycaster : MonoBehaviour
             {
                 
                 Gizmos.color = Color.red;
-                Gizmos.DrawRay(transform.position,transform.forward * hit.distance);
+                Gizmos.DrawRay(transform.position+new Vector3(0f,0.5f,0f),transform.forward * hit.distance);
             }
             else
             {

@@ -181,11 +181,11 @@ public class LevelManager : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            playerCarCollidersToToggle[i] = currentPlayerCarModel.GetComponent<VehicleManager>().carWheels.wheels[i];
+            playerCarCollidersToToggle[i] = playerVehicleManager.carWheels.wheels[i];
         }
 
-        playerCarCollidersToToggle[4] = currentPlayerCarModel.GetComponent<VehicleManager>().bodyTrigger.body;
-        playerCarCollidersToToggle[5] = currentPlayerCarModel.GetComponent<VehicleManager>().bodyTrigger.trigger;
+        playerCarCollidersToToggle[4] = playerVehicleManager.bodyTrigger.body;
+        playerCarCollidersToToggle[5] = playerVehicleManager.bodyTrigger.trigger;
         
         
         //Game Start - Flyover Camera 
@@ -482,6 +482,15 @@ public class LevelManager : MonoBehaviour
             continueButton.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
             shareBtn.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
         }
+
+        else
+        {
+            isGameEnded = true;
+            UiManager.BoostBtn.gameObject.SetActive(false);
+            isGameStarted = false;
+            GameManager.Instance.canControlCar = false;
+            UiManager.postAdCrashPanel.SetActive(true);
+        }
         
      
     }
@@ -492,7 +501,7 @@ public class LevelManager : MonoBehaviour
         {
             _gameManager.LoadScene("Concert_Scn");
         }
-        ReplayKitDemo.Discard();
+        //ReplayKitDemo.Discard();
         
     }
 

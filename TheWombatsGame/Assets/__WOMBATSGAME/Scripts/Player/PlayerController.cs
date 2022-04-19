@@ -53,8 +53,8 @@ public class PlayerController : MonoBehaviour
     
     private void Start()
     {
-        movementDuration = 0.2f;
-        rotationDuration = 0.1f;
+        movementDuration = 0.15f;
+        rotationDuration = 0.05f;
         Acc = LevelManager.Instance.playerVehicleManager.carSpeedSettings.Acc;
         Dec = LevelManager.Instance.playerVehicleManager.carSpeedSettings.Dec;
         normalSpeed = LevelManager.Instance.playerVehicleManager.carSpeedSettings.normalSpeed;

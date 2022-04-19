@@ -110,8 +110,8 @@ public class FrontColliderTriggers : MonoBehaviour
             other.transform.GetChild(0).GetChild(0).gameObject.GetComponent<ParticleSystem>().Play();
             
             //VIBRATE ON trigger with coin
-            if (LevelManager.Instance._audioManager.isHapticEnabled)
-                LevelManager.Instance.currentPlayerCarModel.GetComponent<HapticSource>().Play();
+            // if (LevelManager.Instance._audioManager.isHapticEnabled)
+            //     LevelManager.Instance.currentPlayerCarModel.GetComponent<HapticSource>().Play();
         }
     }
 
@@ -121,8 +121,8 @@ public class FrontColliderTriggers : MonoBehaviour
         //PlayerController.Instance.playerPF.enabled = false;
        
         //VIBRATE ON CRASH PRESSED
-        // if(GameManager.Instance.isHapticEnabled)
-        //    PlayerController.Instance.gameObject.GetComponent<HapticSource>().Play();
+        if (LevelManager.Instance._audioManager.isHapticEnabled)
+            LevelManager.Instance.currentPlayerCarModel.GetComponent<HapticSource>().Play();
         
         
         if(LevelManager.Instance.continueCounter != 5)
