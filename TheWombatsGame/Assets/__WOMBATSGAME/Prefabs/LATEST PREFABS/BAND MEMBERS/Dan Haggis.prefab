@@ -819,7 +819,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1185487279449178790}
-  - component: {fileID: 6237677492114746367}
   m_Layer: 0
   m_Name: Dan Haggis
   m_TagString: Untagged
@@ -834,7 +833,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1961426260863244316}
-  m_LocalRotation: {x: 0.09576385, y: 0.45333824, z: -0.29764855, w: -0.83469707}
+  m_LocalRotation: {x: -0.09575942, y: -0.45334285, z: 0.29764652, w: 0.83469576}
   m_LocalPosition: {x: -6.03, y: 3.87, z: 5.29}
   m_LocalScale: {x: 2.5000005, y: 2.4999998, z: 2.5}
   m_Children:
@@ -876,26 +875,7 @@ Transform:
   - {fileID: 6991831842641165024}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 6.316, y: 125.037, z: 35.964}
---- !u!95 &6237677492114746367
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1961426260863244316}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 9e5ed165caa63904386d01e822d592d7, type: 3}
-  m_Controller: {fileID: 9100000, guid: a3b32912abb7ce449a8d450e96a8f9f4, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_LocalEulerAnglesHint: {x: 6.316, y: -54.963, z: 35.964}
 --- !u!1 &2004638712930420926
 GameObject:
   m_ObjectHideFlags: 0
@@ -2931,6 +2911,14 @@ PrefabInstance:
     - target: {fileID: 1764735746782991931, guid: 0b3b0cdc0fc9fe744b58067c6c6b809a, type: 3}
       propertyPath: m_Name
       value: Dan Haggis
+      objectReference: {fileID: 0}
+    - target: {fileID: 3416272119987967810, guid: 0b3b0cdc0fc9fe744b58067c6c6b809a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 78928c0d0ce0f5f41a163b344fd25b46, type: 2}
+    - target: {fileID: 3416272119987967810, guid: 0b3b0cdc0fc9fe744b58067c6c6b809a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7048794437376454269, guid: 0b3b0cdc0fc9fe744b58067c6c6b809a, type: 3}
       propertyPath: m_RootOrder

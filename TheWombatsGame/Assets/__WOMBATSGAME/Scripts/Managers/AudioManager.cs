@@ -87,7 +87,7 @@ public class AudioManager : MonoBehaviour
             musicTracks.MusicTrackAudioSource.gameObject.SetActive(false);
 
 
-            musicTracks.mainMenuAudioSource.clip = musicTracks.tracks[i];
+            musicTracks.mainMenuAudioSource.clip = musicTracks.tracks[i+1];
         }
     }
 

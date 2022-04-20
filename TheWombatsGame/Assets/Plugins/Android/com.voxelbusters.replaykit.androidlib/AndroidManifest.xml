@@ -3,7 +3,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.voxelbusters.replaykitplugin" android:versionCode="1" android:versionName="1.0">
   <application>
     <!--Custom File Provider. Sharing from internal folders-->
-    <provider android:name="com.voxelbusters.replaykit.extensions.FileProviderExtended" android:authorities="com.BeGames.TheWombatsGame.replaykit.fileprovider" android:exported="false" android:grantUriPermissions="true">
+    <provider android:name="com.voxelbusters.replaykit.extensions.FileProviderExtended" android:authorities="com.begames.thewombats.replaykit.fileprovider" android:exported="false" android:grantUriPermissions="true">
       <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/replay_kit_file_paths" />
     </provider>
     <service android:name="com.voxelbusters.replaykit.internal.ScreenRecordingService" android:enabled="true" android:foregroundServiceType="mediaProjection" />

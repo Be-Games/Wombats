@@ -927,11 +927,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4806933456362814, guid: 8c2befacdf6e4a942b2af0d2bee49508, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1740.4
+      value: 1682
       objectReference: {fileID: 0}
     - target: {fileID: 4806933456362814, guid: 8c2befacdf6e4a942b2af0d2bee49508, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 23.7
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 4806933456362814, guid: 8c2befacdf6e4a942b2af0d2bee49508, type: 3}
       propertyPath: m_LocalRotation.w
@@ -969,6 +969,10 @@ PrefabInstance:
       propertyPath: lengthInSec
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 199903620583063622, guid: 8c2befacdf6e4a942b2af0d2bee49508, type: 3}
+      propertyPath: m_SortingOrder
+      value: 261
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c2befacdf6e4a942b2af0d2bee49508, type: 3}
 --- !u!1001 &326845300807307547
@@ -978,6 +982,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 326845301746229043, guid: c22bcdcf8665b3d47bba465adb3b9ee8, type: 3}
+      propertyPath: m_Volume
+      value: 0.519
+      objectReference: {fileID: 0}
+    - target: {fileID: 326845301746229043, guid: c22bcdcf8665b3d47bba465adb3b9ee8, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 8757ae3e7b32bdc4b8c9ffd8141a50ad, type: 3}
     - target: {fileID: 8540762248274969424, guid: c22bcdcf8665b3d47bba465adb3b9ee8, type: 3}
       propertyPath: sfxAll.SFXONIcon
       value: 

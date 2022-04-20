@@ -495,7 +495,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7823927711926432618}
-  - component: {fileID: 6513942603807253812}
   m_Layer: 0
   m_Name: "Tord \xD8verland Knudsen"
   m_TagString: Untagged
@@ -510,9 +509,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7484978601587501520}
-  m_LocalRotation: {x: 0.5496362, y: 0.75286305, z: 0.048089318, w: -0.35886583}
+  m_LocalRotation: {x: -0.5496356, y: -0.75286394, z: -0.048087068, w: 0.3588651}
   m_LocalPosition: {x: -4.91, y: 3.87, z: 5.4599996}
-  m_LocalScale: {x: 2.4999998, y: 2.4999998, z: 2.4999995}
+  m_LocalScale: {x: 2.5000005, y: 2.4999998, z: 2.5}
   m_Children:
   - {fileID: 6576870867180428949}
   - {fileID: 2319054447151967654}
@@ -526,26 +525,7 @@ Transform:
   - {fileID: 5017261344646529007}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -27.833, y: 33.454, z: 63.746}
---- !u!95 &6513942603807253812
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7484978601587501520}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 9e5ed165caa63904386d01e822d592d7, type: 3}
-  m_Controller: {fileID: 9100000, guid: 082b9c8ce460bc64f886080df9b64413, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_LocalEulerAnglesHint: {x: -27.833, y: -146.546, z: 63.746}
 --- !u!1 &7524467465201765060
 GameObject:
   m_ObjectHideFlags: 0
@@ -796,10 +776,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7823927711926432618}
     m_Modifications:
+    - target: {fileID: -3155346634407795449, guid: b0c8166225219f341bbda008311f8765, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 90d89058a05c2cd46b8479473ac3be20, type: 2}
+    - target: {fileID: -3155346634407795449, guid: b0c8166225219f341bbda008311f8765, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 743667759402437492, guid: b0c8166225219f341bbda008311f8765, type: 3}
       propertyPath: m_Name
       value: "Tord \xD8verland Knudsen"
       objectReference: {fileID: 0}
+    - target: {fileID: 2594273702709264820, guid: b0c8166225219f341bbda008311f8765, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1e89fcce5eb1445479fa5a95dd9b9296, type: 2}
     - target: {fileID: 2927525439195712627, guid: b0c8166225219f341bbda008311f8765, type: 3}
       propertyPath: m_RootOrder
       value: 8
