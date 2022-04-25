@@ -18,7 +18,7 @@ public class LevelProgressUI : MonoBehaviour
     
     private void Start()
     {
-
+        uFillImage[0] = LevelManager.Instance._uiManager.playerProgressLine.GetComponent<RectTransform>();
         totalLevelDistance = LevelManager.Instance.singleLapDistance * LevelManager.Instance.totalLaps;
         playerPosi = 1;
     }

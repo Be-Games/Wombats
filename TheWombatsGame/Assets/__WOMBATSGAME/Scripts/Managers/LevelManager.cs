@@ -1,18 +1,12 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
-using Coffee.UIEffects;
 using DG.Tweening;
 using Lofelt.NiceVibrations;
-using PathCreation.Examples;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using VoxelBusters.Demos.ReplayKit;
-using Random = System.Random;
 
 public class LevelManager : MonoBehaviour
 {
@@ -27,57 +21,51 @@ public class LevelManager : MonoBehaviour
     }
 
     
-
+    [Header("Other Class Ref")] 
+    public UIManager _uiManager;
+    public LevelProgressUI _levelProgressUI;
+    public AudioManager _audioManager;
+    [SerializeField]private GameManager _gameManager;
+    public VehicleManager _playerVehicleManager;
+    public GameControls _gameControls;
+    public PlayerController _playerController;
+    public EnvironmentSettingsManager envManager;
 
     [Header("Camera Refs")]
     public GameObject mainCameraGO;
     public CinemachineVirtualCamera defCMVCCam;
-    public CinemachineCameraOffset cmCameraOffset;
     public GameObject flyOverCameraGO;
     public CinemachineVirtualCamera iniCMVCCam;
+    public GameObject cameraRotator;
     
-    [Header("All Cars ")]
-    public GameObject currentPlayerCarModel;
-    public GameObject enemy1;
-    public GameObject enemy2;
-    public GameObject CARMODELgo, ENEMYLEFTgo, ENEMYRIGHTgo;
-    
+    [Header("All Cars Visuals")]
+    public GameObject playerVisual;
+    public GameObject enemyLeftVisual;
+    public GameObject enemyRightVisual;
+
     [Header("Lap Settings")]
-    public int lapCounter = 0;
-    //public TextMeshProUGUI lapText;
-    
-    public bool isLapTriggered;
-    public GameObject[] levelTimeObjects;
+    [HideInInspector] public int lapCounter = 0;
+    [HideInInspector] public bool isLapTriggered;
+    [HideInInspector] public GameObject[] levelTimeObjects;
 
     [Header("Scoring Stuff")] 
-    public int currentScore;
-    public int levelHighScore;
+    [HideInInspector] public int currentScore;
+    [HideInInspector]public int levelHighScore;
 
 
     [Header("Boost Settings")] 
-    public int totalBoostNumber;                                                                            //Total Times boost can be done
-    public float individualBoostCounter;                                                                    //Total boost Counter ( shd be 3 )
+    [HideInInspector]public int totalBoostNumber;                                                                            //Total Times boost can be done
+    [HideInInspector]public float individualBoostCounter;                                                                    //Total boost Counter ( shd be 3 )
     public Image[] boostFiller;
-    public bool isBoosting;
-    public Button boostBtn;
+    [HideInInspector]public bool isBoosting;
     
-    public GameObject envToNotBlur;
-    public FocusSwitcher focus;
-    public GameObject speedLinesEffect;
     
 
     [Header("CountDownTimer Settings")]
-    public bool isTimerStarted;
+    [HideInInspector] public bool isTimerStarted;
     public TextMeshProUGUI timerText;
     public GameObject[] countdownLights;
 
-    [Header("Other Class Ref")] 
-    public UIManager UiManager;
-    public LevelProgressUI LevelProgressUi;
-    public AudioManager _audioManager;
-    [SerializeField]private GameManager _gameManager;
-    public VehicleManager playerVehicleManager;
-    
     
     [Header("Bool Values")]
     public bool isGameStarted;
@@ -88,25 +76,19 @@ public class LevelManager : MonoBehaviour
     public bool isFinalLap;
     
     [Header("Weather Effects")] 
-    public GameObject slowWind;
-    public GameObject FastWind;
-
-    [Header("DoTween Sequences")] 
-    private Sequence boostBtnSeq;
-
-    [Header("GameUI DOTween Coordinates")] 
-    [SerializeField] private float initial;
-    [SerializeField] private float final;
+    public ParticleSystem slowWind;
+    public ParticleSystem FastWind;
+    public ParticleSystem[] allEffects,allEffects2;               
+    public ParticleSystem speedLinesEffect,windGrassEffect;
+    
     
     [Header("Misc Stuff")]
     public float startTime;
     public GameObject[] playerCarCollidersToToggle;
     public TextMeshProUGUI carContinueChances;
-    public int continueCounter;
-    //Race Finish Stuff
-    public GameObject cameraRotator;
-    public RectTransform continueButton,shareBtn;
-    public CinemachineVirtualCamera cmvc;
+    [HideInInspector]public int continueCounter;
+    
+   
 
     [Header("Level AI Difficulty")] 
     public bool Easy;
@@ -126,7 +108,7 @@ public class LevelManager : MonoBehaviour
     public Transform stadiumTransform;
 
     [Header("Social Sharing Stuff")] 
-    public ReplayKitDemo ReplayKitDemo;
+    
 
     [Header("Obstacles spawn Stuff")] 
     public GameObject dayObstaclesPf;
@@ -134,103 +116,85 @@ public class LevelManager : MonoBehaviour
     public Transform dayParent;
     public Transform nightParent;
     private GameObject tempPrefab;
-
-    public Transform sampleCartransform;
+    
+    
+    
+    public RectTransform continueButton,shareBtn;
     public List<GameObject> carHeadLights;
     
     private void Awake()
     {
         _instance = this;
         
-        _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
-        if (_gameManager)
-        {
-            currentPlayerCarModel = _gameManager.playerCarModels;
-            enemy1 = _gameManager.enemyCarModels[0];
-            enemy2 = _gameManager.enemyCarModels[1];
-        }
-        
-        
-        Instantiate(currentPlayerCarModel, CARMODELgo.transform.position, sampleCartransform.rotation, CARMODELgo.transform);
-        Instantiate(enemy1, ENEMYLEFTgo.transform.position, sampleCartransform.rotation, ENEMYLEFTgo.transform);
-        Instantiate(enemy2, ENEMYRIGHTgo.transform.position, sampleCartransform.rotation, ENEMYRIGHTgo.transform);
-        
-        playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
-        _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        // _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+        // if (_gameManager)
+        // {
+        //     currentPlayerCarModel = _gameManager.playerCarModels;
+        //     enemy1 = _gameManager.enemyCarModels[0];
+        //     enemy2 = _gameManager.enemyCarModels[1];
+        // }
+        //
+        //
+        // Instantiate(currentPlayerCarModel, CARMODELgo.transform.position, sampleCartransform.rotation, CARMODELgo.transform);
+        // Instantiate(enemy1, ENEMYLEFTgo.transform.position, sampleCartransform.rotation, ENEMYLEFTgo.transform);
+        // Instantiate(enemy2, ENEMYRIGHTgo.transform.position, sampleCartransform.rotation, ENEMYRIGHTgo.transform);
+        //
+        // playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
+        // _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
     
     private void Start()
     {
-        UiManager.flyThroughCamCityName.text = cityName + " TOUR ";
 
-       
+        InitializingVariables();
+        SceneStart();
+        LightingAndObstaclesChecker();
+        WeatherSetup();
         
-        PlayerController.Instance.Acc = playerVehicleManager.carSpeedSettings.Acc;
-        PlayerController.Instance.Dec = playerVehicleManager.carSpeedSettings.Dec;
-        PlayerController.Instance.normalSpeed = playerVehicleManager.carSpeedSettings.normalSpeed;
-        PlayerController.Instance.boostSpeed = playerVehicleManager.carSpeedSettings.boostSpeed;
+       // _audioManager.LoadIcons();
+        if (_audioManager.isMusicEnabled)
+        {
+            _audioManager.musicTracks.mainMenuAudioSource.Stop();
+            _audioManager.musicTracks.mainMenuAudioSource.gameObject.SetActive(false);
+            _audioManager.i = 0;
+            _audioManager.isTrackFinishedG = false;
+        }
         
-        PlayerController.Instance.targetSpeed = PlayerController.Instance.normalSpeed;
-        
-        _audioManager.LoadIcons();
-        
-        
-        
-        //envToNotBlur = currentPlayerCarModel.transform.GetChild(0).GetChild(0).gameObject;
-        
+    }
 
+    void InitializingVariables()
+    {
         for (int i = 0; i < 4; i++)
         {
-            playerCarCollidersToToggle[i] = playerVehicleManager.carWheels.wheels[i];
+            playerCarCollidersToToggle[i] = _playerVehicleManager.carWheels.wheels[i];
         }
 
-        playerCarCollidersToToggle[4] = playerVehicleManager.bodyTrigger.body;
-        playerCarCollidersToToggle[5] = playerVehicleManager.bodyTrigger.trigger;
+        playerCarCollidersToToggle[4] = _playerVehicleManager.bodyTrigger.body;
+        playerCarCollidersToToggle[5] = _playerVehicleManager.bodyTrigger.trigger;
         
+        currentScore = 0;
+        _uiManager.scoreText.text = currentScore.ToString();
+        isFinalLap = false;
+        _uiManager.BoostBtn.GetComponent<Button>().enabled = false;
+    }
+
+    void SceneStart()
+    {
+        startTime = Time.time;
         
         //Game Start - Flyover Camera 
+        _uiManager.flyThroughCamCityName.text = cityName + " TOUR ";
         flyOverCameraGO.SetActive(true);
         mainCameraGO.SetActive(false);
+    }
 
-
-        //Initilization
-        //lapText.text = (lapCounter+1) + "/" + totalLaps;
-        startTime = Time.time;
-        UiManager.BoostBtn.GetComponent<Button>().enabled = false;
-        //OverHeadUIs
-        //currentPlayerCarModel.transform.GetChild(3).localScale = Vector3.zero;   
-
-        currentScore = 0;
-        UiManager.scoreText.text = currentScore.ToString();
-        
-        carHeadLights = new List<GameObject>();
-        carHeadLights.AddRange(GameObject.FindGameObjectsWithTag("Headlight"));
-        if (_gameManager.lightingMode == 2)
-        {
-            
-            //Night
-            foreach (var hl in carHeadLights)
-            {
-                hl.SetActive(true);
-            }
-        }
-
-        else
-        {
-            //Day
-            foreach (var hl in carHeadLights)
-            {
-                hl.SetActive(false);
-            }
-        }
-
-        isFinalLap = false;
-
+    void LightingAndObstaclesChecker()
+    {
         if (_gameManager.lightingMode == 1)
         {
             //DAY OBSTACLES
-           tempPrefab =  (GameObject)Instantiate(dayObstaclesPf, dayParent);
-           tempPrefab.tag = "TEMP";
+            tempPrefab =  (GameObject)Instantiate(dayObstaclesPf, dayParent);
+            tempPrefab.tag = "TEMP";
         }
         
         if (_gameManager.lightingMode == 2)
@@ -239,14 +203,28 @@ public class LevelManager : MonoBehaviour
             tempPrefab =  (GameObject)Instantiate(nightObstaclesPf, nightParent);
             tempPrefab.tag = "TEMP";
         }
-
-        if (_audioManager.isMusicEnabled)
-        {
-            _audioManager.musicTracks.mainMenuAudioSource.Stop();
-            _audioManager.musicTracks.mainMenuAudioSource.gameObject.SetActive(false);
-            _audioManager.i = 0;
-            _audioManager.isTrackFinishedG = false;
-        }
+    }
+    
+    void WeatherSetup()
+    {
+        
+        
+        slowWind.Stop();
+        FastWind.Stop();
+        speedLinesEffect.Stop();
+        windGrassEffect.Stop();
+        
+        envManager.Clear();
+        
+        _gameManager.weatherEffect = Random.Range(0, allEffects.Length);
+        if(_gameManager.weatherEffect == 0)
+            envManager.Clear();
+        if (_gameManager.weatherEffect == 1)
+            envManager.Rain();
+        if(_gameManager.weatherEffect == 2)
+            envManager.Fog();
+        if(_gameManager.weatherEffect == 3)
+            envManager.Snow();
         
     }
     
@@ -257,6 +235,19 @@ public class LevelManager : MonoBehaviour
         flyOverCameraGO.SetActive(false);
         mainCameraGO.SetActive(true);
         
+        if(_gameManager.weatherEffect == 0)
+            envManager.Clear();
+        if (_gameManager.weatherEffect == 1)
+            envManager.Rain();
+        if(_gameManager.weatherEffect == 2)
+            envManager.Fog();
+        if(_gameManager.weatherEffect == 3)
+            envManager.Snow();
+        
+        _uiManager.flyThruPanel.SetActive(false);
+        _uiManager.FlyOverBlackPanelsTweening();
+        
+        
         iniCMVCCam.Priority = 1;
         defCMVCCam.Priority = 0;
         
@@ -266,18 +257,20 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator CountDownTimer()
     {
-        yield return new WaitForSeconds(1.3f);
+        yield return new WaitForSeconds(2.1f);
         
         //COUNTDOWNTIMER SOUND
-        if(_audioManager && _audioManager.isSFXenabled)
-            _audioManager.Play(_audioManager.sfxAll.countDownSound);
+        // if(_audioManager && _audioManager.isSFXenabled)
+        //     _audioManager.Play(_audioManager.sfxAll.countDownSound);
+        
+        
         
         countdownLights[0].SetActive(true);
         yield return new WaitForSeconds(1f);
         countdownLights[1].SetActive(true);
         yield return new WaitForSeconds(1f);
         
-        UIManager.Instance.gameUIPanel.GetComponent<RectTransform>().DOAnchorPos(Vector2.zero,0.7f);
+       _uiManager.gameUIPanel.GetComponent<RectTransform>().DOAnchorPos(Vector2.zero, 0.7f);
         iniCMVCCam.Priority = 0;
         defCMVCCam.Priority = 1;
 
@@ -309,7 +302,7 @@ public class LevelManager : MonoBehaviour
     void RaceStarted()
     {
         GameManager.Instance.canControlCar = true;                        // Car Gestures Enabled
-        PlayerController.Instance.gameControlsClass.gestureState = GameControls.GestureState.Release;
+        _gameControls.gestureState = GameControls.GestureState.Release;
         // UiManager.BoostBtn.transform.DOScale(new Vector3(0.6f,0.6f,0.6f), 1f).SetEase(Ease.OutBounce);
         //
         // currentPlayerCarModel.transform.GetChild(3).DOScale(new Vector3(1f,1f,1f), 1f).SetEase(Ease.OutBounce);
@@ -360,13 +353,13 @@ public class LevelManager : MonoBehaviour
             
             var mySequence = DOTween.Sequence();
             
-            mySequence.Append( UiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-921,545f), 0f)
-                .OnComplete(() => UiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0,545f), 0.3f).SetEase(Ease.Flash)));
+            mySequence.Append( _uiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-921,545f), 0f)
+                .OnComplete(() => _uiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0,545f), 0.3f).SetEase(Ease.Flash)));
             
             
             mySequence.AppendInterval(2);
 
-            mySequence.OnComplete(() => UiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(921,545f), 0.3f).SetEase(Ease.Flash));
+            mySequence.OnComplete(() => _uiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(921,545f), 0.3f).SetEase(Ease.Flash));
             
             #endregion
             
@@ -413,12 +406,12 @@ public class LevelManager : MonoBehaviour
             // }
             
             
-            UiManager.StatusIndicatorPanelGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
+            _uiManager.StatusIndicatorPanelGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
                 "LAP : " + (lapCounter+1) + "/" + totalLaps;
 
             if (lapCounter == totalLaps - 1)
             {
-                UiManager.StatusIndicatorPanelGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
+                _uiManager.StatusIndicatorPanelGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
                     "FINAL LAP";
                 
                 isFinalLap = true;
@@ -429,13 +422,13 @@ public class LevelManager : MonoBehaviour
             
             var mySequence = DOTween.Sequence();
             
-            mySequence.Append( UiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-921,545f), 0f)
-                .OnComplete(() => UiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0,545f), 0.3f).SetEase(Ease.Flash)));
+            mySequence.Append( _uiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-921,545f), 0f)
+                .OnComplete(() => _uiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0,545f), 0.3f).SetEase(Ease.Flash)));
             
             
             mySequence.AppendInterval(2);
 
-            mySequence.OnComplete(() => UiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(921,545f), 0.3f).SetEase(Ease.Flash));
+            mySequence.OnComplete(() => _uiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(921,545f), 0.3f).SetEase(Ease.Flash));
             
             #endregion
             
@@ -459,7 +452,7 @@ public class LevelManager : MonoBehaviour
     
     IEnumerator RaceFinished()
     {
-        if (LevelProgressUi.playerPosi == 1)
+        if (_levelProgressUI.playerPosi == 1)
         {
             continueButton.DOScale(Vector3.zero, 0f);
             shareBtn.DOScale(Vector3.zero, 0f);
@@ -468,7 +461,7 @@ public class LevelManager : MonoBehaviour
             yield return new WaitForSeconds(0.15f);
             
             isGameEnded = true;
-            UiManager.BoostBtn.gameObject.SetActive(false);
+            _uiManager.BoostBtn.gameObject.SetActive(false);
             cameraRotator.SetActive(true);
             isGameStarted = false;
             GameManager.Instance.canControlCar = false;
@@ -486,10 +479,10 @@ public class LevelManager : MonoBehaviour
         else
         {
             isGameEnded = true;
-            UiManager.BoostBtn.gameObject.SetActive(false);
+            _uiManager.BoostBtn.gameObject.SetActive(false);
             isGameStarted = false;
             GameManager.Instance.canControlCar = false;
-            UiManager.postAdCrashPanel.SetActive(true);
+            _uiManager.postAdCrashPanel.SetActive(true);
         }
         
      
@@ -497,7 +490,7 @@ public class LevelManager : MonoBehaviour
 
     public void GoToStadium()
     {
-        if (LevelProgressUi.playerPosi == 1)
+        if (_levelProgressUI.playerPosi == 1)
         {
             _gameManager.LoadScene("Concert_Scn");
         }
@@ -507,7 +500,7 @@ public class LevelManager : MonoBehaviour
 
     public void sharePreview()
     {
-        ReplayKitDemo.SharePreview();
+        
     }
 
     #region ALLABOUTBOOST
@@ -568,7 +561,7 @@ public class LevelManager : MonoBehaviour
         individualBoostCounter = 0;
         
         //ENABLE BOOST BTN
-        UiManager.BoostBtn.GetComponent<Button>().enabled = true;
+        _uiManager.BoostBtn.GetComponent<Button>().enabled = true;
         
         //DISABLE ALL THE BOOST PICKUPS
         foreach (GameObject x in boostPickUps)                                                            //Dissable all the boost pickups
@@ -581,7 +574,7 @@ public class LevelManager : MonoBehaviour
         //SHINY EFFECT
         //UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = true;
         //UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = true;
-        UiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPlay();
+       // UiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPlay();
         
         
     }
@@ -597,17 +590,17 @@ public class LevelManager : MonoBehaviour
     {
         isBoosting = true;
 
-        DOTween.To(() => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
-                x => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -3f, 0.5f)
+        DOTween.To(() => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
+                x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -3f, 0.5f)
             .OnUpdate(() => {
                         
             });
         
         //VIBRATE ON BOOST BTN PRESSED
         if (_audioManager.isHapticEnabled)
-            currentPlayerCarModel.GetComponent<HapticSource>().Play();
+           // playerVisual.GetComponent<HapticSource>().Play();
 
-         speedLinesEffect.SetActive(true);
+         speedLinesEffect.Play();
         
         //disable shiny effect
        // UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = false;
@@ -615,12 +608,12 @@ public class LevelManager : MonoBehaviour
        // UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = false;
        // UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectFactor = 0;
 
-       UiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPause();
-       UiManager.BoostBtn.transform.DOScale(new Vector3(0.5f,0.5f,0.5f), 0f);
+       //UiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPause();
+       _uiManager.BoostBtn.transform.DOScale(new Vector3(0.5f,0.5f,0.5f), 0f);
         
-       LevelManager.Instance.playerVehicleManager.carEffects.NOSEffectsPS.Play();                  //NOS Particle Effect
-        PlayerController.Instance.targetSpeed = PlayerController.Instance.boostSpeed;                                       //Set speed to boost speed
-        UiManager.BoostBtn.GetComponent<Button>().enabled = false;
+       LevelManager.Instance._playerVehicleManager.carEffects.NOSEffectsPS.Play();                  //NOS Particle Effect
+        _playerController.targetSpeed = _playerController.boostSpeed;                                       //Set speed to boost speed
+        _uiManager.BoostBtn.GetComponent<Button>().enabled = false;
         
         //focus.SetFocused(currentPlayerCarModel);                                                                                        //blur effects
         //playerVehicleManager.carEffects.boostActivatedEffect.Play();                                                    //Shield effect
@@ -651,7 +644,7 @@ public class LevelManager : MonoBehaviour
 
         
         
-        speedLinesEffect.SetActive(false);
+        speedLinesEffect.Stop();
         
         foreach (GameObject x in boostPickUps)                                                            //Dissable all the boost pickups
         {
@@ -667,16 +660,16 @@ public class LevelManager : MonoBehaviour
                 x.SetActive(true);
         }
 
-        LevelManager.Instance.playerVehicleManager.carEffects.NOSEffectsPS.Stop();                    //NOS Particle Effect
-        PlayerController.Instance.targetSpeed = PlayerController.Instance.normalSpeed;                                                                //normal speed
+        LevelManager.Instance._playerVehicleManager.carEffects.NOSEffectsPS.Stop();                    //NOS Particle Effect
+        _playerController.targetSpeed = _playerController.normalSpeed;                                                                //normal speed
         
         
         //focus.SetFocused(null);                                                                                            //unblur
         //playerVehicleManager.carEffects.boostActivatedEffect.Stop();
         
         
-        DOTween.To(() => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,         ////damping camera effect
-                x => cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -1.75f, 0.8f)
+        DOTween.To(() => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,         ////damping camera effect
+                x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -1.75f, 0.8f)
             .OnUpdate(() => {
                         
             });
@@ -713,7 +706,7 @@ public class LevelManager : MonoBehaviour
     void CarControlsOn()
     {
         GameManager.Instance.canControlCar = true;
-        PlayerController.Instance.gameControlsClass.gestureState = GameControls.GestureState.Release;
+        _gameControls.gestureState = GameControls.GestureState.Release;
     }
 
     public void SetContinueCounterForPostAd()
@@ -742,7 +735,7 @@ public class LevelManager : MonoBehaviour
     {
        
         
-        UiManager.crashedPanel.SetActive(false);
+        _uiManager.crashedPanel.SetActive(false);
         yield return new WaitForSeconds(0.1f);
         
         if(!adStuff && continueCounter!=5)
@@ -750,8 +743,8 @@ public class LevelManager : MonoBehaviour
         
         if (continueCounter == 2)
         {
-            UiManager.crashedPanel.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);           //ADD GET MORE LIVES BUTTON
-            UiManager.crashedPanel.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);         //CONTINUE BUTTON REMOVE
+            _uiManager.crashedPanel.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);           //ADD GET MORE LIVES BUTTON
+            _uiManager.crashedPanel.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);         //CONTINUE BUTTON REMOVE
             
         }
         
@@ -762,15 +755,15 @@ public class LevelManager : MonoBehaviour
         
         
 
-        PlayerController.Instance.playerPF.speed = playerVehicleManager.carSpeedSettings.normalSpeed;
-        PlayerController.Instance.playerPF.enabled = true;
+        _playerController.playerPF.speed = _playerVehicleManager.carSpeedSettings.normalSpeed;
+        _playerController.playerPF.enabled = true;
         
         GameManager.Instance.canControlCar = true;
-        PlayerController.Instance.gameControlsClass.gestureState = GameControls.GestureState.Release;
+        _gameControls.gestureState = GameControls.GestureState.Release;
 
-        playerVehicleManager.postCrashStuff.crashPS.Stop();
-        playerVehicleManager.postCrashStuff.up_car.SetActive(true);
-        playerVehicleManager.postCrashStuff.down_car.SetActive(false);
+        _playerVehicleManager.postCrashStuff.crashPS.Stop();
+        _playerVehicleManager.postCrashStuff.up_car.SetActive(true);
+        _playerVehicleManager.postCrashStuff.down_car.SetActive(false);
 
         foreach (GameObject x in pplToDisable)
         {
@@ -787,53 +780,53 @@ public class LevelManager : MonoBehaviour
             
         }
         
-        PlayerController.Instance.PlayercarVisual.SetActive(false);
+        _playerController.PlayercarVisual.SetActive(false);
         
     
         yield return new WaitForSeconds(0.2f);
         
-        PlayerController.Instance.PlayercarVisual.SetActive(true);
+        _playerController.PlayercarVisual.SetActive(true);
         
         yield return new WaitForSeconds(0.2f);
         
-        PlayerController.Instance.PlayercarVisual.SetActive(false);
+        _playerController.PlayercarVisual.SetActive(false);
         
         yield return new WaitForSeconds(0.2f);
         
-        PlayerController.Instance.PlayercarVisual.SetActive(true);
+        _playerController.PlayercarVisual.SetActive(true);
         
         yield return new WaitForSeconds(0.2f);
         
-        PlayerController.Instance.PlayercarVisual.SetActive(false);
+        _playerController.PlayercarVisual.SetActive(false);
         
         yield return new WaitForSeconds(0.2f);
         
-        PlayerController.Instance.PlayercarVisual.SetActive(true);
+        _playerController.PlayercarVisual.SetActive(true);
         
         yield return new WaitForSeconds(0.2f);
         
-        PlayerController.Instance.PlayercarVisual.SetActive(false);
+        _playerController.PlayercarVisual.SetActive(false);
         
     
         yield return new WaitForSeconds(0.2f);
         
-        PlayerController.Instance.PlayercarVisual.SetActive(true);
+        _playerController.PlayercarVisual.SetActive(true);
         
         yield return new WaitForSeconds(0.2f);
         
-        PlayerController.Instance.PlayercarVisual.SetActive(false);
+        _playerController.PlayercarVisual.SetActive(false);
         
         yield return new WaitForSeconds(0.2f);
         
-        PlayerController.Instance.PlayercarVisual.SetActive(true);
+        _playerController.PlayercarVisual.SetActive(true);
         
         yield return new WaitForSeconds(0.2f);
         
-        PlayerController.Instance.PlayercarVisual.SetActive(false);
+        _playerController.PlayercarVisual.SetActive(false);
         
         yield return new WaitForSeconds(0.2f);
         
-        PlayerController.Instance.PlayercarVisual.SetActive(true);
+        _playerController.PlayercarVisual.SetActive(true);
         
         foreach (GameObject child in playerCarCollidersToToggle)
         {
@@ -851,7 +844,7 @@ public class LevelManager : MonoBehaviour
 
     public void ReceiveLifeBtn()
     {
-        UiManager.extraLifePanel.SetActive(false);
+        _uiManager.extraLifePanel.SetActive(false);
         adStuff = true;
         continueCounter = 5;
         StartCoroutine("CarReset");

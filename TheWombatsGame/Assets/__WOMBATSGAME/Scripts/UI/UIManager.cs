@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class UIManager : MonoBehaviour
     public GameObject BoostBtn;
 
     [Header("Game Panels")] 
+    public GameObject flyThruPanel;
     public GameObject gameUIPanel;
     public GameObject crashedPanel;
     public GameObject extraLifePanel;
@@ -37,14 +39,28 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI playerPosition;
 
     public TextMeshProUGUI flyThroughCamCityName;
+    
 
     [Header("Scoring Stuff")] 
     public TextMeshProUGUI scoreText;
 
     public TextMeshProUGUI currentTrackName;
+
+    [Header("Fly Over Variables")] 
+    public Image[] blackImages;
+
+    public Image playerProgressLine;
     
     //DO TWEEN ANIMATION UIS
-    
+
+    private void OnEnable()
+    {
+        foreach (var VARIABLE in blackImages)
+        {
+            VARIABLE.gameObject.SetActive(true);
+        }
+    }
+
     public void settingsBtnDT()
     {
         
@@ -98,6 +114,12 @@ public class UIManager : MonoBehaviour
     public void SpotifyLink()
     {
         Application.OpenURL(LevelManager.Instance._audioManager.musicTracks.spotifyLinks[LevelManager.Instance._audioManager.i]);
+    }
+
+    public void FlyOverBlackPanelsTweening()
+    {
+        blackImages[0].GetComponent<RectTransform>().DOScale(new Vector3(13f,0f,13f), 2f).SetEase(Ease.Flash);
+        blackImages[1].GetComponent<RectTransform>().DOScale(new Vector3(13f,0f,13f), 2f).SetEase(Ease.Flash);
     }
 
 }

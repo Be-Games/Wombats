@@ -2,14 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameControls : MonoBehaviour
 {
-    private Touch touch;
-
-    private Vector2 beginTouchPosition, endTouchPosition;
-
-    public bool tapDown;
     
     public enum GestureState
     {
@@ -18,77 +14,102 @@ public class GameControls : MonoBehaviour
         Left,
         Right,
     }
-
+    
     public GestureState gestureState;
-    [SerializeField]private GameManager _gameManager;
+
+    private Vector2 startTouchPosition;
+    private Vector2 currentPosition;
+    private Vector2 endTouchPosition;
+    private bool stopTouch = false;
+
+    public float swipeRange;
+    
+    //////////////
+    private bool enableSlowSwipe = false;
 
     private void Start()
     {
-        _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+        swipeRange = 5;
     }
 
-    private void Update()
+    void Update()
     {
-        if (_gameManager.canControlCar)
+
+        if(!enableSlowSwipe && GameManager.Instance.canControlCar)
         {
-            if (Input.touchCount > 0)
-            {
-                touch = Input.GetTouch(0);
-                    
-                switch (touch.phase)
-                {
-                    case TouchPhase.Stationary:
-                        tapDown = true;
-                        
-                        gestureState = GestureState.Break;
-                        break;
-                            
-                            
-                    case TouchPhase.Began:
-                        beginTouchPosition = touch.position;
-                        break;
-                                
-                    case TouchPhase.Ended:
-                        if (tapDown)
-                        {
-                            tapDown = false;
-                            
-                            gestureState = GestureState.Release;
-                        }
-                        else
-                        {
-                                    
-                            endTouchPosition = touch.position;
-                                
-                            if (beginTouchPosition != endTouchPosition)
-                            {
-                                if (beginTouchPosition.x > endTouchPosition.x)
-                                {
-                                    //Debug.Log("Left Swipe");
-                                    gestureState = GestureState.Left;
-                                    PlayerController.Instance.MoveLeft();
-                                }
-                                if (beginTouchPosition.x < endTouchPosition.x)
-                                {
-                                    //Debug.Log("Right Swipe");
-                                    gestureState = GestureState.Right;
-                                    PlayerController.Instance.MoveRight();
-                                }
-                            }
-                        }
-                                
-                                
-                        break;
-                               
-                }
-                        
-                        
-            }
+            fastSwipe();
         }
-        
-        
         
 
         
+    }
+
+    public void fastSwipe()
+    {
+        
+        
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            startTouchPosition = Input.GetTouch(0).position;
+        }
+
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+        {
+            currentPosition = Input.GetTouch(0).position;
+            Vector2 Distance = currentPosition - startTouchPosition;
+
+            if (!stopTouch)
+            {
+
+                if (Distance.x < -swipeRange)
+                {
+                    gestureState = GestureState.Left;
+                    LevelManager.Instance._playerController.MoveLeft();
+                    stopTouch = true;
+                }
+                else if (Distance.x > swipeRange)
+                {
+                    gestureState = GestureState.Right;
+                    LevelManager.Instance._playerController.MoveRight();
+                    stopTouch = true;
+                }
+                else if (Distance.y > swipeRange)
+                {
+                    
+                    stopTouch = true;
+                }
+                else if (Distance.y < -swipeRange)
+                {
+                    
+                    stopTouch = true;
+                }
+
+            }
+
+        }
+
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary)
+        {
+            gestureState = GestureState.Break;
+            
+        }
+        
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            stopTouch = false;
+
+            endTouchPosition = Input.GetTouch(0).position;
+            
+            gestureState = GestureState.Release;
+        }
+    }
+
+    
 }
-}    
+
+
+        
+    
+        
+
+  

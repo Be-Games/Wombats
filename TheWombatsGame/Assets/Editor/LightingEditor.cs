@@ -66,12 +66,6 @@ public class LightingEditor : Editor
             UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         }
         
-        if (GUILayout.Button("Windy"))
-        {
-            esm.Windy();
-            
-            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
-        }
         
         
         

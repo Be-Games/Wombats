@@ -18,7 +18,7 @@ public class PickupsSpawner : MonoBehaviour
 
     private void Start()
     {
-        playerVehicle = LevelManager.Instance.currentPlayerCarModel;
+        playerVehicle = LevelManager.Instance.playerVisual;
         
     }
 

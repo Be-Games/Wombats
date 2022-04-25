@@ -60,17 +60,17 @@ public class EnemyController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         if (currentEnemyNumber == -1)
         {
-            enemyCarModelGO.transform.localPosition = new Vector3(LevelManager.Instance.enemy1.transform.localPosition.x - xOffSet,0f,0f);
-            Acc = LevelManager.Instance.enemy1.GetComponent<VehicleManager>().carSpeedSettings.Acc;
-            Dec = LevelManager.Instance.enemy1.GetComponent<VehicleManager>().carSpeedSettings.Dec;
-            enemySpeed = LevelManager.Instance.enemy1.GetComponent<VehicleManager>().carSpeedSettings.normalSpeed;
+            enemyCarModelGO.transform.localPosition = new Vector3(LevelManager.Instance.enemyLeftVisual.transform.localPosition.x - xOffSet,0f,0f);
+            Acc = LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().carSpeedSettings.Acc;
+            Dec = LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().carSpeedSettings.Dec;
+            enemySpeed = LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().carSpeedSettings.normalSpeed;
         }
         if (currentEnemyNumber == 1)
         {
-            enemyCarModelGO.transform.localPosition = new Vector3(LevelManager.Instance.enemy2.transform.localPosition.x + xOffSet,0f,0f);
-            Acc = LevelManager.Instance.enemy2.GetComponent<VehicleManager>().carSpeedSettings.Acc;
-            Dec = LevelManager.Instance.enemy2.GetComponent<VehicleManager>().carSpeedSettings.Dec;
-            enemySpeed = LevelManager.Instance.enemy2.GetComponent<VehicleManager>().carSpeedSettings.normalSpeed;
+            enemyCarModelGO.transform.localPosition = new Vector3(LevelManager.Instance.enemyRightVisual.transform.localPosition.x + xOffSet,0f,0f);
+            Acc = LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().carSpeedSettings.Acc;
+            Dec = LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().carSpeedSettings.Dec;
+            enemySpeed = LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().carSpeedSettings.normalSpeed;
         }
         
         yield return new WaitForSeconds(0.5f);

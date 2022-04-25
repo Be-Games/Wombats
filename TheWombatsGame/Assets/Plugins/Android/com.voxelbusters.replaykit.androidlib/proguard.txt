@@ -1,9 +1,0 @@
-# General
--keepattributes Signature
--keepattributes Exceptions
--keepattributes *Annotation*
--keepattributes EnclosingMethod
-
-
-# Replay Kit
--keep public class com.voxelbusters.replaykit.ReplayKitHandler {*; }
