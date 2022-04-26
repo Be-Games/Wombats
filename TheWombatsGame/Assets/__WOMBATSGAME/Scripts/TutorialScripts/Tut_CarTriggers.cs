@@ -141,7 +141,7 @@ public class Tut_CarTriggers : MonoBehaviour
 
         if (other.gameObject.CompareTag("Boost"))
         {
-            other.transform.GetChild(0).gameObject.SetActive(false);
+            other.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>().Stop();
             other.transform.GetChild(1).gameObject.GetComponent<ParticleSystem>().Play();
 
             foreach (var abc in TutPlayerController.boostFiller)
@@ -174,6 +174,8 @@ public class Tut_CarTriggers : MonoBehaviour
             //ENABLE BOOST BTN
             
             TutPlayerController.boostBtn_GO.GetComponent<Button>().enabled = true;
+            
+            other.gameObject.SetActive(false);
         }
         
         
@@ -188,6 +190,7 @@ public class Tut_CarTriggers : MonoBehaviour
         
         if (other.gameObject.name == "FinishLine")
         {
+            TutPlayerController.boostBtn_GO.SetActive(false);
             TutPlayerController.finalPanel_GO.SetActive(true);
             TutPlayerController.allConfetti.SetActive(true);
         }

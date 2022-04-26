@@ -190,8 +190,7 @@ public class FrontColliderTriggers : MonoBehaviour
 
         if (other.gameObject.CompareTag("FirstTrigger") && LevelManager.Instance.isFinalLap)
         {
-            Instantiate(LevelManager.Instance.stadiumPrefab, LevelManager.Instance.stadiumTransform.position,
-                LevelManager.Instance.stadiumTransform.rotation);
+           LevelManager.Instance.stadiumPrefab.SetActive(true);
             foreach (var x in LevelManager.Instance.stuffToRemove)
             {
                 x.SetActive(false);
