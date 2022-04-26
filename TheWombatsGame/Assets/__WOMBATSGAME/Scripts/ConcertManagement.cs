@@ -56,8 +56,8 @@ public class ConcertManagement : MonoBehaviour
         
     }
 
-    public void backtoHome()
+    public void backtoHome(string name)
     {
-        _gameManager.LoadScene("LevelSelection");
+        _gameManager.LoadScene(name);
     }
 }

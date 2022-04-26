@@ -30,7 +30,7 @@ public class PlayerSelection : MonoBehaviour
     {
         if (index == 0)
         {
-            currrentMemberName.text = "Matthew Murphy";
+            currrentMemberName.text = "Matthew Murphy" + "\n" + "MURPH";
             prevBtn.SetActive(false);
             nextBtn.SetActive(true);
 
@@ -39,7 +39,7 @@ public class PlayerSelection : MonoBehaviour
 
         if (index == 1)
         {
-            currrentMemberName.text = "Dan Haggis";
+            currrentMemberName.text = "Dan Haggis" + "\n" + "DAN";
             prevBtn.SetActive(true);
             nextBtn.SetActive(true);
             sceneCamera.transform.DOMove(cameraPositions[index].transform.position, 0.5f).SetEase(Ease.Flash);
@@ -47,7 +47,7 @@ public class PlayerSelection : MonoBehaviour
 
         if (index == 2)
         {
-            currrentMemberName.text = "Tord Øverland Knudsen";
+            currrentMemberName.text = "Tord Øverland Knudsen" + "\n" + "TORD";
             prevBtn.SetActive(true);
             nextBtn.SetActive(false);
             sceneCamera.transform.DOMove(cameraPositions[index].transform.position, 0.5f).SetEase(Ease.Flash);

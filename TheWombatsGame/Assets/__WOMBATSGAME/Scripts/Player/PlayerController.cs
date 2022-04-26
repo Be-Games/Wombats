@@ -1,49 +1,30 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using PathCreation.Examples;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private static PlayerController _instance;
 
-    public static PlayerController Instance
-    {
-        get
-        {
-            return _instance;
-        }
-    }
-
-    private void Awake()
-    {
-        _instance = this;
-    }
-
-    [Header("Class References")] [SerializeField]
-    public GameControls gameControlsClass;
-    
     [Header("Player Car Stuff")]
     public PathFollower playerPF;
     public GameObject PlayercarVisual;        //CAR MODEL GO
 
-    [Header("Car Settings")]
+    [Header("Selected Car Settings")]
     public float Acc;
     public float Dec;
     public float targetSpeed;
     public float normalSpeed;
     public float boostSpeed;
 
-    
 
-    [Header("Car Movement Variables")] 
+    [Header("Car Movement Variables")]
     [SerializeField]
-    public bool isAnimPlayed;
+    private Transform leftCarTransform;
     [SerializeField] 
-    private Transform leftCarTransform,rightCarTransform,centreCarTransform;
-    private Vector3 Velocity = Vector3.zero;
+    private Transform rightCarTransform;
+    [SerializeField] 
+    private Transform centreCarTransform;
     [SerializeField]
     public int currentPosition;
     public float cameraOffsetxOffset;
@@ -52,27 +33,32 @@ public class PlayerController : MonoBehaviour
     
     private void Start()
     {
-        movementDuration = 0.2f;
-        rotationDuration = 0.1f;
-        Acc = LevelManager.Instance.playerVehicleManager.carSpeedSettings.Acc;
-        Dec = LevelManager.Instance.playerVehicleManager.carSpeedSettings.Dec;
-        normalSpeed = LevelManager.Instance.playerVehicleManager.carSpeedSettings.normalSpeed;
-        boostSpeed = LevelManager.Instance.playerVehicleManager.carSpeedSettings.boostSpeed;
-        
-        targetSpeed = normalSpeed;
-        PlayercarVisual = LevelManager.Instance.CARMODELgo;
-        StartCoroutine("IniCarPush");
+        variablesInitilization();
+        StartCoroutine(CarInitialPush());
         
         
     }
 
-    IEnumerator IniCarPush()
+    void variablesInitilization()
     {
-        // PlayercarVisual.transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(false); 
+        movementDuration = 0.2f;
+        rotationDuration = 0.1f;
+        Acc = LevelManager.Instance._playerVehicleManager.carSpeedSettings.Acc;
+        Dec = LevelManager.Instance._playerVehicleManager.carSpeedSettings.Dec;
+        normalSpeed = LevelManager.Instance._playerVehicleManager.carSpeedSettings.normalSpeed;
+        boostSpeed = LevelManager.Instance._playerVehicleManager.carSpeedSettings.boostSpeed;
+        PlayercarVisual = LevelManager.Instance.playerVisual;
+        
+        
+    }
+
+    IEnumerator CarInitialPush()
+    {
+        targetSpeed = normalSpeed;
+        
         playerPF.speed = 0.5f;
         PlayercarVisual.transform.localPosition = new Vector3(PlayercarVisual.transform.localPosition.x,0.02f,0f);
         yield return new WaitForSeconds(0.5f);
-        // PlayercarVisual.transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true); 
         playerPF.speed = 0;
         
     }
@@ -84,12 +70,24 @@ public class PlayerController : MonoBehaviour
         {
             if (GameManager.Instance.canControlCar)
             {
-                if (gameControlsClass.gestureState == GameControls.GestureState.Break)                                // Apply Breaks
+                if (LevelManager.Instance._gameControls.gestureState == GameControls.GestureState.Break)                                // Apply Breaks
                 {
+                    if (!LevelManager.Instance.isBoosting)
+                    {
+                      // DOTween.To(() => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
+                      //       x => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -1.3f, 0.5f)
+                      //   .OnUpdate(() => {
+                      //   
+                      //   });
                     
-                    //SLOW WINDS ON
-                    LevelManager.Instance.slowWind.SetActive(true);
-                    LevelManager.Instance.FastWind.SetActive(false);
+                    // DOTween.To(() => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y,                     ////damping camera effect
+                    //         x => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y = x, 0.8f, 0.5f)
+                    //     .OnUpdate(() => {
+                    //     
+                    //     });
+                    
+                    //winds off
+                    LevelManager.Instance.FastWind.gameObject.SetActive(false);
                     
                     //Decelerate
                     float target = 0;                                                                                
@@ -106,35 +104,67 @@ public class PlayerController : MonoBehaviour
                     }
                     
                     //Other Effects
-                    LevelManager.Instance.playerVehicleManager.carEffects.breakLight.SetActive(true);        //CAR LIGHTS + TIRES SMOKES
+                    LevelManager.Instance._playerVehicleManager.carEffects.breakLight.SetActive(true);        //CAR LIGHTS + TIRES SMOKES
                     
-                    LevelManager.Instance.playerVehicleManager.carEffects.carBreakGO.transform.GetChild(0).GetComponent<ParticleSystem>().Stop();
-                    LevelManager.Instance.playerVehicleManager.carEffects.carBreakGO.transform.GetChild(1).GetComponent<ParticleSystem>().Stop();
+                    // LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(0).GetComponent<ParticleSystem>().Stop();
+                    // LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(1).GetComponent<ParticleSystem>().Stop();  
+                    
+                    }
+                    
+                    
                     
                 }
 
-                if (gameControlsClass.gestureState == GameControls.GestureState.Release)                            //Release Breaks
+                if (LevelManager.Instance._gameControls.gestureState == GameControls.GestureState.Release)                            //Release Breaks
                 {
+                    if (!LevelManager.Instance.isBoosting)
+                    {
+                        // DOTween.To(() => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
+                        //         x => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -1.75f, 0.5f)
+                        //     .OnUpdate(() => {
+                        //
+                        //     });
                     
-                    //FAST WINDS ON
-                    LevelManager.Instance.slowWind.SetActive(false);
-                    LevelManager.Instance.FastWind.SetActive(true);
+                        // DOTween.To(() => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y,                     ////damping camera effect
+                        //         x => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y = x, 1.2f, 0.5f)
+                        //     .OnUpdate(() => {
+                        //     
+                        //     });
                     
-                    //Accelerate
-                    float target = targetSpeed;
-                    float delta = target - playerPF.speed;
-                    delta *= Time.deltaTime * Acc;
-                    playerPF.speed += delta;
+                        //WINDS ON
+                        LevelManager.Instance.FastWind.gameObject.SetActive(true);
                     
-                    //Other Effects
-                    LevelManager.Instance.playerVehicleManager.carEffects.breakLight.SetActive(false);        //CAR LIGHTS + TIRES SMOKES
+                        //Accelerate
+                        float target = targetSpeed;
+                        float delta = target - playerPF.speed;
+                        delta *= Time.deltaTime * Acc;
+                        playerPF.speed += delta;
+                    
+                        //Other Effects
+                        LevelManager.Instance._playerVehicleManager.carEffects.breakLight.SetActive(false);        //CAR LIGHTS + TIRES SMOKES
 
-                    LevelManager.Instance.playerVehicleManager.carEffects.carBreakGO.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
-                    LevelManager.Instance.playerVehicleManager.carEffects.carBreakGO.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+                        // LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+                        // LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
                     
 
-                    //BRAKE SOUND PLAY
-                    //AudioManager.Instance.Play(AudioManager.Instance.sfxAll.brakeSound);
+                        //BRAKE SOUND PLAY
+                        //AudioManager.Instance.Play(AudioManager.Instance.sfxAll.brakeSound); 
+                    }
+                    else
+                    {
+                        //WINDS ON
+                        LevelManager.Instance.FastWind.gameObject.SetActive(false);
+                    
+                        //Accelerate
+                        float target = targetSpeed;
+                        float delta = target - playerPF.speed;
+                        delta *= Time.deltaTime * Acc;
+                        playerPF.speed += delta;
+                        
+                        //Other Effects
+                        LevelManager.Instance._playerVehicleManager.carEffects.breakLight.SetActive(false);        //CAR LIGHTS + TIRES SMOKES
+                    }
+                    
                 }
                 
             }
@@ -150,14 +180,12 @@ public class PlayerController : MonoBehaviour
 
     
     #region PlayerGestureMovements
-
     
-
     public void MoveLeft()
     {
         //COUNTDOWNTIMER SOUND
-        if(LevelManager.Instance._audioManager && LevelManager.Instance._audioManager.isSFXenabled)
-            LevelManager.Instance._audioManager.Play(LevelManager.Instance._audioManager.sfxAll.switchLaneSound);
+       // if(LevelManager.Instance._audioManager && LevelManager.Instance._audioManager.isSFXenabled)
+           // LevelManager.Instance._audioManager.Play(LevelManager.Instance._audioManager.sfxAll.switchLaneSound);
         
         switch (currentPosition)
         {
@@ -168,8 +196,8 @@ public class PlayerController : MonoBehaviour
                     .OnComplete(()=> PlayercarVisual.transform.DOLocalRotate(new Vector3(0f,0f,0f), rotationDuration));
                 
                 
-                DOTween.To(() => LevelManager.Instance.cmCameraOffset.m_Offset.x, 
-                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, -cameraOffsetxOffset, 0.2f)
+                DOTween.To(() => LevelManager.Instance.defCMVCCam.gameObject.GetComponent<CinemachineCameraOffset>().m_Offset.x, 
+                        x => LevelManager.Instance.defCMVCCam.gameObject.GetComponent<CinemachineCameraOffset>().m_Offset.x = x, -cameraOffsetxOffset, 0.3f)
                     .OnUpdate(() => {
                         
                     });
@@ -184,8 +212,8 @@ public class PlayerController : MonoBehaviour
                 PlayercarVisual.transform.DOLocalRotate(new Vector3(0f,-16.83f,0f), rotationDuration)
                     .OnComplete(()=> PlayercarVisual.transform.DOLocalRotate(new Vector3(0f,0f,0f), rotationDuration));
                 
-                DOTween.To(() => LevelManager.Instance.cmCameraOffset.m_Offset.x, 
-                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, 0, 0.2f)
+                DOTween.To(() => LevelManager.Instance.defCMVCCam.gameObject.GetComponent<CinemachineCameraOffset>().m_Offset.x, 
+                        x => LevelManager.Instance.defCMVCCam.gameObject.GetComponent<CinemachineCameraOffset>().m_Offset.x = x, 0, 0.3f)
                     .OnUpdate(() => {
                         
                     });
@@ -199,8 +227,8 @@ public class PlayerController : MonoBehaviour
     public void MoveRight()
     {
         //COUNTDOWNTIMER SOUND
-        if(LevelManager.Instance._audioManager && LevelManager.Instance._audioManager.isSFXenabled)
-            LevelManager.Instance._audioManager.Play(LevelManager.Instance._audioManager.sfxAll.switchLaneSound);
+        //if(LevelManager.Instance._audioManager && LevelManager.Instance._audioManager.isSFXenabled)
+           // LevelManager.Instance._audioManager.Play(LevelManager.Instance._audioManager.sfxAll.switchLaneSound);
         
         switch (currentPosition)
         {
@@ -210,8 +238,8 @@ public class PlayerController : MonoBehaviour
                 PlayercarVisual.transform.DOLocalRotate(new Vector3(0f,16.83f,0f), rotationDuration)
                     .OnComplete(()=> PlayercarVisual.transform.DOLocalRotate(new Vector3(0f,0f,0f), rotationDuration));
                 
-                DOTween.To(() => LevelManager.Instance.cmCameraOffset.m_Offset.x, 
-                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, cameraOffsetxOffset, 0.2f)
+                DOTween.To(() => LevelManager.Instance.defCMVCCam.gameObject.GetComponent<CinemachineCameraOffset>().m_Offset.x, 
+                        x => LevelManager.Instance.defCMVCCam.gameObject.GetComponent<CinemachineCameraOffset>().m_Offset.x = x, cameraOffsetxOffset, 0.3f)
                     .OnUpdate(() => {
                         
                     });
@@ -224,8 +252,8 @@ public class PlayerController : MonoBehaviour
                 PlayercarVisual.transform.DOLocalRotate(new Vector3(0f,16.83f,0f), rotationDuration)
                     .OnComplete(()=> PlayercarVisual.transform.DOLocalRotate(new Vector3(0f,0f,0f), rotationDuration));
                 
-                DOTween.To(() => LevelManager.Instance.cmCameraOffset.m_Offset.x, 
-                        x => LevelManager.Instance.cmCameraOffset.m_Offset.x = x, 0, 0.2f)
+                DOTween.To(() => LevelManager.Instance.defCMVCCam.gameObject.GetComponent<CinemachineCameraOffset>().m_Offset.x, 
+                        x => LevelManager.Instance.defCMVCCam.gameObject.GetComponent<CinemachineCameraOffset>().m_Offset.x = x, 0, 0.3f)
                     .OnUpdate(() => {
                         
                     });

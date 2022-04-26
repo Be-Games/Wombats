@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     
     public int lightingMode = 1;
     public bool canControlCar;
+    public int weatherEffect = 0;
 
 
     [Header("Stadium Scene Stuff")] 

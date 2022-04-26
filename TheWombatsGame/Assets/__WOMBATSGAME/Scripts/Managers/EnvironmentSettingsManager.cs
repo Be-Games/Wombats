@@ -42,7 +42,7 @@ public class EnvironmentSettingsManager : MonoBehaviour
         public float fogDensity;
     }
 
-    public GameObject[] weatherEffects;  //0 - rain , 1 - snow , 2 - fog . 3- Windy
+   
     public DayStuff dayStuff;
     public NightStuff nightStuff;
     
@@ -53,6 +53,8 @@ public class EnvironmentSettingsManager : MonoBehaviour
             DayMode();
         if(GameManager.Instance.lightingMode == 2)
             NightMode();
+
+        
     }
 
     public void NightMode()
@@ -85,62 +87,33 @@ public class EnvironmentSettingsManager : MonoBehaviour
 
     public void Clear()
     {
-        foreach (var we in weatherEffects)
+        foreach (var we in LevelManager.Instance.allEffects)
         {
-            we.SetActive(false);
+            we.Stop();
+        }
+        foreach (var we in LevelManager.Instance.allEffects2)
+        {
+            we.Stop();
         }
     }
     
     public void Rain()
     {
-        for (int i = 0; i < 4; i++)
-        {
-            if(i == 0)
-                weatherEffects[i].SetActive(true);
-            else
-            {
-                weatherEffects[i].SetActive(false);
-            }   
-        }
+        LevelManager.Instance.allEffects[0].Play();
+        LevelManager.Instance.allEffects2[0].Play();
     }
     
     public void Snow()
     {
-        for (int i = 0; i < 4; i++)
-        {
-            if(i == 1)
-                weatherEffects[i].SetActive(true);
-            else
-            {
-                weatherEffects[i].SetActive(false);
-            }   
-        }
+        LevelManager.Instance.allEffects[1].Play();
+        LevelManager.Instance.allEffects2[1].Play();
     }
     
     public void Fog()
     {
-        for (int i = 0; i < 4; i++)
-        {
-            if(i == 2)
-                weatherEffects[i].SetActive(true);
-            else
-            {
-                weatherEffects[i].SetActive(false);
-            }   
-        }
+        LevelManager.Instance.allEffects[2].Play();
+        LevelManager.Instance.allEffects2[2].Play();
     }
     
-    public void Windy()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            if(i == 3)
-                weatherEffects[i].SetActive(true);
-            else
-            {
-                weatherEffects[i].SetActive(false);
-            }   
-        }
-    }
     
 }
