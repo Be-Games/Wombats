@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Cinemachine;
 using DG.Tweening;
 using PathCreation.Examples;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Tut_PlayerController : MonoBehaviour
 {
@@ -35,12 +37,22 @@ public class Tut_PlayerController : MonoBehaviour
     public bool canMoveLeft, canMoveRight, canBreak, canBoost;
     
     public GameObject fullPanel;
-    public GameObject moveLeft_GO,moveRight_GO;
+    public GameObject moveLeft_GO,moveRight_GO,tapBreak_GO,coinPanel,boostPanel,finalPanel_GO;
     public GameObject getready_Panel, getreadyText, goText;
 
     public CinemachineVirtualCamera defCMVCCam;
 
     public GameObject slowWinds, fastWinds, nosEffect1, nosEffect2;
+    public MeshRenderer backLightMat;
+    public Material whiteMat, redMat;
+    public DOTweenAnimation barrierDO;
+
+    public GameObject boostBtn_GO;
+    public Image[] boostFiller;
+
+    public GameObject allConfetti;
+    
+    
     
      private void Start()
     {
@@ -90,10 +102,15 @@ public class Tut_PlayerController : MonoBehaviour
         if (gamecontrols.gestureState == Tut_Gamecontrols.GestureState.Break)
         {
             slowWinds.SetActive(true);
+            
         }
         else
         {
             slowWinds.SetActive(false);
+            PlayercarVisual.GetComponent<VehicleManager>().carEffects.breakLight.SetActive(false);
+            var materials = PlayercarVisual.GetComponent<VehicleManager>().bodyTrigger.body
+                .GetComponent<MeshRenderer>().materials;
+            materials[1] = whiteMat;
         }
         
         if (gamecontrols.gestureState == Tut_Gamecontrols.GestureState.Release)
@@ -265,7 +282,73 @@ public class Tut_PlayerController : MonoBehaviour
         
     }
     
+    public void BoostCarButton()
+    {
+        StartCoroutine("BoostCarSettings");
+    }
+
     
+    IEnumerator BoostCarSettings()
+    {
+       gamecontrols.gestureState = Tut_Gamecontrols.GestureState.Release;
+       boostPanel.SetActive(false); 
+       
+         targetSpeed = boostSpeed;
+         PlayercarVisual.GetComponent<VehicleManager>().carEffects.NOSEffectsPS.gameObject.SetActive(true);//under car effect show once
+
+        DOTween.To(() => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
+                x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -3f, 0.5f)
+            .OnUpdate(() => {
+                        
+            });
+        
+        
+        nosEffect1.SetActive(true);
+        nosEffect2.SetActive(true);
+
+
+        boostBtn_GO.GetComponent<DOTweenAnimation>().DOPause();
+        boostBtn_GO.transform.DOScale(new Vector3(0.5f,0.5f,0.5f), 0f);
+        
+      
+        boostBtn_GO.GetComponent<Button>().enabled = false;
+        
+        
+            //Boost Image back to original
+        foreach (var abc in boostFiller)                    
+        {
+            DOTween.To(() => abc.fillAmount, 
+                    x => abc.fillAmount = x, 0f, 6.4f)
+                .OnUpdate(() => {
+                        
+                });
+        }
+        
+        //WHEN BOOST IS DONE
+        yield return new WaitForSeconds(3f);
+
+        Debug.Log("DONE");
+        
+        targetSpeed = normalSpeed;
+        PlayercarVisual.GetComponent<VehicleManager>().carEffects.NOSEffectsPS.gameObject.SetActive(false);//under car effect show once
+
+        DOTween.To(() => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
+                x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -2f, 0.5f)
+            .OnUpdate(() => {
+                        
+            });
+        
+        
+        nosEffect1.SetActive(false);
+        nosEffect2.SetActive(false);
+
+        
+    }
+
+    public void LoadScene()
+    {
+        GameManager.Instance.LoadScene("LevelSelection");
+    }
 
     #endregion
     
