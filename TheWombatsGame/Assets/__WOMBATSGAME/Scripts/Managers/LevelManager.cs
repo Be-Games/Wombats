@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using Coffee.UIEffects;
 using DG.Tweening;
 using Lofelt.NiceVibrations;
 using TMPro;
@@ -55,7 +56,7 @@ public class LevelManager : MonoBehaviour
 
     [Header("Boost Settings")] 
     [HideInInspector]public int totalBoostNumber;                                                                            //Total Times boost can be done
-    [HideInInspector]public float individualBoostCounter;                                                                    //Total boost Counter ( shd be 3 )
+    public float individualBoostCounter;                                                                    //Total boost Counter ( shd be 3 )
     public Image[] boostFiller;
     [HideInInspector]public bool isBoosting;
     
@@ -84,9 +85,9 @@ public class LevelManager : MonoBehaviour
     
     [Header("Misc Stuff")]
     public float startTime;
-    public GameObject[] playerCarCollidersToToggle;
+    public Collider playerCarCollidersToToggle;
     public TextMeshProUGUI carContinueChances;
-    [HideInInspector]public int continueCounter;
+    public int continueCounter;
     
    
 
@@ -126,7 +127,7 @@ public class LevelManager : MonoBehaviour
     {
         _instance = this;
         
-        // _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+        _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
         // if (_gameManager)
         // {
         //     currentPlayerCarModel = _gameManager.playerCarModels;
@@ -139,8 +140,8 @@ public class LevelManager : MonoBehaviour
         // Instantiate(enemy1, ENEMYLEFTgo.transform.position, sampleCartransform.rotation, ENEMYLEFTgo.transform);
         // Instantiate(enemy2, ENEMYRIGHTgo.transform.position, sampleCartransform.rotation, ENEMYRIGHTgo.transform);
         //
-        // playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
-        // _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        //playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
+        _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
     
     private void Start()
@@ -164,13 +165,7 @@ public class LevelManager : MonoBehaviour
 
     void InitializingVariables()
     {
-        for (int i = 0; i < 4; i++)
-        {
-            playerCarCollidersToToggle[i] = _playerVehicleManager.carWheels.wheels[i];
-        }
-
-        playerCarCollidersToToggle[4] = _playerVehicleManager.bodyTrigger.body;
-        playerCarCollidersToToggle[5] = _playerVehicleManager.bodyTrigger.trigger;
+        playerCarCollidersToToggle = playerVisual.GetComponent<Collider>();
         
         currentScore = 0;
         _uiManager.scoreText.text = currentScore.ToString();
@@ -222,9 +217,9 @@ public class LevelManager : MonoBehaviour
         if (_gameManager.weatherEffect == 1)
             envManager.Rain();
         if(_gameManager.weatherEffect == 2)
-            envManager.Fog();
+            envManager.Clear();
         if(_gameManager.weatherEffect == 3)
-            envManager.Snow();
+            envManager.Clear();
         
     }
     
@@ -240,9 +235,9 @@ public class LevelManager : MonoBehaviour
         if (_gameManager.weatherEffect == 1)
             envManager.Rain();
         if(_gameManager.weatherEffect == 2)
-            envManager.Fog();
+            envManager.Clear();
         if(_gameManager.weatherEffect == 3)
-            envManager.Snow();
+            envManager.Clear();
         
         _uiManager.flyThruPanel.SetActive(false);
         _uiManager.FlyOverBlackPanelsTweening();
@@ -260,8 +255,8 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(2.1f);
         
         //COUNTDOWNTIMER SOUND
-        // if(_audioManager && _audioManager.isSFXenabled)
-        //     _audioManager.Play(_audioManager.sfxAll.countDownSound);
+         if(_audioManager && _audioManager.isSFXenabled)
+             _audioManager.Play(_audioManager.sfxAll.countDownSound);
         
         
         
@@ -353,13 +348,13 @@ public class LevelManager : MonoBehaviour
             
             var mySequence = DOTween.Sequence();
             
-            mySequence.Append( _uiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-921,545f), 0f)
-                .OnComplete(() => _uiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0,545f), 0.3f).SetEase(Ease.Flash)));
+            mySequence.Append( _uiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-1233, _uiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().anchoredPosition.y), 0f)
+                .OnComplete(() => _uiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0,_uiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().anchoredPosition.y), 0.3f).SetEase(Ease.Flash)));
             
             
             mySequence.AppendInterval(2);
 
-            mySequence.OnComplete(() => _uiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(921,545f), 0.3f).SetEase(Ease.Flash));
+            mySequence.OnComplete(() => _uiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().DOAnchorPos(new Vector2(1233,_uiManager.StatusIndicatorPanelGO.GetComponent<RectTransform>().anchoredPosition.y), 0.3f).SetEase(Ease.Flash));
             
             #endregion
             
@@ -386,11 +381,11 @@ public class LevelManager : MonoBehaviour
                 tempPrefab.tag = "TEMP";
             }
             
-            boostPickUps = new List<GameObject>();
-            if (GameObject.FindGameObjectWithTag("Boost").activeInHierarchy)
-            {
-                boostPickUps.AddRange(GameObject.FindGameObjectsWithTag("Boost"));
-            }
+            // boostPickUps = new List<GameObject>();
+            // if (GameObject.FindGameObjectWithTag("Boost").activeInHierarchy)
+            // {
+            //     boostPickUps.AddRange(GameObject.FindGameObjectsWithTag("Boost"));
+            // }
             
         
             pplToDisable = new List<GameObject>();
@@ -495,13 +490,12 @@ public class LevelManager : MonoBehaviour
             _gameManager.LoadScene("Concert_Scn");
         }
         //ReplayKitDemo.Discard();
-        
+        else
+        {
+            _uiManager.postAdCrashPanel.SetActive(true);
+        }
     }
-
-    public void sharePreview()
-    {
-        
-    }
+    
 
     #region ALLABOUTBOOST
     
@@ -509,72 +503,72 @@ public class LevelManager : MonoBehaviour
     {
         individualBoostCounter += 1;                
         
-        //BOOST FILL AMOUNT
-        switch (individualBoostCounter)
-        {
-            case 0:
-                boostFiller[0].fillAmount = 0;
-                boostFiller[1].fillAmount = 0;
-                break;
+            //BOOST FILL AMOUNT
+            switch (individualBoostCounter)
+            {
+                case 0:
+                    boostFiller[0].fillAmount = 0;
+                    boostFiller[1].fillAmount = 0;
+                    break;
             
-            case 1:
-                foreach (var abc in boostFiller)
-                {
-                    DOTween.To(() => abc.fillAmount, 
-                            x => abc.fillAmount = x, 0.332f, 0.3f)
-                        .OnUpdate(() => {
+                case 1:
+                    foreach (var abc in boostFiller)
+                    {
+                        DOTween.To(() => abc.fillAmount, 
+                                x => abc.fillAmount = x, 0.332f, 0.3f)
+                            .OnUpdate(() => {
                         
-                        });
-                }
+                            });
+                    }
 
-                break;
+                    break;
             
-            case 2:
-                foreach (var abc in boostFiller)
-                {
-                    DOTween.To(() => abc.fillAmount, 
-                            x => abc.fillAmount = x, 0.699f, 0.3f)
-                        .OnUpdate(() => {
+                case 2:
+                    foreach (var abc in boostFiller)
+                    {
+                        DOTween.To(() => abc.fillAmount, 
+                                x => abc.fillAmount = x, 0.699f, 0.3f)
+                            .OnUpdate(() => {
                         
-                        });
-                }
+                            });
+                    }
 
-                break;
+                    break;
             
-            case 3:
-                foreach (var abc in boostFiller)
-                {
-                    DOTween.To(() => abc.fillAmount, 
-                            x => abc.fillAmount = x, 1f, 0.3f)
-                        .OnComplete(BoostActivated);
-                }
+                case 3:
+                    foreach (var abc in boostFiller)
+                    {
+                        DOTween.To(() => abc.fillAmount, 
+                                x => abc.fillAmount = x, 1f, 0.3f)
+                            .OnComplete(BoostActivated);
+                    }
                 
-                break;
+                    break;
             
-        }
-      
+            }
+
     }
     
 
     void BoostActivated()
     {
-        individualBoostCounter = 0;
+       
         
         //ENABLE BOOST BTN
         _uiManager.BoostBtn.GetComponent<Button>().enabled = true;
         
         //DISABLE ALL THE BOOST PICKUPS
-        foreach (GameObject x in boostPickUps)                                                            //Dissable all the boost pickups
-        {
-            if(x != null)
-                x.SetActive(false);
-        }
+        // foreach (GameObject x in boostPickUps)                                                            //Dissable all the boost pickups
+        // {
+        //     if(x != null)
+        //         x.SetActive(false);
+        // }
         
         
         //SHINY EFFECT
-        //UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = true;
-        //UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = true;
-       // UiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPlay();
+        _uiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = true;
+        _uiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = true;
+        //UiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPlay();
         
         
     }
@@ -588,93 +582,111 @@ public class LevelManager : MonoBehaviour
     
     IEnumerator BoostCarSettings()
     {
-        isBoosting = true;
-
-        DOTween.To(() => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
-                x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -3f, 0.5f)
-            .OnUpdate(() => {
-                        
-            });
+        
+        CarBoostOn();
+        
+        // DOTween.To(() => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
+        //         x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -3f, 0.5f)
+        //     .OnUpdate(() => {
+        //                 
+        //     });
         
         //VIBRATE ON BOOST BTN PRESSED
-        if (_audioManager.isHapticEnabled)
+        
+        // if (_audioManager.isHapticEnabled)
            // playerVisual.GetComponent<HapticSource>().Play();
 
-         speedLinesEffect.Play();
+           
         
-        //disable shiny effect
-       // UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = false;
-       // UiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectFactor = 0;
-       // UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = false;
-       // UiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectFactor = 0;
 
        //UiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPause();
-       _uiManager.BoostBtn.transform.DOScale(new Vector3(0.5f,0.5f,0.5f), 0f);
+       
+       
+        //WHEN BOOST IS DONE
+        yield return new WaitForSeconds(8f);
+
+        CarBoostOff();
+        // foreach (GameObject x in boostPickUps)                                                            //Dissable all the boost pickups
+        // {
+        //     if(x != null)
+        //         x.SetActive(true);
+        // }
         
-       LevelManager.Instance._playerVehicleManager.carEffects.NOSEffectsPS.Play();                  //NOS Particle Effect
-        _playerController.targetSpeed = _playerController.boostSpeed;                                       //Set speed to boost speed
+        
+        
+        // DOTween.To(() => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,         ////damping camera effect
+        //         x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -1.75f, 0.8f)
+        //     .OnUpdate(() => {
+        //                 
+        //     });
+    }
+
+
+    void CarBoostOn()
+    {
+       // disable shiny effect
+         _uiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = false;
+         _uiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectFactor = 0;
+         _uiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = false;
+         _uiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectFactor = 0;
+        
+        isBoosting = true;
+        
+        //speed change
+        _playerController.targetSpeed = _playerController.boostSpeed;    
+        
+        //Weather Effects
+        windGrassEffect.gameObject.SetActive(true);
+        speedLinesEffect.gameObject.SetActive(true);
+        
+        //Car Effects
+        _playerVehicleManager.carEffects.NOSEffectsPS.gameObject.SetActive(true);                 //NOS Particle Effect
+        
+        //boost btn changes
+        _uiManager.BoostBtn.transform.DOScale(new Vector3(0.5f,0.5f,0.5f), 0f);
         _uiManager.BoostBtn.GetComponent<Button>().enabled = false;
         
-        //focus.SetFocused(currentPlayerCarModel);                                                                                        //blur effects
-        //playerVehicleManager.carEffects.boostActivatedEffect.Play();                                                    //Shield effect
-        
-        
-       
-        
-
-        foreach (GameObject x in pplToDisable)                                                                            //Disable all the people
-        {
-            if(x!= null)
-                x.SetActive(false);
-        }
-        
-       
-            //Boost Image back to original
+        //Boost Image back to original
         foreach (var abc in boostFiller)                    
         {
             DOTween.To(() => abc.fillAmount, 
-                    x => abc.fillAmount = x, 0f, 6.4f)
+                    x => abc.fillAmount = x, 0f, 9f)
                 .OnUpdate(() => {
                         
                 });
         }
         
-        //WHEN BOOST IS DONE
-        yield return new WaitForSeconds(5f);
-
-        
-        
-        speedLinesEffect.Stop();
-        
-        foreach (GameObject x in boostPickUps)                                                            //Dissable all the boost pickups
+        //ppl disable
+        foreach (GameObject x in pplToDisable)                                                                        
         {
-            if(x != null)
-                x.SetActive(true);
+            if(x!= null)
+                x.SetActive(false);
         }
-        
+    }
+
+    void CarBoostOff()
+    {
         isBoosting = false;
         
+        //speed change
+        _playerController.targetSpeed = _playerController.normalSpeed;    
+        
+        //Weather Effects
+        windGrassEffect.gameObject.SetActive(false);
+        speedLinesEffect.gameObject.SetActive(false);
+        
+        //Car Effects
+        _playerVehicleManager.carEffects.NOSEffectsPS.gameObject.SetActive(false);                 //NOS Particle Effect
+        
+        //enable ppl
         foreach (GameObject x in pplToDisable)
         {
             if(x != null)
                 x.SetActive(true);
         }
-
-        LevelManager.Instance._playerVehicleManager.carEffects.NOSEffectsPS.Stop();                    //NOS Particle Effect
-        _playerController.targetSpeed = _playerController.normalSpeed;                                                                //normal speed
         
-        
-        //focus.SetFocused(null);                                                                                            //unblur
-        //playerVehicleManager.carEffects.boostActivatedEffect.Stop();
-        
-        
-        DOTween.To(() => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,         ////damping camera effect
-                x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -1.75f, 0.8f)
-            .OnUpdate(() => {
-                        
-            });
+        individualBoostCounter = 0;
     }
-    
     #endregion
     
     
@@ -743,8 +755,8 @@ public class LevelManager : MonoBehaviour
         
         if (continueCounter == 2)
         {
-            _uiManager.crashedPanel.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);           //ADD GET MORE LIVES BUTTON
-            _uiManager.crashedPanel.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);         //CONTINUE BUTTON REMOVE
+            _uiManager.rewardBtn.SetActive(true);           //ADD GET MORE LIVES BUTTON
+            _uiManager.continueBtn.SetActive(false);        //CONTINUE BUTTON REMOVE
             
         }
         
@@ -753,32 +765,23 @@ public class LevelManager : MonoBehaviour
         isCrashed = false;
         
         
-        
-
         _playerController.playerPF.speed = _playerVehicleManager.carSpeedSettings.normalSpeed;
         _playerController.playerPF.enabled = true;
         
         GameManager.Instance.canControlCar = true;
         _gameControls.gestureState = GameControls.GestureState.Release;
 
-        _playerVehicleManager.postCrashStuff.crashPS.Stop();
+        _playerVehicleManager.postCrashStuff.crashPS.gameObject.SetActive(false);
         _playerVehicleManager.postCrashStuff.up_car.SetActive(true);
         _playerVehicleManager.postCrashStuff.down_car.SetActive(false);
 
-        foreach (GameObject x in pplToDisable)
-        {
-            if(x != null)
-                x.SetActive(true);
-        }
+        // foreach (GameObject x in pplToDisable)
+        // {
+        //     if(x != null)
+        //         x.SetActive(true);
+        // }
     
-        foreach (GameObject child in playerCarCollidersToToggle)
-        {
-            if (child.GetComponent<Collider>())
-            {
-                child.GetComponent<Collider>().enabled = false;
-            }
-            
-        }
+        playerCarCollidersToToggle.enabled = false;
         
         _playerController.PlayercarVisual.SetActive(false);
         
@@ -828,14 +831,7 @@ public class LevelManager : MonoBehaviour
         
         _playerController.PlayercarVisual.SetActive(true);
         
-        foreach (GameObject child in playerCarCollidersToToggle)
-        {
-            if (child.GetComponent<Collider>())
-            {
-                child.GetComponent<Collider>().enabled = true;
-            }
-            
-        }
+        playerCarCollidersToToggle.enabled = true;
         
         yield return new WaitForSeconds(0f);
         

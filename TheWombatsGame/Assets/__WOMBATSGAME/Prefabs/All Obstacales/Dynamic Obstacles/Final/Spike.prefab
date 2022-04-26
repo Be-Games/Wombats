@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 3601076566764851564}
   - component: {fileID: 8279373644109345126}
   - component: {fileID: 7657037289063113730}
-  m_Layer: 0
+  - component: {fileID: 5889030302883130040}
+  - component: {fileID: 5217866830394295156}
+  m_Layer: 9
   m_Name: spike
-  m_TagString: Untagged
+  m_TagString: Collision
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 955210031374377665}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.2, z: 0}
+  m_LocalPosition: {x: 0, y: -1.624, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7570490351246686101}
@@ -96,6 +98,43 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.4, y: 1.2, z: 1.6}
   m_Center: {x: 0, y: 0.6, z: 0}
+--- !u!114 &5889030302883130040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955210031374377665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fdc8bb4eff504a7bafcdb5dfc21cf0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5217866830394295156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955210031374377665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abd71dcb0056342b08cb3e8851fac00b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  minSpeed: 1
+  maxSpeed: 5
+  minRotationSpeed: 90
+  maxRotationSpeed: 360
+  fadeWaitTime: 0.5
+  fadeTime: 2
+  useGravity: 1
+  colliderThickness: 0.125
+  useNormals: 0
+  useMeshBoundsCenter: 0
+  allowShadows: 0
+  shadersAlreadyHandleTransparency: 0
 --- !u!1 &7080811391420263727
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,7 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7570490351246686101}
   - component: {fileID: 1972837911787850036}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Spike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +198,7 @@ GameObject:
   - component: {fileID: 6947357335308486900}
   - component: {fileID: 6352748985932687308}
   - component: {fileID: 8256616436482825529}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: spike ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}

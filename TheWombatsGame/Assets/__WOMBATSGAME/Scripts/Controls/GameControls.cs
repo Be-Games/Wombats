@@ -29,7 +29,7 @@ public class GameControls : MonoBehaviour
 
     private void Start()
     {
-        swipeRange = 5;
+        swipeRange = 50;
     }
 
     void Update()

@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelSelection : MonoBehaviour
 {
     public GameObject nextBtn, prevBtn, racebtn;
     public TextMeshProUGUI levelDetailTxt;
-
+    public GameObject comingSoonText;
     [Header("All Levels")]
     public GameObject[] allLevelsGO;
 
@@ -21,12 +22,13 @@ public class LevelSelection : MonoBehaviour
     public int lightingIndex;
 
     [SerializeField] private GameObject _gameManager;
-
+    public Button raceBtn;
     /// <summary>
     /// ORDER OF LEVELS - 0.LONDON DAY ; 1.LONDON NIGHT
     /// </summary>
     private void Start()
     {
+        comingSoonText.SetActive(false);
         _gameManager = GameObject.FindWithTag("GameManager");
         
         index = 0;
@@ -80,6 +82,9 @@ public class LevelSelection : MonoBehaviour
 
         if (index == 0)                                    //london day
         {
+            raceBtn.GetComponent<Button>().enabled = true;
+            comingSoonText.SetActive(false);
+            
             currentSceneName = "LONDON";
             lightingIndex = 1;
             
@@ -98,6 +103,9 @@ public class LevelSelection : MonoBehaviour
         
         if (index == 1)                                    //london night
         {
+            raceBtn.GetComponent<Button>().enabled = true;
+            comingSoonText.SetActive(false);
+            
             currentSceneName = "LONDON";
             lightingIndex = 2;
             
@@ -116,6 +124,10 @@ public class LevelSelection : MonoBehaviour
         
         if (index == 2)                                    //ROME day
         {
+
+            racebtn.GetComponent<Button>().enabled = false;
+            comingSoonText.SetActive(true);
+            
             currentSceneName = "ROME";
             lightingIndex = 1;
             
@@ -134,6 +146,8 @@ public class LevelSelection : MonoBehaviour
         
         if (index == 3)                                    //ROME night
         {
+            comingSoonText.SetActive(true);
+            racebtn.GetComponent<Button>().enabled = false;
             currentSceneName = "ROME";
             lightingIndex = 2;
             
@@ -188,6 +202,8 @@ public class LevelSelection : MonoBehaviour
         
         if (index == 4)                                    //SYDNEY day
         {
+            comingSoonText.SetActive(true);
+            racebtn.GetComponent<Button>().enabled = false;
             currentSceneName = "SYDNEY";
             lightingIndex = 1;
             
@@ -206,6 +222,8 @@ public class LevelSelection : MonoBehaviour
         
         if (index == 5)                                    //SYDNEY night
         {
+            comingSoonText.SetActive(true);
+            racebtn.GetComponent<Button>().enabled = false;
             currentSceneName = "SYDNEY";
             lightingIndex = 2;
             
@@ -275,5 +293,10 @@ public class LevelSelection : MonoBehaviour
         _gameManager.GetComponent<GameManager>().lightingMode = lightingIndex;
         _gameManager.GetComponent<GameManager>().LoadScene(currentSceneName);
         
+    }
+
+    public void playTut(string sceneName)
+    {
+        _gameManager.GetComponent<GameManager>().LoadScene(sceneName);
     }
 }

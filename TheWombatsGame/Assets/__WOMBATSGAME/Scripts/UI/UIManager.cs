@@ -50,7 +50,8 @@ public class UIManager : MonoBehaviour
     public Image[] blackImages;
 
     public Image playerProgressLine;
-    
+
+    [Header("Crashed Panel")] public GameObject continueBtn, restartBtn, rewardBtn;
     //DO TWEEN ANIMATION UIS
 
     private void OnEnable()

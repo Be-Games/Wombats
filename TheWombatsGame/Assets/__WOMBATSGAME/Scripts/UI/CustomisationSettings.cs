@@ -12,15 +12,15 @@ public class CustomisationSettings : MonoBehaviour
     
     [Header("Haptic")]
     [SerializeField] private GameObject switchBtnH;
-    public TextMeshProUGUI onTextH, offTextH;
+    public Button onTextH, offTextH;
     
     [Header("SFX")]
     [SerializeField] private GameObject switchBtnS;
-    public TextMeshProUGUI onTextS, offTextS;
+    public Button onTextS, offTextS;
     
     [Header("Music")]
     [SerializeField] private GameObject switchBtnM;
-    public TextMeshProUGUI onTextM, offTextM;
+    public Button onTextM, offTextM;
     
 
     public void HapticSwitch()

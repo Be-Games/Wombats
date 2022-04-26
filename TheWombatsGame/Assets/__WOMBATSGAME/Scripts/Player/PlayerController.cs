@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
                     //     });
                     
                     //winds off
-                    LevelManager.Instance.FastWind.Stop();
+                    LevelManager.Instance.FastWind.gameObject.SetActive(false);
                     
                     //Decelerate
                     float target = 0;                                                                                
@@ -106,8 +106,8 @@ public class PlayerController : MonoBehaviour
                     //Other Effects
                     LevelManager.Instance._playerVehicleManager.carEffects.breakLight.SetActive(true);        //CAR LIGHTS + TIRES SMOKES
                     
-                    LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(0).GetComponent<ParticleSystem>().Stop();
-                    LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(1).GetComponent<ParticleSystem>().Stop();  
+                    // LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(0).GetComponent<ParticleSystem>().Stop();
+                    // LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(1).GetComponent<ParticleSystem>().Stop();  
                     
                     }
                     
@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
                         //     });
                     
                         //WINDS ON
-                        LevelManager.Instance.FastWind.Play();
+                        LevelManager.Instance.FastWind.gameObject.SetActive(true);
                     
                         //Accelerate
                         float target = targetSpeed;
@@ -143,14 +143,27 @@ public class PlayerController : MonoBehaviour
                         //Other Effects
                         LevelManager.Instance._playerVehicleManager.carEffects.breakLight.SetActive(false);        //CAR LIGHTS + TIRES SMOKES
 
-                        LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
-                        LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+                        // LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+                        // LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
                     
 
                         //BRAKE SOUND PLAY
                         //AudioManager.Instance.Play(AudioManager.Instance.sfxAll.brakeSound); 
                     }
+                    else
+                    {
+                        //WINDS ON
+                        LevelManager.Instance.FastWind.gameObject.SetActive(false);
                     
+                        //Accelerate
+                        float target = targetSpeed;
+                        float delta = target - playerPF.speed;
+                        delta *= Time.deltaTime * Acc;
+                        playerPF.speed += delta;
+                        
+                        //Other Effects
+                        LevelManager.Instance._playerVehicleManager.carEffects.breakLight.SetActive(false);        //CAR LIGHTS + TIRES SMOKES
+                    }
                     
                 }
                 
