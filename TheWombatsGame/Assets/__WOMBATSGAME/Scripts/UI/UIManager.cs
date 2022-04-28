@@ -49,7 +49,8 @@ public class UIManager : MonoBehaviour
     [Header("Fly Over Variables")] 
     public Image[] blackImages;
 
-    public Image playerProgressLine;
+    public RectTransform playerProgressLine,enemyLProgressLine,enemyRightProgressLine;
+    public GameObject wombatLogoPlayer, wombatLogoenemyLeft, wombatLogoenemyRight;
 
     [Header("Crashed Panel")] public GameObject continueBtn, restartBtn, rewardBtn;
     //DO TWEEN ANIMATION UIS

@@ -114,6 +114,16 @@ public class FrontColliderTriggers : MonoBehaviour
             // if (LevelManager.Instance._audioManager.isHapticEnabled)
             //     LevelManager.Instance.currentPlayerCarModel.GetComponent<HapticSource>().Play();
         }
+
+        if (other.gameObject.CompareTag("TowerFallingTrigger"))
+        {
+            TowerFallAnimation();
+        }
+    }
+
+    void TowerFallAnimation()
+    {
+        LevelManager.Instance.rubixTower.transform.DOLocalRotate(new Vector3(0f, 0f, 54.781f), 1f).SetEase(Ease.Flash);
     }
 
     

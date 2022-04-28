@@ -5,6 +5,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerSelection : MonoBehaviour
 {
@@ -18,13 +19,32 @@ public class PlayerSelection : MonoBehaviour
     public int index;
 
    [SerializeField] private GameObject _gameManager;
-
+   
+   [Space(50)]
+   //Car Selection Variables
+   [SerializeField] private GameObject playerSelection_Panel;
+   [SerializeField] private GameObject garage_Panel;
+   
+   [SerializeField] private TextMeshProUGUI playerGarageName;
+   [SerializeField] private GameObject[] playerCars;                    // 0 - m , 1 - d , 3 - t
+   [SerializeField] Image[] mainCarImage;
+   
+   [SerializeField] private Image[] allMurphCars,allDanCars,allToddCars;
+   
     private void Start()
     {
+        //SET DEFAULT GARAGE PANEL OFF AND ALPHA TO 
+        garage_Panel.GetComponent<CanvasGroup>().alpha = 0;
+        garage_Panel.SetActive(false);
+        
+        //REFERENCES
         _gameManager = GameObject.FindWithTag("GameManager");
         index = 0;
+        
 
     }
+
+    
 
     void Update()
     {
@@ -74,6 +94,79 @@ public class PlayerSelection : MonoBehaviour
 
         _gameManager.GetComponent<GameManager>().charNumber = index+1;
         _gameManager.GetComponent<GameManager>().LoadScene("LevelSelection");
+    }
+    
+    //---------------------------------------------------------------------------------------
+
+    public void GarageBtn()
+    {
+        garage_Panel.SetActive(true);
+        garage_Panel.GetComponent<CanvasGroup>().DOFade(1f, 0.3f).SetEase(Ease.Flash);
+        
+        InitialisePanel();
+
+    }
+    
+    void InitialisePanel()
+    {
+        if (index == 0)
+            playerGarageName.text = "MURPH'S GARAGE";
+        if (index == 1)
+            playerGarageName.text = "DAN'S GARAGE";
+        if (index == 2)
+            playerGarageName.text = "TORD'S GARAGE";
+        
+        for (int i = 0; i < playerCars.Length; i++)
+        {
+            if(i != index)
+                playerCars[i].SetActive(false);
+            else 
+                playerCars[index].SetActive(true);
+        }
+
+        
+        
+        mainCarImage[0].sprite = allMurphCars[PlayerPrefs.GetInt("MurphKey",0)].sprite;
+        mainCarImage[1].sprite = allDanCars[PlayerPrefs.GetInt("DanKey",0)].sprite;
+        mainCarImage[2].sprite = allToddCars[PlayerPrefs.GetInt("TordKey",0)].sprite;
+       
+    }
+
+    public void BackToPlayerPanel()
+    {
+        garage_Panel.GetComponent<CanvasGroup>().DOFade(0f, 0.3f).SetEase(Ease.Flash).OnComplete(ReturnToPlayerScreen_OC);
+        
+    }
+
+    void ReturnToPlayerScreen_OC()
+    {
+        garage_Panel.SetActive(false);
+    }
+
+    public void carSelectedM()
+    {
+         PlayerPrefs.SetInt("MurphKey", int.Parse(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.transform.GetChild(0).name));
+         PlayerPrefs.Save();
+
+         mainCarImage[0].sprite = allMurphCars[PlayerPrefs.GetInt("MurphKey",0)].sprite;
+
+    }
+    public void carSelectedD()
+    {
+        PlayerPrefs.SetInt("DanKey", int.Parse(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.transform.GetChild(0).name));
+        PlayerPrefs.Save();
+
+        mainCarImage[1].sprite = allDanCars[PlayerPrefs.GetInt("DanKey",0)].sprite;
+
+    }
+    
+    public void carSelectedT()
+    {
+        PlayerPrefs.SetInt("TordKey", int.Parse(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.transform.GetChild(0).name));
+        PlayerPrefs.Save();
+
+        mainCarImage[2].sprite = allToddCars[PlayerPrefs.GetInt("TordKey",0)].sprite;
+
     }
     
 }

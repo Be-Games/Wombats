@@ -95,7 +95,13 @@ public class LevelManager : MonoBehaviour
     public bool Easy;
     public float easyValue;
 
+    
+    
+    
     [Header("Stuff to Manually Modify For Each Level")]
+    [Space(100)]
+    //rubix tower if present
+    public GameObject rubixTower;                                                
     public int totalLaps;
     public List<GameObject> boostPickUps;
     public List<GameObject> pplToDisable;
