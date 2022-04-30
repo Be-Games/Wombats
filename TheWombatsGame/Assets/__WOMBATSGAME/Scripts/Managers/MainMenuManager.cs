@@ -17,9 +17,13 @@ public class MainMenuManager : MonoBehaviour
     public GameObject settingsBtn, playBtn;
 
 
+    public Material homeRoadTexture;
+    public float xOffset;
 
     private void Awake()
     {
+        xOffset = 0;
+        
         HomeScreen.GetComponent<Image>().DOFade(0f, 0f).SetEase(Ease.Flash);
         TitleImg.GetComponent<Image>().DOFade(0f, 0f).SetEase(Ease.Flash);
 
@@ -31,7 +35,10 @@ public class MainMenuManager : MonoBehaviour
         
         
         StartCoroutine("HomeScreenEnable");
+
         
+        StartCoroutine(UpdateRoadOffset());
+
     }
 
     IEnumerator HomeScreenEnable()
@@ -43,6 +50,24 @@ public class MainMenuManager : MonoBehaviour
         
 
         yield return new WaitForSeconds(0);
+    }
+
+    IEnumerator UpdateRoadOffset()
+    {
+        DOTween.To(() => xOffset, 
+                x => xOffset = x, 100000, 30f).OnComplete(() =>
+        {
+            xOffset = 0;
+            StartCoroutine(UpdateRoadOffset());
+        });
+
+        yield return null;
+
+    }
+
+    private void Update()
+    {
+        homeRoadTexture.mainTextureOffset = new Vector2(0f, xOffset); 
     }
 
     void CompleteRest()
@@ -57,6 +82,8 @@ public class MainMenuManager : MonoBehaviour
     {
         GameManager.Instance.LoadScene("PlayerSelection");
     }
+    
+    
 
 
 }

@@ -875,8 +875,8 @@ public class LevelManager : MonoBehaviour
         GameManager.Instance.canControlCar = true;
         _gameControls.gestureState = GameControls.GestureState.Release;
 
-        yield return new WaitForSeconds(0.5f);
-        playerCarCollidersToToggle.enabled = true;
+        // yield return new WaitForSeconds(0.5f);
+        // playerCarCollidersToToggle.enabled = true;
 
         // foreach (GameObject x in pplToDisable)
         // {
@@ -886,52 +886,52 @@ public class LevelManager : MonoBehaviour
     
         
         
-        // _playerController.PlayercarVisual.SetActive(false);
-        //
-        // yield return new WaitForSeconds(0.2f);
-        //
-        // _playerController.PlayercarVisual.SetActive(true);
-        //
-        // yield return new WaitForSeconds(0.2f);
-        //
-        // _playerController.PlayercarVisual.SetActive(false);
-        //
-        // yield return new WaitForSeconds(0.2f);
-        //
-        // _playerController.PlayercarVisual.SetActive(true);
-        //
-        // yield return new WaitForSeconds(0.2f);
-        //
-        // _playerController.PlayercarVisual.SetActive(false);
-        //
-        // yield return new WaitForSeconds(0.2f);
-        //
-        // _playerController.PlayercarVisual.SetActive(true);
-        //
-        // yield return new WaitForSeconds(0.2f);
-        //
-        // _playerController.PlayercarVisual.SetActive(false);
-        //
-        //
-        // yield return new WaitForSeconds(0.2f);
-        //
-        // _playerController.PlayercarVisual.SetActive(true);
+        _playerController.PlayercarVisual.SetActive(false);
         
-        // yield return new WaitForSeconds(0.2f);
-        //
-        // _playerController.PlayercarVisual.SetActive(false);
-        //
-        // yield return new WaitForSeconds(0.2f);
-        //
-        // _playerController.PlayercarVisual.SetActive(true);
-        //
-        // yield return new WaitForSeconds(0.2f);
-        //
-        // _playerController.PlayercarVisual.SetActive(false);
-        //
-        // yield return new WaitForSeconds(0.2f);
-        //
-        // _playerController.PlayercarVisual.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        
+        _playerController.PlayercarVisual.SetActive(true);
+        
+        yield return new WaitForSeconds(0.2f);
+        
+        _playerController.PlayercarVisual.SetActive(false);
+        
+        yield return new WaitForSeconds(0.2f);
+        
+        _playerController.PlayercarVisual.SetActive(true);
+        
+        yield return new WaitForSeconds(0.2f);
+        
+        _playerController.PlayercarVisual.SetActive(false);
+        
+        yield return new WaitForSeconds(0.2f);
+        
+        _playerController.PlayercarVisual.SetActive(true);
+        
+        yield return new WaitForSeconds(0.2f);
+        
+        _playerController.PlayercarVisual.SetActive(false);
+        
+        
+        yield return new WaitForSeconds(0.2f);
+        
+        _playerController.PlayercarVisual.SetActive(true);
+        
+        yield return new WaitForSeconds(0.2f);
+        
+        _playerController.PlayercarVisual.SetActive(false);
+        
+        yield return new WaitForSeconds(0.2f);
+        
+        _playerController.PlayercarVisual.SetActive(true);
+        
+        yield return new WaitForSeconds(0.2f);
+        
+        _playerController.PlayercarVisual.SetActive(false);
+        
+        yield return new WaitForSeconds(0.2f);
+        
+        _playerController.PlayercarVisual.SetActive(true);
         
         playerCarCollidersToToggle.enabled = true;
         
