@@ -35,7 +35,8 @@ public class UIManager : MonoBehaviour
     public GameObject extraLifePanel;
     public RectTransform pauseScreen;
     public GameObject postAdCrashPanel;
-
+    public GameObject receiveLifePanel;
+    
     public TextMeshProUGUI playerPosition;
 
     public TextMeshProUGUI flyThroughCamCityName;
@@ -55,6 +56,11 @@ public class UIManager : MonoBehaviour
     [Header("Crashed Panel")] public GameObject continueBtn, restartBtn, rewardBtn;
     //DO TWEEN ANIMATION UIS
 
+
+    public GameObject redCrashedPanel;
+
+    public TextMeshProUGUI resumeTimer;
+    
     private void OnEnable()
     {
         foreach (var VARIABLE in blackImages)

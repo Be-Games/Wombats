@@ -34,7 +34,8 @@ public class PlayerSelection : MonoBehaviour
     private void Start()
     {
         //SET DEFAULT GARAGE PANEL OFF AND ALPHA TO 
-        garage_Panel.GetComponent<CanvasGroup>().alpha = 0;
+        //garage_Panel.GetComponent<CanvasGroup>().alpha = 0;
+        playerSelection_Panel.SetActive(true);
         garage_Panel.SetActive(false);
         
         //REFERENCES
@@ -101,7 +102,8 @@ public class PlayerSelection : MonoBehaviour
     public void GarageBtn()
     {
         garage_Panel.SetActive(true);
-        garage_Panel.GetComponent<CanvasGroup>().DOFade(1f, 0.3f).SetEase(Ease.Flash);
+        playerSelection_Panel.SetActive(false);
+        //garage_Panel.GetComponent<CanvasGroup>().DOFade(1f, 0.3f).SetEase(Ease.Flash);
         
         InitialisePanel();
 
@@ -134,8 +136,9 @@ public class PlayerSelection : MonoBehaviour
 
     public void BackToPlayerPanel()
     {
-        garage_Panel.GetComponent<CanvasGroup>().DOFade(0f, 0.3f).SetEase(Ease.Flash).OnComplete(ReturnToPlayerScreen_OC);
-        
+        //garage_Panel.GetComponent<CanvasGroup>().DOFade(0f, 0.3f).SetEase(Ease.Flash).OnComplete(ReturnToPlayerScreen_OC);
+        garage_Panel.SetActive(false);
+        playerSelection_Panel.SetActive(true);
     }
 
     void ReturnToPlayerScreen_OC()

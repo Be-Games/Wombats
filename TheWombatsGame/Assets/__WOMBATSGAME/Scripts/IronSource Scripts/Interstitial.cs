@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Interstitial : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        IronSource.Agent.loadInterstitial();
-        IronSourceEvents.onInterstitialAdClosedEvent += InterstitialAdClosedEvent;
+       
     }
 
     // Update is called once per frame
@@ -18,9 +18,18 @@ public class Interstitial : MonoBehaviour
     }
 
     // Invoked when the interstitial ad closed and the user goes back to the application screen.
-    void InterstitialAdClosedEvent()
+    public void InterstitialAdClosedEvent()
     {
         IronSource.Agent.loadInterstitial();
+        
+        if(SceneManager.GetActiveScene().name == "Concert_Scn")
+            GameManager.Instance.LoadScene("PlayerSelection");
+    }
+
+    public void StartUpInterstitial()
+    {
+        IronSource.Agent.loadInterstitial();
+        IronSourceEvents.onInterstitialAdClosedEvent += InterstitialAdClosedEvent;
     }
 
     public void interstitialplay() 

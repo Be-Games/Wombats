@@ -1005,6 +1005,39 @@ MonoBehaviour:
   optionalRotationMode: 0
   optionalScrambleMode: 0
   optionalString: 
+--- !u!114 &1836422174 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3981118774797063559, guid: 8e96f21ae7ddbb246808df452f463007, type: 3}
+  m_PrefabInstance: {fileID: 6307174296610698730}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87fbb6d6825123d4396cda310e0f3849, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1836422175 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3474557126214154631, guid: 8e96f21ae7ddbb246808df452f463007, type: 3}
+  m_PrefabInstance: {fileID: 6307174296610698730}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ece294f9816d0a4e8487a682c1fc78e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1836422176 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5944686588678570789, guid: 8e96f21ae7ddbb246808df452f463007, type: 3}
+  m_PrefabInstance: {fileID: 6307174296610698730}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5ab38a08a386674da73f55494439bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1845219139
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1174,6 +1207,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6307174297545802504, guid: 8e96f21ae7ddbb246808df452f463007, type: 3}
+      propertyPath: bannerAd
+      value: 
+      objectReference: {fileID: 1836422174}
+    - target: {fileID: 6307174297545802504, guid: 8e96f21ae7ddbb246808df452f463007, type: 3}
+      propertyPath: rewardedAd
+      value: 
+      objectReference: {fileID: 1836422176}
+    - target: {fileID: 6307174297545802504, guid: 8e96f21ae7ddbb246808df452f463007, type: 3}
+      propertyPath: interstitialAd
+      value: 
+      objectReference: {fileID: 1836422175}
     - target: {fileID: 6307174297545802506, guid: 8e96f21ae7ddbb246808df452f463007, type: 3}
       propertyPath: m_Name
       value: GameManager

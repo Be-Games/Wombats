@@ -22,6 +22,8 @@ public class CameraShake : MonoBehaviour {
         // Get Virtual Camera Noise Profile
         if (VirtualCamera != null)
             virtualCameraNoise = VirtualCamera.GetCinemachineComponent<Cinemachine.CinemachineBasicMultiChannelPerlin>();
+        
+        
     }
 
     // Update is called once per frame
@@ -31,6 +33,11 @@ public class CameraShake : MonoBehaviour {
         if (LevelManager.Instance.isBoosting)
         {
             ShakeElapsedTime = ShakeDuration;
+        }
+        
+        if (LevelManager.Instance.isCrashed)
+        {
+            ShakeElapsedTime = 0.05f;
         }
         
 

@@ -89,31 +89,36 @@ public class EnvironmentSettingsManager : MonoBehaviour
     {
         foreach (var we in LevelManager.Instance.allEffects)
         {
-            we.Stop();
+            if(we !=null)
+                 we.gameObject.SetActive(false);
         }
         foreach (var we in LevelManager.Instance.allEffects2)
         {
-            we.Stop();
+            if(we != null)
+                we.gameObject.SetActive(false);
         }
     }
     
     public void Rain()
     {
-        LevelManager.Instance.allEffects[0].Play();
-        LevelManager.Instance.allEffects2[0].Play();
+        LevelManager.Instance.allEffects[0].gameObject.SetActive(true);
+        LevelManager.Instance.allEffects2[0].gameObject.SetActive(true);
     }
     
     public void Snow()
     {
-        LevelManager.Instance.allEffects[1].Play();
-        LevelManager.Instance.allEffects2[1].Play();
+        LevelManager.Instance.allEffects[1].gameObject.SetActive(true);
+        LevelManager.Instance.allEffects2[1].gameObject.SetActive(true);
     }
     
     public void Fog()
     {
-        LevelManager.Instance.allEffects[2].Play();
-        LevelManager.Instance.allEffects2[2].Play();
+        LevelManager.Instance.allEffects[2].gameObject.SetActive(true);
+        LevelManager.Instance.allEffects2[2].gameObject.SetActive(true);
     }
-    
-    
+
+    private void OnDisable()
+    {
+        Clear();
+    }
 }

@@ -6,7 +6,7 @@ public class UnsupportedPlatformAgent : IronSourceIAgent
 {
 	public UnsupportedPlatformAgent ()
 	{
-		Debug.Log ("Unsupported Platform");
+		//Debug.Log ("Unsupported Platform");
 	}
 	
 	#region IronSourceAgent implementation

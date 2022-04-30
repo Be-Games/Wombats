@@ -5,11 +5,17 @@ using DG.Tweening;
 using SWS;
 using UnityEngine;
 using Lofelt.NiceVibrations;
+using UnityEngine.UI;
 
 public class FrontColliderTriggers : MonoBehaviour
 {
     private GameObject currentPersonRagdoll;
-    
+
+    private void Start()
+    {
+        LevelManager.Instance._uiManager.redCrashedPanel.SetActive(false);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         #region BoostTrigger
@@ -26,8 +32,7 @@ public class FrontColliderTriggers : MonoBehaviour
                 other.transform.GetChild(1).gameObject.GetComponent<ParticleSystem>().Play();
             
                 // LevelManager.Instance._playerVehicleManager.carEffects.boostCapturedEffectPS.Play();                                  //under car effect show once
-
-
+                
             }
             
         }
@@ -36,15 +41,10 @@ public class FrontColliderTriggers : MonoBehaviour
         if (other.gameObject.CompareTag("People"))
         {
             //VIBRATE ON trigger with person
-            if (LevelManager.Instance._audioManager.isHapticEnabled)
-                LevelManager.Instance.playerVisual.GetComponent<HapticSource>().Play();
+            // if (LevelManager.Instance._audioManager.isHapticEnabled)
+            //     LevelManager.Instance.playerVisual.GetComponent<HapticSource>().Play();
             
-            Debug.Log("Coll with People");
             other.GetComponent<Collider>().enabled = false;
-            
-            
-            LevelManager.Instance._playerController.playerPF.speed = 0;
-
             LevelManager.Instance.isCrashedWithPpl = true;
 
             currentPersonRagdoll = other.gameObject;
@@ -57,16 +57,15 @@ public class FrontColliderTriggers : MonoBehaviour
             }
 
             Invoke("WaitAndRag",0.05f);
-            
             StartCoroutine("CarTotalled");
             
         }
         
         if (other.gameObject.CompareTag("Collision"))
         {
+            //BOOSTING
             if (LevelManager.Instance._playerController.targetSpeed >=LevelManager.Instance._playerController.boostSpeed)
             {
-                Debug.Log("Break");
                 other.GetComponent<ClickOrTapToExplode>().DestroyStuff();
                 
                 // if (LevelManager.Instance._audioManager.isHapticEnabled)
@@ -74,21 +73,16 @@ public class FrontColliderTriggers : MonoBehaviour
                             
             }
             
+            //NOT BOOSTING
             if (LevelManager.Instance._playerController.targetSpeed <=LevelManager.Instance._playerController.normalSpeed)
             {
-                //VIBRATE ON trigger with coin
-                 // if (LevelManager.Instance._audioManager.isHapticEnabled)
-                 //     LevelManager.Instance.currentPlayerCarModel.GetComponent<HapticSource>().Play();        
-                 
-                 
-                LevelManager.Instance._playerController.playerPF.speed = 0;
-                //LevelManager.Instance._playerController.playerPF.enabled = false;
-
+                
                 other.gameObject.GetComponent<Collider>().enabled = false;
-                            
-                StartCoroutine("CarTotalled");
-            
-            
+                StartCoroutine(CarTotalled());
+                
+                // if (LevelManager.Instance._audioManager.isHapticEnabled)
+                 //     LevelManager.Instance.currentPlayerCarModel.GetComponent<HapticSource>().Play();        
+             
             }
         }
 
@@ -129,13 +123,19 @@ public class FrontColliderTriggers : MonoBehaviour
     
     IEnumerator CarTotalled()
     {
-        //LevelManager.Instance._playerController.playerPF.enabled = false;
-       
+        
         //VIBRATE ON CRASH PRESSED
         // if (LevelManager.Instance._audioManager.isHapticEnabled)
         //     LevelManager.Instance.playerVisual.GetComponent<HapticSource>().Play();
-        
-        
+
+        LevelManager.Instance.isGameStarted = false;
+        LevelManager.Instance.isCrashed = true;
+        LevelManager.Instance._playerController.playerPF.speed = 0;
+
+        //red crash panel appear
+        LevelManager.Instance._uiManager.redCrashedPanel.SetActive(true);
+        LevelManager.Instance._uiManager.redCrashedPanel.GetComponent<Image>().DOFade(1f, 0.5f).SetEase(Ease.Flash);
+
         if(LevelManager.Instance.continueCounter != 5)
             UIManager.Instance.crashedPanel.SetActive(true);
 
@@ -144,8 +144,9 @@ public class FrontColliderTriggers : MonoBehaviour
             UIManager.Instance.postAdCrashPanel.SetActive(true);
             LevelManager.Instance.isGameStarted = false;
         }
-            
-
+        
+       
+        
         if (!LevelManager.Instance.isCrashedWithPpl)
         {
             LevelManager.Instance._playerVehicleManager.postCrashStuff.up_car.SetActive(false);        //player model+effects
@@ -155,34 +156,30 @@ public class FrontColliderTriggers : MonoBehaviour
             LevelManager.Instance.isCrashed = true;
             LevelManager.Instance._playerVehicleManager.postCrashStuff.crashPS.gameObject.SetActive(true);     //explosion effect
             
-            // foreach (GameObject x in LevelManager.Instance.pplToDisable)                                        //DISABLE PPL WHEN CRASHED
-            // {
-            //     if(x != null)
-            //         x.SetActive(false);
-            // }
         }
-
+        
         LevelManager.Instance.isCrashedWithPpl = false;
-       
-        
-        
-        LevelManager.Instance.carContinueChances.text = "" + (2 - LevelManager.Instance.continueCounter);
-            
-       // LevelManager.Instance.isGameStarted = false;
+        LevelManager.Instance.carContinueChances.text = "" + (2 - LevelManager.Instance.continueCounter); 
         GameManager.Instance.canControlCar = false;
         LevelManager.Instance._gameControls.gestureState = GameControls.GestureState.Break;
         LevelManager.Instance.FastWind.gameObject.SetActive(false);
         LevelManager.Instance.slowWind.gameObject.SetActive(false);
         
-        yield return new WaitForSeconds(4f);
 
-        //carRollOverAnimator.enabled = false;
+        yield return new WaitForSeconds(0.6f);
+        
+        LevelManager.Instance.isCrashed = false;
+        
+        //red crash panel appear
+        
+        LevelManager.Instance._uiManager.redCrashedPanel.GetComponent<Image>().DOFade(0f, 0.7f).SetEase(Ease.Flash);
         LevelManager.Instance._playerVehicleManager.postCrashStuff.crashPS.gameObject.SetActive(false);       //explosion effect
-        
-        
-
+       
+        yield return new WaitForSeconds(0.8f);
+        LevelManager.Instance._uiManager.redCrashedPanel.SetActive(false);
     }
-
+    
+    
     void WaitAndRag()
     {
         currentPersonRagdoll.GetComponent<Animator>().SetBool("isDead",true);

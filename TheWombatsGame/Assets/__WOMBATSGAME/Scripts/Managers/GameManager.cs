@@ -69,7 +69,12 @@ public class GameManager : MonoBehaviour
     public GameObject settingsPanel;
     public GameObject settingsBtn;
 
-
+    [Header("IronSource Scripts")]
+    [Space(15)] 
+    public Rewarded rewardedAd;
+    public Interstitial interstitialAd;
+    public Initializeads bannerAd;
+    
     private void Start()
     {
         //INITIALISE LIST

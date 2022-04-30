@@ -37,6 +37,14 @@ public class LevelSelection : MonoBehaviour
         //default
         currentSceneName = "LONDON";
         lightingIndex = 1;
+        
+        //show banners
+        if (_gameManager != null)
+        {
+            _gameManager.GetComponent<GameManager>().bannerAd.iniBannerStuff();
+            _gameManager.GetComponent<GameManager>().bannerAd.Loadbanner();
+        }
+           
     }
 
     private void Update()

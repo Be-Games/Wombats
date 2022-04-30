@@ -53,11 +53,21 @@ public class ConcertManagement : MonoBehaviour
             Instantiate(bandMemPf[1], tP.transform.position,tP.transform.rotation,parentT);
         }
         
-        
+        _gameManager.interstitialAd.StartUpInterstitial();
     }
 
     public void backtoHome(string name)
     {
         _gameManager.LoadScene(name);
+    }
+
+    public void LoadInterstitialAd()
+    {
+        _gameManager.interstitialAd.interstitialplay();
+    }
+
+    public void PostAdRunScene()
+    {
+        _gameManager.interstitialAd.InterstitialAdClosedEvent();
     }
 }
