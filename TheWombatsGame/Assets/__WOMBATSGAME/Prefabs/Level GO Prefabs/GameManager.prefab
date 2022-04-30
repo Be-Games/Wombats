@@ -1096,6 +1096,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6307174297545802507}
   - component: {fileID: 6307174297545802504}
+  - component: {fileID: 5944686588678570789}
+  - component: {fileID: 3474557126214154631}
+  - component: {fileID: 3981118774797063559}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -1144,6 +1147,48 @@ MonoBehaviour:
   isSettingVisible: 0
   settingsPanel: {fileID: 6307174297166830194}
   settingsBtn: {fileID: 6307174298141313873}
+--- !u!114 &5944686588678570789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6307174297545802506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5ab38a08a386674da73f55494439bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  androidAppKey: 148013819
+  iosAppKey: 1480051f9
+  appkey: 
+--- !u!114 &3474557126214154631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6307174297545802506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ece294f9816d0a4e8487a682c1fc78e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3981118774797063559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6307174297545802506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87fbb6d6825123d4396cda310e0f3849, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  androidAppKey: 148013819
+  iosAppKey: 1480051f9
+  appkey: 
 --- !u!1 &6307174297851468930
 GameObject:
   m_ObjectHideFlags: 0

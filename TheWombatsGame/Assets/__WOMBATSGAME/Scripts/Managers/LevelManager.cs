@@ -59,8 +59,8 @@ public class LevelManager : MonoBehaviour
     public float individualBoostCounter;                                                                    //Total boost Counter ( shd be 3 )
     public Image[] boostFiller;
     [HideInInspector]public bool isBoosting;
-    
-    
+
+
 
     [Header("CountDownTimer Settings")]
     [HideInInspector] public bool isTimerStarted;
@@ -88,6 +88,8 @@ public class LevelManager : MonoBehaviour
     public Collider playerCarCollidersToToggle;
     public TextMeshProUGUI carContinueChances;
     public int continueCounter;
+    public Material backLightMaterial;
+    public Color redBL, whiteBL;
     
    
 
@@ -95,7 +97,13 @@ public class LevelManager : MonoBehaviour
     public bool Easy;
     public float easyValue;
 
+    
+    
+    
     [Header("Stuff to Manually Modify For Each Level")]
+    [Space(100)]
+    //rubix tower if present
+    public GameObject rubixTower;                                                
     public int totalLaps;
     public List<GameObject> boostPickUps;
     public List<GameObject> pplToDisable;
@@ -140,7 +148,8 @@ public class LevelManager : MonoBehaviour
         // Instantiate(enemy1, ENEMYLEFTgo.transform.position, sampleCartransform.rotation, ENEMYLEFTgo.transform);
         // Instantiate(enemy2, ENEMYRIGHTgo.transform.position, sampleCartransform.rotation, ENEMYRIGHTgo.transform);
         //
-        //playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
+        
+        _playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
         _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
     
@@ -171,6 +180,13 @@ public class LevelManager : MonoBehaviour
         _uiManager.scoreText.text = currentScore.ToString();
         isFinalLap = false;
         _uiManager.BoostBtn.GetComponent<Button>().enabled = false;
+        
+        //Startup rewarded system 
+        if(_gameManager != null)
+            _gameManager.rewardedAd.IniRewardedSystem();
+        
+        _playerVehicleManager.overHeadBoostUI.timerText.gameObject.SetActive(false);
+        _uiManager.resumeTimer.gameObject.SetActive(false);
     }
 
     void SceneStart()
@@ -181,6 +197,16 @@ public class LevelManager : MonoBehaviour
         _uiManager.flyThroughCamCityName.text = cityName + " TOUR ";
         flyOverCameraGO.SetActive(true);
         mainCameraGO.SetActive(false);
+        
+        //Back smoke effects off for all cars
+        _playerVehicleManager.carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Stop();
+        _playerVehicleManager.carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Stop();
+        
+      //  enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Stop();
+      //  enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Stop();
+        
+      //  enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Stop();
+      //  enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Stop();
     }
 
     void LightingAndObstaclesChecker()
@@ -219,7 +245,7 @@ public class LevelManager : MonoBehaviour
         if(_gameManager.weatherEffect == 2)
             envManager.Clear();
         if(_gameManager.weatherEffect == 3)
-            envManager.Clear();
+            envManager.Snow();
         
     }
     
@@ -237,7 +263,7 @@ public class LevelManager : MonoBehaviour
         if(_gameManager.weatherEffect == 2)
             envManager.Clear();
         if(_gameManager.weatherEffect == 3)
-            envManager.Clear();
+            envManager.Snow();
         
         _uiManager.flyThruPanel.SetActive(false);
         _uiManager.FlyOverBlackPanelsTweening();
@@ -274,6 +300,16 @@ public class LevelManager : MonoBehaviour
             _audioManager.musicTracks.MusicTrackAudioSource.gameObject.SetActive(true);
             _audioManager.musicTracks.MusicTrackAudioSource.Play();
         }
+        
+        //Back smoke effects on for all cars
+        _playerVehicleManager.carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
+        _playerVehicleManager.carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
+        
+       // enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
+       // enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
+        
+       // enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
+       // enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
             
         
         countdownLights[2].SetActive(true);
@@ -501,9 +537,10 @@ public class LevelManager : MonoBehaviour
     
     public void BoostManager()
     {
-        individualBoostCounter += 1;                
+        individualBoostCounter += 1;    
+       _playerVehicleManager.carEffects.boostCapturedEffectPS.Play();
         
-            //BOOST FILL AMOUNT
+            //BOOST FILL AMOUNT image
             switch (individualBoostCounter)
             {
                 case 0:
@@ -552,10 +589,14 @@ public class LevelManager : MonoBehaviour
 
     void BoostActivated()
     {
-       
         
         //ENABLE BOOST BTN
         _uiManager.BoostBtn.GetComponent<Button>().enabled = true;
+        
+        //SHINY EFFECT
+        _uiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = true;
+        _uiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = true;
+        _uiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPlay();
         
         //DISABLE ALL THE BOOST PICKUPS
         // foreach (GameObject x in boostPickUps)                                                            //Dissable all the boost pickups
@@ -564,18 +605,16 @@ public class LevelManager : MonoBehaviour
         //         x.SetActive(false);
         // }
         
-        
-        //SHINY EFFECT
-        _uiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = true;
-        _uiManager.BoostBtn.transform.GetChild(0).GetChild(1).GetComponent<UIShiny>().effectPlayer.play = true;
-        //UiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPlay();
-        
-        
     }
     
     
     public void BoostCarButton()
     {
+        _uiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPause();
+        _uiManager.BoostBtn.transform.DOScale(new Vector3(0.4f, 0.4f, 0.4f), 0f);
+        
+       
+        
         StartCoroutine("BoostCarSettings");
     }
 
@@ -584,6 +623,30 @@ public class LevelManager : MonoBehaviour
     {
         
         CarBoostOn();
+
+        _playerVehicleManager.overHeadBoostUI.timerText.gameObject.SetActive(true);
+        _playerVehicleManager.overHeadBoostUI.timerText.text = "00:09";
+        yield return new WaitForSeconds(1f);
+        _playerVehicleManager.overHeadBoostUI.timerText.text = "00:08";
+        yield return new WaitForSeconds(1f);
+        _playerVehicleManager.overHeadBoostUI.timerText.text = "00:07";
+        yield return new WaitForSeconds(1f);
+        _playerVehicleManager.overHeadBoostUI.timerText.text = "00:06";
+        yield return new WaitForSeconds(1f);
+        _playerVehicleManager.overHeadBoostUI.timerText.text = "00:05";
+        yield return new WaitForSeconds(1f);
+        _playerVehicleManager.overHeadBoostUI.timerText.text = "00:04";
+        yield return new WaitForSeconds(1f);
+        _playerVehicleManager.overHeadBoostUI.timerText.text = "00:03";
+        yield return new WaitForSeconds(1f);
+        _playerVehicleManager.overHeadBoostUI.timerText.text = "00:02";
+        yield return new WaitForSeconds(1f);
+        _playerVehicleManager.overHeadBoostUI.timerText.text = "00:01";
+        yield return new WaitForSeconds(1f);
+        _playerVehicleManager.overHeadBoostUI.timerText.gameObject.SetActive(false);
+        
+        CarBoostOff();
+        
         
         // DOTween.To(() => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
         //         x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -3f, 0.5f)
@@ -596,16 +659,32 @@ public class LevelManager : MonoBehaviour
         // if (_audioManager.isHapticEnabled)
            // playerVisual.GetComponent<HapticSource>().Play();
 
+           // float duration = 9f; // 3 seconds you can change this to
+           //
+           // float totalTime = 0;
+           // float myValue;
+           // while(totalTime <= duration)
+           // {
+           //     myValue = totalTime / duration;
+           //     totalTime += Time.deltaTime;
+           //     var integer = (int)totalTime; /* choose how to quantize this */
+           //     _playerVehicleManager.overHeadBoostUI.timerText.text = integer.ToString();
+           //     /* convert integer to string and assign to text */
+           //     yield return null;
+           // }
            
-        
-
-       //UiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPause();
+           // _playerVehicleManager.overHeadBoostUI.boostSlider.gameObject.SetActive(true);
+           // DOTween.To(() => _playerVehicleManager.overHeadBoostUI.boostSlider.value,         ////damping camera effect
+           //         x => _playerVehicleManager.overHeadBoostUI.boostSlider.value = x, 0f, 8f).SetEase(Ease.Flash)
+           //     .OnUpdate(() => {
+           //         CarBoostOff();
+           //     });
        
        
         //WHEN BOOST IS DONE
         yield return new WaitForSeconds(8f);
 
-        CarBoostOff();
+        
         // foreach (GameObject x in boostPickUps)                                                            //Dissable all the boost pickups
         // {
         //     if(x != null)
@@ -624,6 +703,11 @@ public class LevelManager : MonoBehaviour
 
     void CarBoostOn()
     {
+        //blur boost panel appear
+        _uiManager.boostBlurPanel.SetActive(true);
+        _uiManager.boostBlurPanel.GetComponent<Image>().DOFade(1f, 0.5f).SetEase(Ease.Flash);
+        
+        
        // disable shiny effect
          _uiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = false;
          _uiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectFactor = 0;
@@ -667,6 +751,10 @@ public class LevelManager : MonoBehaviour
     void CarBoostOff()
     {
         isBoosting = false;
+        
+        //blur boost panel appear
+        _uiManager.boostBlurPanel.SetActive(false);
+        _uiManager.boostBlurPanel.GetComponent<Image>().DOFade(0f, 0f).SetEase(Ease.Flash);
         
         //speed change
         _playerController.targetSpeed = _playerController.normalSpeed;    
@@ -745,9 +833,25 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator CarReset()
     {
-       
-        
         _uiManager.crashedPanel.SetActive(false);
+        _playerVehicleManager.postCrashStuff.crashPS.gameObject.SetActive(false);
+        _playerVehicleManager.postCrashStuff.up_car.SetActive(true);
+        _playerVehicleManager.postCrashStuff.down_car.SetActive(false);
+        
+        playerCarCollidersToToggle.enabled = false;
+        
+       //show timer
+       _uiManager.resumeTimer.gameObject.SetActive(true);
+       _uiManager.resumeTimer.text = "3";
+       yield return new WaitForSeconds(0.7f);
+       _uiManager.resumeTimer.text = "2";
+       yield return new WaitForSeconds(0.7f);
+       _uiManager.resumeTimer.text = "1";
+       yield return new WaitForSeconds(0.7f);
+       _uiManager.resumeTimer.gameObject.SetActive(false);
+       
+       //RESUME WITH THE STUFF 
+       
         yield return new WaitForSeconds(0.1f);
         
         if(!adStuff && continueCounter!=5)
@@ -771,9 +875,8 @@ public class LevelManager : MonoBehaviour
         GameManager.Instance.canControlCar = true;
         _gameControls.gestureState = GameControls.GestureState.Release;
 
-        _playerVehicleManager.postCrashStuff.crashPS.gameObject.SetActive(false);
-        _playerVehicleManager.postCrashStuff.up_car.SetActive(true);
-        _playerVehicleManager.postCrashStuff.down_car.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        playerCarCollidersToToggle.enabled = true;
 
         // foreach (GameObject x in pplToDisable)
         // {
@@ -781,55 +884,54 @@ public class LevelManager : MonoBehaviour
         //         x.SetActive(true);
         // }
     
-        playerCarCollidersToToggle.enabled = false;
         
-        _playerController.PlayercarVisual.SetActive(false);
         
-    
-        yield return new WaitForSeconds(0.2f);
+        // _playerController.PlayercarVisual.SetActive(false);
+        //
+        // yield return new WaitForSeconds(0.2f);
+        //
+        // _playerController.PlayercarVisual.SetActive(true);
+        //
+        // yield return new WaitForSeconds(0.2f);
+        //
+        // _playerController.PlayercarVisual.SetActive(false);
+        //
+        // yield return new WaitForSeconds(0.2f);
+        //
+        // _playerController.PlayercarVisual.SetActive(true);
+        //
+        // yield return new WaitForSeconds(0.2f);
+        //
+        // _playerController.PlayercarVisual.SetActive(false);
+        //
+        // yield return new WaitForSeconds(0.2f);
+        //
+        // _playerController.PlayercarVisual.SetActive(true);
+        //
+        // yield return new WaitForSeconds(0.2f);
+        //
+        // _playerController.PlayercarVisual.SetActive(false);
+        //
+        //
+        // yield return new WaitForSeconds(0.2f);
+        //
+        // _playerController.PlayercarVisual.SetActive(true);
         
-        _playerController.PlayercarVisual.SetActive(true);
-        
-        yield return new WaitForSeconds(0.2f);
-        
-        _playerController.PlayercarVisual.SetActive(false);
-        
-        yield return new WaitForSeconds(0.2f);
-        
-        _playerController.PlayercarVisual.SetActive(true);
-        
-        yield return new WaitForSeconds(0.2f);
-        
-        _playerController.PlayercarVisual.SetActive(false);
-        
-        yield return new WaitForSeconds(0.2f);
-        
-        _playerController.PlayercarVisual.SetActive(true);
-        
-        yield return new WaitForSeconds(0.2f);
-        
-        _playerController.PlayercarVisual.SetActive(false);
-        
-    
-        yield return new WaitForSeconds(0.2f);
-        
-        _playerController.PlayercarVisual.SetActive(true);
-        
-        yield return new WaitForSeconds(0.2f);
-        
-        _playerController.PlayercarVisual.SetActive(false);
-        
-        yield return new WaitForSeconds(0.2f);
-        
-        _playerController.PlayercarVisual.SetActive(true);
-        
-        yield return new WaitForSeconds(0.2f);
-        
-        _playerController.PlayercarVisual.SetActive(false);
-        
-        yield return new WaitForSeconds(0.2f);
-        
-        _playerController.PlayercarVisual.SetActive(true);
+        // yield return new WaitForSeconds(0.2f);
+        //
+        // _playerController.PlayercarVisual.SetActive(false);
+        //
+        // yield return new WaitForSeconds(0.2f);
+        //
+        // _playerController.PlayercarVisual.SetActive(true);
+        //
+        // yield return new WaitForSeconds(0.2f);
+        //
+        // _playerController.PlayercarVisual.SetActive(false);
+        //
+        // yield return new WaitForSeconds(0.2f);
+        //
+        // _playerController.PlayercarVisual.SetActive(true);
         
         playerCarCollidersToToggle.enabled = true;
         
@@ -840,6 +942,7 @@ public class LevelManager : MonoBehaviour
 
     public void ReceiveLifeBtn()
     {
+        
         _uiManager.extraLifePanel.SetActive(false);
         adStuff = true;
         continueCounter = 5;
@@ -855,6 +958,16 @@ public class LevelManager : MonoBehaviour
     {
         _audioManager.ToggleMusic();
     }
-    
+
+    public void RunRewardedAd()
+    {
+        _gameManager.rewardedAd.rewarded();
+        Invoke("ShowRevivePanel",2f);
+    }
+
+    void ShowRevivePanel()
+    {
+        _uiManager.receiveLifePanel.SetActive(true);
+    }
     
 }

@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class VehicleManager : MonoBehaviour
 {
@@ -23,11 +25,6 @@ public class VehicleManager : MonoBehaviour
     public bool isEnemy;
     
     [System.Serializable]
-    public class CarWheels
-    {
-        public GameObject[] wheels;
-    }
-    [System.Serializable]
     public class BodyTrigger
     {
         public GameObject body;
@@ -47,7 +44,7 @@ public class VehicleManager : MonoBehaviour
     public class CarEffects
     {
         public GameObject carTrailLineGO;
-        public GameObject carBreakGO;
+        public GameObject carBreakSmokeL,carBreakSmokeR;
         public ParticleSystem NOSEffectsPS;
         public GameObject breakLight;
         public GameObject headLight;
@@ -63,16 +60,23 @@ public class VehicleManager : MonoBehaviour
         public GameObject up_car;
     }
     
+    [System.Serializable]
+    public class OverHeadBoostUI
+    {
+        public TextMeshProUGUI timerText;
+        public Slider boostSlider;
+    }
+    
     
     
     [Header("Mis Settings")] 
     public Color universalCarColor;
     public CarSpeedSettings carSpeedSettings;
     public BodyTrigger bodyTrigger;
-    public CarWheels carWheels;
     public CarEffects carEffects;
     public PostCrashStuff postCrashStuff;
-
+    public OverHeadBoostUI overHeadBoostUI;
+    
     private GameManager _gameManager;
 
     

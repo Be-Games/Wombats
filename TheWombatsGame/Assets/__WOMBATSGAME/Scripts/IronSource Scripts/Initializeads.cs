@@ -7,11 +7,21 @@ public class Initializeads : MonoBehaviour
 
     public string androidAppKey;
     public string iosAppKey;
-    public string appkey;
+    [HideInInspector]public string appkey;
 
     // Start is called before the first frame update
 
     private void Awake()
+    {
+
+    }
+
+    void Start()
+    {
+        //Loadbanner();
+    }
+
+    public void iniBannerStuff()
     {
 #if UNITY_ANDROID
         appkey = androidAppKey;
@@ -22,11 +32,6 @@ public class Initializeads : MonoBehaviour
 #endif
         
         IronSource.Agent.init(appkey);
-    }
-
-    void Start()
-    {
-        Loadbanner();
     }
 
     void OnApplicationPause(bool isPaused)

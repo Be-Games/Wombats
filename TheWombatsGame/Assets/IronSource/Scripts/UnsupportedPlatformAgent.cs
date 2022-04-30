@@ -6,21 +6,21 @@ public class UnsupportedPlatformAgent : IronSourceIAgent
 {
 	public UnsupportedPlatformAgent ()
 	{
-		Debug.Log ("Unsupported Platform");
+		//Debug.Log ("Unsupported Platform");
 	}
 	
 	#region IronSourceAgent implementation
 
 	public void start ()
 	{
-		Debug.Log ("Unsupported Platform");
+		//Debug.Log ("Unsupported Platform");
 	}
 
 	//******************* Base API *******************//
 
 	public void onApplicationPause (bool pause)
 	{
-		Debug.Log ("Unsupported Platform");
+		//Debug.Log ("Unsupported Platform");
 	}
 
 	public void setMediationSegment (string segment)
@@ -41,7 +41,7 @@ public class UnsupportedPlatformAgent : IronSourceIAgent
 	
 	public void shouldTrackNetworkState (bool track)
 	{
-		Debug.Log ("Unsupported Platform");
+		//Debug.Log ("Unsupported Platform");
 	}
 
 	public bool setDynamicUserId (string dynamicUserId)
@@ -85,80 +85,80 @@ public class UnsupportedPlatformAgent : IronSourceIAgent
 
 	public void setUserId (string userId)
 	{
-		Debug.Log ("Unsupported Platform");
+		//Debug.Log ("Unsupported Platform");
 	}
 
 	public void init (string appKey)
 	{
-		Debug.Log ("Unsupported Platform");
+		//Debug.Log ("Unsupported Platform");
 	}
 
 	public void init (string appKey, params string[] adUnits)
 	{
-		Debug.Log ("Unsupported Platform");
+		//Debug.Log ("Unsupported Platform");
 	}
 
 	public void initISDemandOnly (string appKey, params string[] adUnits)
 	{
-		Debug.Log ("Unsupported Platform");
+		//Debug.Log ("Unsupported Platform");
 	}
 
 	//******************* RewardedVideo API *******************//
 
 	public void loadRewardedVideo()
 	{
-		Debug.Log("Unsupported Platform");
+		//Debug.Log("Unsupported Platform");
 	}
 
 
 	public void showRewardedVideo ()
 	{
-		Debug.Log ("Unsupported Platform");
+		//Debug.Log ("Unsupported Platform");
 	}
 
 	public void showRewardedVideo (string placementName)
 	{
-		Debug.Log ("Unsupported Platform");
+		//Debug.Log ("Unsupported Platform");
 	}
 	
 	public bool isRewardedVideoAvailable ()
 	{
-		Debug.Log ("Unsupported Platform");
+		//Debug.Log ("Unsupported Platform");
 		return false;
 	}
 
 	public bool isRewardedVideoPlacementCapped (string placementName)
 	{
-		Debug.Log ("Unsupported Platform");
+		//Debug.Log ("Unsupported Platform");
 		return true;
 	}
 
 	public IronSourcePlacement getPlacementInfo (string placementName)
 	{
-		Debug.Log ("Unsupported Platform");
+		//Debug.Log ("Unsupported Platform");
 		return null;
 	}
 
 	public void setRewardedVideoServerParams(Dictionary<string, string> parameters) 
 	{
-		Debug.Log ("Unsupported Platform");
+		//Debug.Log ("Unsupported Platform");
 	}
 
 	public void clearRewardedVideoServerParams() 
 	{
-		Debug.Log ("Unsupported Platform");
+		//Debug.Log ("Unsupported Platform");
 	}
 
 	//******************* RewardedVideo DemandOnly API *******************//
 
 	public void showISDemandOnlyRewardedVideo (string instanceId) 
 	{
-		Debug.Log ("Unsupported Platform");
+		//Debug.Log ("Unsupported Platform");
 	}
 
 	public void loadISDemandOnlyRewardedVideo (string instanceId)
 	{
-		Debug.Log ("Unsupported Platform");
+		//Debug.Log ("Unsupported Platform");
 
 	}
 

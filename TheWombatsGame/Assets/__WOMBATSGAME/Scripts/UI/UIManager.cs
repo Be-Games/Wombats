@@ -35,7 +35,8 @@ public class UIManager : MonoBehaviour
     public GameObject extraLifePanel;
     public RectTransform pauseScreen;
     public GameObject postAdCrashPanel;
-
+    public GameObject receiveLifePanel;
+    
     public TextMeshProUGUI playerPosition;
 
     public TextMeshProUGUI flyThroughCamCityName;
@@ -49,17 +50,27 @@ public class UIManager : MonoBehaviour
     [Header("Fly Over Variables")] 
     public Image[] blackImages;
 
-    public Image playerProgressLine;
+    public RectTransform playerProgressLine,enemyLProgressLine,enemyRightProgressLine;
+    public GameObject wombatLogoPlayer, wombatLogoenemyLeft, wombatLogoenemyRight;
 
     [Header("Crashed Panel")] public GameObject continueBtn, restartBtn, rewardBtn;
     //DO TWEEN ANIMATION UIS
 
+
+    public GameObject redCrashedPanel;
+    public GameObject boostBlurPanel;
+
+    public TextMeshProUGUI resumeTimer;
+    
     private void OnEnable()
     {
         foreach (var VARIABLE in blackImages)
         {
             VARIABLE.gameObject.SetActive(true);
         }
+        
+        //blur boost panel off
+        boostBlurPanel.SetActive(false);
     }
 
     public void settingsBtnDT()
