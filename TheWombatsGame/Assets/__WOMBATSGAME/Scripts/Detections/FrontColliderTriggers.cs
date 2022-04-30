@@ -96,8 +96,6 @@ public class FrontColliderTriggers : MonoBehaviour
 
         if (other.gameObject.CompareTag("Coin"))
         {
-            Debug.Log("Coin ");
-            
             LevelManager.Instance.currentScore++;
             UIManager.Instance.scoreText.text = LevelManager.Instance.currentScore.ToString();
             //other.gameObject.GetComponent<BoxCollider>().enabled = false;                                            //For the triggered pickup

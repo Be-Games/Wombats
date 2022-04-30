@@ -5,59 +5,36 @@ using UnityEngine;
 
 public class EnemyRaycaster : MonoBehaviour
 {
-    public float raycastDistance;
-
-    public bool isHit;
+    
+    public LayerMask obstacleLayer;
+    public float rayCastDistance;
     RaycastHit hit;
-    public LayerMask CollLayerMask;
+    
+    public Vector3 adjustment;
+
+    public EnemyController enemyController;
     private void Update()
     {
+        if(LevelManager.Instance.isGameStarted)
+            RaycastMethod();
+        
+    }
 
-        isHit = Physics.Raycast(transform.position+new Vector3(0f,0.5f,0f), transform.forward, out hit, raycastDistance,CollLayerMask);
-        Debug.Log(isHit);
-        if (isHit)
-        {
-                
-            CollideTrue();
-        }
-        else
-        {
-            CollideFalse();
-        } 
-        // if (LevelManager.Instance.isGameStarted)
-        // {
-        // }
-
+    void RaycastMethod()
+    {
+        var ray = new Ray(transform.position + adjustment,transform.forward);
        
+        if (Physics.Raycast(ray,out hit,rayCastDistance,obstacleLayer))
+        {
+            enemyController.EnemyCollisionWithObstacles();
+        }
     }
 
     private void OnDrawGizmos()
     {
         
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(transform.position + adjustment,transform.forward * rayCastDistance);
         
-            if (isHit)
-            {
-                
-                Gizmos.color = Color.red;
-                Gizmos.DrawRay(transform.position+new Vector3(0f,0.5f,0f),transform.forward * hit.distance);
-            }
-            else
-            {
-                
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawRay(transform.position,transform.forward * raycastDistance);
-            }
-       
-    }
-
-    void CollideTrue()
-    {
-        EnemyController.Instance.isGoingToCollide = true;
-        EnemyController.Instance.EnemyCollisionWithObstacles();
-    }
-
-    void CollideFalse()
-    {
-        EnemyController.Instance.isGoingToCollide = false;
     }
 }

@@ -25,11 +25,6 @@ public class VehicleManager : MonoBehaviour
     public bool isEnemy;
     
     [System.Serializable]
-    public class CarWheels
-    {
-        public GameObject[] wheels;
-    }
-    [System.Serializable]
     public class BodyTrigger
     {
         public GameObject body;
@@ -49,7 +44,7 @@ public class VehicleManager : MonoBehaviour
     public class CarEffects
     {
         public GameObject carTrailLineGO;
-        public GameObject carBreakGO;
+        public GameObject carBreakSmokeL,carBreakSmokeR;
         public ParticleSystem NOSEffectsPS;
         public GameObject breakLight;
         public GameObject headLight;
@@ -78,7 +73,6 @@ public class VehicleManager : MonoBehaviour
     public Color universalCarColor;
     public CarSpeedSettings carSpeedSettings;
     public BodyTrigger bodyTrigger;
-    public CarWheels carWheels;
     public CarEffects carEffects;
     public PostCrashStuff postCrashStuff;
     public OverHeadBoostUI overHeadBoostUI;

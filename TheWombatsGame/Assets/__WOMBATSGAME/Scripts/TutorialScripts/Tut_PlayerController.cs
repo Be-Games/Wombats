@@ -85,8 +85,8 @@ public class Tut_PlayerController : MonoBehaviour
         getreadyText.SetActive(false);
         goText.SetActive(true);
         
-        PlayercarVisual.GetComponent<VehicleManager>().carEffects.carBreakGO.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
-        PlayercarVisual.GetComponent<VehicleManager>().carEffects.carBreakGO.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+        PlayercarVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
+        PlayercarVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
         yield return new WaitForSeconds(0.4f);
 
         canBreak = false;
@@ -107,10 +107,7 @@ public class Tut_PlayerController : MonoBehaviour
         else
         {
             slowWinds.SetActive(false);
-            PlayercarVisual.GetComponent<VehicleManager>().carEffects.breakLight.SetActive(false);
-            var materials = PlayercarVisual.GetComponent<VehicleManager>().bodyTrigger.body
-                .GetComponent<MeshRenderer>().materials;
-            materials[1] = whiteMat;
+            
         }
         
         if (gamecontrols.gestureState == Tut_Gamecontrols.GestureState.Release)

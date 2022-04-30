@@ -58,6 +58,7 @@ public class UIManager : MonoBehaviour
 
 
     public GameObject redCrashedPanel;
+    public GameObject boostBlurPanel;
 
     public TextMeshProUGUI resumeTimer;
     
@@ -67,6 +68,9 @@ public class UIManager : MonoBehaviour
         {
             VARIABLE.gameObject.SetActive(true);
         }
+        
+        //blur boost panel off
+        boostBlurPanel.SetActive(false);
     }
 
     public void settingsBtnDT()

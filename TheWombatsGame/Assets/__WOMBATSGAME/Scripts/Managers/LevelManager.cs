@@ -88,6 +88,8 @@ public class LevelManager : MonoBehaviour
     public Collider playerCarCollidersToToggle;
     public TextMeshProUGUI carContinueChances;
     public int continueCounter;
+    public Material backLightMaterial;
+    public Color redBL, whiteBL;
     
    
 
@@ -146,7 +148,8 @@ public class LevelManager : MonoBehaviour
         // Instantiate(enemy1, ENEMYLEFTgo.transform.position, sampleCartransform.rotation, ENEMYLEFTgo.transform);
         // Instantiate(enemy2, ENEMYRIGHTgo.transform.position, sampleCartransform.rotation, ENEMYRIGHTgo.transform);
         //
-        //playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
+        
+        _playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
         _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
     
@@ -194,6 +197,16 @@ public class LevelManager : MonoBehaviour
         _uiManager.flyThroughCamCityName.text = cityName + " TOUR ";
         flyOverCameraGO.SetActive(true);
         mainCameraGO.SetActive(false);
+        
+        //Back smoke effects off for all cars
+        _playerVehicleManager.carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Stop();
+        _playerVehicleManager.carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Stop();
+        
+      //  enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Stop();
+      //  enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Stop();
+        
+      //  enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Stop();
+      //  enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Stop();
     }
 
     void LightingAndObstaclesChecker()
@@ -287,6 +300,16 @@ public class LevelManager : MonoBehaviour
             _audioManager.musicTracks.MusicTrackAudioSource.gameObject.SetActive(true);
             _audioManager.musicTracks.MusicTrackAudioSource.Play();
         }
+        
+        //Back smoke effects on for all cars
+        _playerVehicleManager.carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
+        _playerVehicleManager.carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
+        
+       // enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
+       // enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
+        
+       // enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
+       // enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
             
         
         countdownLights[2].SetActive(true);
@@ -590,6 +613,8 @@ public class LevelManager : MonoBehaviour
         _uiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPause();
         _uiManager.BoostBtn.transform.DOScale(new Vector3(0.4f, 0.4f, 0.4f), 0f);
         
+       
+        
         StartCoroutine("BoostCarSettings");
     }
 
@@ -678,6 +703,11 @@ public class LevelManager : MonoBehaviour
 
     void CarBoostOn()
     {
+        //blur boost panel appear
+        _uiManager.boostBlurPanel.SetActive(true);
+        _uiManager.boostBlurPanel.GetComponent<Image>().DOFade(1f, 0.5f).SetEase(Ease.Flash);
+        
+        
        // disable shiny effect
          _uiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectPlayer.play = false;
          _uiManager.BoostBtn.transform.GetChild(0).GetChild(0).GetComponent<UIShiny>().effectFactor = 0;
@@ -721,6 +751,10 @@ public class LevelManager : MonoBehaviour
     void CarBoostOff()
     {
         isBoosting = false;
+        
+        //blur boost panel appear
+        _uiManager.boostBlurPanel.SetActive(false);
+        _uiManager.boostBlurPanel.GetComponent<Image>().DOFade(0f, 0f).SetEase(Ease.Flash);
         
         //speed change
         _playerController.targetSpeed = _playerController.normalSpeed;    
@@ -809,11 +843,11 @@ public class LevelManager : MonoBehaviour
        //show timer
        _uiManager.resumeTimer.gameObject.SetActive(true);
        _uiManager.resumeTimer.text = "3";
-       yield return new WaitForSeconds(1f);
+       yield return new WaitForSeconds(0.7f);
        _uiManager.resumeTimer.text = "2";
-       yield return new WaitForSeconds(1f);
+       yield return new WaitForSeconds(0.7f);
        _uiManager.resumeTimer.text = "1";
-       yield return new WaitForSeconds(1f);
+       yield return new WaitForSeconds(0.7f);
        _uiManager.resumeTimer.gameObject.SetActive(false);
        
        //RESUME WITH THE STUFF 
