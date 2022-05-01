@@ -38,12 +38,6 @@ public class LevelSelection : MonoBehaviour
         currentSceneName = "LONDON";
         lightingIndex = 1;
         
-        //show banners
-        if (_gameManager != null)
-        {
-            _gameManager.GetComponent<GameManager>().bannerAd.iniBannerStuff();
-            _gameManager.GetComponent<GameManager>().bannerAd.Loadbanner();
-        }
            
     }
 
@@ -293,10 +287,10 @@ public class LevelSelection : MonoBehaviour
     public void RaceBtn()
     {
         //set player and enemy cars from prefabs
-        _gameManager.GetComponent<GameManager>().playerCarModels = p;
-        
-        _gameManager.GetComponent<GameManager>().enemyCarModels.Add(e1);
-        _gameManager.GetComponent<GameManager>().enemyCarModels.Add(e2);
+        // _gameManager.GetComponent<GameManager>().playerCarModels = p;
+        //
+        // _gameManager.GetComponent<GameManager>().enemyCarModels.Add(e1);
+        // _gameManager.GetComponent<GameManager>().enemyCarModels.Add(e2);
         
         _gameManager.GetComponent<GameManager>().lightingMode = lightingIndex;
         _gameManager.GetComponent<GameManager>().LoadScene(currentSceneName);

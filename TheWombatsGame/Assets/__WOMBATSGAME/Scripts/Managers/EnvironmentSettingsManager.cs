@@ -64,6 +64,10 @@ public class EnvironmentSettingsManager : MonoBehaviour
         nightLightingGO.SetActive(true);
         dayLightingGO.SetActive(false);
         
+        LevelManager.Instance._playerVehicleManager.carEffects.headLight.SetActive(true);
+        LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().carEffects.headLight.SetActive(true);
+        LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().carEffects.headLight.SetActive(true);
+        
         RenderSettings.fogMode = FogMode.Exponential;
         RenderSettings.fogColor = nightStuff.fogColor;
         RenderSettings.ambientLight = nightStuff.ambientColor;
@@ -77,6 +81,10 @@ public class EnvironmentSettingsManager : MonoBehaviour
         nightObstacles.SetActive(false);
         nightLightingGO.SetActive(false);
         dayLightingGO.SetActive(true);
+        
+        LevelManager.Instance._playerVehicleManager.carEffects.headLight.SetActive(false);
+        LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().carEffects.headLight.SetActive(false);
+        LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().carEffects.headLight.SetActive(false);
         
         RenderSettings.fogMode = FogMode.Exponential;
         RenderSettings.fogColor = dayStuff.fogColor;

@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
         playerPF.speed = 0;
         
         LevelManager.Instance.backLightMaterial.EnableKeyword("_EMISSION");
-        LevelManager.Instance.backLightMaterial.SetColor("_EmissionColor", Color.red);
+        LevelManager.Instance.backLightMaterial.SetColor("_EmissionColor", LevelManager.Instance.whiteBL);
         
     }
 
@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
                     //Other Effects
                     LevelManager.Instance._playerVehicleManager.carEffects.breakLight.SetActive(true);        //CAR LIGHTS + TIRES SMOKES
                     LevelManager.Instance.backLightMaterial.EnableKeyword("_EMISSION");
-                    LevelManager.Instance.backLightMaterial.SetColor("_EmissionColor", Color.red);
+                    LevelManager.Instance.backLightMaterial.SetColor("_EmissionColor", LevelManager.Instance.redBL);
                     // LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(0).GetComponent<ParticleSystem>().Stop();
                     // LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(1).GetComponent<ParticleSystem>().Stop();  
                     
@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
                         //Other Effects
                         LevelManager.Instance._playerVehicleManager.carEffects.breakLight.SetActive(false);        //CAR LIGHTS + TIRES SMOKES
                         LevelManager.Instance.backLightMaterial.EnableKeyword("_EMISSION");
-                        LevelManager.Instance.backLightMaterial.SetColor("_EmissionColor", Color.white);
+                        LevelManager.Instance.backLightMaterial.SetColor("_EmissionColor", LevelManager.Instance.whiteBL);
 
                         // LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
                         // LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(1).GetComponent<ParticleSystem>().Play();

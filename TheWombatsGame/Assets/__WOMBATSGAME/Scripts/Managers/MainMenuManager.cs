@@ -45,7 +45,7 @@ public class MainMenuManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         HomeScreen.GetComponent<Image>().DOFade(1f, 2f).SetEase(Ease.Flash);
-        TitleImg.GetComponent<Image>().DOFade(1f, 2f).SetEase(Ease.Flash).OnComplete(CompleteRest);
+        TitleImg.GetComponent<Image>().DOFade(1f, 2f).SetEase(Ease.Flash);
 
         
 
