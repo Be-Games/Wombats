@@ -23,14 +23,22 @@ public class PlayerSelection : MonoBehaviour
    [Space(50)]
    //Car Selection Variables
    [SerializeField] private GameObject playerSelection_Panel;
+   public GameObject playerObjects;
    [SerializeField] private GameObject garage_Panel;
+   public GameObject carModel;
    
    [SerializeField] private TextMeshProUGUI playerGarageName;
-   [SerializeField] private GameObject[] playerCars;                    // 0 - m , 1 - d , 3 - t
-   [SerializeField] Image[] mainCarImage;
+
+   [SerializeField] private GameObject[] allMurphCars,allDanCars,allToddCars;
+   [SerializeField] private GameObject[] parentM, parentD, parentT;
    
-   [SerializeField] private Image[] allMurphCars,allDanCars,allToddCars;
-   
+   public TextMeshProUGUI carCounterText;
+   public GameObject carModelParent;
+   public HorizontalLayoutGroup hrzLG;
+
+   public int carIndex = 0;
+
+   public Button prev, next;
     private void Start()
     {
         //SET DEFAULT GARAGE PANEL OFF AND ALPHA TO 
@@ -41,17 +49,70 @@ public class PlayerSelection : MonoBehaviour
         //REFERENCES
         _gameManager = GameObject.FindWithTag("GameManager");
         index = 0;
+
+        carIndex = 1;
         
+        for (int i = 0; i < 9; i++)
+        {
+            if (i == carIndex - 1)
+            {
+                allMurphCars[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                allMurphCars[i].gameObject.SetActive(false); 
+            }
+           
+        }
+        for (int i = 0; i < 9; i++)
+        {
+            if (i == carIndex - 1)
+            {
+                allDanCars[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                allDanCars[i].gameObject.SetActive(false); 
+            }
+           
+        }
+        
+        for (int i = 0; i < 9; i++)
+        {
+            if (i == carIndex - 1)
+            {
+                allToddCars[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                allToddCars[i].gameObject.SetActive(false); 
+            }
+           
+        }
+
+        foreach (var x in parentD)
+        {
+            x.SetActive(false);
+        }
+        foreach (var x in parentM)
+        {
+            x.SetActive(false);
+        }
+        foreach (var x in parentT)
+        {
+            x.SetActive(false);
+        }
+       
 
     }
 
-    
 
+    private int temp;
     void Update()
     {
         if (index == 0)
         {
-            currrentMemberName.text = "Matthew Murphy" + "\n" + "MURPH";
+            currrentMemberName.text = "Matthew Murphy" + "\n" + "'MURPH'";
             prevBtn.SetActive(false);
             nextBtn.SetActive(true);
 
@@ -60,7 +121,7 @@ public class PlayerSelection : MonoBehaviour
 
         if (index == 1)
         {
-            currrentMemberName.text = "Dan Haggis" + "\n" + "DAN";
+            currrentMemberName.text = "Dan Haggis" + "\n" + "'DAN'";
             prevBtn.SetActive(true);
             nextBtn.SetActive(true);
             sceneCamera.transform.DOMove(cameraPositions[index].transform.position, 0.5f).SetEase(Ease.Flash);
@@ -68,12 +129,37 @@ public class PlayerSelection : MonoBehaviour
 
         if (index == 2)
         {
-            currrentMemberName.text = "Tord Øverland Knudsen" + "\n" + "TORD";
+            currrentMemberName.text = "Tord Øverland Knudsen" + "\n" + "'TORD'";
             prevBtn.SetActive(true);
             nextBtn.SetActive(false);
             sceneCamera.transform.DOMove(cameraPositions[index].transform.position, 0.5f).SetEase(Ease.Flash);
         }
-        
+
+        hrzLG.padding.left = temp;
+        LayoutRebuilder.MarkLayoutForRebuild(hrzLG.GetComponent<RectTransform>());
+
+        if (garage_Panel.activeInHierarchy)
+        {
+            if (carIndex <= 1)
+            {
+                carIndex = 1;
+                prev.gameObject.SetActive(false);
+            }
+            else
+            {
+                prev.gameObject.SetActive(true);
+            }
+            if (carIndex == 9)
+            {
+                carIndex = 9;
+                next.gameObject.SetActive(false);
+            }
+            else
+            {
+                next.gameObject.SetActive(true);
+            }
+                
+        }
     }
 
     public void Next()
@@ -98,13 +184,13 @@ public class PlayerSelection : MonoBehaviour
     }
     
     //---------------------------------------------------------------------------------------
-
+    
     public void GarageBtn()
     {
-        garage_Panel.SetActive(true);
         playerSelection_Panel.SetActive(false);
-        //garage_Panel.GetComponent<CanvasGroup>().DOFade(1f, 0.3f).SetEase(Ease.Flash);
-        
+
+        garage_Panel.SetActive(true);
+
         InitialisePanel();
 
     }
@@ -112,25 +198,73 @@ public class PlayerSelection : MonoBehaviour
     void InitialisePanel()
     {
         if (index == 0)
-            playerGarageName.text = "MURPH'S GARAGE";
-        if (index == 1)
-            playerGarageName.text = "DAN'S GARAGE";
-        if (index == 2)
-            playerGarageName.text = "TORD'S GARAGE";
-        
-        for (int i = 0; i < playerCars.Length; i++)
         {
-            if(i != index)
-                playerCars[i].SetActive(false);
-            else 
-                playerCars[index].SetActive(true);
+            playerGarageName.text = "MURPH'S GARAGE";
+            
+            foreach (var x in parentD)
+            {
+                x.SetActive(false);
+            }
+            foreach (var x in parentM)
+            {
+                x.SetActive(true);
+            }
+            foreach (var x in parentT)
+            {
+                x.SetActive(false);
+            }
         }
 
+        if (index == 1)
+        {
+            playerGarageName.text = "DAN'S GARAGE";
+            
+            foreach (var x in parentD)
+            {
+                x.SetActive(true);
+            }
+            foreach (var x in parentM)
+            {
+                x.SetActive(false);
+            }
+            foreach (var x in parentT)
+            {
+                x.SetActive(false);
+            }
+        }
+
+        if (index == 2)
+        {
+            playerGarageName.text = "TORD'S GARAGE";
+            
+            foreach (var x in parentD)
+            {
+                x.SetActive(false);
+            }
+            foreach (var x in parentM)
+            {
+                x.SetActive(false);
+            }
+            foreach (var x in parentT)
+            {
+                x.SetActive(true);
+            }
+        }
+            
         
-        
-        mainCarImage[0].sprite = allMurphCars[PlayerPrefs.GetInt("MurphKey",0)].sprite;
-        mainCarImage[1].sprite = allDanCars[PlayerPrefs.GetInt("DanKey",0)].sprite;
-        mainCarImage[2].sprite = allToddCars[PlayerPrefs.GetInt("TordKey",0)].sprite;
+        // for (int i = 0; i < playerCars.Length; i++)
+        // {
+        //     if(i != index)
+        //         playerCars[i].SetActive(false);
+        //     else 
+        //         playerCars[index].SetActive(true);
+        // }
+        //
+        //
+        //
+        // mainCarImage[0].sprite = allMurphCars[PlayerPrefs.GetInt("MurphKey",0)].sprite;
+        // mainCarImage[1].sprite = allDanCars[PlayerPrefs.GetInt("DanKey",0)].sprite;
+        // mainCarImage[2].sprite = allToddCars[PlayerPrefs.GetInt("TordKey",0)].sprite;
        
     }
 
@@ -151,7 +285,7 @@ public class PlayerSelection : MonoBehaviour
          PlayerPrefs.SetInt("MurphKey", int.Parse(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.transform.GetChild(0).name));
          PlayerPrefs.Save();
 
-         mainCarImage[0].sprite = allMurphCars[PlayerPrefs.GetInt("MurphKey",0)].sprite;
+         // mainCarImage[0].sprite = allMurphCars[PlayerPrefs.GetInt("MurphKey",0)].sprite;
 
     }
     public void carSelectedD()
@@ -159,7 +293,7 @@ public class PlayerSelection : MonoBehaviour
         PlayerPrefs.SetInt("DanKey", int.Parse(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.transform.GetChild(0).name));
         PlayerPrefs.Save();
 
-        mainCarImage[1].sprite = allDanCars[PlayerPrefs.GetInt("DanKey",0)].sprite;
+        // mainCarImage[1].sprite = allDanCars[PlayerPrefs.GetInt("DanKey",0)].sprite;
 
     }
     
@@ -168,8 +302,126 @@ public class PlayerSelection : MonoBehaviour
         PlayerPrefs.SetInt("TordKey", int.Parse(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.transform.GetChild(0).name));
         PlayerPrefs.Save();
 
-        mainCarImage[2].sprite = allToddCars[PlayerPrefs.GetInt("TordKey",0)].sprite;
+        // mainCarImage[2].sprite = allToddCars[PlayerPrefs.GetInt("TordKey",0)].sprite;
 
     }
+
+
+   
+    //CAR SELECTION MANAGEMENT
+
+    public void NextCarSelectionBtn()
+    {
+        prev.enabled = false;
+        next.enabled = false;
+        
+        carIndex++;
+
+        DOTween.To(() => temp, 
+                x => temp = x, temp-341, 0.1f).SetEase(Ease.Flash)
+            .OnComplete(() => {
+                prev.enabled = true;
+                next.enabled = true; 
+            });
+
+        carCounterText.text = carIndex + " / 9";
+        
+        for (int i = 0; i < 9; i++)
+        {
+            if (i == carIndex - 1)
+            {
+                allMurphCars[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                allMurphCars[i].gameObject.SetActive(false); 
+            }
+           
+        }
+        
+        for (int i = 0; i < 9; i++)
+        {
+            if (i == carIndex - 1)
+            {
+                allDanCars[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                allDanCars[i].gameObject.SetActive(false); 
+            }
+           
+        }
+        
+        for (int i = 0; i < 9; i++)
+        {
+            if (i == carIndex - 1)
+            {
+                allToddCars[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                allToddCars[i].gameObject.SetActive(false); 
+            }
+           
+        }
+    }
+
+    public void PrevCarSelectionBtn()
+    {
+        prev.enabled = false;
+        next.enabled = false;
+        
+        carIndex--;
+
+        DOTween.To(() => temp, 
+                x => temp = x, temp+341, 0.1f).SetEase(Ease.Flash)
+            .OnComplete(() => {
+                prev.enabled = true;
+                next.enabled = true; 
+            });
+        
+        carCounterText.text = carIndex + " / 9";
+        
+        for (int i = 0; i < 9; i++)
+        {
+            if (i == carIndex - 1)
+            {
+                allMurphCars[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                allMurphCars[i].gameObject.SetActive(false); 
+            }
+           
+        }
+        
+        for (int i = 0; i < 9; i++)
+        {
+            if (i == carIndex - 1)
+            {
+                allDanCars[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                allDanCars[i].gameObject.SetActive(false); 
+            }
+           
+        }
+        
+        for (int i = 0; i < 9; i++)
+        {
+            if (i == carIndex - 1)
+            {
+                allToddCars[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                allToddCars[i].gameObject.SetActive(false); 
+            }
+           
+        }
+    }
     
+    
+
 }

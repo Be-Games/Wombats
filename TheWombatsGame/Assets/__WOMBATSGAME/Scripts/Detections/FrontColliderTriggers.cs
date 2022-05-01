@@ -202,15 +202,13 @@ public class FrontColliderTriggers : MonoBehaviour
             }
             
             //Video Replay
-            //LevelManager.Instance.ReplayKitDemo.Initialise();
+            LevelManager.Instance.gifRecording.StartRecording();
         }
         
         if (other.gameObject.CompareTag("SecondTrigger") && LevelManager.Instance.isFinalLap)
         {
-            //Record Video
-            //LevelManager.Instance.ReplayKitDemo.SetMicrophoneStatus();
-           // LevelManager.Instance.ReplayKitDemo.PrepareRecording();
-           // LevelManager.Instance.ReplayKitDemo.StartRecording();
+            //Video Replay
+            LevelManager.Instance.gifRecording.StopRecording();
             
         }
     }

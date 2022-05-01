@@ -44,21 +44,18 @@ public class GameManager : MonoBehaviour
     public bool canControlCar;
     public int weatherEffect = 0;
 
-
+    [Space(20)]
+        
     [Header("Stadium Scene Stuff")] 
     public int charNumber = 0;                                                    //0= MM , 1 = DH , 2 = TO 
     //public int podiumPos = 1;
 
-    [Header("Car Setups for Game")] 
-    public GameObject playerCarModels;
-    public List<GameObject> enemyCarModels;
-    // public GameObject[] playerCarModels;
-    // public GameObject[] enemyCarModels;
+    [Header("Car Setups for Game")]
     public int selectedCarModelPLAYER;
     public int enemyCar1;
     public int enemyCar2;
     
-    [Space]
+    [Space(20)]
     
     [SerializeField] private GameObject LoadingScreenPanel;
     [SerializeField] private Image wombatsLoadingImg;
@@ -73,17 +70,17 @@ public class GameManager : MonoBehaviour
     [Space(15)] 
     public Rewarded rewardedAd;
     public Interstitial interstitialAd;
-    public Initializeads bannerAd;
-    
+
     private void Start()
     {
-        //INITIALISE LIST
-        enemyCarModels = new List<GameObject>();
         
         charNumber = 1;
         
         isSettingVisible = false;
         settingsPanel.GetComponent<RectTransform>().localScale = new Vector3(1f,0f,1f);
+
+        rewardedAd = this.gameObject.GetComponent<Rewarded>();
+        interstitialAd = this.gameObject.GetComponent<Interstitial>();
     }
     
 
@@ -189,9 +186,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(SceneManager.GetActiveScene().name == "HomeScreen" ||
-            SceneManager.GetActiveScene().name == "PlayerSelection" ||
-                SceneManager.GetActiveScene().name == "LevelSelection")
+        if(SceneManager.GetActiveScene().name == "PlayerSelection" ||
+           SceneManager.GetActiveScene().name == "LevelSelection")
         {
             settingsPanel.SetActive(true);
             settingsBtn.SetActive(true);

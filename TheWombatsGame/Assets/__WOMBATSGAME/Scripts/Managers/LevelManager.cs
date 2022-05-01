@@ -4,6 +4,7 @@ using Cinemachine;
 using Coffee.UIEffects;
 using DG.Tweening;
 using Lofelt.NiceVibrations;
+using NatSuite.Examples;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -31,6 +32,7 @@ public class LevelManager : MonoBehaviour
     public GameControls _gameControls;
     public PlayerController _playerController;
     public EnvironmentSettingsManager envManager;
+    public GifRecording gifRecording;
 
     [Header("Camera Refs")]
     public GameObject mainCameraGO;
@@ -916,7 +918,7 @@ public class LevelManager : MonoBehaviour
         // yield return new WaitForSeconds(0.2f);
         //
         // _playerController.PlayercarVisual.SetActive(true);
-        
+        //
         // yield return new WaitForSeconds(0.2f);
         //
         // _playerController.PlayercarVisual.SetActive(false);
