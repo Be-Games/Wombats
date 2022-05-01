@@ -16,11 +16,11 @@ public class Rewarded : MonoBehaviour
     public void IniRewardedSystem()
     {
 #if UNITY_ANDROID
-        appkey = androidAppKey;
+        appkey = "148013819";
 #endif
         
 #if UNITY_IOS
-            appkey = iosAppKey;
+            appkey = "1480051f9";
 #endif
         
         IronSource.Agent.shouldTrackNetworkState(true);

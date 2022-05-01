@@ -6,6 +6,8 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Lofelt.NiceVibrations;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -50,7 +52,8 @@ public class GameManager : MonoBehaviour
     public int charNumber = 0;                                                    //0= MM , 1 = DH , 2 = TO 
     //public int podiumPos = 1;
 
-    [Header("Car Setups for Game")]
+    [Header("Car Setups for Game")] 
+    public int memeberIndex;
     public int selectedCarModelPLAYER;
     public int enemyCar1;
     public int enemyCar2;
@@ -70,6 +73,8 @@ public class GameManager : MonoBehaviour
     [Space(15)] 
     public Rewarded rewardedAd;
     public Interstitial interstitialAd;
+
+    public GameObject[] murphPrefabs, danPrefabs, tordPrefabs;
 
     private void Start()
     {
@@ -207,5 +212,10 @@ public class GameManager : MonoBehaviour
     public void sfxtoggle()
     {
         AudioManager.Instance.ToggleSFX();
+    }
+
+    public void VibrateOnce()
+    {
+        HapticPatterns.PlayConstant(1.0f, 0.0f, 0.5f);
     }
 }

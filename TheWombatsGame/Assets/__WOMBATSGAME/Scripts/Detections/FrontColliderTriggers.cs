@@ -57,7 +57,7 @@ public class FrontColliderTriggers : MonoBehaviour
             }
 
             Invoke("WaitAndRag",0.05f);
-            StartCoroutine("CarTotalled");
+            StartCoroutine(CarTotalled());
             
         }
         
@@ -208,7 +208,7 @@ public class FrontColliderTriggers : MonoBehaviour
         if (other.gameObject.CompareTag("SecondTrigger") && LevelManager.Instance.isFinalLap)
         {
             //Video Replay
-            LevelManager.Instance.gifRecording.StopRecording();
+            //LevelManager.Instance.gifRecording.StopRecording();
             
         }
     }

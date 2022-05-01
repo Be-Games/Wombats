@@ -10560,7 +10560,8 @@ PrefabInstance:
       propertyPath: InitialModule.startColor.maxColor.g
       value: 0.121568635
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 82726661120449208, guid: b5ff8f15f2b8279429d253373f165984, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b5ff8f15f2b8279429d253373f165984, type: 3}
 --- !u!4 &697931084 stripped
 Transform:
@@ -30556,7 +30557,8 @@ PrefabInstance:
       propertyPath: InitialModule.startColor.maxColor.r
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 82726661120449208, guid: b5ff8f15f2b8279429d253373f165984, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b5ff8f15f2b8279429d253373f165984, type: 3}
 --- !u!1 &1657001665
 GameObject:
@@ -30691,7 +30693,8 @@ PrefabInstance:
       propertyPath: InitialModule.startColor.maxColor.r
       value: 0.007843138
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 82726661120449208, guid: b5ff8f15f2b8279429d253373f165984, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b5ff8f15f2b8279429d253373f165984, type: 3}
 --- !u!1 &1748198032
 GameObject:
@@ -30786,6 +30789,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: PlayerSelection
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6307174296610698731}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: VibrateOnce
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1748198035
@@ -66309,6 +66324,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e96f21ae7ddbb246808df452f463007, type: 3}
+--- !u!114 &6307174296610698731 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6307174297545802504, guid: 8e96f21ae7ddbb246808df452f463007, type: 3}
+  m_PrefabInstance: {fileID: 6307174296610698730}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0531d5bf69fb934eac92abd69e1e087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6358165853444386204
 GameObject:
   m_ObjectHideFlags: 0

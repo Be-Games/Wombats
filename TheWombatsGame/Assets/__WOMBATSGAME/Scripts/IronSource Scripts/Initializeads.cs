@@ -24,11 +24,11 @@ public class Initializeads : MonoBehaviour
     public void iniBannerStuff()
     {
 #if UNITY_ANDROID
-        appkey = androidAppKey;
+        appkey = "148013819";
 #endif
         
 #if UNITY_IOS
-            appkey = iosAppKey;
+            appkey ="1480051f9";
 #endif
         
         IronSource.Agent.init(appkey);

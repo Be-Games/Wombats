@@ -39,6 +39,8 @@ public class PlayerSelection : MonoBehaviour
    public int carIndex = 0;
 
    public Button prev, next;
+
+   public GameObject allMurphyCars;
     private void Start()
     {
         //SET DEFAULT GARAGE PANEL OFF AND ALPHA TO 
@@ -179,7 +181,10 @@ public class PlayerSelection : MonoBehaviour
         //set selected player animation to blowing kiss
         //wait few secs
 
-        _gameManager.GetComponent<GameManager>().charNumber = index+1;
+        _gameManager.GetComponent<GameManager>().memeberIndex = index;
+        _gameManager.GetComponent<GameManager>().selectedCarModelPLAYER = carIndex;
+        _gameManager.GetComponent<GameManager>().enemyCar1 = UnityEngine.Random.Range(1, 9);
+        _gameManager.GetComponent<GameManager>().enemyCar2 = UnityEngine.Random.Range(1, 9);
         _gameManager.GetComponent<GameManager>().LoadScene("LevelSelection");
     }
     

@@ -45,6 +45,7 @@ public class LevelManager : MonoBehaviour
     public GameObject playerVisual;
     public GameObject enemyLeftVisual;
     public GameObject enemyRightVisual;
+    public GameObject[] carVisualsParents;
 
     [Header("Lap Settings")]
     [HideInInspector] public int lapCounter = 0;
@@ -131,25 +132,68 @@ public class LevelManager : MonoBehaviour
     
     
     public RectTransform continueButton,shareBtn;
-    public List<GameObject> carHeadLights;
-    
+
     private void Awake()
     {
         _instance = this;
         
         _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
-        // if (_gameManager)
-        // {
-        //     currentPlayerCarModel = _gameManager.playerCarModels;
-        //     enemy1 = _gameManager.enemyCarModels[0];
-        //     enemy2 = _gameManager.enemyCarModels[1];
-        // }
-        //
-        //
-        // Instantiate(currentPlayerCarModel, CARMODELgo.transform.position, sampleCartransform.rotation, CARMODELgo.transform);
-        // Instantiate(enemy1, ENEMYLEFTgo.transform.position, sampleCartransform.rotation, ENEMYLEFTgo.transform);
-        // Instantiate(enemy2, ENEMYRIGHTgo.transform.position, sampleCartransform.rotation, ENEMYRIGHTgo.transform);
-        //
+
+        GameObject playerCarPrefab = new GameObject();
+        GameObject enemyLPrefab = new GameObject();
+        GameObject enemyRPrefab = new GameObject();
+        if (_gameManager)
+        {
+            if (_gameManager.memeberIndex == 0)        //murph
+            {
+                playerCarPrefab = Instantiate(_gameManager.murphPrefabs[_gameManager.selectedCarModelPLAYER-1],
+                    carVisualsParents[0].transform.position, carVisualsParents[0].transform.rotation, carVisualsParents[0].transform);
+                
+                enemyLPrefab = Instantiate(_gameManager.danPrefabs[_gameManager.enemyCar1],
+                    carVisualsParents[1].transform.position, carVisualsParents[1].transform.rotation, carVisualsParents[1].transform);
+                
+                enemyRPrefab = Instantiate(_gameManager.tordPrefabs[_gameManager.enemyCar2],
+                    carVisualsParents[2].transform.position, carVisualsParents[2].transform.rotation, carVisualsParents[2].transform);
+            }
+            if (_gameManager.memeberIndex == 1)        //dan
+            {
+                playerCarPrefab = Instantiate(_gameManager.danPrefabs[_gameManager.selectedCarModelPLAYER-1],
+                    carVisualsParents[0].transform.position, carVisualsParents[0].transform.rotation, carVisualsParents[0].transform);
+                
+                enemyLPrefab = Instantiate(_gameManager.tordPrefabs[_gameManager.enemyCar1],
+                    carVisualsParents[1].transform.position, carVisualsParents[1].transform.rotation, carVisualsParents[1].transform);
+                
+                enemyRPrefab = Instantiate(_gameManager.murphPrefabs[_gameManager.enemyCar2],
+                    carVisualsParents[2].transform.position, carVisualsParents[2].transform.rotation, carVisualsParents[2].transform);
+            }
+            if (_gameManager.memeberIndex == 2)        //tord
+            {
+                playerCarPrefab = Instantiate(_gameManager.tordPrefabs[_gameManager.selectedCarModelPLAYER-1],
+                    carVisualsParents[0].transform.position, carVisualsParents[0].transform.rotation, carVisualsParents[0].transform);
+                
+                enemyLPrefab = Instantiate(_gameManager.murphPrefabs[_gameManager.enemyCar1],
+                    carVisualsParents[1].transform.position, carVisualsParents[1].transform.rotation, carVisualsParents[1].transform);
+                
+                enemyRPrefab = Instantiate(_gameManager.danPrefabs[_gameManager.enemyCar2],
+                    carVisualsParents[2].transform.position, carVisualsParents[2].transform.rotation, carVisualsParents[2].transform);
+            }
+            
+        }
+        
+        if (_gameManager)
+        {
+            if(playerCarPrefab)
+                playerVisual = playerCarPrefab;
+
+            if(enemyLPrefab)
+                enemyLeftVisual = enemyLPrefab;
+            
+            if(enemyRPrefab)
+                enemyRightVisual = enemyRPrefab;
+            
+        }
+        
+        
         
         _playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
         _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
@@ -184,8 +228,8 @@ public class LevelManager : MonoBehaviour
         _uiManager.BoostBtn.GetComponent<Button>().enabled = false;
         
         //Startup rewarded system 
-        if(_gameManager != null)
-            _gameManager.rewardedAd.IniRewardedSystem();
+        // if(_gameManager != null)
+        //     _gameManager.rewardedAd.IniRewardedSystem();
         
         _playerVehicleManager.overHeadBoostUI.timerText.gameObject.SetActive(false);
         _uiManager.resumeTimer.gameObject.SetActive(false);
@@ -501,7 +545,7 @@ public class LevelManager : MonoBehaviour
             
             yield return new WaitForSeconds(1f);
             
-            //ReplayKitDemo.StopRecording();                                //recording Stop
+            gifRecording.StopRecording();
             
             yield return new WaitForSeconds(0.1f);
             
@@ -877,7 +921,7 @@ public class LevelManager : MonoBehaviour
         GameManager.Instance.canControlCar = true;
         _gameControls.gestureState = GameControls.GestureState.Release;
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         playerCarCollidersToToggle.enabled = true;
 
         // foreach (GameObject x in pplToDisable)
@@ -963,7 +1007,7 @@ public class LevelManager : MonoBehaviour
 
     public void RunRewardedAd()
     {
-        _gameManager.rewardedAd.rewarded();
+        //_gameManager.rewardedAd.rewarded();
         Invoke("ShowRevivePanel",2f);
     }
 
@@ -971,5 +1015,6 @@ public class LevelManager : MonoBehaviour
     {
         _uiManager.receiveLifePanel.SetActive(true);
     }
+    
     
 }

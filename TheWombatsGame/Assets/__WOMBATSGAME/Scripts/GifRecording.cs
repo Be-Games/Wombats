@@ -19,8 +19,14 @@ namespace NatSuite.Examples {
 
         private GIFRecorder recorder;
         private CameraInput cameraInput;
+        private string path;
 
-        public void StartRecording () {
+        private bool isRecordingStarted;
+
+        public void StartRecording ()
+        {
+
+            isRecordingStarted = true;
             // Start recording
             recorder = new GIFRecorder(imageWidth, imageHeight, frameDuration);
             cameraInput = new CameraInput(recorder, Camera.main);
@@ -29,12 +35,23 @@ namespace NatSuite.Examples {
         }
 
         public async void StopRecording () {
-            // Stop the recording
-            cameraInput.Dispose();
-            var path = await recorder.FinishWriting();
-            // Log path
-            // Debug.Log($"Saved animated GIF image to: {path}");
-            // Application.OpenURL($"file://{path}");
+
+            if (isRecordingStarted)
+            {
+                // Stop the recording
+                cameraInput.Dispose();
+                path = await recorder.FinishWriting();
+                // Log path
+                // Debug.Log($"Saved animated GIF image to: {path}");
+                // Application.OpenURL($"file://{path}");
+                isRecordingStarted = false;
+            }
+           
+           
+        }
+
+        public void Share()
+        {
             var payload = new SharePayload();
             payload.AddMedia(path);
             payload.AddText(" Checkout the album " + "\n" + " https://open.spotify.com/album/3J9a9IUBPJL3WhkC86mCw1 ");
