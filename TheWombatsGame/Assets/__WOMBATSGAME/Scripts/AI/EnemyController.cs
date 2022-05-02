@@ -61,14 +61,14 @@ public class EnemyController : MonoBehaviour
             enemyCarModelGO.transform.localPosition = new Vector3(enemyCarModelGO.transform.localPosition.x -  xOffSet,0f,0f);
             Acc = LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().carSpeedSettings.Acc;
             Dec = LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().carSpeedSettings.Dec;
-            enemySpeed = LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().carSpeedSettings.normalSpeed;
+            enemySpeed = LevelManager.Instance._playerVehicleManager.carSpeedSettings.normalSpeed+0.2f;
         }
         if (currentEnemyNumber == 1)
         {
             enemyCarModelGO.transform.localPosition = new Vector3(enemyCarModelGO.transform.localPosition.x + xOffSet,0f,0f);
             Acc = LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().carSpeedSettings.Acc;
             Dec = LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().carSpeedSettings.Dec;
-            enemySpeed = LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().carSpeedSettings.normalSpeed;
+            enemySpeed = LevelManager.Instance._playerVehicleManager.carSpeedSettings.normalSpeed-0.2f;
         }
         
         yield return new WaitForSeconds(0.5f);

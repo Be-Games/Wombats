@@ -111,12 +111,45 @@ public class AudioManager : MonoBehaviour
             }
         }
         
+        if (sN == "SYDNEY")
+        {
+            musicTracks.MusicTrackAudioSource.Stop();
+            
+            switch (GameManager.Instance.lightingMode)
+            {
+                case 1:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[2];
+                    break;
+                case 2:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[3];
+                    break;
+            }
+        }
+        
+        if (sN == "ROME")
+        {
+            musicTracks.MusicTrackAudioSource.Stop();
+            
+            switch (GameManager.Instance.lightingMode)
+            {
+                case 1:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[4];
+                    break;
+                case 2:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[5];
+                    break;
+            }
+        }
+        
         if (sN == "HomeScreen" || sN == "PlayerSelection" || sN == "LevelSelection")
         {
             musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[6];
             
-            if(isMusicEnabled)
-             musicTracks.MusicTrackAudioSource.Play();
+            if(!musicTracks.MusicTrackAudioSource.isPlaying) 
+            {
+                if(isMusicEnabled)
+                    musicTracks.MusicTrackAudioSource.Play();
+            }
         }
         
         if (sN == "Tutorial")

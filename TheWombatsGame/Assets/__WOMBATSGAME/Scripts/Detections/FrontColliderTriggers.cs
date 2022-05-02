@@ -5,6 +5,8 @@ using DG.Tweening;
 using SWS;
 using UnityEngine;
 using Lofelt.NiceVibrations;
+using UnityEngine.Analytics;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class FrontColliderTriggers : MonoBehaviour
@@ -144,6 +146,12 @@ public class FrontColliderTriggers : MonoBehaviour
         {
             UIManager.Instance.postAdCrashPanel.SetActive(true);
             LevelManager.Instance.isGameStarted = false;
+            
+            //Level Lose!
+            if (GameManager.Instance.lightingMode == 1)
+                Analytics.CustomEvent("LevelLose" + SceneManager.GetActiveScene().name + " DAY ");
+            if (GameManager.Instance.lightingMode == 2)
+                Analytics.CustomEvent("LevelLose" + SceneManager.GetActiveScene().name + " NIGHT ");
         }
         
        
@@ -201,7 +209,8 @@ public class FrontColliderTriggers : MonoBehaviour
            LevelManager.Instance.stadiumPrefab.SetActive(true);
             foreach (var x in LevelManager.Instance.stuffToRemove)
             {
-                x.SetActive(false);
+                if(x!=null)
+                    x.SetActive(false);
             }
             
             //Video Replay

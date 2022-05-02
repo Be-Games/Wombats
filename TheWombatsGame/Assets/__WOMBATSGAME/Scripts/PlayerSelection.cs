@@ -183,8 +183,16 @@ public class PlayerSelection : MonoBehaviour
 
         _gameManager.GetComponent<GameManager>().memeberIndex = index;
         _gameManager.GetComponent<GameManager>().selectedCarModelPLAYER = carIndex;
-        _gameManager.GetComponent<GameManager>().enemyCar1 = UnityEngine.Random.Range(1, 9);
-        _gameManager.GetComponent<GameManager>().enemyCar2 = UnityEngine.Random.Range(1, 9);
+
+        _gameManager.GetComponent<GameManager>().enemyCar1 = carIndex + 1;
+        _gameManager.GetComponent<GameManager>().enemyCar2 = carIndex + 1;
+
+        if ((carIndex + 1) > 9)
+        {
+            _gameManager.GetComponent<GameManager>().enemyCar1 = 0;
+            _gameManager.GetComponent<GameManager>().enemyCar2 = 0;
+        }
+        
         _gameManager.GetComponent<GameManager>().LoadScene("LevelSelection");
     }
     

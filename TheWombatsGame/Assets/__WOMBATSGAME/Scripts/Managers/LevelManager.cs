@@ -9,6 +9,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Analytics;
 
 public class LevelManager : MonoBehaviour
 {
@@ -50,7 +51,6 @@ public class LevelManager : MonoBehaviour
     [Header("Lap Settings")]
     [HideInInspector] public int lapCounter = 0;
     [HideInInspector] public bool isLapTriggered;
-    [HideInInspector] public GameObject[] levelTimeObjects;
 
     [Header("Scoring Stuff")] 
     [HideInInspector] public int currentScore;
@@ -348,11 +348,11 @@ public class LevelManager : MonoBehaviour
         _playerVehicleManager.carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
         _playerVehicleManager.carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
         
-       // enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
-       // enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
+       enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
+       enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
         
-       // enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
-       // enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
+       enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
+       enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
             
         
         countdownLights[2].SetActive(true);
@@ -392,15 +392,15 @@ public class LevelManager : MonoBehaviour
            
             if (lapCounter >= 1)
             {
-                if (levelTimeObjects[lapCounter-1].activeInHierarchy && isGameStarted )
+                if (isGameStarted )
                 {
                 
                     float t = Time.time - startTime;
                     string minutes = ((int) t / 60).ToString();
                     string seconds = (t % 60).ToString("f2");
             
-                    levelTimeObjects[lapCounter-1].GetComponent<TextMeshProUGUI>().text = "Lap " + (lapCounter) + " : " + minutes + ":" +
-                                                                                          seconds;
+                    // levelTimeObjects[lapCounter-1].GetComponent<TextMeshProUGUI>().text = "Lap " + (lapCounter) + " : " + minutes + ":" +
+                    //                                                                       seconds;
             
                 }
             }
@@ -470,7 +470,11 @@ public class LevelManager : MonoBehaviour
             pplToDisable = new List<GameObject>();
             if (GameObject.FindGameObjectWithTag("People").activeInHierarchy)
             {
-                pplToDisable.AddRange(GameObject.FindGameObjectsWithTag("People")); 
+                if (GameObject.FindGameObjectsWithTag("People") != null)
+                {
+                    pplToDisable.AddRange(GameObject.FindGameObjectsWithTag("People")); 
+                }
+                
             }
 
             // for(var i = pplToDisable.Count - 1; i > -1; i--)
@@ -506,9 +510,8 @@ public class LevelManager : MonoBehaviour
             
             #endregion
             
-            //lapText.text = (lapCounter+1) + "/" + totalLaps;
             lapCounter++;
-            levelTimeObjects[lapCounter-1].SetActive(true);
+            
             startTime = Time.time;
         }
         
@@ -567,11 +570,22 @@ public class LevelManager : MonoBehaviour
         if (_levelProgressUI.playerPosi == 1)
         {
             _gameManager.LoadScene("Concert_Scn");
+            
+            //Level Win!
+            if (_gameManager.lightingMode == 1)
+               Analytics.CustomEvent("LevelWin" + SceneManager.GetActiveScene().name + " DAY ");
+            if (_gameManager.lightingMode == 2)
+                Analytics.CustomEvent("LevelWin" + SceneManager.GetActiveScene().name + " NIGHT ");
         }
         //ReplayKitDemo.Discard();
         else
         {
             _uiManager.postAdCrashPanel.SetActive(true);
+            //Level Lose!
+            if (_gameManager.lightingMode == 1)
+                Analytics.CustomEvent("LevelLose" + SceneManager.GetActiveScene().name + " DAY ");
+            if (_gameManager.lightingMode == 2)
+                Analytics.CustomEvent("LevelLose" + SceneManager.GetActiveScene().name + " NIGHT ");
         }
     }
     
@@ -987,7 +1001,7 @@ public class LevelManager : MonoBehaviour
 
     public void ReceiveLifeBtn()
     {
-        
+        _audioManager.musicTracks.MusicTrackAudioSource.Play();
         _uiManager.extraLifePanel.SetActive(false);
         adStuff = true;
         continueCounter = 5;
