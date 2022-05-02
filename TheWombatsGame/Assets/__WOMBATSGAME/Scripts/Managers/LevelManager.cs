@@ -226,8 +226,8 @@ public class LevelManager : MonoBehaviour
         _uiManager.BoostBtn.GetComponent<Button>().enabled = false;
         
         //Startup rewarded system 
-        // if(_gameManager != null)
-        //     _gameManager.rewardedAd.IniRewardedSystem();
+        if(_gameManager != null)
+            _gameManager.rewardedAd.IniRewardedSystem();
         
         _playerVehicleManager.overHeadBoostUI.timerText.gameObject.SetActive(false);
         _uiManager.resumeTimer.gameObject.SetActive(false);
@@ -1020,7 +1020,7 @@ public class LevelManager : MonoBehaviour
 
     public void RunRewardedAd()
     {
-        //_gameManager.rewardedAd.rewarded();
+        _gameManager.rewardedAd.rewarded();
         Invoke("ShowRevivePanel",2f);
     }
 
