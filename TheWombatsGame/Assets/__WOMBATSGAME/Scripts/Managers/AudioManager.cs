@@ -33,7 +33,9 @@ public class AudioManager : MonoBehaviour
         isMusicEnabled = true;
         isSFXenabled = true;
 
-        if (SceneManager.GetActiveScene().name == "HomeScreen")
+        musicTracks.MusicTrackAudioSource.Stop();
+        
+        if (SceneManager.GetActiveScene().name == "PlayerSelection")
         {
             UpdateMusicBtnIcon();
             UpdateSoundBtnIcon();
@@ -44,7 +46,7 @@ public class AudioManager : MonoBehaviour
     [System.Serializable]
     public class MusicTracks
     {
-        public AudioSource mainMenuAudioSource;
+       
         public AudioSource MusicTrackAudioSource;
         public AudioClip[] tracks;
         public string[] spotifyLinks;
@@ -79,15 +81,51 @@ public class AudioManager : MonoBehaviour
     public bool isHapticEnabled,isSFXenabled,isMusicEnabled;
     public int i;
     public bool isTrackFinished,isTrackFinishedG;
-    private void Start()
+   
+    void OnEnable()
     {
-        if (SceneManager.GetActiveScene().isLoaded)
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    // called second
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        CheckSceneNameAndPlayTrack(SceneManager.GetActiveScene().name);
+    }
+    
+
+    void CheckSceneNameAndPlayTrack(string sN)
+    {
+        if (sN == "LONDON")
         {
-            musicTracks.mainMenuAudioSource.gameObject.SetActive(true);
-            musicTracks.MusicTrackAudioSource.gameObject.SetActive(false);
-
-
-            musicTracks.mainMenuAudioSource.clip = musicTracks.tracks[i+1];
+            musicTracks.MusicTrackAudioSource.Stop();
+            
+            switch (GameManager.Instance.lightingMode)
+            {
+                case 1:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[0];
+                    break;
+                case 2:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[1];
+                    break;
+            }
+        }
+        
+        if (sN == "HomeScreen" || sN == "PlayerSelection" || sN == "LevelSelection")
+        {
+            musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[6];
+            
+            if(isMusicEnabled)
+             musicTracks.MusicTrackAudioSource.Play();
+        }
+        
+        if (sN == "Tutorial")
+        {
+            musicTracks.MusicTrackAudioSource.Stop();
+            musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[3];
+            
+            if(isMusicEnabled)
+                musicTracks.MusicTrackAudioSource.Play();
         }
     }
 
@@ -124,9 +162,6 @@ public class AudioManager : MonoBehaviour
             musicTracks.mutedTrack = true;
             musicTracks.MusicTrackAudioSource.Pause();
             
-            if(musicTracks.mainMenuAudioSource.gameObject.activeInHierarchy)
-                musicTracks.mainMenuAudioSource.Pause();
-
             isMusicEnabled = false;
         }
 
@@ -135,9 +170,6 @@ public class AudioManager : MonoBehaviour
             musicTracks.mutedTrack = false;
             musicTracks.MusicTrackAudioSource.Play();
             
-            if(musicTracks.mainMenuAudioSource.gameObject.activeInHierarchy)
-                musicTracks.mainMenuAudioSource.Play();
-
             isMusicEnabled = true;
         }
         
@@ -195,62 +227,19 @@ public class AudioManager : MonoBehaviour
             sfxAll.SFXOFFIcon.gameObject.SetActive(true);
         }
     }
-
-    private AudioSource myClip;
+    
     private void Update()
     {
         
-        
-        if (isMusicEnabled)
-        {
-            if (musicTracks.mainMenuAudioSource.gameObject.activeInHierarchy && !isTrackFinished)
-            {
-                isTrackFinished = true;
-                Invoke("NextSong",musicTracks.mainMenuAudioSource.clip.length);
-            }
-            
-            if (musicTracks.MusicTrackAudioSource.gameObject.activeInHierarchy && !isTrackFinishedG)
-            {
-                isTrackFinishedG = true;
-                Invoke("NextSong",musicTracks.MusicTrackAudioSource.clip.length);
-            }
-        }
+        // if (isMusicEnabled)
+        // {
+        //     if (musicTracks.MusicTrackAudioSource.gameObject.activeInHierarchy && !isTrackFinishedG)
+        //     {
+        //         isTrackFinishedG = true;
+        //         Invoke("NextSong",musicTracks.MusicTrackAudioSource.clip.length);
+        //     }
+        // }
     }
 
-    public void GameSwitchMusicCalled()
-    {
-        musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[i];
-        musicTracks.MusicTrackAudioSource.Play();
-    }
-
-    void NextSong()
-    {
-        if (musicTracks.mainMenuAudioSource.gameObject.activeInHierarchy && !isTrackFinished)
-        {
-            if (i >= musicTracks.tracks.Length)
-            {
-                i = 0;
-            }
-        
-            musicTracks.mainMenuAudioSource.clip = musicTracks.tracks[i++];
-            musicTracks.mainMenuAudioSource.Play();
-            isTrackFinished = false;
-        }
-        
-        if (musicTracks.MusicTrackAudioSource.gameObject.activeInHierarchy && !isTrackFinishedG)
-        {
-            if (i >= musicTracks.tracks.Length)
-            {
-                i = 0;
-            }
-        
-            musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[i++];
-            musicTracks.MusicTrackAudioSource.Play();
-            isTrackFinishedG = false;
-        }
-
-        
-
-        
-    }
+    
 }

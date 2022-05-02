@@ -103,7 +103,7 @@ public class UIManager : MonoBehaviour
         
     }
 
-    public void NextTrack()
+    /*public void NextTrack()
     {
         LevelManager.Instance._audioManager.i++;
         if (LevelManager.Instance._audioManager.i > LevelManager.Instance._audioManager.musicTracks.tracks.Length)
@@ -121,7 +121,7 @@ public class UIManager : MonoBehaviour
             LevelManager.Instance._audioManager.i = LevelManager.Instance._audioManager.musicTracks.tracks.Length-1;
         }
         LevelManager.Instance._audioManager.GameSwitchMusicCalled();
-    }
+    }*/
 
     public void SpotifyLink()
     {

@@ -210,8 +210,6 @@ public class LevelManager : MonoBehaviour
        // _audioManager.LoadIcons();
         if (_audioManager.isMusicEnabled)
         {
-            _audioManager.musicTracks.mainMenuAudioSource.Stop();
-            _audioManager.musicTracks.mainMenuAudioSource.gameObject.SetActive(false);
             _audioManager.i = 0;
             _audioManager.isTrackFinishedG = false;
         }
@@ -240,7 +238,7 @@ public class LevelManager : MonoBehaviour
         startTime = Time.time;
         
         //Game Start - Flyover Camera 
-        _uiManager.flyThroughCamCityName.text = cityName + " TOUR ";
+        _uiManager.flyThroughCamCityName.text = SceneManager.GetActiveScene().name + " TOUR ";
         flyOverCameraGO.SetActive(true);
         mainCameraGO.SetActive(false);
         
@@ -343,7 +341,6 @@ public class LevelManager : MonoBehaviour
 
         if (_audioManager.isMusicEnabled)
         {
-            _audioManager.musicTracks.MusicTrackAudioSource.gameObject.SetActive(true);
             _audioManager.musicTracks.MusicTrackAudioSource.Play();
         }
         
@@ -863,6 +860,8 @@ public class LevelManager : MonoBehaviour
     public void ResetCar()
     {
         // PickUpTrigger.Instance.HideHuman();
+        
+        _audioManager.musicTracks.MusicTrackAudioSource.Play();
         if (continueCounter < 2)
         {
             StartCoroutine("CarReset");

@@ -125,6 +125,9 @@ public class FrontColliderTriggers : MonoBehaviour
         //VIBRATE ON CRASH PRESSED
         // if (LevelManager.Instance._audioManager.isHapticEnabled)
         //     LevelManager.Instance.playerVisual.GetComponent<HapticSource>().Play();
+        
+        //Pause the music
+        LevelManager.Instance._audioManager.musicTracks.MusicTrackAudioSource.Pause();
 
         LevelManager.Instance.isGameStarted = false;
         LevelManager.Instance.isCrashed = true;
