@@ -85,8 +85,6 @@ public class Tut_PlayerController : MonoBehaviour
         getreadyText.SetActive(false);
         goText.SetActive(true);
         
-        PlayercarVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
-        PlayercarVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
         yield return new WaitForSeconds(0.4f);
 
         canBreak = false;

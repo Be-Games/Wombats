@@ -76,8 +76,12 @@ public class GameManager : MonoBehaviour
 
     public GameObject[] murphPrefabs, danPrefabs, tordPrefabs;
 
+    public int numberOfLaps;
+
     private void Start()
     {
+        if (numberOfLaps == 0)
+            numberOfLaps = 2;
         
         charNumber = 1;
         
@@ -216,6 +220,7 @@ public class GameManager : MonoBehaviour
 
     public void VibrateOnce()
     {
-        HapticPatterns.PlayConstant(1.0f, 0.0f, 0.5f);
+        if(AudioManager.Instance.isHapticEnabled)
+            HapticPatterns.PlayConstant(1.0f, 0.0f, 0.5f);
     }
 }
