@@ -77,20 +77,11 @@ public class PlayerController : MonoBehaviour
                 {
                     if (!LevelManager.Instance.isBoosting)
                     {
-                      // DOTween.To(() => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
-                      //       x => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -1.3f, 0.5f)
-                      //   .OnUpdate(() => {
-                      //   
-                      //   });
+                        
+                        LevelManager.Instance.SetCameraDampValue(LevelManager.Instance.breakValue);
                     
-                    // DOTween.To(() => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y,                     ////damping camera effect
-                    //         x => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y = x, 0.8f, 0.5f)
-                    //     .OnUpdate(() => {
-                    //     
-                    //     });
-                    
-                    //winds off
-                    LevelManager.Instance.FastWind.gameObject.SetActive(false);
+                        //winds off
+                        LevelManager.Instance.FastWind.gameObject.SetActive(false);
                     
                     //Decelerate
                     float target = 0;                                                                                
@@ -110,8 +101,12 @@ public class PlayerController : MonoBehaviour
                     LevelManager.Instance._playerVehicleManager.carEffects.breakLight.SetActive(true);        //CAR LIGHTS + TIRES SMOKES
                     LevelManager.Instance.backLightMaterial.EnableKeyword("_EMISSION");
                     LevelManager.Instance.backLightMaterial.SetColor("_EmissionColor", LevelManager.Instance.redBL);
-                    // LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(0).GetComponent<ParticleSystem>().Stop();
-                    // LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(1).GetComponent<ParticleSystem>().Stop();  
+                    
+                    #region CarSmokeStop
+                    LevelManager.Instance._playerVehicleManager.carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Stop();
+                    LevelManager.Instance._playerVehicleManager.carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Stop();
+                    #endregion
+                    
                     
                     }
                     
@@ -123,17 +118,7 @@ public class PlayerController : MonoBehaviour
                 {
                     if (!LevelManager.Instance.isBoosting)
                     {
-                        // DOTween.To(() => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
-                        //         x => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -1.75f, 0.5f)
-                        //     .OnUpdate(() => {
-                        //
-                        //     });
-                    
-                        // DOTween.To(() => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y,                     ////damping camera effect
-                        //         x => LevelManager.Instance.cmvc.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y = x, 1.2f, 0.5f)
-                        //     .OnUpdate(() => {
-                        //     
-                        //     });
+                       LevelManager.Instance.SetCameraDampValue(LevelManager.Instance.defaultValue);
                     
                         //WINDS ON
                         LevelManager.Instance.FastWind.gameObject.SetActive(true);
@@ -148,6 +133,10 @@ public class PlayerController : MonoBehaviour
                         LevelManager.Instance._playerVehicleManager.carEffects.breakLight.SetActive(false);        //CAR LIGHTS + TIRES SMOKES
                         LevelManager.Instance.backLightMaterial.EnableKeyword("_EMISSION");
                         LevelManager.Instance.backLightMaterial.SetColor("_EmissionColor", LevelManager.Instance.whiteBL);
+                        #region CarSmokePlay
+                        LevelManager.Instance._playerVehicleManager.carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
+                        LevelManager.Instance._playerVehicleManager.carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
+                        #endregion
 
                         // LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
                         // LevelManager.Instance._playerVehicleManager.carEffects.carBreakGO.transform.GetChild(1).GetComponent<ParticleSystem>().Play();

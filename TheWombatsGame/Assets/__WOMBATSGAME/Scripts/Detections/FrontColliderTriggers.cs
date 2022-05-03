@@ -123,13 +123,16 @@ public class FrontColliderTriggers : MonoBehaviour
     
     IEnumerator CarTotalled()
     {
-        
+        if (!LevelManager.Instance.isCrashed)
+        {
+            Debug.Log("Crashing");
         //VIBRATE ON CRASH PRESSED
         // if (LevelManager.Instance._audioManager.isHapticEnabled)
         //     LevelManager.Instance.playerVisual.GetComponent<HapticSource>().Play();
         
         //Pause the music
-        LevelManager.Instance._audioManager.musicTracks.MusicTrackAudioSource.Pause();
+        if(LevelManager.Instance._audioManager !=null)
+            LevelManager.Instance._audioManager.musicTracks.MusicTrackAudioSource.Pause();
 
         LevelManager.Instance.isGameStarted = false;
         LevelManager.Instance.isCrashed = true;
@@ -139,6 +142,20 @@ public class FrontColliderTriggers : MonoBehaviour
         LevelManager.Instance._uiManager.redCrashedPanel.SetActive(true);
         LevelManager.Instance._uiManager.redCrashedPanel.GetComponent<Image>().DOFade(1f, 0.5f).SetEase(Ease.Flash);
 
+        
+        if (!LevelManager.Instance.isCrashedWithPpl)
+        {
+            LevelManager.Instance._playerVehicleManager.postCrashStuff.up_car.SetActive(false);        //player model+effects
+        
+            LevelManager.Instance._playerVehicleManager.postCrashStuff.down_car.SetActive(true);        //player upside down model
+        
+            LevelManager.Instance.isCrashed = true;
+            LevelManager.Instance._playerVehicleManager.postCrashStuff.crashPS.gameObject.SetActive(true);     //explosion effect
+            
+        }
+        
+        yield return new WaitForSeconds(0.35f);
+        
         if(LevelManager.Instance.continueCounter != 5)
             UIManager.Instance.crashedPanel.SetActive(true);
 
@@ -154,19 +171,6 @@ public class FrontColliderTriggers : MonoBehaviour
                 Analytics.CustomEvent("LevelLose" + SceneManager.GetActiveScene().name + " NIGHT ");
         }
         
-       
-        
-        if (!LevelManager.Instance.isCrashedWithPpl)
-        {
-            LevelManager.Instance._playerVehicleManager.postCrashStuff.up_car.SetActive(false);        //player model+effects
-        
-            LevelManager.Instance._playerVehicleManager.postCrashStuff.down_car.SetActive(true);        //player upside down model
-        
-            LevelManager.Instance.isCrashed = true;
-            LevelManager.Instance._playerVehicleManager.postCrashStuff.crashPS.gameObject.SetActive(true);     //explosion effect
-            
-        }
-        
         LevelManager.Instance.isCrashedWithPpl = false;
         LevelManager.Instance.carContinueChances.text = "" + (2 - LevelManager.Instance.continueCounter); 
         GameManager.Instance.canControlCar = false;
@@ -177,8 +181,6 @@ public class FrontColliderTriggers : MonoBehaviour
 
         yield return new WaitForSeconds(0.6f);
         
-        LevelManager.Instance.isCrashed = false;
-        
         //red crash panel appear
         
         LevelManager.Instance._uiManager.redCrashedPanel.GetComponent<Image>().DOFade(0f, 0.7f).SetEase(Ease.Flash);
@@ -186,6 +188,8 @@ public class FrontColliderTriggers : MonoBehaviour
        
         yield return new WaitForSeconds(0.8f);
         LevelManager.Instance._uiManager.redCrashedPanel.SetActive(false);
+        }
+        
     }
     
     

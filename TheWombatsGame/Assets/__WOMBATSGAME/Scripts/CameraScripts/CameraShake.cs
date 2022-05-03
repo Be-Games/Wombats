@@ -35,10 +35,10 @@ public class CameraShake : MonoBehaviour {
             ShakeElapsedTime = ShakeDuration;
         }
         
-        if (LevelManager.Instance.isCrashed)
-        {
-            ShakeElapsedTime = 0.05f;
-        }
+        // if (LevelManager.Instance.isCrashed)
+        // {
+        //     ShakeElapsedTime = 0.05f;
+        // }
         
 
         // If the Cinemachine componet is not set, avoid update
