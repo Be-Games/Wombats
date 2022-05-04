@@ -66,12 +66,6 @@ public class AudioManager : MonoBehaviour
     }
     
     
-    [System.Serializable]
-    public class HapticFeedbacks
-    {
-        
-    }
-
     public MusicTracks musicTracks;
     [Space]
     public SFX_All sfxAll;
@@ -80,8 +74,7 @@ public class AudioManager : MonoBehaviour
     
     public bool isHapticEnabled,isSFXenabled,isMusicEnabled;
     public int i;
-    public bool isTrackFinished,isTrackFinishedG;
-   
+
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
