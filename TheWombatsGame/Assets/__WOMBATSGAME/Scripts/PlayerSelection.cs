@@ -435,6 +435,11 @@ public class PlayerSelection : MonoBehaviour
            
         }
     }
+
+    public void Vibrate()
+    {
+        GameManager.Instance.VibrateOnce();
+    }
     
     
 

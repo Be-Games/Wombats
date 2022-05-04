@@ -149,7 +149,7 @@ public class LevelManager : MonoBehaviour
         if (_gameManager != null)
             totalLaps = _gameManager.numberOfLaps;
         
-          if (_gameManager)
+          /*if (_gameManager)
           {
               if (_gameManager.memeberIndex == 0)        //murph
               {
@@ -201,6 +201,7 @@ public class LevelManager : MonoBehaviour
           }
           
            _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+           */
          
         
         
@@ -650,10 +651,6 @@ public class LevelManager : MonoBehaviour
         
         
         
-        //VIBRATE ON BOOST BTN PRESSED
-        
-        // if (_audioManager.isHapticEnabled)
-           // playerVisual.GetComponent<HapticSource>().Play();
 
            // float duration = 9f; // 3 seconds you can change this to
            //
@@ -1061,6 +1058,11 @@ public class LevelManager : MonoBehaviour
     void ShowRevivePanel()
     {
         _uiManager.receiveLifePanel.SetActive(true);
+    }
+
+    public void Vibrate()
+    {
+        _gameManager.VibrateOnce();
     }
     
     

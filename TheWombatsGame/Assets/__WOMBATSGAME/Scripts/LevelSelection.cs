@@ -279,4 +279,9 @@ public class LevelSelection : MonoBehaviour
     {
         _gameManager.GetComponent<GameManager>().LoadScene(sceneName);
     }
+
+    public void Vibrate()
+    {
+        GameManager.Instance.VibrateOnce();
+    }
 }
