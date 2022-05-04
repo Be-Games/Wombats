@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
 
     [Space] 
     public bool isSettingVisible;
-    public GameObject settingsPanel;
+    public GameObject settingsPanel,settingsMenu;
     public GameObject settingsBtn;
 
     [Header("IronSource Scripts")]
@@ -86,17 +86,17 @@ public class GameManager : MonoBehaviour
     // called second
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(SceneManager.GetActiveScene().name == "PlayerSelection" ||
+        /*if(SceneManager.GetActiveScene().name == "PlayerSelection" ||
            SceneManager.GetActiveScene().name == "LevelSelection")
         {
-            settingsPanel.SetActive(true);
+            settingsMenu.SetActive(true);
             settingsBtn.SetActive(true);
+            settingsPanel.SetActive(false);
         }
         else
         {
-            settingsPanel.SetActive(false);
-            settingsBtn.SetActive(false);
-        }
+            settingsMenu.SetActive(false);
+        }*/
     }
     
     private void Start()
@@ -106,8 +106,8 @@ public class GameManager : MonoBehaviour
         
         charNumber = 1;
         
-        isSettingVisible = false;
-        settingsPanel.GetComponent<RectTransform>().localScale = new Vector3(1f,0f,1f);
+        /*isSettingVisible = false;
+        settingsPanel.GetComponent<RectTransform>().localScale = new Vector3(1f,0f,1f);*/
 
         rewardedAd = this.gameObject.GetComponent<Rewarded>();
         interstitialAd = this.gameObject.GetComponent<Interstitial>();
@@ -197,7 +197,7 @@ public class GameManager : MonoBehaviour
     
     public void settingsBtnDT()
     {
-        if (!isSettingVisible)
+        /*if (!isSettingVisible)
         {
             settingsPanel.GetComponent<RectTransform>().DOScale(new Vector3(1f,1f,1f), 0.1f).SetEase(Ease.Flash);
             isSettingVisible = true;
@@ -207,21 +207,9 @@ public class GameManager : MonoBehaviour
         {
             settingsPanel.GetComponent<RectTransform>().DOScale(new Vector3(1f,0f,1f), 0.1f).SetEase(Ease.Flash);
             isSettingVisible = false;
-        }
-        
-            
-    }
-
-    
-    public void musictoggle()
-    {
-        AudioManager.Instance.ToggleMusic();
+        }*/
     }
     
-    public void sfxtoggle()
-    {
-        AudioManager.Instance.ToggleSFX();
-    }
 
     public void VibrateOnce()
     {
