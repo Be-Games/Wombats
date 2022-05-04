@@ -43,15 +43,15 @@ public class GameManager : MonoBehaviour
     [Header("Variables for Full Game")] 
     
     public int lightingMode = 1;
-    public bool canControlCar;
-    public int weatherEffect = 0;
+    [HideInInspector]public bool canControlCar;
+    public int weatherEffect;
 
     [Space(20)]
         
     [Header("Stadium Scene Stuff")] 
     public int charNumber = 0;                                                    //0= MM , 1 = DH , 2 = TO 
-    //public int podiumPos = 1;
-
+    public int playerPosi;
+    
     [Header("Car Setups for Game")] 
     public int memeberIndex;
     public int selectedCarModelPLAYER;
@@ -78,6 +78,27 @@ public class GameManager : MonoBehaviour
 
     public int numberOfLaps;
 
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    // called second
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if(SceneManager.GetActiveScene().name == "PlayerSelection" ||
+           SceneManager.GetActiveScene().name == "LevelSelection")
+        {
+            settingsPanel.SetActive(true);
+            settingsBtn.SetActive(true);
+        }
+        else
+        {
+            settingsPanel.SetActive(false);
+            settingsBtn.SetActive(false);
+        }
+    }
+    
     private void Start()
     {
         if (numberOfLaps == 0)
@@ -192,22 +213,6 @@ public class GameManager : MonoBehaviour
     }
 
     
-
-    private void Update()
-    {
-        if(SceneManager.GetActiveScene().name == "PlayerSelection" ||
-           SceneManager.GetActiveScene().name == "LevelSelection")
-        {
-            settingsPanel.SetActive(true);
-            settingsBtn.SetActive(true);
-        }
-        else
-        {
-            settingsPanel.SetActive(false);
-            settingsBtn.SetActive(false);
-        }
-    }
-
     public void musictoggle()
     {
         AudioManager.Instance.ToggleMusic();

@@ -81,6 +81,14 @@ public class EnemyController : MonoBehaviour
     {
         if (LevelManager.Instance.isGameStarted)
         {
+            /*if (enemyPF.distanceTravelled >= (LevelManager.Instance.singleLapDistance * 2))
+            {
+                enemyPF.speed = 0;
+            }
+            else
+            {
+                
+            }*/
             
             float target = enemySpeed;
             

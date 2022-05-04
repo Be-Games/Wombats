@@ -53,7 +53,15 @@ public class UIManager : MonoBehaviour
     public RectTransform playerProgressLine,enemyLProgressLine,enemyRightProgressLine;
     public GameObject wombatLogoPlayer, wombatLogoenemyLeft, wombatLogoenemyRight;
 
-    [Header("Crashed Panel")] public GameObject continueBtn, restartBtn, rewardBtn;
+    [Header("Crashed Panel")] 
+    public GameObject continueBtn, restartBtn, rewardBtn;
+    
+    [Header("Win Screen")]
+    public TextMeshProUGUI playerPosTXT;
+    public GameObject positionTexts;
+    public RectTransform continueButton,shareBtn;
+
+    public Image fullHeart, brokenHeart;
     //DO TWEEN ANIMATION UIS
 
 

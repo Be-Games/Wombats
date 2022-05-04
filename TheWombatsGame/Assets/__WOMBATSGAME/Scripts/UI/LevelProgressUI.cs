@@ -51,43 +51,46 @@ public class LevelProgressUI : MonoBehaviour
 
     private void Update()
     {
-    
-        //PLAYER POSITION CALCULATION
-        UIManager.Instance.playerPosition.text = playerPosi.ToString();
-        
-        if (chars[0].distanceTravelled > chars[1].distanceTravelled &&
-            chars[0].distanceTravelled > chars[2].distanceTravelled)
+
+        if (LevelManager.Instance.isGameStarted)
         {
-            playerPosi = 1;
+            //PLAYER POSITION CALCULATION
+            UIManager.Instance.playerPosition.text = playerPosi.ToString();
+        
+            if (chars[0].distanceTravelled > chars[1].distanceTravelled &&
+                chars[0].distanceTravelled > chars[2].distanceTravelled)
+            {
+                playerPosi = 1;
+            }
+        
+            if (chars[0].distanceTravelled < chars[1].distanceTravelled &&
+                chars[0].distanceTravelled < chars[2].distanceTravelled)
+            {
+                playerPosi = 3;
+            }
+        
+            if ((chars[0].distanceTravelled > chars[1].distanceTravelled &&
+                 chars[0].distanceTravelled < chars[2].distanceTravelled) || (chars[0].distanceTravelled < chars[1].distanceTravelled &&
+                                                                              chars[0].distanceTravelled > chars[2].distanceTravelled))
+            {
+                playerPosi = 2;
+            }
+        
+        
+        
+            float progressValue0 = Mathf.InverseLerp(0f,totalLevelDistance,
+                chars[0].distanceTravelled);
+        
+            float progressValue1 = Mathf.InverseLerp(0f,totalLevelDistance,
+                chars[1].distanceTravelled);
+        
+            float progressValue2 = Mathf.InverseLerp(0f,totalLevelDistance,
+                chars[2].distanceTravelled);
+        
+            UpdateProgressFill(progressValue0,uFillImage[0]);
+            UpdateProgressFill(progressValue1,uFillImage[1]);
+            UpdateProgressFill(progressValue2,uFillImage[2]);
         }
-        
-        if (chars[0].distanceTravelled < chars[1].distanceTravelled &&
-            chars[0].distanceTravelled < chars[2].distanceTravelled)
-        {
-            playerPosi = 3;
-        }
-        
-        if ((chars[0].distanceTravelled > chars[1].distanceTravelled &&
-            chars[0].distanceTravelled < chars[2].distanceTravelled) || (chars[0].distanceTravelled < chars[1].distanceTravelled &&
-                                                                         chars[0].distanceTravelled > chars[2].distanceTravelled))
-        {
-            playerPosi = 2;
-        }
-        
-        
-        
-        float progressValue0 = Mathf.InverseLerp(0f,totalLevelDistance,
-            chars[0].distanceTravelled);
-        
-        float progressValue1 = Mathf.InverseLerp(0f,totalLevelDistance,
-            chars[1].distanceTravelled);
-        
-        float progressValue2 = Mathf.InverseLerp(0f,totalLevelDistance,
-            chars[2].distanceTravelled);
-        
-        UpdateProgressFill(progressValue0,uFillImage[0]);
-        UpdateProgressFill(progressValue1,uFillImage[1]);
-        UpdateProgressFill(progressValue2,uFillImage[2]);
         
     }
     

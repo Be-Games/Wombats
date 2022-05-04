@@ -181,6 +181,7 @@ public class PlayerSelection : MonoBehaviour
         //set selected player animation to blowing kiss
         //wait few secs
 
+        _gameManager.GetComponent<GameManager>().charNumber = index + 1;
         _gameManager.GetComponent<GameManager>().memeberIndex = index;
         _gameManager.GetComponent<GameManager>().selectedCarModelPLAYER = carIndex;
 
