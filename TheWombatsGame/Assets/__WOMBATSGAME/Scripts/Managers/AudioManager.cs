@@ -34,12 +34,6 @@ public class AudioManager : MonoBehaviour
         isSFXenabled = true;
 
         musicTracks.MusicTrackAudioSource.Stop();
-        
-        if (SceneManager.GetActiveScene().name == "PlayerSelection")
-        {
-            UpdateMusicBtnIcon();
-            UpdateSoundBtnIcon();
-        }
        
     }
 
@@ -75,6 +69,10 @@ public class AudioManager : MonoBehaviour
     public bool isHapticEnabled,isSFXenabled,isMusicEnabled;
     public int i;
 
+    
+    public Image HAPTICONIcon;
+    public Image HAPTICOFFIcon;
+    
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -83,7 +81,9 @@ public class AudioManager : MonoBehaviour
     // called second
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        
         CheckSceneNameAndPlayTrack(SceneManager.GetActiveScene().name);
+
     }
     
 
@@ -154,18 +154,7 @@ public class AudioManager : MonoBehaviour
                 musicTracks.MusicTrackAudioSource.Play();
         }
     }
-
-    public void LoadIcons()
-    {
-        sfxAll.SFXONIcon = GameObject.FindGameObjectWithTag("SFXON").GetComponent<Image>();
-        sfxAll.SFXOFFIcon = GameObject.FindGameObjectWithTag("SFXOFF").GetComponent<Image>();
-            
-        musicTracks.musicONIcon = GameObject.FindGameObjectWithTag("MUSICON").GetComponent<Image>();
-        musicTracks.musicOFFIcon = GameObject.FindGameObjectWithTag("MUSICOFF").GetComponent<Image>();
-            
-        UpdateMusicBtnIcon();
-        UpdateSoundBtnIcon();
-    }
+    
 
     public void Play(AudioSource audioSource)
     {
@@ -188,6 +177,9 @@ public class AudioManager : MonoBehaviour
             musicTracks.mutedTrack = true;
             musicTracks.MusicTrackAudioSource.Pause();
             
+            musicTracks.musicONIcon.gameObject.SetActive(true);
+            musicTracks.musicOFFIcon.gameObject.SetActive(false);
+            
             isMusicEnabled = false;
         }
 
@@ -196,26 +188,14 @@ public class AudioManager : MonoBehaviour
             musicTracks.mutedTrack = false;
             musicTracks.MusicTrackAudioSource.Play();
             
+            musicTracks.musicONIcon.gameObject.SetActive(false);
+            musicTracks.musicOFFIcon.gameObject.SetActive(true);
+            
             isMusicEnabled = true;
         }
         
-        UpdateMusicBtnIcon();
     }
-
-    public void UpdateMusicBtnIcon()
-    {
-        if (!musicTracks.mutedTrack)
-        {
-            musicTracks.musicONIcon.gameObject.SetActive(true);
-            musicTracks.musicOFFIcon.gameObject.SetActive(false);
-        }
-
-        else
-        {
-            musicTracks.musicONIcon.gameObject.SetActive(false);
-            musicTracks.musicOFFIcon.gameObject.SetActive(true);
-        }
-    }
+    
     
     public void ToggleSFX()
     {
@@ -224,6 +204,9 @@ public class AudioManager : MonoBehaviour
             sfxAll.mutedTrack = true;
             sfxAll.countDownSound.mute = true;
 
+            /*sfxAll.SFXONIcon.gameObject.SetActive(true);
+            sfxAll.SFXOFFIcon.gameObject.SetActive(false);*/
+            
             isSFXenabled = false;
 
         }
@@ -232,40 +215,44 @@ public class AudioManager : MonoBehaviour
         {
             sfxAll.mutedTrack = false;
             sfxAll.countDownSound.mute = false;
+            
+            /*sfxAll.SFXONIcon.gameObject.SetActive(false);
+            sfxAll.SFXOFFIcon.gameObject.SetActive(true);*/
 
             isSFXenabled = true;
         }
         
-        UpdateSoundBtnIcon();
-    }
-
-    public void UpdateSoundBtnIcon()
-    {
-        if (!sfxAll.mutedTrack)
-        {
-            sfxAll.SFXONIcon.gameObject.SetActive(true);
-            sfxAll.SFXOFFIcon.gameObject.SetActive(false);
-        }
-
-        else
-        {
-            sfxAll.SFXONIcon.gameObject.SetActive(false);
-            sfxAll.SFXOFFIcon.gameObject.SetActive(true);
-        }
     }
     
-    private void Update()
+    public void ToggleHaptic()
     {
+        if (isHapticEnabled)
+        {
+            isHapticEnabled = false;
+            /*HAPTICONIcon.gameObject.SetActive(true);
+            HAPTICOFFIcon.gameObject.SetActive(false);*/
+        }
+
+        else if((!isHapticEnabled))
+        {
+            isHapticEnabled = true;
+            /*HAPTICONIcon.gameObject.SetActive(false);
+            HAPTICOFFIcon.gameObject.SetActive(true);*/
+        }
         
-        // if (isMusicEnabled)
-        // {
-        //     if (musicTracks.MusicTrackAudioSource.gameObject.activeInHierarchy && !isTrackFinishedG)
-        //     {
-        //         isTrackFinishedG = true;
-        //         Invoke("NextSong",musicTracks.MusicTrackAudioSource.clip.length);
-        //     }
-        // }
     }
 
+    public void HapticOn()
+    {
+        isHapticEnabled = true;
+    }
+
+    public void HapticOff()
+    {
+        isHapticEnabled = false;
+    }
     
+    
+    
+   
 }

@@ -149,7 +149,7 @@ public class LevelManager : MonoBehaviour
         if (_gameManager != null)
             totalLaps = _gameManager.numberOfLaps;
         
-          if (_gameManager)
+          /*if (_gameManager)
           {
               if (_gameManager.memeberIndex == 0)        //murph
               {
@@ -201,6 +201,7 @@ public class LevelManager : MonoBehaviour
           }
           
            _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+           */
          
         
         
