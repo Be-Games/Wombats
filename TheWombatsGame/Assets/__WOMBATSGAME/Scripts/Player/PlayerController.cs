@@ -108,6 +108,8 @@ public class PlayerController : MonoBehaviour
                     #endregion
                     
                     
+                    
+                    
                     }
                     
                     
@@ -180,9 +182,9 @@ public class PlayerController : MonoBehaviour
     
     public void MoveLeft()
     {
-        //COUNTDOWNTIMER SOUND
-       // if(LevelManager.Instance._audioManager && LevelManager.Instance._audioManager.isSFXenabled)
-           // LevelManager.Instance._audioManager.Play(LevelManager.Instance._audioManager.sfxAll.switchLaneSound);
+        //laneswitch SOUND
+        if(LevelManager.Instance._audioManager!=null && LevelManager.Instance._audioManager.isSFXenabled)
+            LevelManager.Instance._audioManager.Play(LevelManager.Instance._audioManager.sfxAll.laneSwitch);
         
         switch (currentPosition)
         {
@@ -223,9 +225,9 @@ public class PlayerController : MonoBehaviour
     
     public void MoveRight()
     {
-        //COUNTDOWNTIMER SOUND
-        //if(LevelManager.Instance._audioManager && LevelManager.Instance._audioManager.isSFXenabled)
-           // LevelManager.Instance._audioManager.Play(LevelManager.Instance._audioManager.sfxAll.switchLaneSound);
+        //laneswitch SOUND
+        if(LevelManager.Instance._audioManager!=null && LevelManager.Instance._audioManager.isSFXenabled)
+            LevelManager.Instance._audioManager.Play(LevelManager.Instance._audioManager.sfxAll.laneSwitch);
         
         switch (currentPosition)
         {

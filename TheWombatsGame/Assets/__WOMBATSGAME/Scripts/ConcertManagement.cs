@@ -146,6 +146,7 @@ public class ConcertManagement : MonoBehaviour
     public void LoadInterstitialAd()
     {
         _gameManager.interstitialAd.interstitialplay();
+        LevelManager.Instance.Ana_AdShown("interstitial");
     }
 
     public void PostAdRunScene()

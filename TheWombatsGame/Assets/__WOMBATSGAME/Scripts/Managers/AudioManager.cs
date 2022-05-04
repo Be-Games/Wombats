@@ -53,7 +53,12 @@ public class AudioManager : MonoBehaviour
     public class SFX_All
     {
         public AudioSource countDownSound;
-        public AudioSource switchLaneSound;
+        public AudioSource carBlowingEngine;
+        public AudioSource laneSwitch;
+        public AudioSource[] crashSound;
+        public AudioSource manScream;
+        public AudioSource womanScream;
+        public AudioSource coinCollect;
         public bool mutedTrack;
         [SerializeField] public Image SFXONIcon;
         [SerializeField] public Image SFXOFFIcon;

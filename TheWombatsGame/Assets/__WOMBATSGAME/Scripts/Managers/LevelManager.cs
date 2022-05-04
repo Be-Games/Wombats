@@ -199,9 +199,9 @@ public class LevelManager : MonoBehaviour
                   enemyRightVisual = enemyRPrefab;
               
           }
-          
-           _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
            */
+           _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+          
          
         
         
@@ -211,7 +211,7 @@ public class LevelManager : MonoBehaviour
     
     private void Start()
     {
-
+        Ana_LevelStart();
         InitializingVariables();
         SceneStart();
         LightingAndObstaclesChecker();
@@ -303,6 +303,10 @@ public class LevelManager : MonoBehaviour
     
     public void StartBtn()
     {
+        //carBlowingEngine SOUND
+        if(_audioManager!=null && _audioManager.isSFXenabled)
+            _audioManager.Play(_audioManager.sfxAll.carBlowingEngine);
+        
         //Game Start - Normal Camera 
         flyOverCameraGO.SetActive(false);
         mainCameraGO.SetActive(true);
@@ -329,7 +333,7 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator CountDownTimer()
     {
-        yield return new WaitForSeconds(2.1f);
+        yield return new WaitForSeconds(4.5f);
         
         //COUNTDOWNTIMER SOUND
          if(_audioManager!=null && _audioManager.isSFXenabled)
@@ -820,15 +824,8 @@ public class LevelManager : MonoBehaviour
         _uiManager.continueButton.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
         _uiManager.shareBtn.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
         _uiManager.positionTexts.transform.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
-        
-        
-        
-        
-        //Level Win!
-        if (_gameManager.lightingMode == 1)
-            Analytics.CustomEvent("LevelWin" + SceneManager.GetActiveScene().name + " DAY ");
-        if (_gameManager.lightingMode == 2)
-            Analytics.CustomEvent("LevelWin" + SceneManager.GetActiveScene().name + " NIGHT ");
+
+        Ana_LevelWin(_levelProgressUI.playerPosi);
 
     }
 
@@ -895,6 +892,8 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator CarReset()
     {
+        Ana_LevelContinue();
+        
         smokeTransitionPostCrashEffect.SetActive(true);
         _uiManager.BoostBtn.SetActive(false);
         
@@ -1052,6 +1051,7 @@ public class LevelManager : MonoBehaviour
     public void RunRewardedAd()
     {
         _gameManager.rewardedAd.rewarded();
+        Ana_AdShown("rewarded");
         Invoke("ShowRevivePanel",3f);
     }
 
@@ -1065,5 +1065,40 @@ public class LevelManager : MonoBehaviour
         _gameManager.VibrateOnce();
     }
     
+    void Ana_LevelStart()
+    {
+        //Level Start!
+        if (GameManager.Instance.lightingMode == 1)
+            Analytics.CustomEvent("Level Start " + SceneManager.GetActiveScene().name + "-DAY ");
+        if (GameManager.Instance.lightingMode == 2)
+            Analytics.CustomEvent("Level Start " + SceneManager.GetActiveScene().name + "-NIGHT ");
+    }
+    
+    void Ana_LevelWin(int myPosi)
+    {
+        //Level Win!
+        if (GameManager.Instance.lightingMode == 1)
+            Analytics.CustomEvent("Level Win " + SceneManager.GetActiveScene().name + "-DAY" + "-Position: "+ myPosi);
+        if (GameManager.Instance.lightingMode == 2)
+            Analytics.CustomEvent("Level Win " + SceneManager.GetActiveScene().name + "-NIGHT" + "-Position: "+ myPosi);
+    }
+
+    void Ana_LevelContinue()
+    {
+        //Level Continue!
+        if (GameManager.Instance.lightingMode == 1)
+            Analytics.CustomEvent("Level Continue after Crash " + SceneManager.GetActiveScene().name + "-DAY ");
+        if (GameManager.Instance.lightingMode == 2)
+            Analytics.CustomEvent("Level Continue after Crash " + SceneManager.GetActiveScene().name + "-NIGHT ");
+    }
+    
+    public void Ana_AdShown(string typeOfAd)
+    {
+        //Level ShowAd!
+        if (GameManager.Instance.lightingMode == 1)
+            Analytics.CustomEvent("Level Ad Shown " + SceneManager.GetActiveScene().name + "-DAY-" + typeOfAd);
+        if (GameManager.Instance.lightingMode == 2)
+            Analytics.CustomEvent("Level Ad Shown " + SceneManager.GetActiveScene().name + "-NIGHT-" + typeOfAd);
+    }
     
 }

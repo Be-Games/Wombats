@@ -92,6 +92,7 @@ public class GameControls : MonoBehaviour
         {
             gestureState = GestureState.Break;
             
+            
         }
         
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
