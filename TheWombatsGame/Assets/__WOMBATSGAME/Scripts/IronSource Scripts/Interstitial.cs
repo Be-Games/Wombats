@@ -21,9 +21,7 @@ public class Interstitial : MonoBehaviour
     public void InterstitialAdClosedEvent()
     {
         IronSource.Agent.loadInterstitial();
-        
-        if(SceneManager.GetActiveScene().name == "Concert_Scn")
-            GameManager.Instance.LoadScene("PlayerSelection");
+        GameManager.Instance.LoadScene("PlayerSelection");
     }
 
     public void StartUpInterstitial()
