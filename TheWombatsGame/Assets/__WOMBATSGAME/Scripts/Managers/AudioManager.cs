@@ -97,7 +97,7 @@ public class AudioManager : MonoBehaviour
         
         if (sN == "HomeScreen" || sN == "PlayerSelection" || sN == "LevelSelection")
         {
-            musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[0];
+            musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[9];
             
             if(!musicTracks.MusicTrackAudioSource.isPlaying) 
             {

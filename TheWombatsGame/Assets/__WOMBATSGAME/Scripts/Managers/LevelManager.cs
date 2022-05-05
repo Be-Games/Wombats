@@ -820,12 +820,12 @@ public class LevelManager : MonoBehaviour
             case 13:
                 PlayerPrefs.SetInt("LevelIndex",14);
                 break;
-            case 14:
+            /*case 14:
                 PlayerPrefs.SetInt("LevelIndex",15);
                 break;
             case 15:
                 PlayerPrefs.SetInt("LevelIndex",16);
-                break;
+                break;*/
         }
 
         switch (PlayerPrefs.GetInt("CarIndex"))

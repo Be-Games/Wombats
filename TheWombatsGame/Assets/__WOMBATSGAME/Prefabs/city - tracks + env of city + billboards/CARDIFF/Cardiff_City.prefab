@@ -2399,11 +2399,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1140274527020966083, guid: 0e9fc09d8dcaf624a8df2e9448ca933f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.32907736
+      value: 0.34493014
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140274527020966083, guid: 0e9fc09d8dcaf624a8df2e9448ca933f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9.5248
       objectReference: {fileID: 0}
     - target: {fileID: 1140274527020966083, guid: 0e9fc09d8dcaf624a8df2e9448ca933f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.1761
+      value: 5.1679
       objectReference: {fileID: 0}
     - target: {fileID: 1140274527107189605, guid: 0e9fc09d8dcaf624a8df2e9448ca933f, type: 3}
       propertyPath: m_RootOrder
@@ -2455,18 +2459,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1140274527144111955, guid: 0e9fc09d8dcaf624a8df2e9448ca933f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.32907733
+      value: 0.3449301
       objectReference: {fileID: 0}
     - target: {fileID: 1140274527144111955, guid: 0e9fc09d8dcaf624a8df2e9448ca933f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.6288
+      value: -8.627
       objectReference: {fileID: 0}
     - target: {fileID: 1140274527144111955, guid: 0e9fc09d8dcaf624a8df2e9448ca933f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.0704
+      value: 5.0785
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1140274527144111958, guid: 0e9fc09d8dcaf624a8df2e9448ca933f, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e9fc09d8dcaf624a8df2e9448ca933f, type: 3}
 --- !u!4 &1140274526775043098 stripped
 Transform:
@@ -9796,6 +9799,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b180380f61111a446b81013ecb8fd0e2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: b180380f61111a446b81013ecb8fd0e2, type: 3}
+      propertyPath: m_StitchLightmapSeams
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
