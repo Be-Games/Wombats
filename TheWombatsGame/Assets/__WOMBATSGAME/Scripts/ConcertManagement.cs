@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,12 +14,17 @@ public class ConcertManagement : MonoBehaviour
     
     public RuntimeAnimatorController first, second, third;
 
+    public TextMeshProUGUI posText;
+
     private void Start()
     {
         _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
+        
         if (_gameManager.playerPosi == 1)
         {
+            posText.text = "1st";
+            
             if (_gameManager.charNumber == 1 )
             {
                 bandMemPf[0].GetComponent<Animator>().runtimeAnimatorController = first;                    //us
@@ -58,6 +64,8 @@ public class ConcertManagement : MonoBehaviour
         
         if (_gameManager.playerPosi == 2)
         {
+            posText.text = "2nd";
+            
             if (_gameManager.charNumber == 1 )
             {
                 bandMemPf[0].GetComponent<Animator>().runtimeAnimatorController = second;                //us
@@ -97,6 +105,8 @@ public class ConcertManagement : MonoBehaviour
         
         if (_gameManager.playerPosi == 3)
         {
+            posText.text = "3rd";
+            
             if (_gameManager.charNumber == 1 )
             {
                 bandMemPf[0].GetComponent<Animator>().runtimeAnimatorController = third;                //us

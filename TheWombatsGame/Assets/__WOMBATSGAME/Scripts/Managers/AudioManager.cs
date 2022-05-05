@@ -94,6 +94,27 @@ public class AudioManager : MonoBehaviour
 
     void CheckSceneNameAndPlayTrack(string sN)
     {
+        
+        if (sN == "HomeScreen" || sN == "PlayerSelection" || sN == "LevelSelection")
+        {
+            musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[0];
+            
+            if(!musicTracks.MusicTrackAudioSource.isPlaying) 
+            {
+                if(isMusicEnabled)
+                    musicTracks.MusicTrackAudioSource.Play();
+            }
+        }
+        
+        if (sN == "Tutorial")
+        {
+            musicTracks.MusicTrackAudioSource.Stop();
+            musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[2];
+            
+            if(isMusicEnabled)
+                musicTracks.MusicTrackAudioSource.Play();
+        }
+        
         if (sN == "LONDON")
         {
             musicTracks.MusicTrackAudioSource.Stop();
@@ -102,9 +123,11 @@ public class AudioManager : MonoBehaviour
             {
                 case 1:
                     musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[0];
+                    i = 0;
                     break;
                 case 2:
                     musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[1];
+                    i = 1;
                     break;
             }
         }
@@ -117,9 +140,11 @@ public class AudioManager : MonoBehaviour
             {
                 case 1:
                     musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[2];
+                    i = 2;
                     break;
                 case 2:
                     musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[3];
+                    i = 3;
                     break;
             }
         }
@@ -132,32 +157,135 @@ public class AudioManager : MonoBehaviour
             {
                 case 1:
                     musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[4];
+                    i = 4;
                     break;
                 case 2:
                     musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[5];
+                    i = 5;
                     break;
             }
         }
         
-        if (sN == "HomeScreen" || sN == "PlayerSelection" || sN == "LevelSelection")
+        if (sN == "LIVERPOOL")
         {
-            musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[6];
+            musicTracks.MusicTrackAudioSource.Stop();
             
-            if(!musicTracks.MusicTrackAudioSource.isPlaying) 
+            switch (GameManager.Instance.lightingMode)
             {
-                if(isMusicEnabled)
-                    musicTracks.MusicTrackAudioSource.Play();
+                case 1:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[6];
+                    i = 6;
+                    break;
+                case 2:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[7];
+                    i = 7;
+                    break;
             }
         }
         
-        if (sN == "Tutorial")
+        if (sN == "PARIS")
         {
             musicTracks.MusicTrackAudioSource.Stop();
-            musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[3];
             
-            if(isMusicEnabled)
-                musicTracks.MusicTrackAudioSource.Play();
+            switch (GameManager.Instance.lightingMode)
+            {
+                case 1:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[8];
+                    i = 8;
+                    break;
+                case 2:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[9];
+                    i = 9;
+                    break;
+            }
         }
+        
+        if (sN == "EGYPT")
+        {
+            musicTracks.MusicTrackAudioSource.Stop();
+            
+            switch (GameManager.Instance.lightingMode)
+            {
+                case 1:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[10];
+                    i = 10;
+                    break;
+                case 2:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[11];
+                    i = 11;
+                    break;
+            }
+        }
+        
+        if (sN == "CARDIFF")
+        {
+            musicTracks.MusicTrackAudioSource.Stop();
+            
+            switch (GameManager.Instance.lightingMode)
+            {
+                case 1:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[0];
+                    i = 0;
+                    break;
+                case 2:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[1];
+                    i = 1;
+                    break;
+            }
+        }
+        
+        if (sN == "MILAN")
+        {
+            musicTracks.MusicTrackAudioSource.Stop();
+            
+            switch (GameManager.Instance.lightingMode)
+            {
+                case 1:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[2];
+                    i = 2;
+                    break;
+                case 2:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[3];
+                    i = 3;
+                    break;
+            }
+        }
+        
+        if (sN == "TOKYO")
+        {
+            musicTracks.MusicTrackAudioSource.Stop();
+            
+            switch (GameManager.Instance.lightingMode)
+            {
+                case 1:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[4];
+                    i = 4;
+                    break;
+                case 2:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[5];
+                    i = 5;
+                    break;
+            }
+        }
+        
+        if (sN == "GLASGOW")
+        {
+            musicTracks.MusicTrackAudioSource.Stop();
+            
+            switch (GameManager.Instance.lightingMode)
+            {
+                case 1:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[6];
+                    i = 6;
+                    break;
+                case 2:
+                    musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[7];
+                    i = 7;
+                    break;
+            }
+        }
+        
+        
     }
     
 

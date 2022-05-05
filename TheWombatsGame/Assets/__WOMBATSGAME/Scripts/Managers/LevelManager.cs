@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using Coffee.UIEffects;
+using DataManager;
 using DG.Tweening;
 using Lofelt.NiceVibrations;
 using NatSuite.Examples;
@@ -149,7 +150,7 @@ public class LevelManager : MonoBehaviour
         if (_gameManager != null)
             totalLaps = _gameManager.numberOfLaps;
         
-          /*if (_gameManager)
+          if (_gameManager)
           {
               if (_gameManager.memeberIndex == 0)        //murph
               {
@@ -199,7 +200,6 @@ public class LevelManager : MonoBehaviour
                   enemyRightVisual = enemyRPrefab;
               
           }
-           */
            _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
           
          
@@ -217,8 +217,10 @@ public class LevelManager : MonoBehaviour
         LightingAndObstaclesChecker();
         WeatherSetup();
         
-       // _audioManager.LoadIcons();
-       
+        UpdateIcons();
+
+        // _audioManager.LoadIcons();
+
     }
 
     void InitializingVariables()
@@ -303,6 +305,8 @@ public class LevelManager : MonoBehaviour
     
     public void StartBtn()
     {
+        
+        
         //carBlowingEngine SOUND
         if(_audioManager!=null && _audioManager.isSFXenabled)
             _audioManager.Play(_audioManager.sfxAll.carBlowingEngine);
@@ -388,6 +392,7 @@ public class LevelManager : MonoBehaviour
 
     void RaceStarted()
     {
+
         GameManager.Instance.canControlCar = true;                        // Car Gestures Enabled
         _gameControls.gestureState = GameControls.GestureState.Release;
 
@@ -693,7 +698,6 @@ public class LevelManager : MonoBehaviour
     }
     void CarBoostOn()
     {
-        
         SetCameraDampValue(boostOnValue);
         
         //blur boost panel appear
@@ -771,10 +775,93 @@ public class LevelManager : MonoBehaviour
         individualBoostCounter = 0;
     }
     #endregion
-    
+
+    private int x;
+    private int y;
     IEnumerator RaceFinished()
     {
         _gameManager.playerPosi = _levelProgressUI.playerPosi;
+
+        switch (PlayerPrefs.GetInt("LevelIndex"))
+        {
+            case 2:
+                PlayerPrefs.SetInt("LevelIndex",3);
+                break;
+            case 3:
+                PlayerPrefs.SetInt("LevelIndex",4);
+                break;
+            case 4:
+                PlayerPrefs.SetInt("LevelIndex",5);
+                break;
+            case 5:
+                PlayerPrefs.SetInt("LevelIndex",6);
+                break;
+            case 6:
+                PlayerPrefs.SetInt("LevelIndex",7);
+                break;
+            case 7:
+                PlayerPrefs.SetInt("LevelIndex",8);
+                break;
+            case 8:
+                PlayerPrefs.SetInt("LevelIndex",9);
+                break;
+            case 9:
+                PlayerPrefs.SetInt("LevelIndex",10);
+                break;
+            case 10:
+                PlayerPrefs.SetInt("LevelIndex",11);
+                break;
+            case 11:
+                PlayerPrefs.SetInt("LevelIndex",12);
+                break;
+            case 12:
+                PlayerPrefs.SetInt("LevelIndex",13);
+                break;
+            case 13:
+                PlayerPrefs.SetInt("LevelIndex",14);
+                break;
+            case 14:
+                PlayerPrefs.SetInt("LevelIndex",15);
+                break;
+            case 15:
+                PlayerPrefs.SetInt("LevelIndex",16);
+                break;
+        }
+
+        switch (PlayerPrefs.GetInt("CarIndex"))
+        {
+            case 1:
+                PlayerPrefs.SetInt("CarIndex", 2);
+                break;
+            case 2:
+                PlayerPrefs.SetInt("CarIndex", 3);
+                break;
+            case 3:
+                PlayerPrefs.SetInt("CarIndex", 4);
+                break;
+            case 4:
+                PlayerPrefs.SetInt("CarIndex", 5);
+                break;
+            case 5:
+                PlayerPrefs.SetInt("CarIndex", 6);
+                break;
+            case 6:
+                PlayerPrefs.SetInt("CarIndex", 7);
+                break;
+            case 7:
+                PlayerPrefs.SetInt("CarIndex", 8);
+                break;
+            case 8:
+                PlayerPrefs.SetInt("CarIndex", 9);
+                break;
+        }
+        
+        PlayerPrefs.Save();
+        
+
+        PlayerPrefs.SetInt("TotalCoins", PlayerPrefs.GetInt("TotalCoins") + currentScore);
+        
+        PlayerPrefs.Save();
         
         if (_levelProgressUI.playerPosi == 1)
         {
@@ -826,6 +913,9 @@ public class LevelManager : MonoBehaviour
         _uiManager.positionTexts.transform.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
 
         Ana_LevelWin(_levelProgressUI.playerPosi);
+
+        
+        
 
     }
 
@@ -1037,16 +1127,7 @@ public class LevelManager : MonoBehaviour
         StartCoroutine("CarReset");
     }
 
-    public void ToggleSFX()
-    {
-        _audioManager.ToggleSFX();
-    }
-
-    public void ToggleMusic()
-    {
-        if(_audioManager!=null)
-            _audioManager.ToggleMusic();
-    }
+    
 
     public void RunRewardedAd()
     {
@@ -1099,6 +1180,116 @@ public class LevelManager : MonoBehaviour
             Analytics.CustomEvent("Level Ad Shown " + SceneManager.GetActiveScene().name + "-DAY-" + typeOfAd);
         if (GameManager.Instance.lightingMode == 2)
             Analytics.CustomEvent("Level Ad Shown " + SceneManager.GetActiveScene().name + "-NIGHT-" + typeOfAd);
+    }
+    
+    
+    public void ToggleSFX()
+    {
+        if (_audioManager.isSFXenabled)
+        {
+            _audioManager.isSFXenabled = false;
+            _uiManager.sfxoff.gameObject.SetActive(true);
+            _uiManager.sfxon.gameObject.SetActive(false);
+        }
+            
+        
+        else if (!_audioManager.isSFXenabled)
+        {
+            _audioManager.isSFXenabled = true;
+            _uiManager.sfxoff.gameObject.SetActive(false);
+            _uiManager.sfxon.gameObject.SetActive(true);
+            
+        }
+           
+    }
+    
+    public void ToggleMusic()
+    {
+        if (_audioManager.isMusicEnabled)
+        {
+            _audioManager.isMusicEnabled = false;
+            _uiManager.musicoff.gameObject.SetActive(true);
+            _uiManager.musicon.gameObject.SetActive(false);
+            _audioManager.musicTracks.MusicTrackAudioSource.mute = true;
+        }
+            
+        
+        else if (!_audioManager.isMusicEnabled)
+        {
+            _audioManager.isMusicEnabled = true;
+            _uiManager.musicoff.gameObject.SetActive(false);
+            _uiManager.musicon.gameObject.SetActive(true);
+            _audioManager.musicTracks.MusicTrackAudioSource.mute = false;
+            
+        }
+           
+    }
+    
+    public void ToggleHaptic()
+    {
+        if (_audioManager.isHapticEnabled)
+        {
+            _audioManager.isHapticEnabled = false;
+            _uiManager.hapticoff.gameObject.SetActive(true);
+            _uiManager.hapticon.gameObject.SetActive(false);
+        }
+            
+        
+        else if (!_audioManager.isHapticEnabled)
+        {
+            _audioManager.isHapticEnabled = true;
+            _uiManager.hapticoff.gameObject.SetActive(false);
+            _uiManager.hapticon.gameObject.SetActive(true);
+            
+        }
+           
+    }
+
+    public void UpdateIcons()
+    {
+        if (_audioManager.isSFXenabled)
+        {
+            _uiManager.sfxoff.gameObject.SetActive(false);
+            _uiManager.sfxon.gameObject.SetActive(true);
+        }
+            
+        
+        else if (!_audioManager.isSFXenabled)
+        {
+            _uiManager.sfxoff.gameObject.SetActive(true);
+            _uiManager.sfxon.gameObject.SetActive(false);
+            
+        }
+        
+        if (_audioManager.isMusicEnabled)
+        {
+            _uiManager.musicoff.gameObject.SetActive(false);
+            _uiManager.musicon.gameObject.SetActive(true);
+        }
+            
+        
+        else if (!_audioManager.isMusicEnabled)
+        {
+            _uiManager.musicoff.gameObject.SetActive(true);
+            _uiManager.musicon.gameObject.SetActive(false);
+            
+        }
+        
+        if (_audioManager.isHapticEnabled)
+        {
+            _uiManager.hapticoff.gameObject.SetActive(false);
+            _uiManager.hapticon.gameObject.SetActive(true);
+        }
+            
+        
+        else if (!_audioManager.isHapticEnabled)
+        {
+            _audioManager.isHapticEnabled = true;
+            _uiManager.hapticoff.gameObject.SetActive(true);
+            _uiManager.hapticon.gameObject.SetActive(false);
+            
+        }
+
     }
     
 }

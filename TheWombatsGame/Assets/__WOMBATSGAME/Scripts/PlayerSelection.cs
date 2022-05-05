@@ -1,11 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DataManager;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+
 
 public class PlayerSelection : MonoBehaviour
 {
@@ -37,12 +40,26 @@ public class PlayerSelection : MonoBehaviour
    public HorizontalLayoutGroup hrzLG;
 
    public int carIndex = 0;
+   public int carIndexPrice;
 
    public Button prev, next;
 
-   public GameObject allMurphyCars;
-    private void Start()
+   public Button garageBtn;
+
+   public GameObject lockImage;
+   public Button backButton;
+   private string path;
+
+   public TextMeshProUGUI currentTotalCoins;
+
+
+   private void Start()
     {
+        if(PlayerPrefs.GetInt("CarIndex") == 0)
+            PlayerPrefs.SetInt("CarIndex",1);
+
+        currentTotalCoins.text = PlayerPrefs.GetInt("TotalCoins").ToString();
+        
         //SET DEFAULT GARAGE PANEL OFF AND ALPHA TO 
         //garage_Panel.GetComponent<CanvasGroup>().alpha = 0;
         playerSelection_Panel.SetActive(true);
@@ -116,6 +133,7 @@ public class PlayerSelection : MonoBehaviour
         {
             currrentMemberName.text = "Matthew Murphy" + "\n" + "'MURPH'";
             prevBtn.SetActive(false);
+            garageBtn.image.color = Color.red;
             nextBtn.SetActive(true);
 
             sceneCamera.transform.DOMove(cameraPositions[index].transform.position, 0.5f).SetEase(Ease.Flash);
@@ -125,6 +143,7 @@ public class PlayerSelection : MonoBehaviour
         {
             currrentMemberName.text = "Dan Haggis" + "\n" + "'DAN'";
             prevBtn.SetActive(true);
+            garageBtn.image.color = Color.yellow;
             nextBtn.SetActive(true);
             sceneCamera.transform.DOMove(cameraPositions[index].transform.position, 0.5f).SetEase(Ease.Flash);
         }
@@ -133,6 +152,7 @@ public class PlayerSelection : MonoBehaviour
         {
             currrentMemberName.text = "Tord Øverland Knudsen" + "\n" + "'TORD'";
             prevBtn.SetActive(true);
+            garageBtn.image.color = Color.blue;
             nextBtn.SetActive(false);
             sceneCamera.transform.DOMove(cameraPositions[index].transform.position, 0.5f).SetEase(Ease.Flash);
         }
@@ -161,6 +181,39 @@ public class PlayerSelection : MonoBehaviour
                 next.gameObject.SetActive(true);
             }
                 
+        }
+        
+        for (int i = 1; i <= 9; i++)
+        {
+            if (PlayerPrefs.GetInt("CarIndex") == i)
+            {
+               
+                if(carIndex > i)
+                    lockImage.SetActive(true);
+                else
+                {
+                    lockImage.SetActive(false);
+                }
+            }
+        }
+        
+        if (lockImage.activeInHierarchy)
+        {
+            backButton.enabled = false;
+        }
+        else
+        {
+            backButton.enabled = true;
+        }
+       
+        
+    }
+
+    public void UnlockBtn()
+    {
+        if (PlayerPrefs.GetInt("TotalCoins") >= carIndexPrice)
+        {
+            
         }
     }
 
@@ -193,7 +246,7 @@ public class PlayerSelection : MonoBehaviour
             _gameManager.GetComponent<GameManager>().enemyCar1 = 0;
             _gameManager.GetComponent<GameManager>().enemyCar2 = 0;
         }
-        
+
         _gameManager.GetComponent<GameManager>().LoadScene("LevelSelection");
     }
     
@@ -264,22 +317,7 @@ public class PlayerSelection : MonoBehaviour
                 x.SetActive(true);
             }
         }
-            
         
-        // for (int i = 0; i < playerCars.Length; i++)
-        // {
-        //     if(i != index)
-        //         playerCars[i].SetActive(false);
-        //     else 
-        //         playerCars[index].SetActive(true);
-        // }
-        //
-        //
-        //
-        // mainCarImage[0].sprite = allMurphCars[PlayerPrefs.GetInt("MurphKey",0)].sprite;
-        // mainCarImage[1].sprite = allDanCars[PlayerPrefs.GetInt("DanKey",0)].sprite;
-        // mainCarImage[2].sprite = allToddCars[PlayerPrefs.GetInt("TordKey",0)].sprite;
-       
     }
 
     public void BackToPlayerPanel()
@@ -287,6 +325,8 @@ public class PlayerSelection : MonoBehaviour
         //garage_Panel.GetComponent<CanvasGroup>().DOFade(0f, 0.3f).SetEase(Ease.Flash).OnComplete(ReturnToPlayerScreen_OC);
         garage_Panel.SetActive(false);
         playerSelection_Panel.SetActive(true);
+
+       
     }
 
     void ReturnToPlayerScreen_OC()
@@ -441,6 +481,8 @@ public class PlayerSelection : MonoBehaviour
         GameManager.Instance.VibrateOnce();
     }
     
-    
-
 }
+
+
+
+

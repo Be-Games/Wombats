@@ -342,8 +342,9 @@ public class Tut_PlayerController : MonoBehaviour
 
     public void LoadScene()
     {
-        GameManager.Instance.LoadScene("LevelSelection");
+        GameManager.Instance.LoadScene("PlayerSelection");
     }
+    
 
     #endregion
     

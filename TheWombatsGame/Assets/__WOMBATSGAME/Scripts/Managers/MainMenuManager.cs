@@ -1,6 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using BayatGames.SaveGameFree;
+using BayatGames.SaveGameFree.Examples;
+using BayatGames.SaveGameFree.Serializers;
+using BayatGames.SaveGameFree.Types;
+using DataManager;
 using DG.Tweening;
 using Lofelt.NiceVibrations;
 using TMPro;
@@ -19,9 +25,14 @@ public class MainMenuManager : MonoBehaviour
 
     public Material homeRoadTexture;
     public float xOffset;
+    
+    
 
-    private void Awake()
+    private void Start()
     {
+
+        PlayerPrefs.GetInt("isTutShown",0);
+        
         xOffset = 0;
         
         HomeScreen.GetComponent<Image>().DOFade(0f, 0f).SetEase(Ease.Flash);
@@ -40,8 +51,13 @@ public class MainMenuManager : MonoBehaviour
         StartCoroutine(UpdateRoadOffset());
 
     }
+    
 
-    IEnumerator HomeScreenEnable()
+        
+    
+        
+
+        IEnumerator HomeScreenEnable()
     {
         yield return new WaitForSeconds(0.5f);
         HomeScreen.GetComponent<Image>().DOFade(1f, 2f).SetEase(Ease.Flash);
@@ -80,10 +96,24 @@ public class MainMenuManager : MonoBehaviour
 
     public void PlayGame()
     {
-        GameManager.Instance.LoadScene("PlayerSelection");
+        if (PlayerPrefs.GetInt("isTutShown") == 0)
+        {
+            GameManager.Instance.LoadScene("Tutorial");
+            PlayerPrefs.SetInt("isTutShown",1);
+        }
+        
+        else if (PlayerPrefs.GetInt("isTutShown") == 1)
+        {
+            GameManager.Instance.LoadScene("PlayerSelection");
+        }
+       
+        PlayerPrefs.Save();
     }
     
-    
+}
 
-
+[System.Serializable]
+public class SaveTutData
+{
+    public int tutShown;
 }

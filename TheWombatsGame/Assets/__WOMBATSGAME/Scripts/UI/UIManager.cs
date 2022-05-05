@@ -69,6 +69,8 @@ public class UIManager : MonoBehaviour
     public GameObject boostBlurPanel;
 
     public TextMeshProUGUI resumeTimer;
+
+    public Image sfxon, sfxoff, musicon, musicoff, hapticon, hapticoff;
     
     private void OnEnable()
     {

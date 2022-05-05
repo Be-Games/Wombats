@@ -77,6 +77,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] murphPrefabs, danPrefabs, tordPrefabs;
 
     public int numberOfLaps;
+    
 
     void OnEnable()
     {
@@ -86,21 +87,13 @@ public class GameManager : MonoBehaviour
     // called second
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        /*if(SceneManager.GetActiveScene().name == "PlayerSelection" ||
-           SceneManager.GetActiveScene().name == "LevelSelection")
-        {
-            settingsMenu.SetActive(true);
-            settingsBtn.SetActive(true);
-            settingsPanel.SetActive(false);
-        }
-        else
-        {
-            settingsMenu.SetActive(false);
-        }*/
+        
     }
     
     private void Start()
     {
+        PlayerPrefs.GetInt("TotalCoins", 0);
+        
         if (numberOfLaps == 0)
             numberOfLaps = 2;
         
@@ -217,3 +210,4 @@ public class GameManager : MonoBehaviour
             HapticPatterns.PlayConstant(1.0f, 0.0f, 0.5f);
     }
 }
+
