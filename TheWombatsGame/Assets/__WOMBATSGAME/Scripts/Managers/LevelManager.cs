@@ -35,6 +35,7 @@ public class LevelManager : MonoBehaviour
     public PlayerController _playerController;
     public EnvironmentSettingsManager envManager;
     public GifRecording gifRecording;
+    public TakeScreenshot takeSS;
 
     [Header("Camera Refs")]
     public GameObject mainCameraGO;
@@ -141,8 +142,11 @@ public class LevelManager : MonoBehaviour
     {
         _instance = this;
         
+        takeSS = this.GetComponent<TakeScreenshot>();
+        
         _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
-
+        
+        
         GameObject playerCarPrefab = new GameObject();
         GameObject enemyLPrefab = new GameObject();
         GameObject enemyRPrefab = new GameObject();
@@ -903,20 +907,28 @@ public class LevelManager : MonoBehaviour
         
         yield return new WaitForSeconds(1f);
         
-        gifRecording.StopRecording();
+
         
-        yield return new WaitForSeconds(0.1f);
+        _uiManager.positionTexts.transform.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash).OnComplete(EnableScreenShot);
+        
+        Ana_LevelWin(_levelProgressUI.playerPosi);
+
+    }
+
+    void EnableScreenShot()
+    {
+#if UNITY_IOS
+        if(gifRecording != null)
+            gifRecording.StopRecording();
+#endif
+#if UNITY_ANDROID
+        if(takeSS != null)
+            takeSS.TakeGameScreenshot();
+#endif
         
         //Common Stuff
         _uiManager.continueButton.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
         _uiManager.shareBtn.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
-        _uiManager.positionTexts.transform.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
-
-        Ana_LevelWin(_levelProgressUI.playerPosi);
-
-        
-        
-
     }
 
     public void GoToStadium()
@@ -1038,6 +1050,12 @@ public class LevelManager : MonoBehaviour
             _uiManager.rewardBtn.SetActive(true);           //ADD GET MORE LIVES BUTTON
             _uiManager.continueBtn.SetActive(false);        //CONTINUE BUTTON REMOVE
             
+           _uiManager.restartBtn.gameObject.SetActive(false);
+           
+           yield return new WaitForSeconds(0.8f);
+           _uiManager.nothanksBtn.SetActive(true);
+           
+
         }
         
         
@@ -1133,17 +1151,17 @@ public class LevelManager : MonoBehaviour
     {
         _gameManager.rewardedAd.rewarded();
         Ana_AdShown("rewarded");
-        Invoke("ShowRevivePanel",3f);
+        //Invoke("ShowRevivePanel",3f);
     }
 
-    void ShowRevivePanel()
+    public void ShowRevivePanel()
     {
         _uiManager.receiveLifePanel.SetActive(true);
     }
 
     public void Vibrate()
     {
-        _gameManager.VibrateOnce();
+        //_gameManager.VibrateOnce();
     }
     
     void Ana_LevelStart()
@@ -1290,6 +1308,11 @@ public class LevelManager : MonoBehaviour
             
         }
 
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        _gameManager.LoadScene(sceneName);
     }
     
 }

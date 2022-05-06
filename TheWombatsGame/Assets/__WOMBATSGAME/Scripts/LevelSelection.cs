@@ -338,7 +338,7 @@ public class LevelSelection : MonoBehaviour
 
     public void Vibrate()
     {
-        GameManager.Instance.VibrateOnce();
+        //GameManager.Instance.VibrateOnce();
     }
 
     public void backToPlayerSelection()

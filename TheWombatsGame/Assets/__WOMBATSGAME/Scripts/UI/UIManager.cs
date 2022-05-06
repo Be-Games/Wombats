@@ -54,7 +54,7 @@ public class UIManager : MonoBehaviour
     public GameObject wombatLogoPlayer, wombatLogoenemyLeft, wombatLogoenemyRight;
 
     [Header("Crashed Panel")] 
-    public GameObject continueBtn, restartBtn, rewardBtn;
+    public GameObject continueBtn, restartBtn, rewardBtn,nothanksBtn;
     
     [Header("Win Screen")]
     public TextMeshProUGUI playerPosTXT;

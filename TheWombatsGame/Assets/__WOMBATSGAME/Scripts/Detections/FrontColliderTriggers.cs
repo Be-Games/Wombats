@@ -265,7 +265,9 @@ public class FrontColliderTriggers : MonoBehaviour
             }
             
             //Video Replay
+#if UNITY_IOS
             LevelManager.Instance.gifRecording.StartRecording();
+#endif
         }
         
         if (other.gameObject.CompareTag("SecondTrigger") && LevelManager.Instance.isFinalLap)

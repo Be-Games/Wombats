@@ -21,7 +21,7 @@ public class Interstitial : MonoBehaviour
     public void InterstitialAdClosedEvent()
     {
         IronSource.Agent.loadInterstitial();
-        GameManager.Instance.LoadScene("PlayerSelection");
+        GameManager.Instance.LoadScene("LevelSelection");
     }
 
     public void StartUpInterstitial()

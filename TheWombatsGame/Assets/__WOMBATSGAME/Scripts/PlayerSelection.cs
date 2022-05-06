@@ -478,7 +478,7 @@ public class PlayerSelection : MonoBehaviour
 
     public void Vibrate()
     {
-        GameManager.Instance.VibrateOnce();
+        //GameManager.Instance.VibrateOnce();
     }
     
 }

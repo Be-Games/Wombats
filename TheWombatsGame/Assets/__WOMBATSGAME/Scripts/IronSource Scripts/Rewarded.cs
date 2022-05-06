@@ -37,6 +37,7 @@ public class Rewarded : MonoBehaviour
     {
         IronSource.Agent.init(appkey, IronSourceAdUnits.REWARDED_VIDEO);
         IronSource.Agent.shouldTrackNetworkState(true);
+        LevelManager.Instance.ShowRevivePanel();
     }
 
     void RewardedVideoAvailabilityChangedEvent(bool available)

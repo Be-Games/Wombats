@@ -207,7 +207,7 @@ public class GameManager : MonoBehaviour
     public void VibrateOnce()
     {
         if(AudioManager.Instance.isHapticEnabled)
-            HapticPatterns.PlayConstant(1.0f, 0.0f, 0.5f);
+            HapticPatterns.PlayConstant(0.8f, 0.0f, 0.4f);
     }
 }
 
