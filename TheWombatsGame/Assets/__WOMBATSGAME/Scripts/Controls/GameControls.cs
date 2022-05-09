@@ -22,20 +22,19 @@ public class GameControls : MonoBehaviour
     private Vector2 endTouchPosition;
     private bool stopTouch = false;
 
-    public float swipeRange;
+    private float swipeRange;
     
     //////////////
-    private bool enableSlowSwipe = false;
 
     private void Start()
     {
-        swipeRange = 50;
+        swipeRange = 5;
     }
 
     void Update()
     {
 
-        if(!enableSlowSwipe && GameManager.Instance.canControlCar)
+        if(GameManager.Instance.canControlCar)
         {
             fastSwipe();
         }
@@ -73,22 +72,12 @@ public class GameControls : MonoBehaviour
                     LevelManager.Instance._playerController.MoveRight();
                     stopTouch = true;
                 }
-                else if (Distance.y > swipeRange)
-                {
-                    
-                    stopTouch = true;
-                }
-                else if (Distance.y < -swipeRange)
-                {
-                    
-                    stopTouch = true;
-                }
-
+                
             }
 
         }
 
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary && !stopTouch)
         {
             gestureState = GestureState.Break;
             

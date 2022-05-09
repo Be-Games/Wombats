@@ -30,7 +30,19 @@ public class Rewarded : MonoBehaviour
 
     public void rewarded()
     {
-        IronSource.Agent.showRewardedVideo();
+        if (IronSource.Agent.isRewardedVideoAvailable())
+        {
+            Debug.Log("Works");
+            IronSource.Agent.showRewardedVideo();
+            LevelManager.Instance.Ana_AdShown("rewarded");
+        }
+        else
+        {
+            Debug.Log("Doesnt Work");
+            LevelManager.Instance.ShowRevivePanel();
+        }
+        
+        
     }
 
     void RewardedVideoAdClosedEvent()

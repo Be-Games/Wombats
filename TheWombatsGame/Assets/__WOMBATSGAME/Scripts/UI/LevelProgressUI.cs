@@ -19,25 +19,38 @@ public class LevelProgressUI : MonoBehaviour
     
     public int enemyPosiL,enemyPosiR;
     public TextMeshProUGUI enemyPosTXTL,enemyPosTXTR;
+
+    private Image tempImage1;
+    private Image tempImage2;
     
     private void Start()
     {
+        
         uFillImage[0] = LevelManager.Instance._uiManager.playerProgressLine.GetComponent<RectTransform>();
         uFillImage[1] = LevelManager.Instance._uiManager.enemyLProgressLine.GetComponent<RectTransform>();
         uFillImage[2] = LevelManager.Instance._uiManager.enemyRightProgressLine.GetComponent<RectTransform>();
 
+        
         LevelManager.Instance._uiManager.wombatLogoPlayer.GetComponent<Image>().color =
             LevelManager.Instance._playerVehicleManager.universalCarColor;
         LevelManager.Instance._uiManager.wombatLogoPlayer.transform.GetChild(0).GetComponent<RawImage>().color = 
             LevelManager.Instance._playerVehicleManager.universalCarColor;
+
         
-        LevelManager.Instance._uiManager.wombatLogoenemyLeft.GetComponent<Image>().color =
-            LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().universalCarColor;
+        tempImage1 = LevelManager.Instance._uiManager.wombatLogoenemyLeft.GetComponent<Image>();
+        tempImage1.color = new Color(LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().universalCarColor.r,
+            LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().universalCarColor.g,
+            LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().universalCarColor.b, 0.5f);
+        
         LevelManager.Instance._uiManager.wombatLogoenemyLeft.transform.GetChild(0).GetComponent<RawImage>().color = 
             LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().universalCarColor;
         
-        LevelManager.Instance._uiManager.wombatLogoenemyRight.GetComponent<Image>().color =
-            LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().universalCarColor;
+        
+        tempImage2 = LevelManager.Instance._uiManager.wombatLogoenemyRight.GetComponent<Image>();
+        tempImage2.color = new Color(LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().universalCarColor.r,
+            LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().universalCarColor.g,
+            LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().universalCarColor.b, 0.5f);
+        
         LevelManager.Instance._uiManager.wombatLogoenemyRight.transform.GetChild(0).GetComponent<RawImage>().color = 
             LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().universalCarColor;
         

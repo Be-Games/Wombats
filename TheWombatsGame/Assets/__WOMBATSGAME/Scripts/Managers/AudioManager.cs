@@ -109,7 +109,7 @@ public class AudioManager : MonoBehaviour
         if (sN == "Tutorial")
         {
             musicTracks.MusicTrackAudioSource.Stop();
-            musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[2];
+            musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[10];
             
             if(isMusicEnabled)
                 musicTracks.MusicTrackAudioSource.Play();

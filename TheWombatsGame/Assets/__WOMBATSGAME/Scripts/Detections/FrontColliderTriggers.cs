@@ -12,6 +12,22 @@ using UnityEngine.UI;
 public class FrontColliderTriggers : MonoBehaviour
 {
     private GameObject currentPersonRagdoll;
+    private static FrontColliderTriggers _instance;
+
+    public static FrontColliderTriggers Instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
+
+    public GameObject objectToDestroy;
+
+    private void Awake()
+    {
+        _instance = this;
+    }
 
     private void Start()
     {
@@ -44,6 +60,8 @@ public class FrontColliderTriggers : MonoBehaviour
         #endregion
         if (other.gameObject.CompareTag("People"))
         {
+            LevelManager.Instance.canBoostNow = false;
+            
             GameManager.Instance.VibrateOnce();
 
             if (other.gameObject.name == "man")
@@ -81,6 +99,7 @@ public class FrontColliderTriggers : MonoBehaviour
         
         if (other.gameObject.CompareTag("Collision"))
         {
+
             //BOOSTING
             if (LevelManager.Instance._playerController.targetSpeed >=LevelManager.Instance._playerController.boostSpeed)
             {
@@ -97,6 +116,8 @@ public class FrontColliderTriggers : MonoBehaviour
             //NOT BOOSTING
             if (LevelManager.Instance._playerController.targetSpeed <=LevelManager.Instance._playerController.normalSpeed)
             {
+                LevelManager.Instance.canBoostNow = false;
+                
                 GameObject tempObjectForDisable = new GameObject();
                 tempObjectForDisable = other.gameObject;
                 
@@ -146,6 +167,8 @@ public class FrontColliderTriggers : MonoBehaviour
     {
         if (!LevelManager.Instance.isCrashed)
         {
+            objectToDestroy = disableCollidedObject;
+            
             //random crash sound SOUND
             if (LevelManager.Instance._audioManager != null && LevelManager.Instance._audioManager.isSFXenabled)
                 LevelManager.Instance._audioManager.Play(LevelManager.Instance._audioManager.sfxAll.crashSound[UnityEngine.Random.Range(1,3)]);
@@ -157,7 +180,7 @@ public class FrontColliderTriggers : MonoBehaviour
             if (LevelManager.Instance._audioManager != null)
                 LevelManager.Instance._audioManager.musicTracks.MusicTrackAudioSource.Pause();
 
-            LevelManager.Instance.carContinueChances.text = "" + (2 - LevelManager.Instance.continueCounter);
+            LevelManager.Instance.carContinueChances.text = "" + (3 - LevelManager.Instance.continueCounter);
             
             LevelManager.Instance.isGameStarted = false;
             LevelManager.Instance.isCrashed = true;
@@ -183,7 +206,16 @@ public class FrontColliderTriggers : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
 
             if (LevelManager.Instance.continueCounter != 5)
+            {
                 UIManager.Instance.crashedPanel.SetActive(true);
+                if (!UIManager.Instance.nothanksBtn.activeInHierarchy && LevelManager.Instance.continueCounter == 3)
+                {
+                    yield return new WaitForSeconds(3f);
+                    UIManager.Instance.nothanksBtn.SetActive(true);
+                }
+                   
+            }
+                
 
             if (LevelManager.Instance.continueCounter == 5)
             {
@@ -207,10 +239,10 @@ public class FrontColliderTriggers : MonoBehaviour
 
                 yield return new WaitForSeconds(2f);
 
-                if (disableCollidedObject.transform.parent.gameObject != null)
+                /*if (disableCollidedObject.transform.parent.gameObject != null)
                 {
                     disableCollidedObject.transform.parent.gameObject.SetActive(false);
-                }
+                }*/
 
             }
 

@@ -66,6 +66,7 @@ public class VehicleManager : MonoBehaviour
         public TextMeshProUGUI timerText;
         public Slider boostSlider;
     }
+
     
     
     
@@ -78,6 +79,9 @@ public class VehicleManager : MonoBehaviour
     public OverHeadBoostUI overHeadBoostUI;
     
     private GameManager _gameManager;
+    
+    public Material originalMaterial;
+    public Material transparentMaterial;
 
     
 }

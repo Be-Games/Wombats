@@ -49,7 +49,7 @@ public class Tut_CarTriggers : MonoBehaviour
             }
 
             TutPlayerController.canMoveLeft = true;
-           TutPlayerController.moveLeft_GO.SetActive(true);
+            TutPlayerController.moveLeft_GO.SetActive(true);
         }
         
         if (other.gameObject.name == "MoveRight")

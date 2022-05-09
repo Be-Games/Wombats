@@ -25,8 +25,16 @@ public class MainMenuManager : MonoBehaviour
 
     public Material homeRoadTexture;
     public float xOffset;
+    private bool canOffset = false;
     
-    
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        canOffset = true;
+    }
 
     private void Start()
     {
@@ -83,7 +91,8 @@ public class MainMenuManager : MonoBehaviour
 
     private void Update()
     {
-        homeRoadTexture.mainTextureOffset = new Vector2(0f, xOffset); 
+        if(canOffset)
+            homeRoadTexture.mainTextureOffset = new Vector2(0f, xOffset); 
     }
 
     void CompleteRest()
@@ -110,10 +119,4 @@ public class MainMenuManager : MonoBehaviour
         PlayerPrefs.Save();
     }
     
-}
-
-[System.Serializable]
-public class SaveTutData
-{
-    public int tutShown;
 }

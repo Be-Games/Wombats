@@ -2242,6 +2242,8 @@ MonoBehaviour:
   overHeadBoostUI:
     timerText: {fileID: 887420014}
     boostSlider: {fileID: 1955888479}
+  originalMaterial: {fileID: 2100000, guid: 36e7c998e660c9646bec8182b09f625c, type: 2}
+  transparentMaterial: {fileID: 2100000, guid: 99c993107a1582e4098d5fbff527745e, type: 2}
 --- !u!114 &352146705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3285,6 +3287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e75dcdc2b1875e042a89851811072610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectToDestroy: {fileID: 0}
 --- !u!54 &4913226652687385368
 Rigidbody:
   m_ObjectHideFlags: 0

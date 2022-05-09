@@ -135,7 +135,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0, y: 2.11}
+  m_AnchoredPosition: {x: -0, y: 2.48}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &887420015
@@ -193,8 +193,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.73
-  m_fontSizeBase: 0.73
+  m_fontSize: 1
+  m_fontSizeBase: 1
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6180,7 +6180,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -6683,7 +6683,7 @@ MonoBehaviour:
   carSpeedSettings:
     Acc: 4
     Dec: 7
-    normalSpeed: 6
+    normalSpeed: 9
     boostSpeed: 10
   bodyTrigger:
     body: {fileID: 913969656675195793}
@@ -6704,6 +6704,8 @@ MonoBehaviour:
   overHeadBoostUI:
     timerText: {fileID: 887420014}
     boostSlider: {fileID: 1955888479}
+  originalMaterial: {fileID: 2100000, guid: 0a5fa0e3de53444488e88fe9ce77ebee, type: 2}
+  transparentMaterial: {fileID: 2100000, guid: 42636b6edc91c0b44b5967e97c0a8fdc, type: 2}
 --- !u!136 &1061611617
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7810,7 +7812,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -8152,6 +8154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e75dcdc2b1875e042a89851811072610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectToDestroy: {fileID: 0}
 --- !u!54 &4913226652687385368
 Rigidbody:
   m_ObjectHideFlags: 0
