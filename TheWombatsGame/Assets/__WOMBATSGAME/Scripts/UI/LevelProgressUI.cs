@@ -22,6 +22,8 @@ public class LevelProgressUI : MonoBehaviour
 
     private Image tempImage1;
     private Image tempImage2;
+
+    
     
     private void Start()
     {
@@ -69,17 +71,23 @@ public class LevelProgressUI : MonoBehaviour
         {
             //PLAYER POSITION CALCULATION
             UIManager.Instance.playerPosition.text = playerPosi.ToString();
+
+           
         
             if (chars[0].distanceTravelled > chars[1].distanceTravelled &&
                 chars[0].distanceTravelled > chars[2].distanceTravelled)
             {
                 playerPosi = 1;
+                UIManager.Instance.playerOriginalPosi.text = playerPosi.ToString();
+                UIManager.Instance.playerOriginalSubText.text = "st";
             }
         
             if (chars[0].distanceTravelled < chars[1].distanceTravelled &&
                 chars[0].distanceTravelled < chars[2].distanceTravelled)
             {
                 playerPosi = 3;
+                UIManager.Instance.playerOriginalPosi.text = playerPosi.ToString();
+                UIManager.Instance.playerOriginalSubText.text = "rd";
             }
         
             if ((chars[0].distanceTravelled > chars[1].distanceTravelled &&
@@ -87,6 +95,8 @@ public class LevelProgressUI : MonoBehaviour
                                                                               chars[0].distanceTravelled > chars[2].distanceTravelled))
             {
                 playerPosi = 2;
+                UIManager.Instance.playerOriginalPosi.text = playerPosi.ToString();
+                UIManager.Instance.playerOriginalSubText.text = "nd";
             }
         
         

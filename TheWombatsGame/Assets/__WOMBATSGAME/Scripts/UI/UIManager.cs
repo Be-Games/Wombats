@@ -59,7 +59,7 @@ public class UIManager : MonoBehaviour
     [Header("Win Screen")]
     public TextMeshProUGUI playerPosTXT;
     public GameObject positionTexts;
-    public RectTransform continueButton,shareBtn;
+    public RectTransform raceFinishFadePanel,continueButton,shareBtn;
 
     public Image fullHeart, brokenHeart;
     //DO TWEEN ANIMATION UIS
@@ -71,6 +71,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI resumeTimer;
 
     public Image sfxon, sfxoff, musicon, musicoff, hapticon, hapticoff;
+    
+    public TextMeshProUGUI playerOriginalPosi, playerOriginalSubText;
     
     private void OnEnable()
     {

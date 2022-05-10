@@ -125,7 +125,7 @@ public class FrontColliderTriggers : MonoBehaviour
                 StartCoroutine(CarTotalled(tempObjectForDisable));
                 
                 
-                GameManager.Instance.VibrateOnce();
+                
              
             }
         }
@@ -167,6 +167,8 @@ public class FrontColliderTriggers : MonoBehaviour
     {
         if (!LevelManager.Instance.isCrashed)
         {
+            GameManager.Instance.VibrateOnce();
+            
             objectToDestroy = disableCollidedObject;
             
             //random crash sound SOUND

@@ -218,6 +218,7 @@ public class LevelManager : MonoBehaviour
     }
 
     public Renderer myRenL,myRenR;
+    public Renderer[] leftWheels, rightWheels;
     
     private void Start()
     {
@@ -240,7 +241,6 @@ public class LevelManager : MonoBehaviour
         
         myRenR= enemyRightVisual.GetComponent<VehicleManager>().bodyTrigger.body.GetComponent<MeshRenderer>();
         myRenR.material = enemyRightVisual.GetComponent<VehicleManager>().transparentMaterial;
-        
         
         playerCarCollidersToToggle = playerVisual.GetComponent<Collider>();
         
@@ -883,6 +883,7 @@ public class LevelManager : MonoBehaviour
         }
         
         //Common Stuff
+        _uiManager.raceFinishFadePanel.gameObject.SetActive(false);
         _uiManager.continueButton.DOScale(Vector3.zero, 0f);
         _uiManager.shareBtn.DOScale(Vector3.zero, 0f);
         _uiManager.positionTexts.transform.DOScale(Vector3.zero, 0f);
@@ -918,6 +919,7 @@ public class LevelManager : MonoBehaviour
 #endif
         
         //Common Stuff
+        _uiManager.raceFinishFadePanel.gameObject.SetActive(true);
         _uiManager.continueButton.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
         _uiManager.shareBtn.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
     }
