@@ -10,7 +10,7 @@ public class CameraShake : MonoBehaviour {
     public float ShakeAmplitude = 1.2f;         // Cinemachine Noise Profile Parameter
     public float ShakeFrequency = 2.0f;         // Cinemachine Noise Profile Parameter
 
-    private float ShakeElapsedTime = 0f;
+    public float ShakeElapsedTime = 0f;
 
     // Cinemachine Shake
     public CinemachineVirtualCamera VirtualCamera;

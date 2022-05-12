@@ -2,9 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using Coffee.UIEffects;
-using DataManager;
 using DG.Tweening;
-using Lofelt.NiceVibrations;
 using NatSuite.Examples;
 using TMPro;
 using UnityEngine;
@@ -136,7 +134,7 @@ public class LevelManager : MonoBehaviour
     public float boostOnValue;
     public float breakValue;
     public float defaultValue;
-    
+
     
 
     private void Awake()
@@ -146,8 +144,7 @@ public class LevelManager : MonoBehaviour
         takeSS = this.GetComponent<TakeScreenshot>();
         
         _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
-        
-        
+
         GameObject playerCarPrefab = new GameObject();
         GameObject enemyLPrefab = new GameObject();
         GameObject enemyRPrefab = new GameObject();
@@ -155,73 +152,78 @@ public class LevelManager : MonoBehaviour
         if (_gameManager != null)
             totalLaps = _gameManager.numberOfLaps;
 
-       #region CodeToComment
-          if (_gameManager)
-          {
-              if (_gameManager.memeberIndex == 0)        //murph
-              {
-                  playerCarPrefab = Instantiate(_gameManager.murphPrefabs[_gameManager.selectedCarModelPLAYER-1],
-                      carVisualsParents[0].transform.position, carVisualsParents[0].transform.rotation, carVisualsParents[0].transform);
+        /*#region CodeToComment
+        if (_gameManager)
+        {
+            if (_gameManager.memeberIndex == 0)        //murph
+            {
+                playerCarPrefab = Instantiate(_gameManager.murphPrefabs[_gameManager.selectedCarModelPLAYER-1],
+                    carVisualsParents[0].transform.position, carVisualsParents[0].transform.rotation, carVisualsParents[0].transform);
                   
-                  enemyLPrefab = Instantiate(_gameManager.danPrefabs[_gameManager.enemyCar1],
-                      carVisualsParents[1].transform.position, carVisualsParents[1].transform.rotation, carVisualsParents[1].transform);
+                enemyLPrefab = Instantiate(_gameManager.danPrefabs[_gameManager.enemyCar1],
+                    carVisualsParents[1].transform.position, carVisualsParents[1].transform.rotation, carVisualsParents[1].transform);
                   
-                  enemyRPrefab = Instantiate(_gameManager.tordPrefabs[_gameManager.enemyCar2],
-                      carVisualsParents[2].transform.position, carVisualsParents[2].transform.rotation, carVisualsParents[2].transform);
-              }
-              if (_gameManager.memeberIndex == 1)        //dan
-              {
-                  playerCarPrefab = Instantiate(_gameManager.danPrefabs[_gameManager.selectedCarModelPLAYER-1],
-                      carVisualsParents[0].transform.position, carVisualsParents[0].transform.rotation, carVisualsParents[0].transform);
+                enemyRPrefab = Instantiate(_gameManager.tordPrefabs[_gameManager.enemyCar2],
+                    carVisualsParents[2].transform.position, carVisualsParents[2].transform.rotation, carVisualsParents[2].transform);
+            }
+            if (_gameManager.memeberIndex == 1)        //dan
+            {
+                playerCarPrefab = Instantiate(_gameManager.danPrefabs[_gameManager.selectedCarModelPLAYER-1],
+                    carVisualsParents[0].transform.position, carVisualsParents[0].transform.rotation, carVisualsParents[0].transform);
                   
-                  enemyLPrefab = Instantiate(_gameManager.tordPrefabs[_gameManager.enemyCar1],
-                      carVisualsParents[1].transform.position, carVisualsParents[1].transform.rotation, carVisualsParents[1].transform);
+                enemyLPrefab = Instantiate(_gameManager.tordPrefabs[_gameManager.enemyCar1],
+                    carVisualsParents[1].transform.position, carVisualsParents[1].transform.rotation, carVisualsParents[1].transform);
                   
-                  enemyRPrefab = Instantiate(_gameManager.murphPrefabs[_gameManager.enemyCar2],
-                      carVisualsParents[2].transform.position, carVisualsParents[2].transform.rotation, carVisualsParents[2].transform);
-              }
-              if (_gameManager.memeberIndex == 2)        //tord
-              {
-                  playerCarPrefab = Instantiate(_gameManager.tordPrefabs[_gameManager.selectedCarModelPLAYER-1],
-                      carVisualsParents[0].transform.position, carVisualsParents[0].transform.rotation, carVisualsParents[0].transform);
+                enemyRPrefab = Instantiate(_gameManager.murphPrefabs[_gameManager.enemyCar2],
+                    carVisualsParents[2].transform.position, carVisualsParents[2].transform.rotation, carVisualsParents[2].transform);
+            }
+            if (_gameManager.memeberIndex == 2)        //tord
+            {
+                playerCarPrefab = Instantiate(_gameManager.tordPrefabs[_gameManager.selectedCarModelPLAYER-1],
+                    carVisualsParents[0].transform.position, carVisualsParents[0].transform.rotation, carVisualsParents[0].transform);
                   
-                  enemyLPrefab = Instantiate(_gameManager.murphPrefabs[_gameManager.enemyCar1],
-                      carVisualsParents[1].transform.position, carVisualsParents[1].transform.rotation, carVisualsParents[1].transform);
+                enemyLPrefab = Instantiate(_gameManager.murphPrefabs[_gameManager.enemyCar1],
+                    carVisualsParents[1].transform.position, carVisualsParents[1].transform.rotation, carVisualsParents[1].transform);
                   
-                  enemyRPrefab = Instantiate(_gameManager.danPrefabs[_gameManager.enemyCar2],
-                      carVisualsParents[2].transform.position, carVisualsParents[2].transform.rotation, carVisualsParents[2].transform);
-              }
+                enemyRPrefab = Instantiate(_gameManager.danPrefabs[_gameManager.enemyCar2],
+                    carVisualsParents[2].transform.position, carVisualsParents[2].transform.rotation, carVisualsParents[2].transform);
+            }
               
-          }
+        }
           
-          if (_gameManager)
-          {
-              if(playerCarPrefab)
-                  playerVisual = playerCarPrefab;
+        if (_gameManager)
+        {
+            if(playerCarPrefab)
+                playerVisual = playerCarPrefab;
 
-              if(enemyLPrefab)
-                  enemyLeftVisual = enemyLPrefab;
+            if(enemyLPrefab)
+                enemyLeftVisual = enemyLPrefab;
               
-              if(enemyRPrefab)
-                  enemyRightVisual = enemyRPrefab;
+            if(enemyRPrefab)
+                enemyRightVisual = enemyRPrefab;
               
-          }
+        }
           
-          #endregion
-           _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        #endregion*/
+          
+        _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
           
          
         
         
         _playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
+        
+        leftWheels = new List<Renderer>(){null,null,null,null};
+        rightWheels = new List<Renderer>(){null,null,null,null};
        
     }
 
     public Renderer myRenL,myRenR;
-    public Renderer[] leftWheels, rightWheels;
-    
+    public List<Renderer> leftWheels, rightWheels;
     private void Start()
     {
+        
+        
         Ana_LevelStart();
         InitializingVariables();
         SceneStart();
@@ -236,11 +238,25 @@ public class LevelManager : MonoBehaviour
 
     void InitializingVariables()
     {
+        
+        
         myRenL= enemyLeftVisual.GetComponent<VehicleManager>().bodyTrigger.body.GetComponent<MeshRenderer>();
         myRenL.material = enemyLeftVisual.GetComponent<VehicleManager>().transparentMaterial;
+        for (int i = 0; i < 4; i++)
+        {
+            leftWheels[i] = enemyLeftVisual.GetComponent<VehicleManager>().bodyTrigger.wheels[i]
+                .GetComponent<MeshRenderer>();
+            leftWheels[i].material = enemyLeftVisual.GetComponent<VehicleManager>().transparentMaterial;
+        }
         
         myRenR= enemyRightVisual.GetComponent<VehicleManager>().bodyTrigger.body.GetComponent<MeshRenderer>();
         myRenR.material = enemyRightVisual.GetComponent<VehicleManager>().transparentMaterial;
+        for (int i = 0; i < 4; i++)
+        {
+            rightWheels[i] = enemyRightVisual.GetComponent<VehicleManager>().bodyTrigger.wheels[i]
+                .GetComponent<MeshRenderer>();
+            rightWheels[i].material = enemyRightVisual.GetComponent<VehicleManager>().transparentMaterial;
+        }
         
         playerCarCollidersToToggle = playerVisual.GetComponent<Collider>();
         
@@ -248,6 +264,8 @@ public class LevelManager : MonoBehaviour
         _uiManager.scoreText.text = currentScore.ToString();
         isFinalLap = false;
         _uiManager.BoostBtn.GetComponent<Button>().enabled = false;
+
+        canBoostNow = true;
         
         //Startup rewarded system 
         if(_gameManager != null)
@@ -271,11 +289,11 @@ public class LevelManager : MonoBehaviour
         _playerVehicleManager.carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Stop();
         _playerVehicleManager.carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Stop();
         
-       enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Stop();
+       /*enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Stop();
        enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Stop();
         
        enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Stop();
-       enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Stop();
+       enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Stop();*/
        #endregion
     }
     
@@ -376,16 +394,18 @@ public class LevelManager : MonoBehaviour
             _audioManager.musicTracks.MusicTrackAudioSource.Play();
         }
         
+        SetCameraDampValue(breakValue);
+        
         #region CarSmokePlay
         //Back smoke effects off for all cars
         _playerVehicleManager.carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
         _playerVehicleManager.carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
         
-        enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
+        /*enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
         enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
         
         enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
-        enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
+        enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();*/
         #endregion
             
         
@@ -419,7 +439,7 @@ public class LevelManager : MonoBehaviour
     private void Update()
     {
 
-        if (isGameStarted)
+        /*if (isGameStarted)
         {
            
             if (lapCounter >= 1)
@@ -437,7 +457,7 @@ public class LevelManager : MonoBehaviour
                 }
             }
 
-        }
+        }*/
 
     }
     
@@ -652,8 +672,12 @@ public class LevelManager : MonoBehaviour
             GameManager.Instance.VibrateOnce();
             
             CarBoostOn();
-
+            
+            if(_audioManager!=null && _audioManager.isSFXenabled)
+                _audioManager.Play(_audioManager.sfxAll.boostingCar);
+            
             _playerVehicleManager.overHeadBoostUI.timerText.gameObject.SetActive(true);
+            _playerVehicleManager.overHeadBoostUI.timerText.fontSize = 1f;
             _playerVehicleManager.overHeadBoostUI.timerText.color = Color.green;
             _playerVehicleManager.overHeadBoostUI.timerText.text = "09";
             yield return new WaitForSeconds(1f);
@@ -880,9 +904,13 @@ public class LevelManager : MonoBehaviour
             speedLinesEffect.gameObject.SetActive(false);
             _playerVehicleManager.carEffects.NOSEffectsPS.gameObject.SetActive(false);
             _playerVehicleManager.overHeadBoostUI.timerText.gameObject.SetActive(false);
+            if(_audioManager!=null && _audioManager.isSFXenabled && _audioManager.sfxAll.boostingCar.isPlaying)
+                _audioManager.sfxAll.boostingCar.Stop();
+            
         }
         
         //Common Stuff
+        LevelManager.Instance._playerVehicleManager.bandMember.SetActive(true);
         _uiManager.raceFinishFadePanel.gameObject.SetActive(false);
         _uiManager.continueButton.DOScale(Vector3.zero, 0f);
         _uiManager.shareBtn.DOScale(Vector3.zero, 0f);
@@ -896,12 +924,13 @@ public class LevelManager : MonoBehaviour
         cameraRotator.SetActive(true);
         isGameStarted = false;
         GameManager.Instance.canControlCar = false;
-        
+
+        _uiManager.positionTexts.transform.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
         yield return new WaitForSeconds(1f);
         
-
+        EnableScreenShot();
         
-        _uiManager.positionTexts.transform.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash).OnComplete(EnableScreenShot);
+       
         
         Ana_LevelWin(_levelProgressUI.playerPosi);
 
@@ -919,6 +948,7 @@ public class LevelManager : MonoBehaviour
 #endif
         
         //Common Stuff
+        _uiManager.gameUIPanel.SetActive(false);
         _uiManager.raceFinishFadePanel.gameObject.SetActive(true);
         _uiManager.continueButton.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
         _uiManager.shareBtn.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
@@ -1036,11 +1066,11 @@ public class LevelManager : MonoBehaviour
         _playerVehicleManager.carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
         _playerVehicleManager.carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
         
-        enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
+        /*enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
         enemyLeftVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
         
         enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Play();
-        enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();
+        enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Play();*/
         #endregion
         
         if(!adStuff && continueCounter!=5)

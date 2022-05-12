@@ -73,6 +73,9 @@ public class UIManager : MonoBehaviour
     public Image sfxon, sfxoff, musicon, musicoff, hapticon, hapticoff;
     
     public TextMeshProUGUI playerOriginalPosi, playerOriginalSubText;
+
+    public string[] allTips;
+    public TextMeshProUGUI tips_txt;
     
     private void OnEnable()
     {
@@ -83,18 +86,25 @@ public class UIManager : MonoBehaviour
         
         //blur boost panel off
         boostBlurPanel.SetActive(false);
+
+        //Ini tips text with 1 random tip
+        tips_txt.text = allTips[UnityEngine.Random.Range(0, allTips.Length)];
     }
 
     public void settingsBtnDT()
     {
         
         pauseScreen.DOAnchorPos(Vector2.zero, 0.25f).SetEase(Ease.Flash).OnComplete(PauseMenu);
+        currentTrackName.text = LevelManager.Instance._audioManager.musicTracks.MusicTrackAudioSource.clip.name;
     }
     
     public void settingsReturnDT()
     {
         Time.timeScale = 1;
         pauseScreen.DOAnchorPos(new Vector2(1500,0f), 0.25f).SetEase(Ease.Flash);
+        
+        //Random Tip
+        tips_txt.text = allTips[UnityEngine.Random.Range(0, allTips.Length)];
     }
     
     
@@ -105,35 +115,7 @@ public class UIManager : MonoBehaviour
         //LevelManager.Instance.isGameStarted = false;
         //GameManager.Instance.canControlCar = false;
     }
-
-    private void Update()
-    {
-        if (LevelManager.Instance._audioManager != null)
-        {
-            currentTrackName.text = LevelManager.Instance._audioManager.musicTracks.MusicTrackAudioSource.clip.name;
-        }
-        
-    }
-
-    /*public void NextTrack()
-    {
-        LevelManager.Instance._audioManager.i++;
-        if (LevelManager.Instance._audioManager.i > LevelManager.Instance._audioManager.musicTracks.tracks.Length)
-        {
-            LevelManager.Instance._audioManager.i = 0;
-        }
-        LevelManager.Instance._audioManager.GameSwitchMusicCalled();
-    }
     
-    public void PrevTrack()
-    {
-        LevelManager.Instance._audioManager.i--;
-        if (LevelManager.Instance._audioManager.i < 0)
-        {
-            LevelManager.Instance._audioManager.i = LevelManager.Instance._audioManager.musicTracks.tracks.Length-1;
-        }
-        LevelManager.Instance._audioManager.GameSwitchMusicCalled();
-    }*/
 
     public void SpotifyLink()
     {

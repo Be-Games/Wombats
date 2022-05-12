@@ -33,7 +33,7 @@ public class TakeScreenshot : MonoBehaviour
 #if UNITY_ANDROID
         new NativeShare().AddFile( path )
             .SetSubject( "'The Wombats Racing " )
-            .SetText( "Check out the Official Racing Game of the super awesome Indie rock band 'The Wombats' " +"\n" + " #thewombatsgame")
+            .SetText( "Check out the Official Racing Game of the super awesome Indie rock band 'The Wombats' " +"\n" + " #thewombatsgame "+ "\n")
             .SetUrl( "https://play.google.com/store/apps/details?id=com.begames.thewombats" )
             .SetCallback( ( result, shareTarget ) => Debug.Log( "Share result: " + result + ", selected app: " + shareTarget ) )
             .Share();

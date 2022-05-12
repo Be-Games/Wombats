@@ -57,7 +57,7 @@ namespace NatSuite.Examples {
             payload.AddMedia(path);
             payload.AddText(" Check out the Official Racing Game of the super awesome Indie rock band 'The Wombats'" + 
                             "\n" + 
-                            " #thewombatsgame"+
+                            " #thewombatsgame "+
                             "\n" +
                                 " https://apps.apple.com/us/app/the-wombats-official-game/id1616417200 ");
             payload.Commit();

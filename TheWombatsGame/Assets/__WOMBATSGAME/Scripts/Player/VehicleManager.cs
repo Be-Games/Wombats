@@ -29,6 +29,7 @@ public class VehicleManager : MonoBehaviour
     {
         public GameObject body;
         public GameObject trigger;
+        public GameObject[] wheels;
     }
     
     [System.Serializable]
@@ -83,5 +84,7 @@ public class VehicleManager : MonoBehaviour
     public Material originalMaterial;
     public Material transparentMaterial;
 
-    
+    public GameObject bandMember;
+
+
 }

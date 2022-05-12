@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     [Header("Variables for Full Game")] 
     
     public int lightingMode = 1;
-    [HideInInspector]public bool canControlCar;
+    public bool canControlCar;
     public int weatherEffect;
 
     [Space(20)]
@@ -206,8 +206,15 @@ public class GameManager : MonoBehaviour
 
     public void VibrateOnce()
     {
+#if UNITY_IOS
         if(AudioManager.Instance.isHapticEnabled)
             HapticPatterns.PlayConstant(0.8f, 0.0f, 0.4f);
+#endif
+#if UNITY_ANDROID
+        if(AudioManager.Instance.isHapticEnabled)
+            HapticPatterns.PlayConstant(1f, 0.0f, 0.5f);
+#endif
+        
     }
 }
 

@@ -51,6 +51,8 @@ public class FrontColliderTriggers : MonoBehaviour
                 other.transform.GetChild(0).gameObject.SetActive(false);
                 other.transform.GetChild(1).gameObject.GetComponent<ParticleSystem>().Play();
             
+                if (LevelManager.Instance._audioManager != null && LevelManager.Instance._audioManager.isSFXenabled)
+                    LevelManager.Instance._audioManager.Play(LevelManager.Instance._audioManager.sfxAll.boostCollect);
                 // LevelManager.Instance._playerVehicleManager.carEffects.boostCapturedEffectPS.Play();                                  //under car effect show once
                 
             }
@@ -148,18 +150,20 @@ public class FrontColliderTriggers : MonoBehaviour
             
             //coin collect SOUND
             if(LevelManager.Instance._audioManager!=null && LevelManager.Instance._audioManager.isSFXenabled)
-                LevelManager.Instance._audioManager.Play(LevelManager.Instance._audioManager.sfxAll.coinCollect);
+                LevelManager.Instance._audioManager.sfxAll.coinCollect.PlayOneShot(LevelManager.Instance._audioManager.sfxAll.coinCollect.clip);
         }
 
         if (other.gameObject.CompareTag("TowerFallingTrigger"))
         {
-            TowerFallAnimation();
+            LevelManager.Instance.rubixTower.GetComponent<DOTweenAnimation>().DOPlay();
+            Invoke("TowerFallAnimation",4f);
         }
     }
 
     void TowerFallAnimation()
     {
-        LevelManager.Instance.rubixTower.transform.DOLocalRotate(new Vector3(0f, 0f, 54.781f), 1f).SetEase(Ease.Flash);
+        if(LevelManager.Instance.rubixTower != null)
+            LevelManager.Instance.rubixTower.gameObject.SetActive(false);
     }
 
     
@@ -168,7 +172,7 @@ public class FrontColliderTriggers : MonoBehaviour
         if (!LevelManager.Instance.isCrashed)
         {
             GameManager.Instance.VibrateOnce();
-            
+            GameManager.Instance.canControlCar = false;
             objectToDestroy = disableCollidedObject;
             
             //random crash sound SOUND
@@ -250,7 +254,7 @@ public class FrontColliderTriggers : MonoBehaviour
 
             LevelManager.Instance.isCrashedWithPpl = false;
             
-            GameManager.Instance.canControlCar = false;
+           
             LevelManager.Instance._gameControls.gestureState = GameControls.GestureState.Break;
             LevelManager.Instance.FastWind.gameObject.SetActive(false);
             LevelManager.Instance.slowWind.gameObject.SetActive(false);

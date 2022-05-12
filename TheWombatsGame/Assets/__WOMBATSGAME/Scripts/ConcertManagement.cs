@@ -23,7 +23,7 @@ public class ConcertManagement : MonoBehaviour
         
         if (_gameManager.playerPosi == 1)
         {
-            posText.text = "1st";
+            posText.text = "#1";
             
             if (_gameManager.charNumber == 1 )
             {
@@ -64,7 +64,7 @@ public class ConcertManagement : MonoBehaviour
         
         if (_gameManager.playerPosi == 2)
         {
-            posText.text = "2nd";
+            posText.text = "#2";
             
             if (_gameManager.charNumber == 1 )
             {
@@ -105,7 +105,7 @@ public class ConcertManagement : MonoBehaviour
         
         if (_gameManager.playerPosi == 3)
         {
-            posText.text = "3rd";
+            posText.text = "#3";
             
             if (_gameManager.charNumber == 1 )
             {
@@ -144,8 +144,8 @@ public class ConcertManagement : MonoBehaviour
             }
         }
         
-        
-        _gameManager.interstitialAd.StartUpInterstitial();
+        if(_gameManager != null)
+            _gameManager.interstitialAd.StartUpInterstitial();
     }
 
     public void backtoHome(string name)
@@ -155,12 +155,14 @@ public class ConcertManagement : MonoBehaviour
 
     public void LoadInterstitialAd()
     {
-        _gameManager.interstitialAd.interstitialplay();
+        if(_gameManager != null)
+            _gameManager.interstitialAd.interstitialplay();
         LevelManager.Instance.Ana_AdShown("interstitial");
     }
 
     public void PostAdRunScene()
     {
-        _gameManager.interstitialAd.InterstitialAdClosedEvent();
+        if(_gameManager != null)
+            _gameManager.interstitialAd.InterstitialAdClosedEvent();
     }
 }

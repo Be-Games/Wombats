@@ -6,15 +6,26 @@ using UnityEngine;
 public class EnemyRaycaster : MonoBehaviour
 {
     
-    public LayerMask obstacleLayer;
-    public float rayCastDistance;
+    [HideInInspector]public LayerMask obstacleLayer; 
+    [HideInInspector] public LayerMask slowDownLayer;
+    [HideInInspector]public float rayCastDistance;
     RaycastHit hit;
     
-    public Vector3 adjustment;
+    private Vector3 adjustment;
 
     public EnemyController enemyController;
+
+    private void Start()
+    {
+        adjustment = new Vector3(0f,0.27f,0f);
+        rayCastDistance = 2;
+        obstacleLayer = LayerMask.GetMask("Obstacles");
+        slowDownLayer = LayerMask.GetMask("ToSlow");
+    }
+
     private void Update()
     {
+        
         if(LevelManager.Instance.isGameStarted)
             RaycastMethod();
         
@@ -27,6 +38,15 @@ public class EnemyRaycaster : MonoBehaviour
         if (Physics.Raycast(ray,out hit,rayCastDistance,obstacleLayer))
         {
             enemyController.EnemyCollisionWithObstacles();
+        }
+        
+        if (Physics.Raycast(ray,out hit,rayCastDistance,slowDownLayer))
+        {
+            enemyController.slowDown();
+        }
+        else
+        {
+            enemyController.isSlowed = false;
         }
     }
 

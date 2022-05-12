@@ -59,6 +59,8 @@ public class AudioManager : MonoBehaviour
         public AudioSource manScream;
         public AudioSource womanScream;
         public AudioSource coinCollect;
+        public AudioSource boostingCar;
+        public AudioSource boostCollect;
         public bool mutedTrack;
         [SerializeField] public Image SFXONIcon;
         [SerializeField] public Image SFXOFFIcon;
@@ -97,7 +99,7 @@ public class AudioManager : MonoBehaviour
         
         if (sN == "HomeScreen" || sN == "PlayerSelection" || sN == "LevelSelection")
         {
-            musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[9];
+            musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[12];
             
             if(!musicTracks.MusicTrackAudioSource.isPlaying) 
             {
@@ -110,6 +112,15 @@ public class AudioManager : MonoBehaviour
         {
             musicTracks.MusicTrackAudioSource.Stop();
             musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[10];
+            
+            if(isMusicEnabled)
+                musicTracks.MusicTrackAudioSource.Play();
+        }
+
+        if (sN == "Concert_Scn")
+        {
+            musicTracks.MusicTrackAudioSource.Stop();
+            musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[13];
             
             if(isMusicEnabled)
                 musicTracks.MusicTrackAudioSource.Play();

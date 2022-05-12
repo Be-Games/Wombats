@@ -43,19 +43,20 @@ public class EnemyController : MonoBehaviour
     public PathFollower enemyPF;
     public float diffInDistance;
 
-    public float movementDuration,rotationDuration;
+    private float movementDuration,rotationDuration;
 
     public Transform leftCarTransform, centreCarTransform, rightCarTransform;
 
-    
+    public bool isSlowed;
     private void Start()
     {
+        movementDuration = 0.15f;
+        rotationDuration = 0.1f;
         StartCoroutine("IniCarPush");
     }
 
     IEnumerator IniCarPush()
     {
-        yield return new WaitForSeconds(0.5f);
         if (currentEnemyNumber == -1)
         {
             enemyCarModelGO.transform.localPosition = new Vector3(enemyCarModelGO.transform.localPosition.x -  xOffSet,0f,0f);
@@ -71,7 +72,7 @@ public class EnemyController : MonoBehaviour
             enemySpeed = LevelManager.Instance._playerVehicleManager.carSpeedSettings.normalSpeed-0.2f;
         }
         
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         enemyPF.speed = 0;
         
         
@@ -79,7 +80,7 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        if (LevelManager.Instance.isGameStarted)
+        if (LevelManager.Instance.isGameStarted && !isSlowed)
         {
             /*if (enemyPF.distanceTravelled >= (LevelManager.Instance.singleLapDistance * 2))
             {
@@ -133,24 +134,54 @@ public class EnemyController : MonoBehaviour
                     break;
                
                case 0:
-                   enemyCarModelGO.transform.DOLocalMove(leftCarTransform.localPosition, movementDuration);
+                   switch (UnityEngine.Random.Range(0,2))
+                   {
+                       case 0:
+                           enemyCarModelGO.transform.DOLocalMove(leftCarTransform.localPosition, movementDuration);
                 
-                   enemyCarModelGO.transform.DOLocalRotate(new Vector3(0f,-16.83f,0f), rotationDuration)
-                       .OnComplete(()=> enemyCarModelGO.transform.DOLocalRotate(new Vector3(0f,0f,0f), rotationDuration));
+                           enemyCarModelGO.transform.DOLocalRotate(new Vector3(0f,-16.83f,0f), rotationDuration)
+                               .OnComplete(()=> enemyCarModelGO.transform.DOLocalRotate(new Vector3(0f,0f,0f), rotationDuration));
+                   
+                           enemyCurrentPos = -1;
+                           break;
+                       case 1:
+                           enemyCarModelGO.transform.DOLocalMove(rightCarTransform.localPosition, movementDuration);
                 
-                
-                   enemyCurrentPos = -1;
+                           enemyCarModelGO.transform.DOLocalRotate(new Vector3(0f,16.83f,0f), rotationDuration)
+                               .OnComplete(()=> enemyCarModelGO.transform.DOLocalRotate(new Vector3(0f,0f,0f), rotationDuration));
+                   
+                           enemyCurrentPos = 1;
+                           break;
+                   }
+
                    break;
+                  
                 
                 case -1:
-                    enemyCarModelGO.transform.DOLocalMove(rightCarTransform.localPosition, movementDuration);
+                    enemyCarModelGO.transform.DOLocalMove(centreCarTransform.localPosition, movementDuration);
                 
-                    enemyCarModelGO.transform.DOLocalRotate(new Vector3(0f,-16.83f,0f), rotationDuration)
+                    enemyCarModelGO.transform.DOLocalRotate(new Vector3(0f,16.83f,0f), rotationDuration)
                         .OnComplete(()=> enemyCarModelGO.transform.DOLocalRotate(new Vector3(0f,0f,0f), rotationDuration));
                 
                     enemyCurrentPos = 0;
                     break;
             }
+    }
+
+    public void slowDown()
+    {
+        isSlowed = true;
+        enemyPF.speed = 0;
+        /*StartCoroutine(SpeedToZero());*/
+    }
+
+    IEnumerator SpeedToZero()
+    {
+        yield return null;
+        while (true)
+        {
+            
+        }
     }
 
     

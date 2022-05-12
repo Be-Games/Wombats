@@ -43,7 +43,6 @@ public class LevelProgressUI : MonoBehaviour
         tempImage1.color = new Color(LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().universalCarColor.r,
             LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().universalCarColor.g,
             LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().universalCarColor.b, 0.5f);
-        
         LevelManager.Instance._uiManager.wombatLogoenemyLeft.transform.GetChild(0).GetComponent<RawImage>().color = 
             LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().universalCarColor;
         
@@ -52,7 +51,6 @@ public class LevelProgressUI : MonoBehaviour
         tempImage2.color = new Color(LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().universalCarColor.r,
             LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().universalCarColor.g,
             LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().universalCarColor.b, 0.5f);
-        
         LevelManager.Instance._uiManager.wombatLogoenemyRight.transform.GetChild(0).GetComponent<RawImage>().color = 
             LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().universalCarColor;
         

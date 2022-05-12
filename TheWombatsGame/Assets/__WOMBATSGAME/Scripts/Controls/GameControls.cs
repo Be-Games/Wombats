@@ -60,13 +60,13 @@ public class GameControls : MonoBehaviour
             if (!stopTouch)
             {
 
-                if (Distance.x < -swipeRange)
+                if (Distance.x < -swipeRange || Input.GetKeyDown(KeyCode.A))
                 {
                     gestureState = GestureState.Left;
                     LevelManager.Instance._playerController.MoveLeft();
                     stopTouch = true;
                 }
-                else if (Distance.x > swipeRange)
+                else if (Distance.x > swipeRange || Input.GetKeyDown(KeyCode.D))
                 {
                     gestureState = GestureState.Right;
                     LevelManager.Instance._playerController.MoveRight();
@@ -77,14 +77,14 @@ public class GameControls : MonoBehaviour
 
         }
 
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary && !stopTouch)
+        if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary && !stopTouch) || Input.GetKeyDown(KeyCode.Space))
         {
             gestureState = GestureState.Break;
             
             
         }
         
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended || Input.GetKeyUp(KeyCode.Space))
         {
             stopTouch = false;
 
