@@ -152,7 +152,7 @@ public class LevelManager : MonoBehaviour
         if (_gameManager != null)
             totalLaps = _gameManager.numberOfLaps;
 
-        /*#region CodeToComment
+        #region CodeToComment
         if (_gameManager)
         {
             if (_gameManager.memeberIndex == 0)        //murph
@@ -204,7 +204,7 @@ public class LevelManager : MonoBehaviour
               
         }
           
-        #endregion*/
+        #endregion
           
         _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
           
@@ -215,6 +215,9 @@ public class LevelManager : MonoBehaviour
         
         leftWheels = new List<Renderer>(){null,null,null,null};
         rightWheels = new List<Renderer>(){null,null,null,null};
+        
+        if(_playerVehicleManager.bandMember != null)
+            _playerVehicleManager.bandMember.SetActive(false);
        
     }
 
@@ -878,7 +881,7 @@ public class LevelManager : MonoBehaviour
         PlayerPrefs.Save();
         
 
-        PlayerPrefs.SetInt("TotalCoins", PlayerPrefs.GetInt("TotalCoins") + currentScore);
+        PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins") + currentScore);
         
         PlayerPrefs.Save();
         
@@ -910,7 +913,7 @@ public class LevelManager : MonoBehaviour
         }
         
         //Common Stuff
-        LevelManager.Instance._playerVehicleManager.bandMember.SetActive(true);
+        
         _uiManager.raceFinishFadePanel.gameObject.SetActive(false);
         _uiManager.continueButton.DOScale(Vector3.zero, 0f);
         _uiManager.shareBtn.DOScale(Vector3.zero, 0f);
@@ -918,6 +921,7 @@ public class LevelManager : MonoBehaviour
         
         yield return new WaitForSeconds(0.15f);
         
+        _playerVehicleManager.bandMember.SetActive(true);
         isGameEnded = true;
         _uiManager.BoostBtn.gameObject.SetActive(false);
         mainCameraGO.SetActive(false);
@@ -925,14 +929,16 @@ public class LevelManager : MonoBehaviour
         isGameStarted = false;
         GameManager.Instance.canControlCar = false;
 
-        _uiManager.positionTexts.transform.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
-        yield return new WaitForSeconds(1f);
+        _uiManager.gameUIPanel.SetActive(false);
+        _uiManager.raceFinishFadePanel.gameObject.SetActive(true);
+        _uiManager.positionTexts.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.InSine);
+        
+        Ana_LevelWin(_levelProgressUI.playerPosi);
+        yield return new WaitForSeconds(2f);
         
         EnableScreenShot();
         
-       
         
-        Ana_LevelWin(_levelProgressUI.playerPosi);
 
     }
 
@@ -948,8 +954,6 @@ public class LevelManager : MonoBehaviour
 #endif
         
         //Common Stuff
-        _uiManager.gameUIPanel.SetActive(false);
-        _uiManager.raceFinishFadePanel.gameObject.SetActive(true);
         _uiManager.continueButton.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
         _uiManager.shareBtn.DOScale(Vector3.one, 0.8f).SetEase(Ease.Flash);
     }
@@ -1339,9 +1343,9 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    public void LoadScene(string sceneName)
+    public void LoadLevelSelection()
     {
-        _gameManager.LoadScene(sceneName);
+        GameManager.Instance.LoadScene("LevelSelection");
     }
     
 }

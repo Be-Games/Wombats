@@ -342,6 +342,7 @@ public class Tut_PlayerController : MonoBehaviour
 
     public void LoadScene()
     {
+        PlayerPrefs.SetInt("isGarage",0);
         GameManager.Instance.LoadScene("PlayerSelection");
     }
     

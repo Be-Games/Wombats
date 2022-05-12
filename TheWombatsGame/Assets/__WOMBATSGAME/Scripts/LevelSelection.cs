@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DataManager;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelSelection : MonoBehaviour
@@ -25,17 +26,61 @@ public class LevelSelection : MonoBehaviour
     public GameObject lockImage;
     public Button raceBtn;
     private string path;
+
+    public GameObject garageBtn, playerSelectBtn;
     
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    // called second
+    
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        
+        if(PlayerPrefs.GetInt("LevelIndex") == 0)
+            PlayerPrefs.SetInt("LevelIndex",2);   //change to 2
+        
+       
+        
+        index = PlayerPrefs.GetInt("LevelIndex")-1;
+        
+    }
+
+    public void LoadGarage()
+    {
+        PlayerPrefs.SetInt("isGarage",1);
+        GameManager.Instance.GetComponent<GameManager>().LoadScene("PlayerSelection");
+    }
+
+    public void LoadPlayerSelect()
+    {
+        PlayerPrefs.SetInt("isGarage",0);
+        GameManager.Instance.GetComponent<GameManager>().LoadScene("PlayerSelection");
+    }
     
     private void Start()
     {
-        if(PlayerPrefs.GetInt("LevelIndex") == 0)
-            PlayerPrefs.SetInt("LevelIndex",2);            //change to 2
-        
         _gameManager = GameObject.FindWithTag("GameManager");
-        index = 0;
-        
+        garageBtn.SetActive(false);
+        playerSelectBtn.SetActive(false);
         StartCoroutine("Index");
+        
+    }
+
+    public void menuBtn()
+    {
+        if (garageBtn.activeInHierarchy)
+        {
+            garageBtn.SetActive(false);
+            playerSelectBtn.SetActive(false);
+        }
+        else if (!garageBtn.activeInHierarchy)
+        {
+            garageBtn.SetActive(true);
+            playerSelectBtn.SetActive(true);
+        }
     }
 
     private void Update()

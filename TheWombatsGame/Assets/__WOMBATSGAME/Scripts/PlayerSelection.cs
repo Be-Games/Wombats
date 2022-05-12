@@ -52,81 +52,105 @@ public class PlayerSelection : MonoBehaviour
 
    public TextMeshProUGUI currentTotalCoins;
 
+   public GameObject[] currentMemebers;
+   public RuntimeAnimatorController selectedController;
+   
+   void OnEnable()
+   {
+       SceneManager.sceneLoaded += OnSceneLoaded;
+   }
+   void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+   {
+       //REFERENCES
+      
+      
+       if(PlayerPrefs.GetInt("CarIndex") == 0)
+           PlayerPrefs.SetInt("CarIndex",1);
+
+       currentTotalCoins.text = PlayerPrefs.GetInt("TotalCoins").ToString();
+       
+   }
 
    private void Start()
-    {
-        if(PlayerPrefs.GetInt("CarIndex") == 0)
-            PlayerPrefs.SetInt("CarIndex",1);
-
-        currentTotalCoins.text = PlayerPrefs.GetInt("TotalCoins").ToString();
-        
-        //SET DEFAULT GARAGE PANEL OFF AND ALPHA TO 
-        //garage_Panel.GetComponent<CanvasGroup>().alpha = 0;
-        playerSelection_Panel.SetActive(true);
-        garage_Panel.SetActive(false);
-        
-        //REFERENCES
-        _gameManager = GameObject.FindWithTag("GameManager");
-        index = 0;
-
-        carIndex = 1;
-        
-        for (int i = 0; i < 9; i++)
-        {
-            if (i == carIndex - 1)
-            {
-                allMurphCars[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                allMurphCars[i].gameObject.SetActive(false); 
-            }
-           
-        }
-        for (int i = 0; i < 9; i++)
-        {
-            if (i == carIndex - 1)
-            {
-                allDanCars[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                allDanCars[i].gameObject.SetActive(false); 
-            }
-           
-        }
-        
-        for (int i = 0; i < 9; i++)
-        {
-            if (i == carIndex - 1)
-            {
-                allToddCars[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                allToddCars[i].gameObject.SetActive(false); 
-            }
-           
-        }
-
-        foreach (var x in parentD)
-        {
-            x.SetActive(false);
-        }
-        foreach (var x in parentM)
-        {
-            x.SetActive(false);
-        }
-        foreach (var x in parentT)
-        {
-            x.SetActive(false);
-        }
+   {
+       _gameManager = GameObject.FindWithTag("GameManager");
        
+       index = _gameManager.GetComponent<GameManager>().charNumber-1;
 
-    }
+       carIndex = PlayerPrefs.GetInt("CarIndex");
 
 
-    private int temp;
+       if (PlayerPrefs.GetInt("isGarage") == 0)
+       {
+           playerSelection_Panel.SetActive(true);
+           garage_Panel.SetActive(false);
+       }
+       else
+       {
+           playerSelection_Panel.SetActive(false);
+           garage_Panel.SetActive(true);
+       }
+        
+       InitialisePanel();
+
+        
+       for (int i = 0; i < 9; i++)
+       {
+           if (i == carIndex - 1)
+           {
+               allMurphCars[i].gameObject.SetActive(true);
+           }
+           else
+           {
+               allMurphCars[i].gameObject.SetActive(false); 
+           }
+           
+       }
+
+       for (int i = 0; i < 9; i++)
+       {
+           if (i == carIndex - 1)
+           {
+               allDanCars[i].gameObject.SetActive(true);
+           }
+           else
+           {
+               allDanCars[i].gameObject.SetActive(false);
+           }
+       }
+       
+       for (int i = 0; i < 9; i++)
+       {
+           if (i == carIndex - 1)
+           {
+               allToddCars[i].gameObject.SetActive(true);
+           }
+           else
+           {
+               allToddCars[i].gameObject.SetActive(false); 
+           }
+           
+       }
+
+       /*foreach (var x in parentD)
+       {
+           x.SetActive(false);
+       }
+       foreach (var x in parentM)
+       {
+           x.SetActive(false);
+       }
+       foreach (var x in parentT)
+       {
+           x.SetActive(false);
+       }*/
+
+
+
+
+   }
+
+   private int temp;
     void Update()
     {
         if (index == 0)
@@ -208,14 +232,7 @@ public class PlayerSelection : MonoBehaviour
        
         
     }
-
-    public void UnlockBtn()
-    {
-        if (PlayerPrefs.GetInt("TotalCoins") >= carIndexPrice)
-        {
-            
-        }
-    }
+    
 
     public void Next()
     {
@@ -232,8 +249,18 @@ public class PlayerSelection : MonoBehaviour
     public void ContinueBtn()
     {
         //set selected player animation to blowing kiss
+        currentMemebers[index].GetComponent<Animator>().runtimeAnimatorController = selectedController;
+        prevBtn.GetComponent<Button>().enabled = false;
+        nextBtn.GetComponent<Button>().enabled = false;
+        continueBtn.GetComponent<Button>().enabled = false;
+        Invoke("RunScene",1.5f);
         //wait few secs
 
+        
+    }
+
+    void RunScene()
+    {
         _gameManager.GetComponent<GameManager>().charNumber = index + 1;
         _gameManager.GetComponent<GameManager>().memeberIndex = index;
         _gameManager.GetComponent<GameManager>().selectedCarModelPLAYER = carIndex;
@@ -328,11 +355,7 @@ public class PlayerSelection : MonoBehaviour
 
        
     }
-
-    void ReturnToPlayerScreen_OC()
-    {
-        garage_Panel.SetActive(false);
-    }
+    
 
     public void carSelectedM()
     {

@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Lofelt.NiceVibrations;
+using TMPro;
 
 
 public class GameManager : MonoBehaviour
@@ -77,6 +78,9 @@ public class GameManager : MonoBehaviour
     public GameObject[] murphPrefabs, danPrefabs, tordPrefabs;
 
     public int numberOfLaps;
+
+    public TextMeshProUGUI currentCoins_txt;
+    public GameObject coinsPanel;
     
 
     void OnEnable()
@@ -87,13 +91,23 @@ public class GameManager : MonoBehaviour
     // called second
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        
+        if (scene.name == "LevelSelection" || scene.name == "Tutorial")
+        {
+            coinsPanel.SetActive(false);
+        }
+        else if(scene.name == "HomeScreen" || scene.name == "PlayerSelection" || scene.name == "Concert_Scn")
+        {
+            coinsPanel.SetActive(true);
+        }
+
+        PlayerPrefs.GetInt("isGarage", 0);
     }
     
     private void Start()
     {
-        PlayerPrefs.GetInt("TotalCoins", 0);
+        PlayerPrefs.GetInt("MyTotalCoins", 0);
         
+            
         if (numberOfLaps == 0)
             numberOfLaps = 2;
         
@@ -129,7 +143,12 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(LoadSceneAsync(nameOfScene));
     }
-    
+
+    private void Update()
+    {
+        currentCoins_txt.text = PlayerPrefs.GetInt("MyTotalCoins").ToString();
+    }
+
     IEnumerator LoadSceneAsync(string sceneName)
     {
         

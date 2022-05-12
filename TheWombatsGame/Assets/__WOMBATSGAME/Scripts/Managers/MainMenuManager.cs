@@ -113,6 +113,7 @@ public class MainMenuManager : MonoBehaviour
         
         else if (PlayerPrefs.GetInt("isTutShown") == 1)
         {
+            PlayerPrefs.SetInt("isGarage",0);
             GameManager.Instance.LoadScene("PlayerSelection");
         }
        
