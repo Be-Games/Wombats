@@ -381,6 +381,18 @@ public class LevelSelection : MonoBehaviour
         if (index == 18)                                    //ROME NIGHT
         {
 
+            currentSceneName = "LIVERPOOL";
+            lightingIndex = 1;
+            
+            DAYMODE();
+            levelDetailTxt.text = " LIVERPOOL DAY";
+            allLevelsGO[10].SetActive(true);
+            
+        }
+        
+        if (index == 19)                                    //ROME NIGHT
+        {
+
             currentSceneName = "MILAN";
             lightingIndex = 2;
             

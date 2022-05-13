@@ -152,7 +152,7 @@ public class LevelManager : MonoBehaviour
         if (_gameManager != null)
             totalLaps = _gameManager.numberOfLaps;
 
-        /*#region CodeToComment
+        #region CodeToComment
         if (_gameManager)
         {
             if (_gameManager.memeberIndex == 0)        //murph
@@ -204,7 +204,7 @@ public class LevelManager : MonoBehaviour
               
         }
           
-        #endregion*/
+        #endregion
           
         _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
           
@@ -236,8 +236,8 @@ public class LevelManager : MonoBehaviour
         UpdateIcons();
 
 
-        if (_gameManager.lightingMode == 2 && SceneManager.GetActiveScene().name == "MILAN")
-            _gameManager.isThisTheFinalLevel = true;
+        /*if (_gameManager.lightingMode == 2 && SceneManager.GetActiveScene().name == "MILAN")
+            _gameManager.isThisTheFinalLevel = true;*/
         // _audioManager.LoadIcons();
 
     }
@@ -810,47 +810,78 @@ public class LevelManager : MonoBehaviour
         switch (PlayerPrefs.GetInt("LevelIndex"))
         {
             case 2:
-                PlayerPrefs.SetInt("LevelIndex",3);
+                if(SceneManager.GetActiveScene().name == "LONDON" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",3);            //ROME NIGHT
                 break;
             case 3:
-                PlayerPrefs.SetInt("LevelIndex",4);
+                if(SceneManager.GetActiveScene().name == "ROME" && _gameManager.lightingMode == 2)
+                    PlayerPrefs.SetInt("LevelIndex",4);            //SYDNEY DAY
                 break;
             case 4:
-                PlayerPrefs.SetInt("LevelIndex",5);
+                if(SceneManager.GetActiveScene().name == "SYDNEY" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",5);            //PARIS NIGHT
                 break;
             case 5:
-                PlayerPrefs.SetInt("LevelIndex",6);
+                if(SceneManager.GetActiveScene().name == "PARIS" && _gameManager.lightingMode == 2)
+                    PlayerPrefs.SetInt("LevelIndex",6);            //EGYPT DAY
                 break;
             case 6:
-                PlayerPrefs.SetInt("LevelIndex",7);
+                if(SceneManager.GetActiveScene().name == "EGYPT" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",7);            //CARDIFF NIGHT
                 break;
             case 7:
-                PlayerPrefs.SetInt("LevelIndex",8);
+                if(SceneManager.GetActiveScene().name == "CARDIFF" && _gameManager.lightingMode == 2)
+                    PlayerPrefs.SetInt("LevelIndex",8);            //GLASGOW DAY
                 break;
             case 8:
-                PlayerPrefs.SetInt("LevelIndex",9);
+                if(SceneManager.GetActiveScene().name == "GLASGOW" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",9);            //TOKYO NIGHT
                 break;
             case 9:
-                PlayerPrefs.SetInt("LevelIndex",10);
+                if(SceneManager.GetActiveScene().name == "TOKYO" && _gameManager.lightingMode == 2)
+                    PlayerPrefs.SetInt("LevelIndex",10);            //MILAN DAY
                 break;
             case 10:
-                PlayerPrefs.SetInt("LevelIndex",11);
+                if(SceneManager.GetActiveScene().name == "MILAN" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",11);        //LONDON NIGHT
                 break;
             case 11:
-                PlayerPrefs.SetInt("LevelIndex",12);
+                if(SceneManager.GetActiveScene().name == "LONDON" && _gameManager.lightingMode == 2)
+                    PlayerPrefs.SetInt("LevelIndex",12);        //ROME DAY
                 break;
             case 12:
-                PlayerPrefs.SetInt("LevelIndex",13);
+                if(SceneManager.GetActiveScene().name == "ROME" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",13);        //SYDNEY NIGHT
                 break;
             case 13:
-                PlayerPrefs.SetInt("LevelIndex",14);
+                if(SceneManager.GetActiveScene().name == "SYDNEY" && _gameManager.lightingMode == 2)
+                    PlayerPrefs.SetInt("LevelIndex",14);        //PARIS DAY
                 break;
-            /*case 14:
-                PlayerPrefs.SetInt("LevelIndex",15);
+            case 14:
+                if(SceneManager.GetActiveScene().name == "PARIS" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",15);        //EGYPT NIGHT
                 break;
             case 15:
-                PlayerPrefs.SetInt("LevelIndex",16);
-                break;*/
+                if(SceneManager.GetActiveScene().name == "EGYPT" && _gameManager.lightingMode == 2)
+                    PlayerPrefs.SetInt("LevelIndex",16);        //CARDIFF DAY
+                break;
+            case 16:
+                if(SceneManager.GetActiveScene().name == "CARDIFF" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",17);            //GLASGOW NIGHT
+                break;
+            case 17:
+                if(SceneManager.GetActiveScene().name == "GLASGOW" && _gameManager.lightingMode == 2)
+                    PlayerPrefs.SetInt("LevelIndex",18);            //TOKYO DAY
+                break;
+            case 18:
+                if(SceneManager.GetActiveScene().name == "TOKYO" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",19);            //LIVERPOOL DAY
+                break;
+            case 19:
+                if(SceneManager.GetActiveScene().name == "LIVERPOOL" && _gameManager.lightingMode == 2)
+                    PlayerPrefs.SetInt("LevelIndex",20);            //MILAN NIGHT
+                break;
+            
         }
 
         /*switch (PlayerPrefs.GetInt("CarIndex"))
@@ -1358,9 +1389,9 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    public void LoadLevelSelection()
+    public void LoadSelection(string name)
     {
-        GameManager.Instance.LoadScene("LevelSelection");
+        GameManager.Instance.LoadScene(name);
     }
     
 }

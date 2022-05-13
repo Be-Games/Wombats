@@ -216,10 +216,13 @@ public class ConcertManagement : MonoBehaviour
         {
             if (_gameManager.isThisTheFinalLevel)
             {
-                lastLevelButtons.SetActive(true);
+                /*lastLevelButtons.SetActive(true);
                 lastLevelButtons.transform.DOLocalMoveY(0f, 0.5f);
                 URLforCompi = "https://www.toneden.io/the-wombats-5/post/the-wombats-official-game-competition";
-                _gameManager.isThisTheFinalLevel = false;
+                _gameManager.isThisTheFinalLevel = false;*/
+                lastLevelButtons.SetActive(false);
+                lastLevelButtons.transform.DOLocalMoveY(-5000f, 0.5f);
+                bottomBtns.transform.DOLocalMoveY(0f, 0.5f);
             }
             else
             {
