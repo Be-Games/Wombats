@@ -77,6 +77,8 @@ public class UIManager : MonoBehaviour
     public string[] allTips;
     public TextMeshProUGUI tips_txt;
     
+   
+    
     private void OnEnable()
     {
         foreach (var VARIABLE in blackImages)
