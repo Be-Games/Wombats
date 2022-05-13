@@ -198,20 +198,125 @@ public class LevelSelection : MonoBehaviour
             
         }
         
-        /*if (index == 4)                                    //ROME NIGHT
-        {
-
-            currentSceneName = "LIVERPOOL";
-            lightingIndex = 2;
-            
-            NIGHTMODE();
-            levelDetailTxt.text = " LIVERPOOL NIGHT";
-            allLevelsGO[4].SetActive(true);
-            
-        }*/
         
         //
         if (index == 4)                                    //london day
+        {
+
+            currentSceneName = "PARIS";
+            lightingIndex = 2;
+            
+            NIGHTMODE();
+            levelDetailTxt.text = " PARIS NIGHT";
+            allLevelsGO[4].SetActive(true);
+            
+        }
+        
+        if (index == 5)                                    //ROME NIGHT
+        {
+
+            currentSceneName = "EGYPT";
+            lightingIndex = 1;
+            
+            DAYMODE();
+            levelDetailTxt.text = " EGYPT DAY";
+            allLevelsGO[5].SetActive(true);
+            
+        }
+        
+        //
+        
+        if (index == 6)                                    //london day
+        {
+
+            currentSceneName = "CARDIFF";
+            lightingIndex = 2;
+            
+            NIGHTMODE();
+            levelDetailTxt.text = " CARDIFF NIGHT";
+            allLevelsGO[6].SetActive(true);
+            
+        }
+        
+        if (index == 7)                                    //ROME NIGHT
+        {
+
+            currentSceneName = "GLASGOW";
+            lightingIndex = 1;
+            
+            DAYMODE();
+            levelDetailTxt.text = " GLASGOW DAY";
+            allLevelsGO[7].SetActive(true);
+            
+        }
+        
+        if (index == 8)                                    //london day
+        {
+
+            currentSceneName = "TOKYO";
+            lightingIndex = 2;
+            
+            NIGHTMODE();
+            levelDetailTxt.text = " TOKYO NIGHT";
+            allLevelsGO[8].SetActive(true);
+            
+        }
+        
+        if (index == 9)                                    //ROME NIGHT
+        {
+
+            currentSceneName = "MILAN";
+            lightingIndex = 1;
+            
+            DAYMODE();
+            levelDetailTxt.text = " MILAN DAY";
+            allLevelsGO[9].SetActive(true);
+            
+        }
+        
+        //
+        
+        if (index == 10)                                    //london day
+        {
+
+            currentSceneName = "LONDON";
+            lightingIndex = 2;
+            
+            NIGHTMODE();
+            levelDetailTxt.text = " LONDON NIGHT";
+            allLevelsGO[1].SetActive(true);
+            
+        }
+        
+        if (index == 11)                                    //ROME NIGHT
+        {
+
+            currentSceneName = "ROME";
+            lightingIndex = 1;
+            
+            DAYMODE();
+            levelDetailTxt.text = " ROME DAY";
+            allLevelsGO[2].SetActive(true);
+            
+        }
+        
+        //
+        
+        if (index == 12)                                    //london day
+        {
+
+            currentSceneName = "SYDNEY";
+            lightingIndex = 2;
+            
+            NIGHTMODE();
+            levelDetailTxt.text = " SYDNEY NIGHT";
+            allLevelsGO[3].SetActive(true);
+            
+        }
+        
+        
+        //
+        if (index == 13)                                    //london day
         {
 
             currentSceneName = "PARIS";
@@ -223,7 +328,7 @@ public class LevelSelection : MonoBehaviour
             
         }
         
-        if (index == 5)                                    //ROME NIGHT
+        if (index == 14)                                    //ROME NIGHT
         {
 
             currentSceneName = "EGYPT";
@@ -237,7 +342,7 @@ public class LevelSelection : MonoBehaviour
         
         //
         
-        if (index == 6)                                    //london day
+        if (index == 15)                                    //london day
         {
 
             currentSceneName = "CARDIFF";
@@ -249,7 +354,31 @@ public class LevelSelection : MonoBehaviour
             
         }
         
-        if (index == 7)                                    //ROME NIGHT
+        if (index == 16)                                    //ROME NIGHT
+        {
+
+            currentSceneName = "GLASGOW";
+            lightingIndex = 2;
+            
+            NIGHTMODE();
+            levelDetailTxt.text = " GLASGOW NIGHT";
+            allLevelsGO[7].SetActive(true);
+            
+        }
+        
+        if (index == 17)                                    //london day
+        {
+
+            currentSceneName = "TOKYO";
+            lightingIndex = 1;
+            
+            DAYMODE();
+            levelDetailTxt.text = " TOKYO DAY";
+            allLevelsGO[8].SetActive(true);
+            
+        }
+        
+        if (index == 18)                                    //ROME NIGHT
         {
 
             currentSceneName = "MILAN";
@@ -257,110 +386,11 @@ public class LevelSelection : MonoBehaviour
             
             NIGHTMODE();
             levelDetailTxt.text = " MILAN NIGHT";
-            allLevelsGO[7].SetActive(true);
-            
-        }
-        
-        if (index == 8)                                    //london day
-        {
-
-            currentSceneName = "LONDON";
-            lightingIndex = 2;
-            
-            NIGHTMODE();
-            levelDetailTxt.text = " LONDON NIGHT";
-            allLevelsGO[8].SetActive(true);
-            
-        }
-        
-        if (index == 9)                                    //ROME NIGHT
-        {
-
-            currentSceneName = "ROME";
-            lightingIndex = 1;
-            
-            DAYMODE();
-            levelDetailTxt.text = " ROME DAY";
             allLevelsGO[9].SetActive(true);
             
         }
         
         //
-        
-        if (index == 10)                                    //london day
-        {
-
-            currentSceneName = "SYDNEY";
-            lightingIndex = 2;
-            
-            NIGHTMODE();
-            levelDetailTxt.text = " SYDNEY NIGHT";
-            allLevelsGO[10].SetActive(true);
-            
-        }
-        
-        /*if (index == 12)                                    //ROME NIGHT
-        {
-
-            currentSceneName = "LIVERPOOL";
-            lightingIndex = 1;
-            
-            DAYMODE();
-            levelDetailTxt.text = " LIVERPOOL DAY";
-            allLevelsGO[12].SetActive(true);
-            
-        }*/
-        
-        //
-        if (index == 11)                                    //london day
-        {
-
-            currentSceneName = "PARIS";
-            lightingIndex = 2;
-            
-            NIGHTMODE();
-            levelDetailTxt.text = " PARIS NIGHT";
-            allLevelsGO[11].SetActive(true);
-            
-        }
-        
-        if (index == 12)                                    //ROME NIGHT
-        {
-
-            currentSceneName = "EGYPT";
-            lightingIndex = 1;
-            
-            DAYMODE();
-            levelDetailTxt.text = " EGYPT DAY";
-            allLevelsGO[12].SetActive(true);
-            
-        }
-        
-        //
-        
-        if (index == 13)                                    //london day
-        {
-
-            currentSceneName = "CARDIFF";
-            lightingIndex = 2;
-            
-           NIGHTMODE();
-            levelDetailTxt.text = " CARDIFF NIGHT";
-            allLevelsGO[13].SetActive(true);
-            
-        }
-        
-        if (index == 14)                                    //ROME NIGHT
-        {
-
-            currentSceneName = "MILAN";
-            lightingIndex = 1;
-            
-            DAYMODE();
-            levelDetailTxt.text = " MILAN DAY";
-            allLevelsGO[14].SetActive(true);
-            
-        }
     }
     
    

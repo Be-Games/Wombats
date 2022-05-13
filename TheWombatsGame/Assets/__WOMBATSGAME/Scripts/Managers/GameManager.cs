@@ -82,7 +82,11 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI currentCoins_txt;
     public GameObject coinsPanel;
     
+    public bool isForCoinsReward;
+    public int additionalCoinsToBeGivenBasedOnRank =20;
+    public int timesForCoins = 10;
 
+    public bool isThisTheFinalLevel;
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -91,13 +95,13 @@ public class GameManager : MonoBehaviour
     // called second
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "LevelSelection" || scene.name == "Tutorial")
-        {
-            coinsPanel.SetActive(false);
-        }
-        else if(scene.name == "HomeScreen" || scene.name == "PlayerSelection" || scene.name == "Concert_Scn")
+        if(scene.name == "PlayerSelection" || scene.name == "Concert_Scn")
         {
             coinsPanel.SetActive(true);
+        }
+        else 
+        {
+            coinsPanel.SetActive(false);
         }
 
         PlayerPrefs.GetInt("isGarage", 0);

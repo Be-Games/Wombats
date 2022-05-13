@@ -152,7 +152,7 @@ public class LevelManager : MonoBehaviour
         if (_gameManager != null)
             totalLaps = _gameManager.numberOfLaps;
 
-        #region CodeToComment
+        /*#region CodeToComment
         if (_gameManager)
         {
             if (_gameManager.memeberIndex == 0)        //murph
@@ -204,7 +204,7 @@ public class LevelManager : MonoBehaviour
               
         }
           
-        #endregion
+        #endregion*/
           
         _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
           
@@ -235,6 +235,9 @@ public class LevelManager : MonoBehaviour
         
         UpdateIcons();
 
+
+        if (_gameManager.lightingMode == 2 && SceneManager.GetActiveScene().name == "MILAN")
+            _gameManager.isThisTheFinalLevel = true;
         // _audioManager.LoadIcons();
 
     }
@@ -850,7 +853,7 @@ public class LevelManager : MonoBehaviour
                 break;*/
         }
 
-        switch (PlayerPrefs.GetInt("CarIndex"))
+        /*switch (PlayerPrefs.GetInt("CarIndex"))
         {
             case 1:
                 PlayerPrefs.SetInt("CarIndex", 2);
@@ -876,7 +879,7 @@ public class LevelManager : MonoBehaviour
             case 8:
                 PlayerPrefs.SetInt("CarIndex", 9);
                 break;
-        }
+        }*/
         
         PlayerPrefs.Save();
         
@@ -888,16 +891,28 @@ public class LevelManager : MonoBehaviour
         if (_levelProgressUI.playerPosi == 1)
         {
             _uiManager.playerPosTXT.text = "1st";
+            _gameManager.additionalCoinsToBeGivenBasedOnRank = 60;
+            _gameManager.timesForCoins = 50;
             endConfetti.SetActive(true);
         }
         
         else if (_levelProgressUI.playerPosi == 2 || _levelProgressUI.playerPosi == 3)
         {
             if (_levelProgressUI.playerPosi == 2)
+            {
                 _uiManager.playerPosTXT.text = "2nd";
+                _gameManager.additionalCoinsToBeGivenBasedOnRank = 40;
+                _gameManager.timesForCoins = 30;
+            }
             
+
             if (_levelProgressUI.playerPosi == 3)
+            {
                 _uiManager.playerPosTXT.text = "3rd";
+                _gameManager.additionalCoinsToBeGivenBasedOnRank = 20;
+                _gameManager.timesForCoins = 10;
+            }
+                
         }
 
         if (isBoosting)

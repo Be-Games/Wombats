@@ -44,12 +44,40 @@ public class Rewarded : MonoBehaviour
         
         
     }
+    
+    public void rewardedForConcert()
+    {
+        if (IronSource.Agent.isRewardedVideoAvailable())
+        {
+            Debug.Log("Works");
+            IronSource.Agent.showRewardedVideo();
+            //LevelManager.Instance.Ana_AdShown("rewarded");
+        }
+        else
+        {
+            Debug.Log("Doesnt Work");
+            PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins") + GameManager.Instance.timesForCoins);
+        }
+        
+        
+    }
 
     void RewardedVideoAdClosedEvent()
     {
         IronSource.Agent.init(appkey, IronSourceAdUnits.REWARDED_VIDEO);
         IronSource.Agent.shouldTrackNetworkState(true);
-        LevelManager.Instance.ShowRevivePanel();
+
+        if (GameManager.Instance.isForCoinsReward)
+        {
+            Debug.Log("For Concert");
+            PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins") + GameManager.Instance.additionalCoinsToBeGivenBasedOnRank);
+        }
+        else
+        {
+            Debug.Log("For Revive");
+            LevelManager.Instance.ShowRevivePanel();
+        }
+        
     }
 
     void RewardedVideoAvailabilityChangedEvent(bool available)
