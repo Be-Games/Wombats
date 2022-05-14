@@ -130,4 +130,9 @@ public class UIManager : MonoBehaviour
         blackImages[1].GetComponent<RectTransform>().DOScale(new Vector3(13f,0f,13f), 2f).SetEase(Ease.Flash);
     }
 
+    public void LoadLevelSelection()
+    {
+        GameManager.Instance.LoadScene("LevelSelection");
+    }
+
 }

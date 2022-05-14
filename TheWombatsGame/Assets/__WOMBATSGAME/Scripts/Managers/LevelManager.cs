@@ -1284,6 +1284,11 @@ public class LevelManager : MonoBehaviour
         if (GameManager.Instance.lightingMode == 2)
             Analytics.CustomEvent("Level Ad Shown " + SceneManager.GetActiveScene().name + "-NIGHT-" + typeOfAd);
     }
+
+    public void LoadScene()
+    {
+        GameManager.Instance.LoadScene("LevelSelection");
+    }
     
     
     public void ToggleSFX()
@@ -1395,9 +1400,6 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    public void LoadSelection(string name)
-    {
-        GameManager.Instance.LoadScene(name);
-    }
+   
     
 }
