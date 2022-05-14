@@ -237,21 +237,21 @@ public class PlayerSelection : MonoBehaviour
            allToddCars[GameManager.Instance.carIndex-1].SetActive(true);
             
         if (GameManager.Instance.carIndex == 2)
-            carPrice.text = 100.ToString();
+            carPrice.text = 200.ToString();
         if (GameManager.Instance.carIndex == 3)
-            carPrice.text = 150.ToString();
-        if (GameManager.Instance.carIndex == 4)
-            carPrice.text = 250.ToString();
-        if (GameManager.Instance.carIndex == 5)
             carPrice.text = 350.ToString();
-        if (GameManager.Instance.carIndex == 6)
-            carPrice.text = 400.ToString();
-        if (GameManager.Instance.carIndex == 7)
-            carPrice.text = 450.ToString();
-        if (GameManager.Instance.carIndex == 8)
+        if (GameManager.Instance.carIndex == 4)
             carPrice.text = 500.ToString();
+        if (GameManager.Instance.carIndex == 5)
+            carPrice.text = 650.ToString();
+        if (GameManager.Instance.carIndex == 6)
+            carPrice.text = 800.ToString();
+        if (GameManager.Instance.carIndex == 7)
+            carPrice.text = 950.ToString();
+        if (GameManager.Instance.carIndex == 8)
+            carPrice.text = 1100.ToString();
         if (GameManager.Instance.carIndex == 9)
-            carPrice.text = 550.ToString();
+            carPrice.text = 1200.ToString();
     }
 
     public void buyCar()

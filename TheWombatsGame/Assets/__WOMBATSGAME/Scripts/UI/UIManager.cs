@@ -132,6 +132,7 @@ public class UIManager : MonoBehaviour
 
     public void LoadLevelSelection()
     {
+        Time.timeScale = 1;
         GameManager.Instance.LoadScene("LevelSelection");
     }
 

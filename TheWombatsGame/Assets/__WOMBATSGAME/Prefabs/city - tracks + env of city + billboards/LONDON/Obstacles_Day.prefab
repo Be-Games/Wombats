@@ -495,20 +495,6 @@ Transform:
   m_Father: {fileID: 1112219821182920150}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &7792984451058235587
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1743289067580457244}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2699463295548838680, guid: fbca4843203e6dd4db28dccfbf3bb34a, type: 3}
 --- !u!1 &5215614915862403632
 GameObject:
   m_ObjectHideFlags: 0
@@ -1599,14 +1585,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0eb069c95993dcd47a6e9447c1605462, type: 3}
---- !u!1 &762979714641690538 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 430586391018355849, guid: 0eb069c95993dcd47a6e9447c1605462, type: 3}
-  m_PrefabInstance: {fileID: 1112219820210766627}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3608551899876952385 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4430205976892000866, guid: 0eb069c95993dcd47a6e9447c1605462, type: 3}
+  m_PrefabInstance: {fileID: 1112219820210766627}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &762979714641690538 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 430586391018355849, guid: 0eb069c95993dcd47a6e9447c1605462, type: 3}
   m_PrefabInstance: {fileID: 1112219820210766627}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8921596317029044818 stripped
@@ -3484,18 +3470,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4757566606936675182, guid: 173a246356720f247b6b297e5a45981f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.33934593
-      objectReference: {fileID: 0}
-    - target: {fileID: 4757566606936675182, guid: 173a246356720f247b6b297e5a45981f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.33934593
-      objectReference: {fileID: 0}
-    - target: {fileID: 4757566606936675182, guid: 173a246356720f247b6b297e5a45981f, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.33934593
-      objectReference: {fileID: 0}
-    - target: {fileID: 4757566606936675182, guid: 173a246356720f247b6b297e5a45981f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -24.516
       objectReference: {fileID: 0}
@@ -3539,23 +3513,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Turning Grinder
       objectReference: {fileID: 0}
-    - target: {fileID: 5282041987657681364, guid: 173a246356720f247b6b297e5a45981f, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 591458009456495210, guid: 173a246356720f247b6b297e5a45981f, type: 3}
-    - {fileID: 5945915712288789959, guid: 173a246356720f247b6b297e5a45981f, type: 3}
-    - {fileID: 5164076152017680533, guid: 173a246356720f247b6b297e5a45981f, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 173a246356720f247b6b297e5a45981f, type: 3}
 --- !u!4 &5578028747641221297 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4757566606936675182, guid: 173a246356720f247b6b297e5a45981f, type: 3}
-  m_PrefabInstance: {fileID: 1112219821617636319}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1743289067580457244 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1683798855753032387, guid: 173a246356720f247b6b297e5a45981f, type: 3}
   m_PrefabInstance: {fileID: 1112219821617636319}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1112219821698816112
@@ -4300,18 +4262,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4757566606936675182, guid: 173a246356720f247b6b297e5a45981f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.33934593
-      objectReference: {fileID: 0}
-    - target: {fileID: 4757566606936675182, guid: 173a246356720f247b6b297e5a45981f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.33934593
-      objectReference: {fileID: 0}
-    - target: {fileID: 4757566606936675182, guid: 173a246356720f247b6b297e5a45981f, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.33934593
-      objectReference: {fileID: 0}
-    - target: {fileID: 4757566606936675182, guid: 173a246356720f247b6b297e5a45981f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -21.3
       objectReference: {fileID: 0}
@@ -4354,10 +4304,6 @@ PrefabInstance:
     - target: {fileID: 5282041987657681364, guid: 173a246356720f247b6b297e5a45981f, type: 3}
       propertyPath: m_Name
       value: Turning Grinder (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5282041987657681364, guid: 173a246356720f247b6b297e5a45981f, type: 3}
-      propertyPath: m_Layer
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 173a246356720f247b6b297e5a45981f, type: 3}

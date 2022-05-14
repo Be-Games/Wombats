@@ -158,7 +158,7 @@ public class ConcertManagement : MonoBehaviour
             }
         }
         
-            _gameManager.interstitialAd.StartUpInterstitial();
+           GameManager.Instance.interstitialAd.StartUpInterstitial();
         }
 
         rewardedCoins.text = _gameManager.additionalCoinsToBeGivenBasedOnRank.ToString();
@@ -257,11 +257,7 @@ public class ConcertManagement : MonoBehaviour
     
     public void LoadInterstitialAd()
     {
-        if (_gameManager != null)
-        {
-            _gameManager.interstitialAd.interstitialplay();
-        }
-            
+        GameManager.Instance.interstitialAd.interstitialplay();
     }
 
     public void PostAdRunScene()
