@@ -131,9 +131,9 @@ public class LevelManager : MonoBehaviour
     private GameObject tempPrefab;
 
     [Header("Camera Damping Values")] 
-    public float boostOnValue;
-    public float breakValue;
-    public float defaultValue;
+    [HideInInspector] public float boostOnValue;
+    [HideInInspector] public float breakValue;
+    [HideInInspector] public float defaultValue;
 
     
 
@@ -218,7 +218,12 @@ public class LevelManager : MonoBehaviour
         
         if(_playerVehicleManager.bandMember != null)
             _playerVehicleManager.bandMember.SetActive(false);
-       
+
+
+        boostOnValue = -3;
+        breakValue = -1.58f;
+        defaultValue = -2.3f;
+
     }
 
     public Renderer myRenL,myRenR;
@@ -806,7 +811,8 @@ public class LevelManager : MonoBehaviour
     IEnumerator RaceFinished()
     {
         _gameManager.playerPosi = _levelProgressUI.playerPosi;
-
+        
+        
         switch (PlayerPrefs.GetInt("LevelIndex"))
         {
             case 2:

@@ -89,7 +89,7 @@ public class LevelSelection : MonoBehaviour
 
         nextBtn.SetActive(index != (allLevelsGO.Length)-1);
         
-        for (int i = 1; i <= 16; i++)
+        for (int i = 1; i <= 18; i++)
         {
             if ( PlayerPrefs.GetInt("LevelIndex") == i)
             {
@@ -284,7 +284,7 @@ public class LevelSelection : MonoBehaviour
             
             NIGHTMODE();
             levelDetailTxt.text = " LONDON NIGHT";
-            allLevelsGO[1].SetActive(true);
+            allLevelsGO[10].SetActive(true);
             
         }
         
@@ -296,7 +296,7 @@ public class LevelSelection : MonoBehaviour
             
             DAYMODE();
             levelDetailTxt.text = " ROME DAY";
-            allLevelsGO[2].SetActive(true);
+            allLevelsGO[11].SetActive(true);
             
         }
         
@@ -310,7 +310,7 @@ public class LevelSelection : MonoBehaviour
             
             NIGHTMODE();
             levelDetailTxt.text = " SYDNEY NIGHT";
-            allLevelsGO[3].SetActive(true);
+            allLevelsGO[12].SetActive(true);
             
         }
         
@@ -324,7 +324,7 @@ public class LevelSelection : MonoBehaviour
             
             DAYMODE();
             levelDetailTxt.text = " PARIS DAY";
-            allLevelsGO[4].SetActive(true);
+            allLevelsGO[13].SetActive(true);
             
         }
         
@@ -336,7 +336,7 @@ public class LevelSelection : MonoBehaviour
             
             NIGHTMODE();
             levelDetailTxt.text = " EGYPT NIGHT";
-            allLevelsGO[5].SetActive(true);
+            allLevelsGO[14].SetActive(true);
             
         }
         
@@ -350,7 +350,7 @@ public class LevelSelection : MonoBehaviour
             
             DAYMODE();
             levelDetailTxt.text = " CARDIFF DAY";
-            allLevelsGO[6].SetActive(true);
+            allLevelsGO[15].SetActive(true);
             
         }
         
@@ -362,7 +362,7 @@ public class LevelSelection : MonoBehaviour
             
             NIGHTMODE();
             levelDetailTxt.text = " GLASGOW NIGHT";
-            allLevelsGO[7].SetActive(true);
+            allLevelsGO[16].SetActive(true);
             
         }
         
@@ -374,7 +374,7 @@ public class LevelSelection : MonoBehaviour
             
             DAYMODE();
             levelDetailTxt.text = " TOKYO DAY";
-            allLevelsGO[8].SetActive(true);
+            allLevelsGO[17].SetActive(true);
             
         }
         
@@ -386,7 +386,7 @@ public class LevelSelection : MonoBehaviour
             
             DAYMODE();
             levelDetailTxt.text = " LIVERPOOL DAY";
-            allLevelsGO[10].SetActive(true);
+            allLevelsGO[18].SetActive(true);
             
         }
         
@@ -398,7 +398,7 @@ public class LevelSelection : MonoBehaviour
             
             NIGHTMODE();
             levelDetailTxt.text = " MILAN NIGHT";
-            allLevelsGO[9].SetActive(true);
+            allLevelsGO[19].SetActive(true);
             
         }
         

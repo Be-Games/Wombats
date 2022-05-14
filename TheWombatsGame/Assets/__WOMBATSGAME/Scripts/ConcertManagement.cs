@@ -257,8 +257,11 @@ public class ConcertManagement : MonoBehaviour
     
     public void LoadInterstitialAd()
     {
-        if(_gameManager != null)
+        if (_gameManager != null)
+        {
             _gameManager.interstitialAd.interstitialplay();
+        }
+            
     }
 
     public void PostAdRunScene()

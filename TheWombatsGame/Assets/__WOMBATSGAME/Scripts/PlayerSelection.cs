@@ -39,9 +39,8 @@ public class PlayerSelection : MonoBehaviour
    public GameObject carModelParent;
    public HorizontalLayoutGroup hrzLG;
 
-   public int carIndex = 0;
-   public int carIndexPrice;
-
+   
+   
    public Button prev, next;
 
    public Button garageBtn;
@@ -54,7 +53,10 @@ public class PlayerSelection : MonoBehaviour
 
    public GameObject[] currentMemebers;
    public RuntimeAnimatorController selectedController;
-   
+
+
+   public Button buyBtn, unlockwithAdBbtn;
+   public TextMeshProUGUI carPrice;
    void OnEnable()
    {
        SceneManager.sceneLoaded += OnSceneLoaded;
@@ -62,11 +64,8 @@ public class PlayerSelection : MonoBehaviour
    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
    {
        //REFERENCES
-      
-      
-       if(PlayerPrefs.GetInt("CarIndex") == 0)
-           PlayerPrefs.SetInt("CarIndex",1);
 
+      GameManager.Instance.carIndex = 1;
        currentTotalCoins.text = PlayerPrefs.GetInt("TotalCoins").ToString();
        
    }
@@ -76,9 +75,8 @@ public class PlayerSelection : MonoBehaviour
        _gameManager = GameObject.FindWithTag("GameManager");
        
        index = _gameManager.GetComponent<GameManager>().charNumber-1;
-
-       carIndex = PlayerPrefs.GetInt("CarIndex");
-
+       
+       PlayerPrefs.SetInt("Car" + 1, 1);
 
        if (PlayerPrefs.GetInt("isGarage") == 0)
        {
@@ -96,7 +94,7 @@ public class PlayerSelection : MonoBehaviour
         
        for (int i = 0; i < 9; i++)
        {
-           if (i == carIndex - 1)
+           if (i == GameManager.Instance.carIndex - 1)
            {
                allMurphCars[i].gameObject.SetActive(true);
            }
@@ -109,7 +107,7 @@ public class PlayerSelection : MonoBehaviour
 
        for (int i = 0; i < 9; i++)
        {
-           if (i == carIndex - 1)
+           if (i == GameManager.Instance.carIndex - 1)
            {
                allDanCars[i].gameObject.SetActive(true);
            }
@@ -121,7 +119,7 @@ public class PlayerSelection : MonoBehaviour
        
        for (int i = 0; i < 9; i++)
        {
-           if (i == carIndex - 1)
+           if (i == GameManager.Instance.carIndex - 1)
            {
                allToddCars[i].gameObject.SetActive(true);
            }
@@ -145,9 +143,7 @@ public class PlayerSelection : MonoBehaviour
            x.SetActive(false);
        }*/
 
-
-
-
+       
    }
 
    private int temp;
@@ -186,18 +182,18 @@ public class PlayerSelection : MonoBehaviour
 
         if (garage_Panel.activeInHierarchy)
         {
-            if (carIndex <= 1)
+            if (GameManager.Instance.carIndex <= 1)
             {
-                carIndex = 1;
+                GameManager.Instance.carIndex = 1;
                 prev.gameObject.SetActive(false);
             }
             else
             {
                 prev.gameObject.SetActive(true);
             }
-            if (carIndex == 9)
+            if (GameManager.Instance.carIndex == 9)
             {
-                carIndex = 9;
+                GameManager.Instance.carIndex = 9;
                 next.gameObject.SetActive(false);
             }
             else
@@ -206,39 +202,84 @@ public class PlayerSelection : MonoBehaviour
             }
                 
         }
+
         
-        for (int i = 1; i <= 9; i++)
+        if (PlayerPrefs.GetInt("Car" + GameManager.Instance.carIndex) == 0)
         {
-            if (PlayerPrefs.GetInt("CarIndex") == i)
-            {
-               
-                if(carIndex > i)
-                    lockImage.SetActive(true);
-                else
-                {
-                    lockImage.SetActive(false);
-                }
-            }
+            lockImage.SetActive(true);
         }
+        else if (PlayerPrefs.GetInt("Car" + GameManager.Instance.carIndex) == 1)
+        {
+            lockImage.SetActive(false);
+        }
+        
         
         if (lockImage.activeInHierarchy)
         {
+            buyBtn.gameObject.SetActive(true);
+            unlockwithAdBbtn.gameObject.SetActive(true);
             backButton.enabled = false;
         }
         else
         {
+            buyBtn.gameObject.SetActive(false);
+            unlockwithAdBbtn.gameObject.SetActive(false);
             backButton.enabled = true;
         }
-       
-        
+
+
+        //CAR PRICES SET
+       if(index == 0)
+           allMurphCars[GameManager.Instance.carIndex-1].SetActive(true);
+       if(index == 1)
+           allDanCars[GameManager.Instance.carIndex-1].SetActive(true);
+       if(index == 2)
+           allToddCars[GameManager.Instance.carIndex-1].SetActive(true);
+            
+        if (GameManager.Instance.carIndex == 2)
+            carPrice.text = 100.ToString();
+        if (GameManager.Instance.carIndex == 3)
+            carPrice.text = 150.ToString();
+        if (GameManager.Instance.carIndex == 4)
+            carPrice.text = 250.ToString();
+        if (GameManager.Instance.carIndex == 5)
+            carPrice.text = 350.ToString();
+        if (GameManager.Instance.carIndex == 6)
+            carPrice.text = 400.ToString();
+        if (GameManager.Instance.carIndex == 7)
+            carPrice.text = 450.ToString();
+        if (GameManager.Instance.carIndex == 8)
+            carPrice.text = 500.ToString();
+        if (GameManager.Instance.carIndex == 9)
+            carPrice.text = 550.ToString();
+    }
+
+    public void buyCar()
+    {
+        if (int.Parse(carPrice.text) > PlayerPrefs.GetInt("MyTotalCoins"))
+        {
+            Debug.Log("Cant Buy");
+        }
+        else if(int.Parse(carPrice.text) <= PlayerPrefs.GetInt("MyTotalCoins"))
+        {
+            PlayerPrefs.SetInt("MyTotalCoins",PlayerPrefs.GetInt("MyTotalCoins") - int.Parse(carPrice.text));
+            
+            PlayerPrefs.SetInt("Car" + GameManager.Instance.carIndex, 1);
+            
+            lockImage.SetActive(false);
+        }
+    }
+
+    public void RewardAdAndUnlockCar()
+    {
+        GameManager.Instance.isForCarInterstitial = true;
+        GameManager.Instance.interstitialAd.interstitialplay();
     }
     
 
     public void Next()
     {
         index += 1;
-        
-
     }
     
     public void Previous()
@@ -263,12 +304,12 @@ public class PlayerSelection : MonoBehaviour
     {
         _gameManager.GetComponent<GameManager>().charNumber = index + 1;
         _gameManager.GetComponent<GameManager>().memeberIndex = index;
-        _gameManager.GetComponent<GameManager>().selectedCarModelPLAYER = carIndex;
+        _gameManager.GetComponent<GameManager>().selectedCarModelPLAYER = GameManager.Instance.carIndex;
 
-        _gameManager.GetComponent<GameManager>().enemyCar1 = carIndex + 1;
-        _gameManager.GetComponent<GameManager>().enemyCar2 = carIndex + 1;
+        _gameManager.GetComponent<GameManager>().enemyCar1 = GameManager.Instance.carIndex + 1;
+        _gameManager.GetComponent<GameManager>().enemyCar2 = GameManager.Instance.carIndex + 1;
 
-        if ((carIndex + 1) > 9)
+        if ((GameManager.Instance.carIndex + 1) > 9)
         {
             _gameManager.GetComponent<GameManager>().enemyCar1 = 0;
             _gameManager.GetComponent<GameManager>().enemyCar2 = 0;
@@ -392,7 +433,7 @@ public class PlayerSelection : MonoBehaviour
         prev.enabled = false;
         next.enabled = false;
         
-        carIndex++;
+        GameManager.Instance.carIndex++;
 
         DOTween.To(() => temp, 
                 x => temp = x, temp-341, 0.1f).SetEase(Ease.Flash)
@@ -401,11 +442,11 @@ public class PlayerSelection : MonoBehaviour
                 next.enabled = true; 
             });
 
-        carCounterText.text = carIndex + " / 9";
+        carCounterText.text = GameManager.Instance.carIndex + " / 9";
         
         for (int i = 0; i < 9; i++)
         {
-            if (i == carIndex - 1)
+            if (i == GameManager.Instance.carIndex - 1)
             {
                 allMurphCars[i].gameObject.SetActive(true);
             }
@@ -418,7 +459,7 @@ public class PlayerSelection : MonoBehaviour
         
         for (int i = 0; i < 9; i++)
         {
-            if (i == carIndex - 1)
+            if (i == GameManager.Instance.carIndex - 1)
             {
                 allDanCars[i].gameObject.SetActive(true);
             }
@@ -431,7 +472,7 @@ public class PlayerSelection : MonoBehaviour
         
         for (int i = 0; i < 9; i++)
         {
-            if (i == carIndex - 1)
+            if (i == GameManager.Instance.carIndex - 1)
             {
                 allToddCars[i].gameObject.SetActive(true);
             }
@@ -448,7 +489,7 @@ public class PlayerSelection : MonoBehaviour
         prev.enabled = false;
         next.enabled = false;
         
-        carIndex--;
+        GameManager.Instance.carIndex--;
 
         DOTween.To(() => temp, 
                 x => temp = x, temp+341, 0.1f).SetEase(Ease.Flash)
@@ -457,11 +498,11 @@ public class PlayerSelection : MonoBehaviour
                 next.enabled = true; 
             });
         
-        carCounterText.text = carIndex + " / 9";
+        carCounterText.text = GameManager.Instance.carIndex + " / 9";
         
         for (int i = 0; i < 9; i++)
         {
-            if (i == carIndex - 1)
+            if (i == GameManager.Instance.carIndex - 1)
             {
                 allMurphCars[i].gameObject.SetActive(true);
             }
@@ -474,7 +515,7 @@ public class PlayerSelection : MonoBehaviour
         
         for (int i = 0; i < 9; i++)
         {
-            if (i == carIndex - 1)
+            if (i == GameManager.Instance.carIndex - 1)
             {
                 allDanCars[i].gameObject.SetActive(true);
             }
@@ -487,7 +528,7 @@ public class PlayerSelection : MonoBehaviour
         
         for (int i = 0; i < 9; i++)
         {
-            if (i == carIndex - 1)
+            if (i == GameManager.Instance.carIndex - 1)
             {
                 allToddCars[i].gameObject.SetActive(true);
             }

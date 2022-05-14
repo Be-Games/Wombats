@@ -29887,6 +29887,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: f42227878907d4efaac33b6eae88746f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: f42227878907d4efaac33b6eae88746f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f42227878907d4efaac33b6eae88746f, type: 3}
 --- !u!4 &1621531500823547488 stripped
@@ -29948,6 +29956,14 @@ PrefabInstance:
     - target: {fileID: 400000, guid: f42227878907d4efaac33b6eae88746f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: f42227878907d4efaac33b6eae88746f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: f42227878907d4efaac33b6eae88746f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f42227878907d4efaac33b6eae88746f, type: 3}
@@ -30073,7 +30089,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: lamp-road-double
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 565867070246745510, guid: 133a2a5a8c8113944954c6ea5b618e62, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 133a2a5a8c8113944954c6ea5b618e62, type: 3}
 --- !u!4 &1250465044215036995 stripped
 Transform:
@@ -30135,7 +30152,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8003463907423251711, guid: 39c65bc4a2176214da742317c8c3305f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 39c65bc4a2176214da742317c8c3305f, type: 3}
 --- !u!4 &4429678910681729959 stripped
 Transform:
@@ -30345,7 +30363,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64058443717179920, guid: cfd6a984336fdfe40b206c080d25588c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: cfd6a984336fdfe40b206c080d25588c, type: 3}
 --- !u!4 &1626354369131452615 stripped
 Transform:
@@ -30406,6 +30425,10 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 7c340d33b33ef457396704498340d1b8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 7c340d33b33ef457396704498340d1b8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c340d33b33ef457396704498340d1b8, type: 3}
@@ -30593,7 +30616,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: lamp-road-double (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 565867070246745510, guid: 133a2a5a8c8113944954c6ea5b618e62, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 133a2a5a8c8113944954c6ea5b618e62, type: 3}
 --- !u!4 &1250465045372958306 stripped
 Transform:
@@ -30803,7 +30827,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64497392037118986, guid: 12881eca0b9e04a2f893882ef363d69d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 12881eca0b9e04a2f893882ef363d69d, type: 3}
 --- !u!4 &1625411793482177979 stripped
 Transform:
@@ -31001,7 +31026,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: bus-stop
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 464727311486433033, guid: ad2419164e5b0e44ca88ce45b2b8ddab, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ad2419164e5b0e44ca88ce45b2b8ddab, type: 3}
 --- !u!4 &7578883190406292841 stripped
 Transform:
@@ -31137,7 +31163,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64497392037118986, guid: 12881eca0b9e04a2f893882ef363d69d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 12881eca0b9e04a2f893882ef363d69d, type: 3}
 --- !u!4 &1625411793551758739 stripped
 Transform:
@@ -31198,6 +31225,10 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 7c340d33b33ef457396704498340d1b8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 7c340d33b33ef457396704498340d1b8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c340d33b33ef457396704498340d1b8, type: 3}

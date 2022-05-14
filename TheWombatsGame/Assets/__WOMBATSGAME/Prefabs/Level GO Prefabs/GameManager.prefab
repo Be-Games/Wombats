@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1604610171
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1635,6 +1635,13 @@ MonoBehaviour:
   numberOfLaps: 1
   currentCoins_txt: {fileID: 3477641928541477312}
   coinsPanel: {fileID: 1271104657968465333}
+  isForCoinsReward: 0
+  isForCarInterstitial: 0
+  additionalCoinsToBeGivenBasedOnRank: 20
+  timesForCoins: 10
+  isThisTheFinalLevel: 0
+  carIndex: 0
+  currentLevelNumber: 0
 --- !u!114 &5944686588678570789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1669,7 +1676,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6307174297545802506}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 320aa459ffbca2d46bf32d1121ba3575, type: 3}
   m_Name: 

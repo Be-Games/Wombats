@@ -10,6 +10,8 @@ using Lofelt.NiceVibrations;
 using TMPro;
 
 
+
+
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
@@ -83,10 +85,15 @@ public class GameManager : MonoBehaviour
     public GameObject coinsPanel;
     
     public bool isForCoinsReward;
+    public bool isForCarInterstitial;
     public int additionalCoinsToBeGivenBasedOnRank =20;
     public int timesForCoins = 10;
 
     public bool isThisTheFinalLevel;
+
+    public int carIndex = 0;
+
+    public int currentLevelNumber;
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -110,8 +117,18 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         PlayerPrefs.GetInt("MyTotalCoins", 0);
+
+
+        PlayerPrefs.GetInt("Car" + 1, 1);
+        PlayerPrefs.GetInt("Car" + 2, 0);
+        PlayerPrefs.GetInt("Car" + 3, 0);
+        PlayerPrefs.GetInt("Car" + 4, 0);
+        PlayerPrefs.GetInt("Car" + 5, 0);
+        PlayerPrefs.GetInt("Car" + 6, 0);
+        PlayerPrefs.GetInt("Car" + 7, 0);
+        PlayerPrefs.GetInt("Car" + 8, 0);
+        PlayerPrefs.GetInt("Car" + 9, 0);
         
-            
         if (numberOfLaps == 0)
             numberOfLaps = 2;
         

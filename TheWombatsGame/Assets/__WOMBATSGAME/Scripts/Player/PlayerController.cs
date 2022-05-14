@@ -2,6 +2,7 @@ using System.Collections;
 using DG.Tweening;
 using PathCreation.Examples;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -44,11 +45,16 @@ public class PlayerController : MonoBehaviour
         movementDuration = 0.2f;
         rotationDuration = 0.1f;
         Acc = LevelManager.Instance._playerVehicleManager.carSpeedSettings.Acc;
-        Dec = LevelManager.Instance._playerVehicleManager.carSpeedSettings.Dec;
+        Dec = 6;
         normalSpeed = LevelManager.Instance._playerVehicleManager.carSpeedSettings.normalSpeed;
         boostSpeed = LevelManager.Instance._playerVehicleManager.carSpeedSettings.boostSpeed;
         PlayercarVisual = LevelManager.Instance.playerVisual;
-        
+
+        if (SceneManager.GetActiveScene().name == "LIVERPOOL")
+        {
+            normalSpeed = normalSpeed - 2;
+            boostSpeed = boostSpeed - 2;
+        }
         
     }
 
