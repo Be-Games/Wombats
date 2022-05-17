@@ -240,11 +240,20 @@ public class LevelManager : MonoBehaviour
         
         UpdateIcons();
 
+        SceneNameAndIndex();
 
         /*if (_gameManager.lightingMode == 2 && SceneManager.GetActiveScene().name == "MILAN")
             _gameManager.isThisTheFinalLevel = true;*/
         // _audioManager.LoadIcons();
 
+    }
+
+    void SceneNameAndIndex()
+    {
+        
+        _gameManager.currentLevelName = SceneManager.GetActiveScene().name;
+        _gameManager.currentLI = GameManager.Instance.lightingMode;
+        
     }
 
     void InitializingVariables()
@@ -511,11 +520,15 @@ public class LevelManager : MonoBehaviour
                 tempPrefab.tag = "TEMP";
             }
             
-            // boostPickUps = new List<GameObject>();
-            // if (GameObject.FindGameObjectWithTag("Boost").activeInHierarchy)
-            // {
-            //     boostPickUps.AddRange(GameObject.FindGameObjectsWithTag("Boost"));
-            // }
+             boostPickUps = new List<GameObject>();
+             if (GameObject.FindGameObjectWithTag("Boost").activeInHierarchy)
+             {
+                 if (GameObject.FindGameObjectsWithTag("Boost") != null)
+                 {
+                     boostPickUps.AddRange(GameObject.FindGameObjectsWithTag("Boost"));
+                 }
+                 
+             }
             
         
             pplToDisable = new List<GameObject>();

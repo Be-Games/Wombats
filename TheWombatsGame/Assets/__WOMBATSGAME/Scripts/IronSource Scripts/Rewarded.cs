@@ -70,7 +70,7 @@ public class Rewarded : MonoBehaviour
         if (GameManager.Instance.isForCoinsReward)
         {
             Debug.Log("For Concert");
-            PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins") + GameManager.Instance.additionalCoinsToBeGivenBasedOnRank);
+            PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins") + GameManager.Instance.timesForCoins);
         }
         else
         {

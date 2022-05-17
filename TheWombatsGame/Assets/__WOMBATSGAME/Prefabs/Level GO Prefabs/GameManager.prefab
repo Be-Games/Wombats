@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -55.69995}
+  m_AnchoredPosition: {x: 0, y: -55.700195}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &1604610173
@@ -170,7 +170,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 96, y: -105.69995}
+  m_AnchoredPosition: {x: 96, y: -105.700195}
   m_SizeDelta: {x: 353.7567, y: 142.4899}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &9000472838386289625
@@ -803,7 +803,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: 3.1549072}
+  m_AnchoredPosition: {x: 0, y: 3.1547852}
   m_SizeDelta: {x: 31.526, y: 21.931}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6307174297166830193
@@ -1632,7 +1632,7 @@ MonoBehaviour:
   - {fileID: 3164801320055785997, guid: 004e68efc884d40498fde073dc99ab45, type: 3}
   - {fileID: 3164801320055785997, guid: ef4fa357d7a2fe74baaac7da5a752dfb, type: 3}
   - {fileID: 3164801320055785997, guid: 5ca80a4cbc016fe41a68f7f879af23e5, type: 3}
-  numberOfLaps: 1
+  numberOfLaps: 2
   currentCoins_txt: {fileID: 3477641928541477312}
   coinsPanel: {fileID: 1271104657968465333}
   isForCoinsReward: 0
@@ -1641,7 +1641,10 @@ MonoBehaviour:
   timesForCoins: 10
   isThisTheFinalLevel: 0
   carIndex: 0
-  currentLevelNumber: 0
+  currentLevelName: 
+  nextLevelName: 
+  currentLI: 0
+  nextLI: 0
 --- !u!114 &5944686588678570789
 MonoBehaviour:
   m_ObjectHideFlags: 0

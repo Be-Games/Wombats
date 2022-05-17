@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 614746183152771808}
   - component: {fileID: 3469410379406342661}
   - component: {fileID: 5164076152017680533}
+  - component: {fileID: 3667856770366122670}
   m_Layer: 9
   m_Name: turning grinder
   m_TagString: Collision
@@ -133,11 +134,24 @@ MeshCollider:
   m_GameObject: {fileID: 1683798855753032387}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 2699463295548838680, guid: fbca4843203e6dd4db28dccfbf3bb34a, type: 3}
+--- !u!65 &3667856770366122670
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683798855753032387}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.991807, y: 1.9999102, z: 4.991807}
+  m_Center: {x: 0.00000019868214, y: 0.8253008, z: 0.00000019868214}
 --- !u!1 &4944568609590485178
 GameObject:
   m_ObjectHideFlags: 0

@@ -57,15 +57,11 @@ public class MainMenuManager : MonoBehaviour
 
         
         StartCoroutine(UpdateRoadOffset());
-
+        
     }
     
-
-        
     
-        
-
-        IEnumerator HomeScreenEnable()
+    IEnumerator HomeScreenEnable()
     {
         yield return new WaitForSeconds(0.5f);
         HomeScreen.GetComponent<Image>().DOFade(1f, 2f).SetEase(Ease.Flash);
@@ -79,7 +75,7 @@ public class MainMenuManager : MonoBehaviour
     IEnumerator UpdateRoadOffset()
     {
         DOTween.To(() => xOffset, 
-                x => xOffset = x, 100000, 30f).OnComplete(() =>
+                x => xOffset = x, 100000, 30f).OnUpdate(RoadUpdate).OnComplete(() =>
         {
             xOffset = 0;
             StartCoroutine(UpdateRoadOffset());
@@ -89,10 +85,15 @@ public class MainMenuManager : MonoBehaviour
 
     }
 
-    private void Update()
+    void RoadUpdate()
     {
         if(canOffset)
-            homeRoadTexture.mainTextureOffset = new Vector2(0f, xOffset); 
+            homeRoadTexture.mainTextureOffset = new Vector2(0f, xOffset);
+    }
+
+    private void Update()
+    {
+       
     }
 
     void CompleteRest()

@@ -52,7 +52,7 @@ public class FrontColliderTriggers : MonoBehaviour
                 other.transform.GetChild(1).gameObject.GetComponent<ParticleSystem>().Play();
             
                 if (LevelManager.Instance._audioManager != null && LevelManager.Instance._audioManager.isSFXenabled)
-                    LevelManager.Instance._audioManager.Play(LevelManager.Instance._audioManager.sfxAll.boostCollect);
+                    LevelManager.Instance._audioManager.sfxAll.boostCollect.PlayOneShot(LevelManager.Instance._audioManager.sfxAll.boostCollect.clip);
                 // LevelManager.Instance._playerVehicleManager.carEffects.boostCapturedEffectPS.Play();                                  //under car effect show once
                 
             }
@@ -111,7 +111,7 @@ public class FrontColliderTriggers : MonoBehaviour
                 
                 //random crash sound SOUND
                 if (LevelManager.Instance._audioManager != null && LevelManager.Instance._audioManager.isSFXenabled)
-                    LevelManager.Instance._audioManager.Play(LevelManager.Instance._audioManager.sfxAll.crashSound[0]);
+                    LevelManager.Instance._audioManager.sfxAll.crashSound[0].PlayOneShot(LevelManager.Instance._audioManager.sfxAll.crashSound[0].clip);
                             
             }
             

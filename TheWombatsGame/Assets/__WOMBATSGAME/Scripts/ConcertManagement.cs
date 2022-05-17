@@ -235,6 +235,115 @@ public class ConcertManagement : MonoBehaviour
         
     }
 
+    public void LoadNextLevel()
+    {
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
+        
+        if (_gameManager.currentLevelName == "LONDON" && _gameManager.currentLI == 1)
+        {
+            _gameManager.currentLevelName = "ROME";
+            _gameManager.currentLI = 2;
+        }
+        else if (_gameManager.currentLevelName == "ROME" && _gameManager.currentLI == 2)
+        {
+            _gameManager.currentLevelName = "SYDNEY";
+            _gameManager.currentLI = 1;
+        }
+        else if (_gameManager.currentLevelName == "SYDNEY" && _gameManager.currentLI == 1)
+        {
+            _gameManager.currentLevelName = "PARIS";
+            _gameManager.currentLI = 2;
+        }
+        else if (_gameManager.currentLevelName == "PARIS" && _gameManager.currentLI == 2)
+        {
+            _gameManager.currentLevelName = "EGYPT";
+            _gameManager.currentLI = 1;
+        }
+        else if (_gameManager.currentLevelName == "EGYPT" && _gameManager.currentLI == 1)
+        {
+            _gameManager.currentLevelName = "CARDIFF";
+            _gameManager.currentLI = 2;
+        }
+        else if (_gameManager.currentLevelName == "CARDIFF" && _gameManager.currentLI == 2)
+        {
+            _gameManager.currentLevelName = "GLASGOW";
+            _gameManager.currentLI = 1;
+        }
+        else if (_gameManager.currentLevelName == "GLASGOW" && _gameManager.currentLI == 1)
+        {
+            _gameManager.currentLevelName = "TOKYO";
+            _gameManager.currentLI = 2;
+        }
+        else if (_gameManager.currentLevelName == "TOKYO" && _gameManager.currentLI == 2)
+        {
+            _gameManager.currentLevelName = "MILAN";
+            _gameManager.currentLI = 1;
+        }
+        else if (_gameManager.currentLevelName == "MILAN" && _gameManager.currentLI == 1)
+        {
+            _gameManager.currentLevelName = "LONDON";
+            _gameManager.currentLI = 2;
+        }
+        else if (_gameManager.currentLevelName == "LONDON" && _gameManager.currentLI == 2)
+        {
+            _gameManager.currentLevelName = "ROME";
+            _gameManager.currentLI = 1;
+        }
+        else if (_gameManager.currentLevelName == "ROME" && _gameManager.currentLI == 1)
+        {
+            _gameManager.currentLevelName = "SYDNEY";
+            _gameManager.currentLI = 2;
+        }
+        else if (_gameManager.currentLevelName == "SYDNEY" && _gameManager.currentLI == 2)
+        {
+            _gameManager.currentLevelName = "PARIS";
+            _gameManager.currentLI = 1;
+        }
+        else if (_gameManager.currentLevelName == "PARIS" && _gameManager.currentLI == 1)
+        {
+            _gameManager.currentLevelName = "EGYPT";
+            _gameManager.currentLI = 2;
+        }
+        else if (_gameManager.currentLevelName == "EGYPT" && _gameManager.currentLI == 2)
+        {
+            _gameManager.currentLevelName = "CARDIFF";
+            _gameManager.currentLI = 1;
+        }
+        else if (_gameManager.currentLevelName == "CARDIFF" && _gameManager.currentLI == 1)
+        {
+            _gameManager.currentLevelName = "GLASGOW";
+            _gameManager.currentLI = 2;
+        }
+        else if (_gameManager.currentLevelName == "GLASGOW" && _gameManager.currentLI == 2)
+        {
+            _gameManager.currentLevelName = "TOKYO";
+            _gameManager.currentLI =1;
+        }
+        else if (_gameManager.currentLevelName == "TOKYO" && _gameManager.currentLI == 1)
+        {
+            _gameManager.currentLevelName = "LIVERPOOL";
+            _gameManager.currentLI = 1;
+            
+        }
+        else if (_gameManager.currentLevelName == "LIVERPOOL" && _gameManager.currentLI == 1)
+        {
+            _gameManager.currentLevelName = "MILAN";
+            _gameManager.currentLI = 2;
+            
+        }
+        
+        else if (_gameManager.currentLevelName == "MILAN" && _gameManager.currentLI == 2)
+        {
+            _gameManager.currentLevelName = "LevelSelection";
+
+        }
+        
+        GameManager.Instance.lightingMode = GameManager.Instance.currentLI;
+        
+        GameManager.Instance.interstitialAd.interstitialplay();
+        
+    }
+
     public void EnterContest()
     {
         Application.OpenURL(URLforCompi);
@@ -252,17 +361,8 @@ public class ConcertManagement : MonoBehaviour
 
     public void LevelSelection()
     {
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
         GameManager.Instance.LoadScene("LevelSelection");
     }
     
-    public void LoadInterstitialAd()
-    {
-        GameManager.Instance.interstitialAd.interstitialplay();
-    }
-
-    public void PostAdRunScene()
-    {
-        if(_gameManager != null)
-            _gameManager.interstitialAd.InterstitialAdClosedEvent();
-    }
 }

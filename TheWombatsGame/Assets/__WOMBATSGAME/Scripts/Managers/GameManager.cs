@@ -86,14 +86,15 @@ public class GameManager : MonoBehaviour
     
     public bool isForCoinsReward;
     public bool isForCarInterstitial;
-    public int additionalCoinsToBeGivenBasedOnRank =20;
-    public int timesForCoins = 10;
+    public int additionalCoinsToBeGivenBasedOnRank;
+    public int timesForCoins;
 
     public bool isThisTheFinalLevel;
 
     public int carIndex = 0;
 
-    public int currentLevelNumber;
+    public string currentLevelName,nextLevelName;
+    public int currentLI, nextLI;
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -112,6 +113,7 @@ public class GameManager : MonoBehaviour
         }
 
         PlayerPrefs.GetInt("isGarage", 0);
+        
     }
     
     private void Start()
