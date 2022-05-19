@@ -64,7 +64,8 @@ public class FrontColliderTriggers : MonoBehaviour
         {
             LevelManager.Instance.canBoostNow = false;
             
-            GameManager.Instance.VibrateOnce();
+            if(AudioManager.Instance.isHapticEnabled)
+                HapticPatterns.PlayConstant(1f, 0.0f, 0.5f);
 
             if (other.gameObject.name == "man")
             {
@@ -107,7 +108,8 @@ public class FrontColliderTriggers : MonoBehaviour
             {
                 other.GetComponent<ClickOrTapToExplode>().DestroyStuff();
                 
-                GameManager.Instance.VibrateOnce();
+                if(AudioManager.Instance.isHapticEnabled)
+                    HapticPatterns.PlayConstant(1f, 0.0f, 0.5f);
                 
                 //random crash sound SOUND
                 if (LevelManager.Instance._audioManager != null && LevelManager.Instance._audioManager.isSFXenabled)
@@ -171,7 +173,8 @@ public class FrontColliderTriggers : MonoBehaviour
     {
         if (!LevelManager.Instance.isCrashed)
         {
-            GameManager.Instance.VibrateOnce();
+            if(AudioManager.Instance.isHapticEnabled)
+                HapticPatterns.PlayConstant(1f, 0.0f, 0.5f);
             GameManager.Instance.canControlCar = false;
             objectToDestroy = disableCollidedObject;
             
@@ -214,18 +217,18 @@ public class FrontColliderTriggers : MonoBehaviour
             if (LevelManager.Instance.continueCounter != 5)
             {
                 UIManager.Instance.crashedPanel.SetActive(true);
-                if (!UIManager.Instance.nothanksBtn.activeInHierarchy && LevelManager.Instance.continueCounter == 3)
+                /*if (!UIManager.Instance.nothanksBtn.activeInHierarchy && LevelManager.Instance.continueCounter == 3)
                 {
                     yield return new WaitForSeconds(3f);
                     UIManager.Instance.nothanksBtn.SetActive(true);
-                }
+                }*/
                    
             }
                 
 
             if (LevelManager.Instance.continueCounter == 5)
             {
-                UIManager.Instance.postAdCrashPanel.SetActive(true);
+                UIManager.Instance.crashedPanel.SetActive(true);
                 LevelManager.Instance.isGameStarted = false;
 
             }

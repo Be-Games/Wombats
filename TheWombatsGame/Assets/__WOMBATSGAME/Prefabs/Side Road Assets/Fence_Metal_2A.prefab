@@ -45,7 +45,6 @@ GameObject:
   - component: {fileID: 4000013291739962}
   - component: {fileID: 33000012407998478}
   - component: {fileID: 23000011080257866}
-  - component: {fileID: 65000013408391274}
   m_Layer: 0
   m_Name: Metal_Fence_2B
   m_TagString: Untagged
@@ -89,6 +88,8 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -100,6 +101,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -112,19 +114,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &65000013408391274
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010846316494}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.126367, y: 3.1, z: 0.15}
-  m_Center: {x: -1, y: 1.55, z: 0}
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1000012292831610
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,7 +126,6 @@ GameObject:
   - component: {fileID: 4000011591546082}
   - component: {fileID: 33000013083206738}
   - component: {fileID: 23000012835138886}
-  - component: {fileID: 65000011835692102}
   m_Layer: 0
   m_Name: Metal_Fence_2C
   m_TagString: Untagged
@@ -180,6 +169,8 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -191,6 +182,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -203,19 +195,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &65000011835692102
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012292831610}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.126367, y: 3.1, z: 0.15}
-  m_Center: {x: -1, y: 1.55, z: 0}
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1000013526912492
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +207,6 @@ GameObject:
   - component: {fileID: 4000010997117740}
   - component: {fileID: 33000011021856124}
   - component: {fileID: 23000013796013168}
-  - component: {fileID: 65000010284248630}
   m_Layer: 0
   m_Name: Metal_Fence_2A
   m_TagString: Untagged
@@ -271,6 +250,8 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -282,6 +263,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -294,19 +276,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &65000010284248630
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000013526912492}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.126367, y: 3.1, z: 0.15}
-  m_Center: {x: -1, y: 1.55, z: 0}
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1000014195425702
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,7 +288,6 @@ GameObject:
   - component: {fileID: 4000010817318480}
   - component: {fileID: 33000014282350360}
   - component: {fileID: 23000012864913592}
-  - component: {fileID: 65000010267246124}
   m_Layer: 0
   m_Name: Metal_Pole_2A
   m_TagString: Untagged
@@ -362,6 +331,8 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -373,6 +344,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -385,16 +357,4 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &65000010267246124
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000014195425702}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.15, y: 3.4999998, z: 0.15}
-  m_Center: {x: 0, y: 1.7499999, z: 0}
+  m_AdditionalVertexStreams: {fileID: 0}

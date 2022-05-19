@@ -71,6 +71,7 @@ public class Rewarded : MonoBehaviour
         {
             Debug.Log("For Concert");
             PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins") + GameManager.Instance.timesForCoins);
+            GameManager.Instance.isForCoinsReward = false;
         }
         else
         {

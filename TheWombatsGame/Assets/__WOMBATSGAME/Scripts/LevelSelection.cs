@@ -63,8 +63,8 @@ public class LevelSelection : MonoBehaviour
     private void Start()
     {
         _gameManager = GameObject.FindWithTag("GameManager");
-        garageBtn.SetActive(false);
-        playerSelectBtn.SetActive(false);
+        /*garageBtn.SetActive(false);
+        playerSelectBtn.SetActive(false);*/
         StartCoroutine("Index");
         
     }
@@ -431,6 +431,11 @@ public class LevelSelection : MonoBehaviour
     public void backToPlayerSelection()
     {
         GameManager.Instance.LoadScene("PlayerSelection");
+    }
+    
+    public void ButtonClick()
+    {
+        GameManager.Instance.ButtonClick();
     }
     
 }

@@ -57,6 +57,8 @@ public class PlayerSelection : MonoBehaviour
 
    public Button buyBtn, unlockwithAdBbtn;
    public TextMeshProUGUI carPrice;
+
+   public GameObject[] unlockCelebration;
    void OnEnable()
    {
        SceneManager.sceneLoaded += OnSceneLoaded;
@@ -129,7 +131,7 @@ public class PlayerSelection : MonoBehaviour
            }
            
        }
-
+       
        /*foreach (var x in parentD)
        {
            x.SetActive(false);
@@ -265,6 +267,14 @@ public class PlayerSelection : MonoBehaviour
             PlayerPrefs.SetInt("MyTotalCoins",PlayerPrefs.GetInt("MyTotalCoins") - int.Parse(carPrice.text));
             
             PlayerPrefs.SetInt("Car" + GameManager.Instance.carIndex, 1);
+
+            foreach (Transform child in unlockCelebration[index].transform)
+            {
+                child.GetComponent<ParticleSystem>().Play();
+            } 
+            
+            if(AudioManager.Instance.isSFXenabled)
+                AudioManager.Instance.sfxAll.unlockCar.PlayOneShot(AudioManager.Instance.sfxAll.unlockCar.clip);
             
             lockImage.SetActive(false);
         }
@@ -306,7 +316,7 @@ public class PlayerSelection : MonoBehaviour
         _gameManager.GetComponent<GameManager>().memeberIndex = index;
         _gameManager.GetComponent<GameManager>().selectedCarModelPLAYER = GameManager.Instance.carIndex;
 
-        _gameManager.GetComponent<GameManager>().enemyCar1 = GameManager.Instance.carIndex + 1;
+        _gameManager.GetComponent<GameManager>().enemyCar1 = GameManager.Instance.carIndex + 2;
         _gameManager.GetComponent<GameManager>().enemyCar2 = GameManager.Instance.carIndex + 1;
 
         if ((GameManager.Instance.carIndex + 1) > 9)
@@ -543,6 +553,11 @@ public class PlayerSelection : MonoBehaviour
     public void Vibrate()
     {
         //GameManager.Instance.VibrateOnce();
+    }
+    
+    public void ButtonClick()
+    {
+        GameManager.Instance.ButtonClick();
     }
     
 }

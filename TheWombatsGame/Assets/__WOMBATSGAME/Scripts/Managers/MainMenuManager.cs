@@ -26,7 +26,8 @@ public class MainMenuManager : MonoBehaviour
     public Material homeRoadTexture;
     public float xOffset;
     private bool canOffset = false;
-    
+
+    public DOTweenAnimation leftCar,centreCar,rightCar;
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -38,7 +39,8 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
-
+        
+        
         PlayerPrefs.GetInt("isTutShown",0);
         
         xOffset = 0;
@@ -58,6 +60,7 @@ public class MainMenuManager : MonoBehaviour
         
         StartCoroutine(UpdateRoadOffset());
         
+
     }
     
     
@@ -106,19 +109,52 @@ public class MainMenuManager : MonoBehaviour
 
     public void PlayGame()
     {
-        if (PlayerPrefs.GetInt("isTutShown") == 0)
-        {
-            GameManager.Instance.LoadScene("Tutorial");
-            PlayerPrefs.SetInt("isTutShown",1);
-        }
+
+        leftCar.DOKill();
+        leftCar.transform.DOMoveZ(26, 2f).SetEase(Ease.InOutSine).SetRelative(true).OnComplete(LoadLevel);;
         
-        else if (PlayerPrefs.GetInt("isTutShown") == 1)
-        {
-            PlayerPrefs.SetInt("isGarage",0);
-            GameManager.Instance.LoadScene("PlayerSelection");
-        }
+        rightCar.DOKill();
+        rightCar.transform.DOMoveZ(26, 2f).SetEase(Ease.InOutSine).SetRelative(true);
+        
+        centreCar.DOKill();
+        centreCar.transform.DOMoveZ(26, 2f).SetEase(Ease.InOutSine).SetRelative(true);
+
+
+    }
+
+    void LoadLevel()
+    {
+
+        if (PlayerPrefs.GetInt("isTutShown") == 0)
+       {
+           GameManager.Instance.LoadScene("Tutorial");
+           PlayerPrefs.SetInt("isTutShown",1);
+       }
        
-        PlayerPrefs.Save();
+       else if (PlayerPrefs.GetInt("isTutShown") == 1)
+       {
+           PlayerPrefs.SetInt("isGarage",0);
+           /*PlayerPrefs.SetInt("isTutShown",2);*/
+           GameManager.Instance.LoadScene("LevelSelection");
+           
+       }
+        /*else if (PlayerPrefs.GetInt("isTutShown") == 2)
+        {
+            GameManager.Instance.LoadScene("LevelSelection");
+        }*/
+      
+       PlayerPrefs.Save();
+    }
+
+    public void ButtonClick()
+    {
+        GameManager.Instance.ButtonClick();
+    }
+
+    public void StartBtnSound()
+    {
+        if(AudioManager.Instance.isSFXenabled)
+            AudioManager.Instance.sfxAll.carEngineStartScreen.PlayOneShot(AudioManager.Instance.sfxAll.carEngineStartScreen.clip);
     }
     
 }

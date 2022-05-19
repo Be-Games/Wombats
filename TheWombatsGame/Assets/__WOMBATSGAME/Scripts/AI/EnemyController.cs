@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using PathCreation.Examples;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyController : MonoBehaviour
 {
@@ -53,6 +54,8 @@ public class EnemyController : MonoBehaviour
         movementDuration = 0.15f;
         rotationDuration = 0.1f;
         StartCoroutine("IniCarPush");
+        
+        
     }
 
     IEnumerator IniCarPush()
@@ -63,6 +66,8 @@ public class EnemyController : MonoBehaviour
             Acc = LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().carSpeedSettings.Acc;
             Dec = LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().carSpeedSettings.Dec;
             enemySpeed = LevelManager.Instance._playerVehicleManager.carSpeedSettings.normalSpeed+UnityEngine.Random.Range(0.1f,0.7f);
+            
+           
         }
         if (currentEnemyNumber == 1)
         {
@@ -72,8 +77,14 @@ public class EnemyController : MonoBehaviour
             enemySpeed = LevelManager.Instance._playerVehicleManager.carSpeedSettings.normalSpeed+UnityEngine.Random.Range(0.1f,0.7f);
         }
         
+        if (SceneManager.GetActiveScene().name == "LIVERPOOL")
+        {
+            enemySpeed = enemySpeed - 2;
+        }
+        
         yield return new WaitForSeconds(0.1f);
         enemyPF.speed = 0;
+        
         
         
     }

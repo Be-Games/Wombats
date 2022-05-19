@@ -292,7 +292,7 @@ public class Tut_PlayerController : MonoBehaviour
          PlayercarVisual.GetComponent<VehicleManager>().carEffects.NOSEffectsPS.gameObject.SetActive(true);//under car effect show once
 
         DOTween.To(() => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
-                x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -3f, 0.5f)
+                x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -5f, 0.5f)
             .OnUpdate(() => {
                         
             });
@@ -320,7 +320,7 @@ public class Tut_PlayerController : MonoBehaviour
         }
         
         //WHEN BOOST IS DONE
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
 
         Debug.Log("DONE");
         
@@ -342,6 +342,7 @@ public class Tut_PlayerController : MonoBehaviour
 
     public void LoadScene()
     {
+        AudioManager.Instance.musicTracks.MusicTrackAudioSource.Stop();
         PlayerPrefs.SetInt("isGarage",0);
         GameManager.Instance.LoadScene("PlayerSelection");
     }

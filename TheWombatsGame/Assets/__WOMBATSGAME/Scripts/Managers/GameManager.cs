@@ -38,9 +38,9 @@ public class GameManager : MonoBehaviour
         
         
 
-        selectedCarModelPLAYER = 0;
-        enemyCar1 = 0;
-        enemyCar2 = enemyCar1 + 1;
+        selectedCarModelPLAYER = 1;
+        enemyCar1 = selectedCarModelPLAYER+1;
+        enemyCar2 = selectedCarModelPLAYER + 2;
     }
 
     [Header("Variables for Full Game")] 
@@ -248,6 +248,7 @@ public class GameManager : MonoBehaviour
 
     public void VibrateOnce()
     {
+/*
 #if UNITY_IOS
         if(AudioManager.Instance.isHapticEnabled)
             HapticPatterns.PlayConstant(0.8f, 0.0f, 0.4f);
@@ -256,7 +257,14 @@ public class GameManager : MonoBehaviour
         if(AudioManager.Instance.isHapticEnabled)
             HapticPatterns.PlayConstant(1f, 0.0f, 0.5f);
 #endif
+*/
         
+    }
+
+    public void ButtonClick()
+    {
+        if(AudioManager.Instance.isSFXenabled)
+            AudioManager.Instance.sfxAll.btnSound.PlayOneShot(AudioManager.Instance.sfxAll.btnSound.clip);
     }
 }
 

@@ -93,8 +93,8 @@ public class Tut_Gamecontrols : MonoBehaviour
 
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary && TutPC.canBreak)
         {
+            TutPC.tapBreak_GO.SetActive(false);
             gestureState = GestureState.Break;
-            
             //press brake - show red light and change material to red
             TutPC.PlayercarVisual.GetComponent<VehicleManager>().carEffects.breakLight.SetActive(true);
             var materials = TutPC.PlayercarVisual.GetComponent<VehicleManager>().bodyTrigger.body
@@ -102,19 +102,11 @@ public class Tut_Gamecontrols : MonoBehaviour
             materials[1] = TutPC.redMat;
             //show barrier animation
             TutPC.barrierDO.DOPlay();
-            TutPC.tapBreak_GO.SetActive(false);
+            
             //after animation release car
             Invoke("PostBarrierAnimation",1.2f);
         }
         
-        // if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
-        // {
-        //     stopTouch = false;
-        //
-        //     endTouchPosition = Input.GetTouch(0).position;
-        //     
-        //     gestureState = GestureState.Release;
-        // }
     }
 
     void PostBarrierAnimation()

@@ -61,6 +61,11 @@ public class AudioManager : MonoBehaviour
         public AudioSource coinCollect;
         public AudioSource boostingCar;
         public AudioSource boostCollect;
+        public AudioSource btnSound;
+        public AudioSource confettiPop;
+        public AudioSource brakeSound;
+        public AudioSource unlockCar;
+        public AudioSource carEngineStartScreen;
         public bool mutedTrack;
         [SerializeField] public Image SFXONIcon;
         [SerializeField] public Image SFXOFFIcon;
@@ -99,10 +104,11 @@ public class AudioManager : MonoBehaviour
         
         if (sN == "HomeScreen" || sN == "PlayerSelection" || sN == "LevelSelection")
         {
-            musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[12];
+           
             
             if(!musicTracks.MusicTrackAudioSource.isPlaying) 
             {
+                musicTracks.MusicTrackAudioSource.clip = musicTracks.tracks[UnityEngine.Random.Range(0,11)];
                 if(isMusicEnabled)
                     musicTracks.MusicTrackAudioSource.Play();
             }

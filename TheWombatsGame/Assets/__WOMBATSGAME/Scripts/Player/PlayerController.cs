@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
                 {
                     if (!LevelManager.Instance.isBoosting)
                     {
-                        
+
                         LevelManager.Instance.SetCameraDampValue(LevelManager.Instance.breakValue);
                     
                         //winds off

@@ -8,6 +8,6 @@ public class IniLoad : MonoBehaviour
 {
     private void Start()
     {
-        SceneManager.LoadScene("HomeScreen");
+        SceneManager.LoadSceneAsync("HomeScreen");
     }
 }

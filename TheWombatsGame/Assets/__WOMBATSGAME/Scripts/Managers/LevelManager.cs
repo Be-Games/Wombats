@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using Coffee.UIEffects;
 using DG.Tweening;
+using Lofelt.NiceVibrations;
 using NatSuite.Examples;
 using TMPro;
 using UnityEngine;
@@ -112,7 +113,7 @@ public class LevelManager : MonoBehaviour
     public List<GameObject> boostPickUps;
     public List<GameObject> pplToDisable;
     public float singleLapDistance;
-    public GameObject endConfetti;
+    public GameObject endConfetti,startConfetti;
     public string cityName;
     
     [Header("Stadium Spawn Things")] 
@@ -242,9 +243,8 @@ public class LevelManager : MonoBehaviour
 
         SceneNameAndIndex();
 
-        /*if (_gameManager.lightingMode == 2 && SceneManager.GetActiveScene().name == "MILAN")
-            _gameManager.isThisTheFinalLevel = true;*/
-        // _audioManager.LoadIcons();
+        if (_gameManager.lightingMode == 2 && SceneManager.GetActiveScene().name == "MILAN")
+            _gameManager.isThisTheFinalLevel = true;
 
     }
 
@@ -293,6 +293,22 @@ public class LevelManager : MonoBehaviour
         
         _playerVehicleManager.overHeadBoostUI.timerText.gameObject.SetActive(false);
         _uiManager.resumeTimer.gameObject.SetActive(false);
+        
+        startConfetti = GameObject.FindGameObjectWithTag("StartCon");
+        endConfetti = GameObject.FindGameObjectWithTag("EndCon");
+        
+        if(endConfetti != null)
+            endConfetti.SetActive(false);
+        if(startConfetti != null)
+            startConfetti.SetActive(false);
+
+
+        GameObject parentCD = GameObject.FindGameObjectWithTag("CDParent");
+        for (int i = 0; i < 4; i++)
+        {
+            countdownLights[i] = parentCD.transform.GetChild(i).gameObject;
+        }
+        
     }
 
     void SceneStart()
@@ -409,10 +425,7 @@ public class LevelManager : MonoBehaviour
         iniCMVCCam.Priority = 0;
         defCMVCCam.Priority = 1;
 
-        if (_audioManager!=null && _audioManager.isMusicEnabled)
-        {
-            _audioManager.musicTracks.MusicTrackAudioSource.Play();
-        }
+        
         
         SetCameraDampValue(breakValue);
         
@@ -442,6 +455,15 @@ public class LevelManager : MonoBehaviour
         //timerText.gameObject.SetActive(false);
         isGameStarted = true;
 
+        startConfetti.SetActive(true);
+        
+        if (_audioManager!=null && _audioManager.isMusicEnabled)
+        {
+            _audioManager.musicTracks.MusicTrackAudioSource.Play();
+        }
+        if(_audioManager!=null && _audioManager.isSFXenabled)
+            _audioManager.sfxAll.confettiPop.PlayOneShot(_audioManager.sfxAll.confettiPop.clip);
+        
         RaceStarted();
        
 
@@ -671,11 +693,11 @@ public class LevelManager : MonoBehaviour
         _uiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPlay();
         
         //DISABLE ALL THE BOOST PICKUPS
-        // foreach (GameObject x in boostPickUps)                                                            //Dissable all the boost pickups
-        // {
-        //     if(x != null)
-        //         x.SetActive(false);
-        // }
+         foreach (GameObject x in boostPickUps)                                                            //Disable all the boost pickups
+         {
+            if(x != null)
+                x.SetActive(false);
+        }
         
     }
     
@@ -693,7 +715,8 @@ public class LevelManager : MonoBehaviour
             _uiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPause();
             _uiManager.BoostBtn.transform.DOScale(new Vector3(0.4f, 0.4f, 0.4f), 0f);
         
-            GameManager.Instance.VibrateOnce();
+            if(AudioManager.Instance.isHapticEnabled)
+                HapticPatterns.PlayConstant(1f, 0.0f, 0.5f);
             
             CarBoostOn();
             
@@ -790,6 +813,14 @@ public class LevelManager : MonoBehaviour
 
     void CarBoostOff()
     {
+        
+        //DISABLE ALL THE BOOST PICKUPS
+        foreach (GameObject x in boostPickUps)                                                            //Disable all the boost pickups
+        {
+            if(x != null)
+                x.SetActive(true);
+        }
+        
         SetCameraDampValue(defaultValue);
         
         isBoosting = false;
@@ -1030,6 +1061,8 @@ public class LevelManager : MonoBehaviour
 
     public void ResetGame()
     {
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
+        
         Time.timeScale = 1;
         _gameManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -1066,6 +1099,7 @@ public class LevelManager : MonoBehaviour
     //CONTINUE BTN ON CRASH
     public void ResetCar()
     {
+        
         // PickUpTrigger.Instance.HideHuman();
         if(_audioManager!=null)
             _audioManager.musicTracks.MusicTrackAudioSource.Play();
@@ -1089,6 +1123,7 @@ public class LevelManager : MonoBehaviour
     {
         Ana_LevelContinue();
         
+        _uiManager.crashedPanel.SetActive(false);
         smokeTransitionPostCrashEffect.SetActive(true);
         _uiManager.BoostBtn.SetActive(false);
         
@@ -1100,7 +1135,7 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         
         _uiManager.BoostBtn.SetActive(true);
-        _uiManager.crashedPanel.SetActive(false);
+        
         _playerVehicleManager.postCrashStuff.crashPS.gameObject.SetActive(false);
         _playerVehicleManager.postCrashStuff.up_car.SetActive(true);
         _playerVehicleManager.postCrashStuff.down_car.SetActive(false);
@@ -1147,7 +1182,7 @@ public class LevelManager : MonoBehaviour
         
         if (continueCounter == 3)
         {
-            _uiManager.nothanksBtn.SetActive(false);
+            _uiManager.nothanksBtn.SetActive(true);
             _uiManager.brokenHeart.gameObject.SetActive(true);
             _uiManager.fullHeart.gameObject.SetActive(false);
             _uiManager.rewardBtn.SetActive(true);           //ADD GET MORE LIVES BUTTON
@@ -1247,7 +1282,7 @@ public class LevelManager : MonoBehaviour
 
     public void RunRewardedAd()
     {
-        _gameManager.rewardedAd.rewarded();
+        GameManager.Instance.rewardedAd.rewarded();
         
         //Invoke("ShowRevivePanel",3f);
     }
