@@ -28,6 +28,8 @@ public class LevelSelection : MonoBehaviour
     private string path;
 
     public GameObject garageBtn, playerSelectBtn;
+
+    public GameObject enterContestBtn;
     
     void OnEnable()
     {
@@ -66,6 +68,7 @@ public class LevelSelection : MonoBehaviour
         /*garageBtn.SetActive(false);
         playerSelectBtn.SetActive(false);*/
         StartCoroutine("Index");
+        enterContestBtn.SetActive(false);
         
     }
 
@@ -85,6 +88,15 @@ public class LevelSelection : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance.isThisTheFinalLevel)
+        {
+            enterContestBtn.SetActive(true);
+        }
+        else if (!GameManager.Instance.isThisTheFinalLevel)
+        {
+            enterContestBtn.SetActive(false);
+        }
+        
         prevBtn.SetActive(index != 0);
 
         nextBtn.SetActive(index != (allLevelsGO.Length)-1);
@@ -111,7 +123,14 @@ public class LevelSelection : MonoBehaviour
             racebtn.GetComponent<Button>().enabled = true;
         }
 
+        
 
+
+    }
+
+    public void EnterContest()
+    {
+        Application.OpenURL("https://www.toneden.io/the-wombats-5/post/the-wombats-official-game-competition");
     }
 
     void DAYMODE()
