@@ -20,7 +20,7 @@ public class Interstitial : MonoBehaviour
     // Invoked when the interstitial ad closed and the user goes back to the application screen.
     public void InterstitialAdClosedEvent()
     {
-        GameManager.Instance.LoadScene(GameManager.Instance.currentLevelName);
+        GameManager.Instance.LoadScene("LevelSelection");
     }
 
     public void StartUpInterstitial()

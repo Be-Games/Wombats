@@ -360,9 +360,12 @@ public class ConcertManagement : MonoBehaviour
 
     public void LevelSelection()
     {
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
+        
         AudioManager.Instance.musicTracks.MusicTrackAudioSource.Stop();
         UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
-        GameManager.Instance.LoadScene("LevelSelection");
+        GameManager.Instance.interstitialAd.interstitialplay();
+
     }
     
     public void ButtonClick()

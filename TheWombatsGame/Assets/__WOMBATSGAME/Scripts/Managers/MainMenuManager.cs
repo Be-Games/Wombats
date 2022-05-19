@@ -110,6 +110,8 @@ public class MainMenuManager : MonoBehaviour
     public void PlayGame()
     {
 
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
+        
         leftCar.DOKill();
         leftCar.transform.DOMoveZ(26, 2f).SetEase(Ease.InOutSine).SetRelative(true).OnComplete(LoadLevel);;
         

@@ -299,6 +299,8 @@ public class PlayerSelection : MonoBehaviour
 
     public void ContinueBtn()
     {
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
+        
         //set selected player animation to blowing kiss
         currentMemebers[index].GetComponent<Animator>().runtimeAnimatorController = selectedController;
         prevBtn.GetComponent<Button>().enabled = false;
