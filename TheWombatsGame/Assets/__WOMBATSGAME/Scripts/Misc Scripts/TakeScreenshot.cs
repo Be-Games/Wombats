@@ -37,6 +37,7 @@ public class TakeScreenshot : MonoBehaviour
             .SetUrl( "https://play.google.com/store/apps/details?id=com.begames.thewombats" )
             .SetCallback( ( result, shareTarget ) => Debug.Log( "Share result: " + result + ", selected app: " + shareTarget ) )
             .Share();
+    
+#endif
     }
-    #endif
 }
