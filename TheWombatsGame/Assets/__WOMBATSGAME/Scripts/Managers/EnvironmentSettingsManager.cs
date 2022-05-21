@@ -60,7 +60,7 @@ public class EnvironmentSettingsManager : MonoBehaviour
     public void NightMode()
     {
         nightObstacles.SetActive(true);
-        dayObstacles.SetActive(false);
+        dayObstacles.SetActive(true);
         nightLightingGO.SetActive(true);
         dayLightingGO.SetActive(false);
 
@@ -82,7 +82,7 @@ public class EnvironmentSettingsManager : MonoBehaviour
     public void DayMode()
     {
         dayObstacles.SetActive(true);
-        nightObstacles.SetActive(false);
+        nightObstacles.SetActive(true);
         nightLightingGO.SetActive(false);
         dayLightingGO.SetActive(true);
         

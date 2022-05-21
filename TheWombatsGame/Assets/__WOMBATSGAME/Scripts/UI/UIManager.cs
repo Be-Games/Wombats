@@ -134,6 +134,8 @@ public class UIManager : MonoBehaviour
 
     public void LoadLevelSelection()
     {
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
+        
         AudioManager.Instance.musicTracks.MusicTrackAudioSource.Stop();
         Time.timeScale = 1;
         GameManager.Instance.LoadScene("LevelSelection");

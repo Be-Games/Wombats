@@ -50,7 +50,7 @@ public class LevelManager : MonoBehaviour
     public GameObject[] carVisualsParents;
 
     [Header("Lap Settings")]
-    [HideInInspector] public int lapCounter = 0;
+    public int lapCounter = 0;
     [HideInInspector] public bool isLapTriggered;
 
     [Header("Scoring Stuff")] 
@@ -129,7 +129,8 @@ public class LevelManager : MonoBehaviour
     public GameObject nightObstaclesPf;
     public Transform dayParent;
     public Transform nightParent;
-    private GameObject tempPrefab;
+    private GameObject tempPrefabD;
+    private GameObject tempPrefabN;
 
     [Header("Camera Damping Values")] 
     [HideInInspector] public float boostOnValue;
@@ -221,9 +222,9 @@ public class LevelManager : MonoBehaviour
             _playerVehicleManager.bandMember.SetActive(false);
 
 
-        boostOnValue = -3;
-        breakValue = -1.58f;
-        defaultValue = -2.3f;
+        boostOnValue = -3f;
+        breakValue = -1.50f;
+        defaultValue = -2.1f;
 
     }
 
@@ -337,6 +338,20 @@ public class LevelManager : MonoBehaviour
     {
         if (_gameManager.lightingMode == 1)
         {
+            tempPrefabD =  (GameObject)Instantiate(dayObstaclesPf, dayParent);
+            tempPrefabD.tag = "TEMPD";
+        }
+        
+        
+        if (_gameManager.lightingMode == 2)
+        {
+            tempPrefabN =  (GameObject)Instantiate(nightObstaclesPf, nightParent);
+            tempPrefabN.tag = "TEMPN";
+        }
+       
+        
+        /*if (_gameManager.lightingMode == 1)
+        {
             //DAY OBSTACLES
             tempPrefab =  (GameObject)Instantiate(dayObstaclesPf, dayParent);
             tempPrefab.tag = "TEMP";
@@ -347,7 +362,7 @@ public class LevelManager : MonoBehaviour
             //NIGHT OBSTACLES
             tempPrefab =  (GameObject)Instantiate(nightObstaclesPf, nightParent);
             tempPrefab.tag = "TEMP";
-        }
+        }*/
     }
     
     void WeatherSetup()
@@ -524,7 +539,7 @@ public class LevelManager : MonoBehaviour
         if (lapCounter < totalLaps)
         {
             
-            if (_gameManager.lightingMode == 1)
+            /*if (_gameManager.lightingMode == 1)
             {
                 Destroy(GameObject.FindGameObjectWithTag("TEMP"));
                 
@@ -540,6 +555,54 @@ public class LevelManager : MonoBehaviour
                 //NIGHT OBSTACLES
                 tempPrefab =  (GameObject)Instantiate(nightObstaclesPf, nightParent);
                 tempPrefab.tag = "TEMP";
+            }*/
+            
+            if (_gameManager.lightingMode == 1)
+            {
+                if (lapCounter == 1)
+                {
+                    if (GameObject.FindGameObjectWithTag("TEMPD") != null) 
+                    { 
+                        Destroy(GameObject.FindGameObjectWithTag("TEMPD"));
+                
+                        //NIGHT OBSTACLES
+                        tempPrefabN =  (GameObject)Instantiate(nightObstaclesPf, nightParent);
+                        tempPrefabN.tag = "TEMPN";
+                    }
+                }
+                
+                else if (lapCounter == 2)
+                {
+                    if (GameObject.FindGameObjectWithTag("TEMPN") != null)
+                    {
+                        Destroy(GameObject.FindGameObjectWithTag("TEMPN"));
+                    }
+                }
+                
+            }
+            
+            if (_gameManager.lightingMode == 2)
+            {
+                if (lapCounter == 1)
+                {
+                    if (GameObject.FindGameObjectWithTag("TEMPN") != null) 
+                    { 
+                        Destroy(GameObject.FindGameObjectWithTag("TEMPN"));
+                
+                        //DAY OBSTACLES
+                        tempPrefabD =  (GameObject)Instantiate(dayObstaclesPf, dayParent);
+                        tempPrefabD.tag = "TEMPD";
+                    }
+                }
+                
+                else if (lapCounter == 2)
+                {
+                    if (GameObject.FindGameObjectWithTag("TEMPD") != null)
+                    {
+                        Destroy(GameObject.FindGameObjectWithTag("TEMPD"));
+                    }
+                }
+                
             }
             
              boostPickUps = new List<GameObject>();

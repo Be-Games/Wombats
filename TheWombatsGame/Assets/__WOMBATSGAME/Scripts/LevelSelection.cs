@@ -52,12 +52,16 @@ public class LevelSelection : MonoBehaviour
 
     public void LoadGarage()
     {
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
+        
         PlayerPrefs.SetInt("isGarage",1);
         GameManager.Instance.GetComponent<GameManager>().LoadScene("PlayerSelection");
     }
 
     public void LoadPlayerSelect()
     {
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
+        
         PlayerPrefs.SetInt("isGarage",0);
         GameManager.Instance.GetComponent<GameManager>().LoadScene("PlayerSelection");
     }

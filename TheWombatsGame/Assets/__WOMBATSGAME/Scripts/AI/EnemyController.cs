@@ -65,7 +65,7 @@ public class EnemyController : MonoBehaviour
             enemyCarModelGO.transform.localPosition = new Vector3(enemyCarModelGO.transform.localPosition.x -  xOffSet,0f,0f);
             Acc = LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().carSpeedSettings.Acc;
             Dec = LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().carSpeedSettings.Dec;
-            enemySpeed = LevelManager.Instance._playerVehicleManager.carSpeedSettings.normalSpeed+UnityEngine.Random.Range(0.1f,0.7f);
+            enemySpeed = LevelManager.Instance._playerVehicleManager.carSpeedSettings.normalSpeed+UnityEngine.Random.Range(-0.1f,0.7f);
             
            
         }
@@ -74,7 +74,7 @@ public class EnemyController : MonoBehaviour
             enemyCarModelGO.transform.localPosition = new Vector3(enemyCarModelGO.transform.localPosition.x + xOffSet,0f,0f);
             Acc = LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().carSpeedSettings.Acc;
             Dec = LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().carSpeedSettings.Dec;
-            enemySpeed = LevelManager.Instance._playerVehicleManager.carSpeedSettings.normalSpeed+UnityEngine.Random.Range(0.1f,0.7f);
+            enemySpeed = LevelManager.Instance._playerVehicleManager.carSpeedSettings.normalSpeed+UnityEngine.Random.Range(-0.1f,0.7f);
         }
         
         if (SceneManager.GetActiveScene().name == "LIVERPOOL")

@@ -204,7 +204,7 @@ public class ConcertManagement : MonoBehaviour
         
         yield return new WaitForSeconds(0.005f);
         rewardCoinsCounter--;
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.005f);
         PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins")+1);
         rewardedCoins.text = rewardCoinsCounter.ToString();
 

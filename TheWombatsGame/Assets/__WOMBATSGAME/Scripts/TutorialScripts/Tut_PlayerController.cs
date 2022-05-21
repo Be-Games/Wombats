@@ -342,6 +342,8 @@ public class Tut_PlayerController : MonoBehaviour
 
     public void LoadScene()
     {
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
+        
         AudioManager.Instance.musicTracks.MusicTrackAudioSource.Stop();
         PlayerPrefs.SetInt("isGarage",0);
         GameManager.Instance.LoadScene("PlayerSelection");
