@@ -39,10 +39,12 @@ public class Rewarded : MonoBehaviour
         else
         {
             Debug.Log("Doesnt Work");
-            LevelManager.Instance.ShowRevivePanel();
+            // TODO: Show dialog prompt
+            // If ad is not available (internet is off), just show a dialog box that says "Video ad not availble"
+            //LevelManager.Instance.ShowRevivePanel();
         }
-        
-        
+
+
     }
     
     public void rewardedForConcert()
@@ -56,10 +58,12 @@ public class Rewarded : MonoBehaviour
         else
         {
             Debug.Log("Doesnt Work");
-            PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins") + GameManager.Instance.timesForCoins);
+            // TODO: Show dialog prompt
+            // If ad is not available (internet is off), just show a dialog box that says "Video ad not availble"
+            //PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins") + GameManager.Instance.timesForCoins);
         }
-        
-        
+
+
     }
 
     void RewardedVideoAdClosedEvent()

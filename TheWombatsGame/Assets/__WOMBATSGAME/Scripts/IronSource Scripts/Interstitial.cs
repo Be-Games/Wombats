@@ -21,7 +21,7 @@ public class Interstitial : MonoBehaviour
 
     public void interstitialplay() 
     {
-        /*if (IronSource.Agent.isInterstitialReady())
+        if (IronSource.Agent.isInterstitialReady())
         {
             Debug.Log("Works");
             IronSource.Agent.showInterstitial();
@@ -29,10 +29,8 @@ public class Interstitial : MonoBehaviour
         else
         {
             Debug.Log("Doesnt Work");
-            GameManager.Instance.LoadScene(GameManager.Instance.currentLevelName);
-        }*/
-        
-        IronSource.Agent.showInterstitial();
-       
+            GameManager.Instance.LoadScene("LevelSelection");
+            //GameManager.Instance.LoadScene(GameManager.Instance.currentLevelName);
+        }
     }
 }
