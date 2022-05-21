@@ -5,6 +5,7 @@ using Coffee.UIEffects;
 using DG.Tweening;
 using Lofelt.NiceVibrations;
 using NatSuite.Examples;
+using PathCreation.Examples;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -243,10 +244,7 @@ public class LevelManager : MonoBehaviour
         UpdateIcons();
 
         SceneNameAndIndex();
-
-        if (_gameManager.lightingMode == 2 && SceneManager.GetActiveScene().name == "MILAN")
-            _gameManager.isThisTheFinalLevel = true;
-
+        
     }
 
     void SceneNameAndIndex()
@@ -919,6 +917,8 @@ public class LevelManager : MonoBehaviour
     {
         _gameManager.playerPosi = _levelProgressUI.playerPosi;
         
+        if (_gameManager.lightingMode == 2 && SceneManager.GetActiveScene().name == "MILAN")
+            _gameManager.isThisTheFinalLevel = true;
         
         switch (PlayerPrefs.GetInt("LevelIndex"))
         {
@@ -991,7 +991,7 @@ public class LevelManager : MonoBehaviour
                     PlayerPrefs.SetInt("LevelIndex",19);            //LIVERPOOL DAY
                 break;
             case 19:
-                if(SceneManager.GetActiveScene().name == "LIVERPOOL" && _gameManager.lightingMode == 2)
+                if(SceneManager.GetActiveScene().name == "LIVERPOOL" && _gameManager.lightingMode == 1)
                     PlayerPrefs.SetInt("LevelIndex",20);            //MILAN NIGHT
                 break;
             
@@ -1168,7 +1168,7 @@ public class LevelManager : MonoBehaviour
             _audioManager.musicTracks.MusicTrackAudioSource.Play();
         
         
-        if (continueCounter < 3)
+        if (continueCounter < 2)
         {
             StartCoroutine("CarReset");
         }
@@ -1243,7 +1243,7 @@ public class LevelManager : MonoBehaviour
         if(!adStuff && continueCounter!=5)
             continueCounter++;
         
-        if (continueCounter == 3)
+        if (continueCounter == 2)
         {
             _uiManager.nothanksBtn.SetActive(true);
             _uiManager.brokenHeart.gameObject.SetActive(true);
@@ -1511,6 +1511,13 @@ public class LevelManager : MonoBehaviour
 
     }
 
-   
+    public void skip()
+    {
+        envManager.dayObstacles.SetActive(false);
+        envManager.nightObstacles.SetActive(false);
+       _playerController.targetSpeed = 30;
+    }
+    
+    
     
 }

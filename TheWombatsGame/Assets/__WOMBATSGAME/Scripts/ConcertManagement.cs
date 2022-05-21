@@ -202,9 +202,9 @@ public class ConcertManagement : MonoBehaviour
     IEnumerator CountRewardCoins()
     {
         
-        yield return new WaitForSeconds(0.005f);
+        yield return new WaitForSeconds(0.001f);
         rewardCoinsCounter--;
-        yield return new WaitForSeconds(0.005f);
+        yield return new WaitForSeconds(0.001f);
         PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins")+1);
         rewardedCoins.text = rewardCoinsCounter.ToString();
 
@@ -219,8 +219,7 @@ public class ConcertManagement : MonoBehaviour
                 lastLevelButtons.SetActive(true);
                 lastLevelButtons.transform.DOLocalMoveY(0f, 0.5f);
                 URLforCompi = "https://www.toneden.io/the-wombats-5/post/the-wombats-official-game-competition";
-                GameManager.Instance.isThisTheFinalLevel = false;
-                
+
             }
             else
             {
@@ -233,6 +232,7 @@ public class ConcertManagement : MonoBehaviour
         
     }
 
+   
     public void LoadNextLevel()
     {
         /*UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;*/

@@ -189,7 +189,7 @@ public class FrontColliderTriggers : MonoBehaviour
             if (LevelManager.Instance._audioManager != null)
                 LevelManager.Instance._audioManager.musicTracks.MusicTrackAudioSource.Pause();
 
-            LevelManager.Instance.carContinueChances.text = "" + (3 - LevelManager.Instance.continueCounter);
+            LevelManager.Instance.carContinueChances.text = "" + (2 - LevelManager.Instance.continueCounter);
             
             LevelManager.Instance.isGameStarted = false;
             LevelManager.Instance.isCrashed = true;

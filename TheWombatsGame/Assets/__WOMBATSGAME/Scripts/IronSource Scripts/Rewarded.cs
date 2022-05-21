@@ -7,6 +7,8 @@ public class Rewarded : MonoBehaviour
     public string androidAppKey;
     public string iosAppKey;
     [HideInInspector]public string appkey;
+
+    public GameObject adNotAvailableBox1,adNotAvailableBox2;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,7 +42,8 @@ public class Rewarded : MonoBehaviour
         {
             Debug.Log("Doesnt Work");
             // TODO: Show dialog prompt
-            // If ad is not available (internet is off), just show a dialog box that says "Video ad not availble"
+            if(adNotAvailableBox1!= null)
+                adNotAvailableBox1.SetActive(true);
             //LevelManager.Instance.ShowRevivePanel();
         }
 
@@ -59,7 +62,8 @@ public class Rewarded : MonoBehaviour
         {
             Debug.Log("Doesnt Work");
             // TODO: Show dialog prompt
-            // If ad is not available (internet is off), just show a dialog box that says "Video ad not availble"
+            if(adNotAvailableBox2!= null)
+                adNotAvailableBox2.SetActive(true);
             //PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins") + GameManager.Instance.timesForCoins);
         }
 

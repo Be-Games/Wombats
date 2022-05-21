@@ -118,6 +118,7 @@ public class GameManager : MonoBehaviour
     
     private void Start()
     {
+        
         PlayerPrefs.GetInt("MyTotalCoins", 0);
 
 

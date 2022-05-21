@@ -146,4 +146,28 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.ButtonClick();
     }
 
+    public void SkipLevel()
+    {
+        LevelManager.Instance.skip();
+    }
+    
+    /*void OnApplicationPause(bool pauseStatus)
+    {
+        if (!pauseStatus)
+        {
+            Time.timeScale = 1;
+            pauseScreen.DOAnchorPos(new Vector2(1500,0f), 0.25f).SetEase(Ease.Flash);
+        
+            //Random Tip
+            tips_txt.text = allTips[UnityEngine.Random.Range(0, allTips.Length)];
+        }
+        else if (pauseStatus)
+        {
+            pauseScreen.DOAnchorPos(Vector2.zero, 0.25f).SetEase(Ease.Flash).OnComplete(PauseMenu);
+            currentTrackName.text = LevelManager.Instance._audioManager.musicTracks.MusicTrackAudioSource.clip.name;
+            cityName.text = SceneManager.GetActiveScene().name;
+            
+        }
+    }*/
+
 }

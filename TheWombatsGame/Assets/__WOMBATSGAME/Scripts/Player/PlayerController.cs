@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public float normalSpeed;
     public float boostSpeed;
 
+    public GameObject[] wheels;
 
     [Header("Car Movement Variables")]
     [SerializeField]
@@ -53,9 +54,11 @@ public class PlayerController : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "LIVERPOOL")
         {
             normalSpeed = normalSpeed - 2;
-            boostSpeed = boostSpeed - 2;
+            boostSpeed = boostSpeed - 4;
         }
-        
+
+        wheels = LevelManager.Instance._playerVehicleManager.bodyTrigger.wheels;
+
     }
 
     IEnumerator CarInitialPush()
@@ -84,6 +87,12 @@ public class PlayerController : MonoBehaviour
                     if (!LevelManager.Instance.isBoosting)
                     {
 
+                        /*foreach (var wheel in wheels)
+                        {
+                            wheel.transform.DOLocalRotate(new Vector3(0f, 0f, 0f), 0.1f, RotateMode.FastBeyond360)
+                                .SetEase(Ease.Flash).SetLoops(-1, LoopType.Incremental);
+                        }*/
+                        
                         LevelManager.Instance.SetCameraDampValue(LevelManager.Instance.breakValue);
                     
                         //winds off
@@ -126,6 +135,12 @@ public class PlayerController : MonoBehaviour
                 {
                     if (!LevelManager.Instance.isBoosting)
                     {
+                        /*foreach (var wheel in wheels)
+                        {
+                            wheel.transform.DORotate(new Vector3(-100f, 0f, 0f), 0.1f, RotateMode.FastBeyond360)
+                                .SetEase(Ease.Flash).SetLoops(-1, LoopType.Incremental);
+                        }*/
+                        
                        LevelManager.Instance.SetCameraDampValue(LevelManager.Instance.defaultValue);
                     
                         //WINDS ON

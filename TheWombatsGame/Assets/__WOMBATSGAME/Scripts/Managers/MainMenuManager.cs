@@ -113,13 +113,13 @@ public class MainMenuManager : MonoBehaviour
         UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
         
         leftCar.DOKill();
-        leftCar.transform.DOMoveZ(26, 2f).SetEase(Ease.InOutSine).SetRelative(true).OnComplete(LoadLevel);;
+        leftCar.transform.DOMoveZ(20, 2f).SetEase(Ease.InOutSine).SetRelative(true).OnComplete(LoadLevel);;
         
         rightCar.DOKill();
-        rightCar.transform.DOMoveZ(26, 2f).SetEase(Ease.InOutSine).SetRelative(true);
+        rightCar.transform.DOMoveZ(20, 2f).SetEase(Ease.InOutSine).SetRelative(true);
         
         centreCar.DOKill();
-        centreCar.transform.DOMoveZ(26, 2f).SetEase(Ease.InOutSine).SetRelative(true);
+        centreCar.transform.DOMoveZ(20, 2f).SetEase(Ease.InOutSine).SetRelative(true);
 
 
     }

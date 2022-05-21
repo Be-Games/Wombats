@@ -1080,7 +1080,7 @@ ParticleSystem:
   m_GameObject: {fileID: 501108015473459544}
   serializedVersion: 7
   lengthInSec: 0.05
-  simulationSpeed: 1
+  simulationSpeed: 1.7
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
@@ -1154,7 +1154,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.8
+      scalar: 0.5
       minScalar: 0.4
       maxCurve:
         serializedVersion: 2
@@ -1189,7 +1189,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -9266,7 +9266,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037873854480438401, guid: 93bb250ff40686544a98a87d2cede3d3, type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93bb250ff40686544a98a87d2cede3d3, type: 3}

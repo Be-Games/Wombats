@@ -96,16 +96,12 @@ public class LevelSelection : MonoBehaviour
         {
             enterContestBtn.SetActive(true);
         }
-        else if (!GameManager.Instance.isThisTheFinalLevel)
-        {
-            enterContestBtn.SetActive(false);
-        }
-        
+
         prevBtn.SetActive(index != 0);
 
         nextBtn.SetActive(index != (allLevelsGO.Length)-1);
         
-        for (int i = 1; i <= 18; i++)
+        for (int i = 1; i <= 19; i++)
         {
             if ( PlayerPrefs.GetInt("LevelIndex") == i)
             {

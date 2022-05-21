@@ -105,6 +105,7 @@ public class Tut_Gamecontrols : MonoBehaviour
             
             //after animation release car
             Invoke("PostBarrierAnimation",1.2f);
+            
         }
         
     }
