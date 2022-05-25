@@ -1125,6 +1125,7 @@ public class LevelManager : MonoBehaviour
     public void ResetGame()
     {
         UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
+        Ana_LevelRestart();
         
         Time.timeScale = 1;
         _gameManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -1391,9 +1392,9 @@ public class LevelManager : MonoBehaviour
     {
         //Level ShowAd!
         if (GameManager.Instance.lightingMode == 1)
-            Analytics.CustomEvent("Level Ad Shown " + SceneManager.GetActiveScene().name + "-DAY-" + typeOfAd);
+            Analytics.CustomEvent("Level Ad Shown " + _gameManager.currentLevelName + "-DAY-" + typeOfAd);
         if (GameManager.Instance.lightingMode == 2)
-            Analytics.CustomEvent("Level Ad Shown " + SceneManager.GetActiveScene().name + "-NIGHT-" + typeOfAd);
+            Analytics.CustomEvent("Level Ad Shown " + _gameManager.currentLevelName + "-NIGHT-" + typeOfAd);
     }
 
     public void LoadScene()
@@ -1517,6 +1518,16 @@ public class LevelManager : MonoBehaviour
         envManager.nightObstacles.SetActive(false);
        _playerController.targetSpeed = 30;
     }
+    
+    void Ana_LevelRestart()
+    {
+        //Level Restart!
+        if (GameManager.Instance.lightingMode == 1)
+            Analytics.CustomEvent("Level Restart " + SceneManager.GetActiveScene().name + "-DAY ");
+        if (GameManager.Instance.lightingMode == 2)
+            Analytics.CustomEvent("Level Restart " + SceneManager.GetActiveScene().name + "-NIGHT ");
+    }
+
     
     
     

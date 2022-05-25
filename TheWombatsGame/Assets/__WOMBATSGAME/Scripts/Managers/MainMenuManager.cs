@@ -94,10 +94,7 @@ public class MainMenuManager : MonoBehaviour
             homeRoadTexture.mainTextureOffset = new Vector2(0f, xOffset);
     }
 
-    private void Update()
-    {
-       
-    }
+  
 
     void CompleteRest()
     {
