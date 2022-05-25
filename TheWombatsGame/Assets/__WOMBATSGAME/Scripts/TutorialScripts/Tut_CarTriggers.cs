@@ -19,6 +19,7 @@ public class Tut_CarTriggers : MonoBehaviour
         
         if (other.gameObject.name == "MoveLeft")
         {
+            other.GetComponent<Collider>().enabled = false;
             Debug.Log("Swipe Left Trigger On");
             
             //Decelerate
@@ -55,7 +56,7 @@ public class Tut_CarTriggers : MonoBehaviour
         if (other.gameObject.name == "MoveRight")
         {
             Debug.Log("Swipe Right Trigger On");
-            
+            other.GetComponent<Collider>().enabled = false;   
             //Decelerate
             
             DOTween.To(() => TutPlayerController.defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
@@ -88,6 +89,7 @@ public class Tut_CarTriggers : MonoBehaviour
         
         if (other.gameObject.name == "Break")
         {
+            other.GetComponent<Collider>().enabled = false;
             Debug.Log("Brake On");
             
             
@@ -124,23 +126,26 @@ public class Tut_CarTriggers : MonoBehaviour
         if (other.gameObject.name == "CoinPanel")
         {
             TutPlayerController.coinPanel.SetActive(true);
+            other.GetComponent<Collider>().enabled = false;
         }
         
         if (other.gameObject.CompareTag("Coin"))
         {
             other.transform.gameObject.GetComponent<ParticleSystem>().Stop();
             other.transform.GetChild(0).GetChild(0).gameObject.GetComponent<ParticleSystem>().Play();
+            other.GetComponent<Collider>().enabled = false;
         }
 
         if (other.gameObject.name == "BoostPanel")
         {
             TutPlayerController.boostPanel.SetActive(true);
             TutPlayerController.boostBtn_GO.SetActive(true);
-            
+            other.GetComponent<Collider>().enabled = false;
         }
 
         if (other.gameObject.CompareTag("Boost"))
         {
+            
             other.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>().Stop();
             other.transform.GetChild(1).gameObject.GetComponent<ParticleSystem>().Play();
 

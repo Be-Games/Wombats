@@ -26,7 +26,8 @@ public class MainMenuManager : MonoBehaviour
     public Material homeRoadTexture;
     public float xOffset;
     private bool canOffset = false;
-    
+
+    public DOTweenAnimation leftCar,centreCar,rightCar;
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -38,7 +39,8 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
-
+        
+        
         PlayerPrefs.GetInt("isTutShown",0);
         
         xOffset = 0;
@@ -57,15 +59,12 @@ public class MainMenuManager : MonoBehaviour
 
         
         StartCoroutine(UpdateRoadOffset());
+        
 
     }
     
-
-        
     
-        
-
-        IEnumerator HomeScreenEnable()
+    IEnumerator HomeScreenEnable()
     {
         yield return new WaitForSeconds(0.5f);
         HomeScreen.GetComponent<Image>().DOFade(1f, 2f).SetEase(Ease.Flash);
@@ -79,7 +78,7 @@ public class MainMenuManager : MonoBehaviour
     IEnumerator UpdateRoadOffset()
     {
         DOTween.To(() => xOffset, 
-                x => xOffset = x, 100000, 30f).OnComplete(() =>
+                x => xOffset = x, 100000, 30f).OnUpdate(RoadUpdate).OnComplete(() =>
         {
             xOffset = 0;
             StartCoroutine(UpdateRoadOffset());
@@ -89,10 +88,15 @@ public class MainMenuManager : MonoBehaviour
 
     }
 
-    private void Update()
+    void RoadUpdate()
     {
         if(canOffset)
-            homeRoadTexture.mainTextureOffset = new Vector2(0f, xOffset); 
+            homeRoadTexture.mainTextureOffset = new Vector2(0f, xOffset);
+    }
+
+    private void Update()
+    {
+       
     }
 
     void CompleteRest()
@@ -105,19 +109,54 @@ public class MainMenuManager : MonoBehaviour
 
     public void PlayGame()
     {
-        if (PlayerPrefs.GetInt("isTutShown") == 0)
-        {
-            GameManager.Instance.LoadScene("Tutorial");
-            PlayerPrefs.SetInt("isTutShown",1);
-        }
+
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
         
-        else if (PlayerPrefs.GetInt("isTutShown") == 1)
-        {
-            PlayerPrefs.SetInt("isGarage",0);
-            GameManager.Instance.LoadScene("PlayerSelection");
-        }
+        leftCar.DOKill();
+        leftCar.transform.DOMoveZ(20, 2f).SetEase(Ease.InOutSine).SetRelative(true).OnComplete(LoadLevel);;
+        
+        rightCar.DOKill();
+        rightCar.transform.DOMoveZ(20, 2f).SetEase(Ease.InOutSine).SetRelative(true);
+        
+        centreCar.DOKill();
+        centreCar.transform.DOMoveZ(20, 2f).SetEase(Ease.InOutSine).SetRelative(true);
+
+
+    }
+
+    void LoadLevel()
+    {
+
+        if (PlayerPrefs.GetInt("isTutShown") == 0)
+       {
+           GameManager.Instance.LoadScene("Tutorial");
+           PlayerPrefs.SetInt("isTutShown",1);
+       }
        
-        PlayerPrefs.Save();
+       else if (PlayerPrefs.GetInt("isTutShown") == 1)
+       {
+           PlayerPrefs.SetInt("isGarage",0);
+           /*PlayerPrefs.SetInt("isTutShown",2);*/
+           GameManager.Instance.LoadScene("LevelSelection");
+           
+       }
+        /*else if (PlayerPrefs.GetInt("isTutShown") == 2)
+        {
+            GameManager.Instance.LoadScene("LevelSelection");
+        }*/
+      
+       PlayerPrefs.Save();
+    }
+
+    public void ButtonClick()
+    {
+        GameManager.Instance.ButtonClick();
+    }
+
+    public void StartBtnSound()
+    {
+        if(AudioManager.Instance.isSFXenabled)
+            AudioManager.Instance.sfxAll.carEngineStartScreen.PlayOneShot(AudioManager.Instance.sfxAll.carEngineStartScreen.clip);
     }
     
 }

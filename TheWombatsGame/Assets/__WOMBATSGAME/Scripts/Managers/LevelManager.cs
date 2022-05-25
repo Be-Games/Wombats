@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using Cinemachine;
 using Coffee.UIEffects;
 using DG.Tweening;
+using Lofelt.NiceVibrations;
 using NatSuite.Examples;
+using PathCreation.Examples;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -49,7 +51,7 @@ public class LevelManager : MonoBehaviour
     public GameObject[] carVisualsParents;
 
     [Header("Lap Settings")]
-    [HideInInspector] public int lapCounter = 0;
+    public int lapCounter = 0;
     [HideInInspector] public bool isLapTriggered;
 
     [Header("Scoring Stuff")] 
@@ -112,7 +114,7 @@ public class LevelManager : MonoBehaviour
     public List<GameObject> boostPickUps;
     public List<GameObject> pplToDisable;
     public float singleLapDistance;
-    public GameObject endConfetti;
+    public GameObject endConfetti,startConfetti;
     public string cityName;
     
     [Header("Stadium Spawn Things")] 
@@ -128,12 +130,13 @@ public class LevelManager : MonoBehaviour
     public GameObject nightObstaclesPf;
     public Transform dayParent;
     public Transform nightParent;
-    private GameObject tempPrefab;
+    private GameObject tempPrefabD;
+    private GameObject tempPrefabN;
 
     [Header("Camera Damping Values")] 
-    public float boostOnValue;
-    public float breakValue;
-    public float defaultValue;
+    [HideInInspector] public float boostOnValue;
+    [HideInInspector] public float breakValue;
+    [HideInInspector] public float defaultValue;
 
     
 
@@ -152,7 +155,7 @@ public class LevelManager : MonoBehaviour
         if (_gameManager != null)
             totalLaps = _gameManager.numberOfLaps;
 
-        /*#region CodeToComment
+        #region CodeToComment
         if (_gameManager)
         {
             if (_gameManager.memeberIndex == 0)        //murph
@@ -204,7 +207,7 @@ public class LevelManager : MonoBehaviour
               
         }
           
-        #endregion*/
+        #endregion
           
         _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
           
@@ -218,7 +221,12 @@ public class LevelManager : MonoBehaviour
         
         if(_playerVehicleManager.bandMember != null)
             _playerVehicleManager.bandMember.SetActive(false);
-       
+
+
+        boostOnValue = -3f;
+        breakValue = -1.50f;
+        defaultValue = -2.1f;
+
     }
 
     public Renderer myRenL,myRenR;
@@ -235,11 +243,16 @@ public class LevelManager : MonoBehaviour
         
         UpdateIcons();
 
+        SceneNameAndIndex();
+        
+    }
 
-        if (_gameManager.lightingMode == 2 && SceneManager.GetActiveScene().name == "MILAN")
-            _gameManager.isThisTheFinalLevel = true;
-        // _audioManager.LoadIcons();
-
+    void SceneNameAndIndex()
+    {
+        
+        _gameManager.currentLevelName = SceneManager.GetActiveScene().name;
+        _gameManager.currentLI = GameManager.Instance.lightingMode;
+        
     }
 
     void InitializingVariables()
@@ -279,6 +292,22 @@ public class LevelManager : MonoBehaviour
         
         _playerVehicleManager.overHeadBoostUI.timerText.gameObject.SetActive(false);
         _uiManager.resumeTimer.gameObject.SetActive(false);
+        
+        startConfetti = GameObject.FindGameObjectWithTag("StartCon");
+        endConfetti = GameObject.FindGameObjectWithTag("EndCon");
+        
+        if(endConfetti != null)
+            endConfetti.SetActive(false);
+        if(startConfetti != null)
+            startConfetti.SetActive(false);
+
+
+        GameObject parentCD = GameObject.FindGameObjectWithTag("CDParent");
+        for (int i = 0; i < 4; i++)
+        {
+            countdownLights[i] = parentCD.transform.GetChild(i).gameObject;
+        }
+        
     }
 
     void SceneStart()
@@ -307,6 +336,20 @@ public class LevelManager : MonoBehaviour
     {
         if (_gameManager.lightingMode == 1)
         {
+            tempPrefabD =  (GameObject)Instantiate(dayObstaclesPf, dayParent);
+            tempPrefabD.tag = "TEMPD";
+        }
+        
+        
+        if (_gameManager.lightingMode == 2)
+        {
+            tempPrefabN =  (GameObject)Instantiate(nightObstaclesPf, nightParent);
+            tempPrefabN.tag = "TEMPN";
+        }
+       
+        
+        /*if (_gameManager.lightingMode == 1)
+        {
             //DAY OBSTACLES
             tempPrefab =  (GameObject)Instantiate(dayObstaclesPf, dayParent);
             tempPrefab.tag = "TEMP";
@@ -317,7 +360,7 @@ public class LevelManager : MonoBehaviour
             //NIGHT OBSTACLES
             tempPrefab =  (GameObject)Instantiate(nightObstaclesPf, nightParent);
             tempPrefab.tag = "TEMP";
-        }
+        }*/
     }
     
     void WeatherSetup()
@@ -395,10 +438,7 @@ public class LevelManager : MonoBehaviour
         iniCMVCCam.Priority = 0;
         defCMVCCam.Priority = 1;
 
-        if (_audioManager!=null && _audioManager.isMusicEnabled)
-        {
-            _audioManager.musicTracks.MusicTrackAudioSource.Play();
-        }
+        
         
         SetCameraDampValue(breakValue);
         
@@ -428,6 +468,15 @@ public class LevelManager : MonoBehaviour
         //timerText.gameObject.SetActive(false);
         isGameStarted = true;
 
+        startConfetti.SetActive(true);
+        
+        if (_audioManager!=null && _audioManager.isMusicEnabled)
+        {
+            _audioManager.musicTracks.MusicTrackAudioSource.Play();
+        }
+        if(_audioManager!=null && _audioManager.isSFXenabled)
+            _audioManager.sfxAll.confettiPop.PlayOneShot(_audioManager.sfxAll.confettiPop.clip);
+        
         RaceStarted();
        
 
@@ -488,7 +537,7 @@ public class LevelManager : MonoBehaviour
         if (lapCounter < totalLaps)
         {
             
-            if (_gameManager.lightingMode == 1)
+            /*if (_gameManager.lightingMode == 1)
             {
                 Destroy(GameObject.FindGameObjectWithTag("TEMP"));
                 
@@ -504,13 +553,65 @@ public class LevelManager : MonoBehaviour
                 //NIGHT OBSTACLES
                 tempPrefab =  (GameObject)Instantiate(nightObstaclesPf, nightParent);
                 tempPrefab.tag = "TEMP";
+            }*/
+            
+            if (_gameManager.lightingMode == 1)
+            {
+                if (lapCounter == 1)
+                {
+                    if (GameObject.FindGameObjectWithTag("TEMPD") != null) 
+                    { 
+                        Destroy(GameObject.FindGameObjectWithTag("TEMPD"));
+                
+                        //NIGHT OBSTACLES
+                        tempPrefabN =  (GameObject)Instantiate(nightObstaclesPf, nightParent);
+                        tempPrefabN.tag = "TEMPN";
+                    }
+                }
+                
+                else if (lapCounter == 2)
+                {
+                    if (GameObject.FindGameObjectWithTag("TEMPN") != null)
+                    {
+                        Destroy(GameObject.FindGameObjectWithTag("TEMPN"));
+                    }
+                }
+                
             }
             
-            // boostPickUps = new List<GameObject>();
-            // if (GameObject.FindGameObjectWithTag("Boost").activeInHierarchy)
-            // {
-            //     boostPickUps.AddRange(GameObject.FindGameObjectsWithTag("Boost"));
-            // }
+            if (_gameManager.lightingMode == 2)
+            {
+                if (lapCounter == 1)
+                {
+                    if (GameObject.FindGameObjectWithTag("TEMPN") != null) 
+                    { 
+                        Destroy(GameObject.FindGameObjectWithTag("TEMPN"));
+                
+                        //DAY OBSTACLES
+                        tempPrefabD =  (GameObject)Instantiate(dayObstaclesPf, dayParent);
+                        tempPrefabD.tag = "TEMPD";
+                    }
+                }
+                
+                else if (lapCounter == 2)
+                {
+                    if (GameObject.FindGameObjectWithTag("TEMPD") != null)
+                    {
+                        Destroy(GameObject.FindGameObjectWithTag("TEMPD"));
+                    }
+                }
+                
+            }
+            
+             boostPickUps = new List<GameObject>();
+             if (GameObject.FindGameObjectWithTag("Boost").activeInHierarchy)
+             {
+                 if (GameObject.FindGameObjectsWithTag("Boost") != null)
+                 {
+                     boostPickUps.AddRange(GameObject.FindGameObjectsWithTag("Boost"));
+                 }
+                 
+             }
             
         
             pplToDisable = new List<GameObject>();
@@ -653,11 +754,11 @@ public class LevelManager : MonoBehaviour
         _uiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPlay();
         
         //DISABLE ALL THE BOOST PICKUPS
-        // foreach (GameObject x in boostPickUps)                                                            //Dissable all the boost pickups
-        // {
-        //     if(x != null)
-        //         x.SetActive(false);
-        // }
+         foreach (GameObject x in boostPickUps)                                                            //Disable all the boost pickups
+         {
+            if(x != null)
+                x.SetActive(false);
+        }
         
     }
     
@@ -675,7 +776,8 @@ public class LevelManager : MonoBehaviour
             _uiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPause();
             _uiManager.BoostBtn.transform.DOScale(new Vector3(0.4f, 0.4f, 0.4f), 0f);
         
-            GameManager.Instance.VibrateOnce();
+            if(AudioManager.Instance.isHapticEnabled)
+                HapticPatterns.PlayConstant(1f, 0.0f, 0.5f);
             
             CarBoostOn();
             
@@ -772,6 +874,14 @@ public class LevelManager : MonoBehaviour
 
     void CarBoostOff()
     {
+        
+        //DISABLE ALL THE BOOST PICKUPS
+        foreach (GameObject x in boostPickUps)                                                            //Disable all the boost pickups
+        {
+            if(x != null)
+                x.SetActive(true);
+        }
+        
         SetCameraDampValue(defaultValue);
         
         isBoosting = false;
@@ -806,51 +916,85 @@ public class LevelManager : MonoBehaviour
     IEnumerator RaceFinished()
     {
         _gameManager.playerPosi = _levelProgressUI.playerPosi;
-
+        
+        if (_gameManager.lightingMode == 2 && SceneManager.GetActiveScene().name == "MILAN")
+            _gameManager.isThisTheFinalLevel = true;
+        
         switch (PlayerPrefs.GetInt("LevelIndex"))
         {
             case 2:
-                PlayerPrefs.SetInt("LevelIndex",3);
+                if(SceneManager.GetActiveScene().name == "LONDON" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",3);            //ROME NIGHT
                 break;
             case 3:
-                PlayerPrefs.SetInt("LevelIndex",4);
+                if(SceneManager.GetActiveScene().name == "ROME" && _gameManager.lightingMode == 2)
+                    PlayerPrefs.SetInt("LevelIndex",4);            //SYDNEY DAY
                 break;
             case 4:
-                PlayerPrefs.SetInt("LevelIndex",5);
+                if(SceneManager.GetActiveScene().name == "SYDNEY" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",5);            //PARIS NIGHT
                 break;
             case 5:
-                PlayerPrefs.SetInt("LevelIndex",6);
+                if(SceneManager.GetActiveScene().name == "PARIS" && _gameManager.lightingMode == 2)
+                    PlayerPrefs.SetInt("LevelIndex",6);            //EGYPT DAY
                 break;
             case 6:
-                PlayerPrefs.SetInt("LevelIndex",7);
+                if(SceneManager.GetActiveScene().name == "EGYPT" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",7);            //CARDIFF NIGHT
                 break;
             case 7:
-                PlayerPrefs.SetInt("LevelIndex",8);
+                if(SceneManager.GetActiveScene().name == "CARDIFF" && _gameManager.lightingMode == 2)
+                    PlayerPrefs.SetInt("LevelIndex",8);            //GLASGOW DAY
                 break;
             case 8:
-                PlayerPrefs.SetInt("LevelIndex",9);
+                if(SceneManager.GetActiveScene().name == "GLASGOW" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",9);            //TOKYO NIGHT
                 break;
             case 9:
-                PlayerPrefs.SetInt("LevelIndex",10);
+                if(SceneManager.GetActiveScene().name == "TOKYO" && _gameManager.lightingMode == 2)
+                    PlayerPrefs.SetInt("LevelIndex",10);            //MILAN DAY
                 break;
             case 10:
-                PlayerPrefs.SetInt("LevelIndex",11);
+                if(SceneManager.GetActiveScene().name == "MILAN" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",11);        //LONDON NIGHT
                 break;
             case 11:
-                PlayerPrefs.SetInt("LevelIndex",12);
+                if(SceneManager.GetActiveScene().name == "LONDON" && _gameManager.lightingMode == 2)
+                    PlayerPrefs.SetInt("LevelIndex",12);        //ROME DAY
                 break;
             case 12:
-                PlayerPrefs.SetInt("LevelIndex",13);
+                if(SceneManager.GetActiveScene().name == "ROME" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",13);        //SYDNEY NIGHT
                 break;
             case 13:
-                PlayerPrefs.SetInt("LevelIndex",14);
+                if(SceneManager.GetActiveScene().name == "SYDNEY" && _gameManager.lightingMode == 2)
+                    PlayerPrefs.SetInt("LevelIndex",14);        //PARIS DAY
                 break;
-            /*case 14:
-                PlayerPrefs.SetInt("LevelIndex",15);
+            case 14:
+                if(SceneManager.GetActiveScene().name == "PARIS" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",15);        //EGYPT NIGHT
                 break;
             case 15:
-                PlayerPrefs.SetInt("LevelIndex",16);
-                break;*/
+                if(SceneManager.GetActiveScene().name == "EGYPT" && _gameManager.lightingMode == 2)
+                    PlayerPrefs.SetInt("LevelIndex",16);        //CARDIFF DAY
+                break;
+            case 16:
+                if(SceneManager.GetActiveScene().name == "CARDIFF" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",17);            //GLASGOW NIGHT
+                break;
+            case 17:
+                if(SceneManager.GetActiveScene().name == "GLASGOW" && _gameManager.lightingMode == 2)
+                    PlayerPrefs.SetInt("LevelIndex",18);            //TOKYO DAY
+                break;
+            case 18:
+                if(SceneManager.GetActiveScene().name == "TOKYO" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",19);            //LIVERPOOL DAY
+                break;
+            case 19:
+                if(SceneManager.GetActiveScene().name == "LIVERPOOL" && _gameManager.lightingMode == 1)
+                    PlayerPrefs.SetInt("LevelIndex",20);            //MILAN NIGHT
+                break;
+            
         }
 
         /*switch (PlayerPrefs.GetInt("CarIndex"))
@@ -980,6 +1124,8 @@ public class LevelManager : MonoBehaviour
 
     public void ResetGame()
     {
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
+        
         Time.timeScale = 1;
         _gameManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -1016,12 +1162,13 @@ public class LevelManager : MonoBehaviour
     //CONTINUE BTN ON CRASH
     public void ResetCar()
     {
+        
         // PickUpTrigger.Instance.HideHuman();
         if(_audioManager!=null)
             _audioManager.musicTracks.MusicTrackAudioSource.Play();
         
         
-        if (continueCounter < 3)
+        if (continueCounter < 2)
         {
             StartCoroutine("CarReset");
         }
@@ -1039,6 +1186,7 @@ public class LevelManager : MonoBehaviour
     {
         Ana_LevelContinue();
         
+        _uiManager.crashedPanel.SetActive(false);
         smokeTransitionPostCrashEffect.SetActive(true);
         _uiManager.BoostBtn.SetActive(false);
         
@@ -1050,7 +1198,7 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         
         _uiManager.BoostBtn.SetActive(true);
-        _uiManager.crashedPanel.SetActive(false);
+        
         _playerVehicleManager.postCrashStuff.crashPS.gameObject.SetActive(false);
         _playerVehicleManager.postCrashStuff.up_car.SetActive(true);
         _playerVehicleManager.postCrashStuff.down_car.SetActive(false);
@@ -1095,9 +1243,9 @@ public class LevelManager : MonoBehaviour
         if(!adStuff && continueCounter!=5)
             continueCounter++;
         
-        if (continueCounter == 3)
+        if (continueCounter == 2)
         {
-            _uiManager.nothanksBtn.SetActive(false);
+            _uiManager.nothanksBtn.SetActive(true);
             _uiManager.brokenHeart.gameObject.SetActive(true);
             _uiManager.fullHeart.gameObject.SetActive(false);
             _uiManager.rewardBtn.SetActive(true);           //ADD GET MORE LIVES BUTTON
@@ -1197,7 +1345,7 @@ public class LevelManager : MonoBehaviour
 
     public void RunRewardedAd()
     {
-        _gameManager.rewardedAd.rewarded();
+        GameManager.Instance.rewardedAd.rewarded();
         
         //Invoke("ShowRevivePanel",3f);
     }
@@ -1246,6 +1394,11 @@ public class LevelManager : MonoBehaviour
             Analytics.CustomEvent("Level Ad Shown " + SceneManager.GetActiveScene().name + "-DAY-" + typeOfAd);
         if (GameManager.Instance.lightingMode == 2)
             Analytics.CustomEvent("Level Ad Shown " + SceneManager.GetActiveScene().name + "-NIGHT-" + typeOfAd);
+    }
+
+    public void LoadScene()
+    {
+        GameManager.Instance.LoadScene("LevelSelection");
     }
     
     
@@ -1358,9 +1511,13 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    public void LoadLevelSelection()
+    public void skip()
     {
-        GameManager.Instance.LoadScene("LevelSelection");
+        envManager.dayObstacles.SetActive(false);
+        envManager.nightObstacles.SetActive(false);
+       _playerController.targetSpeed = 30;
     }
+    
+    
     
 }

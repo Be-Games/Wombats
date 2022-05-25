@@ -10,6 +10,8 @@ using Lofelt.NiceVibrations;
 using TMPro;
 
 
+
+
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
@@ -36,9 +38,9 @@ public class GameManager : MonoBehaviour
         
         
 
-        selectedCarModelPLAYER = 0;
-        enemyCar1 = 0;
-        enemyCar2 = enemyCar1 + 1;
+        selectedCarModelPLAYER = 1;
+        enemyCar1 = selectedCarModelPLAYER+1;
+        enemyCar2 = selectedCarModelPLAYER + 2;
     }
 
     [Header("Variables for Full Game")] 
@@ -83,10 +85,16 @@ public class GameManager : MonoBehaviour
     public GameObject coinsPanel;
     
     public bool isForCoinsReward;
-    public int additionalCoinsToBeGivenBasedOnRank =20;
-    public int timesForCoins = 10;
+    public bool isForCarInterstitial;
+    public int additionalCoinsToBeGivenBasedOnRank;
+    public int timesForCoins;
 
     public bool isThisTheFinalLevel;
+
+    public int carIndex = 0;
+
+    public string currentLevelName,nextLevelName;
+    public int currentLI, nextLI;
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -105,13 +113,25 @@ public class GameManager : MonoBehaviour
         }
 
         PlayerPrefs.GetInt("isGarage", 0);
+        
     }
     
     private void Start()
     {
-        PlayerPrefs.GetInt("MyTotalCoins", 0);
         
-            
+        PlayerPrefs.GetInt("MyTotalCoins", 0);
+
+
+        PlayerPrefs.GetInt("Car" + 1, 1);
+        PlayerPrefs.GetInt("Car" + 2, 0);
+        PlayerPrefs.GetInt("Car" + 3, 0);
+        PlayerPrefs.GetInt("Car" + 4, 0);
+        PlayerPrefs.GetInt("Car" + 5, 0);
+        PlayerPrefs.GetInt("Car" + 6, 0);
+        PlayerPrefs.GetInt("Car" + 7, 0);
+        PlayerPrefs.GetInt("Car" + 8, 0);
+        PlayerPrefs.GetInt("Car" + 9, 0);
+        
         if (numberOfLaps == 0)
             numberOfLaps = 2;
         
@@ -229,6 +249,7 @@ public class GameManager : MonoBehaviour
 
     public void VibrateOnce()
     {
+/*
 #if UNITY_IOS
         if(AudioManager.Instance.isHapticEnabled)
             HapticPatterns.PlayConstant(0.8f, 0.0f, 0.4f);
@@ -237,7 +258,14 @@ public class GameManager : MonoBehaviour
         if(AudioManager.Instance.isHapticEnabled)
             HapticPatterns.PlayConstant(1f, 0.0f, 0.5f);
 #endif
+*/
         
+    }
+
+    public void ButtonClick()
+    {
+        if(AudioManager.Instance.isSFXenabled)
+            AudioManager.Instance.sfxAll.btnSound.PlayOneShot(AudioManager.Instance.sfxAll.btnSound.clip);
     }
 }
 

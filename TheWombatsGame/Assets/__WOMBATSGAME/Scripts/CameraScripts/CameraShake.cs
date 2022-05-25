@@ -6,11 +6,11 @@ using UnityEngine.Events;
 
 public class CameraShake : MonoBehaviour {
 
-    public float ShakeDuration = 0.3f;          // Time the Camera Shake effect will last
-    public float ShakeAmplitude = 1.2f;         // Cinemachine Noise Profile Parameter
-    public float ShakeFrequency = 2.0f;         // Cinemachine Noise Profile Parameter
+    [HideInInspector]public float ShakeDuration = 0.3f;          // Time the Camera Shake effect will last
+    [HideInInspector]public float ShakeAmplitude = 2f;         // Cinemachine Noise Profile Parameter
+    [HideInInspector]public float ShakeFrequency = 2.0f;         // Cinemachine Noise Profile Parameter
 
-    public float ShakeElapsedTime = 0f;
+    [HideInInspector]public float ShakeElapsedTime = 0f;
 
     // Cinemachine Shake
     public CinemachineVirtualCamera VirtualCamera;
@@ -19,16 +19,21 @@ public class CameraShake : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        ShakeDuration = 0.3f; 
+        ShakeAmplitude = 0.6f;  
+        ShakeFrequency = 2.0f;
+        ShakeElapsedTime = 0f;
         // Get Virtual Camera Noise Profile
         if (VirtualCamera != null)
             virtualCameraNoise = VirtualCamera.GetCinemachineComponent<Cinemachine.CinemachineBasicMultiChannelPerlin>();
-        
-        
+
+        StartCoroutine(MyUpdate());
+
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator MyUpdate()
     {
+        
         // TODO: Replace with your trigger
         if (LevelManager.Instance.isBoosting)
         {
@@ -61,5 +66,14 @@ public class CameraShake : MonoBehaviour {
                 ShakeElapsedTime = 0f;
             }
         }
+
+        yield return null;
+
+        StartCoroutine(MyUpdate());
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 }

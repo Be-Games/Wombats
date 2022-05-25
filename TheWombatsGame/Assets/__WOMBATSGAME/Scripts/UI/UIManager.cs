@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -76,8 +77,8 @@ public class UIManager : MonoBehaviour
 
     public string[] allTips;
     public TextMeshProUGUI tips_txt;
-    
-   
+
+    public TextMeshProUGUI cityName;
     
     private void OnEnable()
     {
@@ -98,6 +99,7 @@ public class UIManager : MonoBehaviour
         
         pauseScreen.DOAnchorPos(Vector2.zero, 0.25f).SetEase(Ease.Flash).OnComplete(PauseMenu);
         currentTrackName.text = LevelManager.Instance._audioManager.musicTracks.MusicTrackAudioSource.clip.name;
+        cityName.text = SceneManager.GetActiveScene().name;
     }
     
     public void settingsReturnDT()
@@ -129,5 +131,43 @@ public class UIManager : MonoBehaviour
         blackImages[0].GetComponent<RectTransform>().DOScale(new Vector3(13f,0f,13f), 2f).SetEase(Ease.Flash);
         blackImages[1].GetComponent<RectTransform>().DOScale(new Vector3(13f,0f,13f), 2f).SetEase(Ease.Flash);
     }
+
+    public void LoadLevelSelection()
+    {
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
+        
+        AudioManager.Instance.musicTracks.MusicTrackAudioSource.Stop();
+        Time.timeScale = 1;
+        GameManager.Instance.LoadScene("LevelSelection");
+    }
+    
+    public void ButtonClick()
+    {
+        GameManager.Instance.ButtonClick();
+    }
+
+    public void SkipLevel()
+    {
+        LevelManager.Instance.skip();
+    }
+    
+    /*void OnApplicationPause(bool pauseStatus)
+    {
+        if (!pauseStatus)
+        {
+            Time.timeScale = 1;
+            pauseScreen.DOAnchorPos(new Vector2(1500,0f), 0.25f).SetEase(Ease.Flash);
+        
+            //Random Tip
+            tips_txt.text = allTips[UnityEngine.Random.Range(0, allTips.Length)];
+        }
+        else if (pauseStatus)
+        {
+            pauseScreen.DOAnchorPos(Vector2.zero, 0.25f).SetEase(Ease.Flash).OnComplete(PauseMenu);
+            currentTrackName.text = LevelManager.Instance._audioManager.musicTracks.MusicTrackAudioSource.clip.name;
+            cityName.text = SceneManager.GetActiveScene().name;
+            
+        }
+    }*/
 
 }

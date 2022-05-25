@@ -5,22 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class Interstitial : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-       
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    
     // Invoked when the interstitial ad closed and the user goes back to the application screen.
     public void InterstitialAdClosedEvent()
     {
-        IronSource.Agent.loadInterstitial();
         GameManager.Instance.LoadScene("LevelSelection");
     }
 
@@ -28,10 +16,21 @@ public class Interstitial : MonoBehaviour
     {
         IronSource.Agent.loadInterstitial();
         IronSourceEvents.onInterstitialAdClosedEvent += InterstitialAdClosedEvent;
+       
     }
 
     public void interstitialplay() 
     {
-        IronSource.Agent.showInterstitial();
+        if (IronSource.Agent.isInterstitialReady())
+        {
+            Debug.Log("Works");
+            IronSource.Agent.showInterstitial();
+        }
+        else
+        {
+            Debug.Log("Doesnt Work");
+            GameManager.Instance.LoadScene("LevelSelection");
+            //GameManager.Instance.LoadScene(GameManager.Instance.currentLevelName);
+        }
     }
 }

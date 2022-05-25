@@ -7,6 +7,8 @@ public class Rewarded : MonoBehaviour
     public string androidAppKey;
     public string iosAppKey;
     [HideInInspector]public string appkey;
+
+    public GameObject adNotAvailableBox1,adNotAvailableBox2;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,10 +41,13 @@ public class Rewarded : MonoBehaviour
         else
         {
             Debug.Log("Doesnt Work");
-            LevelManager.Instance.ShowRevivePanel();
+            // TODO: Show dialog prompt
+            if(adNotAvailableBox1!= null)
+                adNotAvailableBox1.SetActive(true);
+            //LevelManager.Instance.ShowRevivePanel();
         }
-        
-        
+
+
     }
     
     public void rewardedForConcert()
@@ -56,10 +61,13 @@ public class Rewarded : MonoBehaviour
         else
         {
             Debug.Log("Doesnt Work");
-            PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins") + GameManager.Instance.timesForCoins);
+            // TODO: Show dialog prompt
+            if(adNotAvailableBox2!= null)
+                adNotAvailableBox2.SetActive(true);
+            //PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins") + GameManager.Instance.timesForCoins);
         }
-        
-        
+
+
     }
 
     void RewardedVideoAdClosedEvent()
@@ -70,7 +78,8 @@ public class Rewarded : MonoBehaviour
         if (GameManager.Instance.isForCoinsReward)
         {
             Debug.Log("For Concert");
-            PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins") + GameManager.Instance.additionalCoinsToBeGivenBasedOnRank);
+            PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins") + GameManager.Instance.timesForCoins);
+            GameManager.Instance.isForCoinsReward = false;
         }
         else
         {
