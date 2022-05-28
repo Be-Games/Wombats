@@ -37,10 +37,9 @@ public class PlayerSelection : MonoBehaviour
    
    public TextMeshProUGUI carCounterText;
    public GameObject carModelParent;
-   public HorizontalLayoutGroup hrzLG;
 
-   
-   
+
+
    public Button prev, next;
 
    public Button garageBtn;
@@ -178,9 +177,7 @@ public class PlayerSelection : MonoBehaviour
             nextBtn.SetActive(false);
             sceneCamera.transform.DOMove(cameraPositions[index].transform.position, 0.5f).SetEase(Ease.Flash);
         }
-
-        hrzLG.padding.left = temp;
-        LayoutRebuilder.MarkLayoutForRebuild(hrzLG.GetComponent<RectTransform>());
+        
 
         if (garage_Panel.activeInHierarchy)
         {
