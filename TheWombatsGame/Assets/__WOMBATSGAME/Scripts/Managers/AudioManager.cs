@@ -66,6 +66,7 @@ public class AudioManager : MonoBehaviour
         public AudioSource brakeSound;
         public AudioSource unlockCar;
         public AudioSource carEngineStartScreen;
+        public AudioSource crownCollect;
         public bool mutedTrack;
         [SerializeField] public Image SFXONIcon;
         [SerializeField] public Image SFXOFFIcon;

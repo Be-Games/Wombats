@@ -23,14 +23,18 @@ public class EnemyRaycaster : MonoBehaviour
         obstacleLayer = LayerMask.GetMask("Obstacles");
         slowDownLayer = LayerMask.GetMask("ToSlow");
         crashLayer = LayerMask.GetMask("Crashed");
+
+        StartCoroutine(MyUpdate());
     }
 
-    private void Update()
+    IEnumerator MyUpdate()
     {
         
         if(LevelManager.Instance.isGameStarted)
             RaycastMethod();
-        
+
+        yield return null;
+        StartCoroutine(MyUpdate());
     }
 
     void RaycastMethod()

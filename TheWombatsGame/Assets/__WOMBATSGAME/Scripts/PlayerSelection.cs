@@ -130,25 +130,14 @@ public class PlayerSelection : MonoBehaviour
            }
            
        }
-       
-       /*foreach (var x in parentD)
-       {
-           x.SetActive(false);
-       }
-       foreach (var x in parentM)
-       {
-           x.SetActive(false);
-       }
-       foreach (var x in parentT)
-       {
-           x.SetActive(false);
-       }*/
 
-       
+       StartCoroutine(MyUpdate());
+
+
    }
 
    private int temp;
-    void Update()
+    IEnumerator MyUpdate()
     {
         if (index == 0)
         {
@@ -251,6 +240,9 @@ public class PlayerSelection : MonoBehaviour
             carPrice.text = 1100.ToString();
         if (GameManager.Instance.carIndex == 9)
             carPrice.text = 1200.ToString();
+        
+        yield return null;
+        StartCoroutine(MyUpdate());
     }
 
     public void buyCar()
@@ -275,6 +267,8 @@ public class PlayerSelection : MonoBehaviour
             
             lockImage.SetActive(false);
         }
+
+       
     }
 
     public void RewardAdAndUnlockCar()

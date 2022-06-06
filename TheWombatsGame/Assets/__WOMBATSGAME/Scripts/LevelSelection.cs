@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DataManager;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -31,6 +33,10 @@ public class LevelSelection : MonoBehaviour
     public GameObject enterContestBtn;
 
     public GameObject nightLightsGO;
+
+    public GameObject jublieeSpecial;
+
+    public GameObject crownPanel;
     
 
     void OnEnable()
@@ -72,10 +78,20 @@ public class LevelSelection : MonoBehaviour
     {
         /*garageBtn.SetActive(false);
         playerSelectBtn.SetActive(false);*/
+        
+        musicUrl = "https://soundcloud.com/thewombats/greek-tragedy?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing";
+        
+        crownPanel.transform.DOScale(0f, 0f).SetEase(Ease.OutBounce);
+        isPanel = false;
+        
         StartCoroutine("Index");
         enterContestBtn.SetActive(false);
         
+        StartCoroutine(MyUpdate());
+
     }
+
+    private string musicUrl;
 
     public void menuBtn()
     {
@@ -89,10 +105,35 @@ public class LevelSelection : MonoBehaviour
             garageBtn.SetActive(true);
             playerSelectBtn.SetActive(true);
         }
+        
+       
     }
 
-    private void Update()
+    IEnumerator MyUpdate()
     {
+
+        
+        //JUBLIEE PANEL
+        if (index == 1 || index == 10)
+        {
+            jublieeSpecial.SetActive(true);
+        }
+        else
+        {
+            jublieeSpecial.SetActive(false);
+        }
+        
+        /*//CROWN PANEL
+        if (index == 1 || index == 2 || index == 3 || index == 4)
+        {
+            crownPanel.SetActive(true);
+        }
+        else
+        {
+            crownPanel.SetActive(false);
+        }*/
+        
+        
         if (GameManager.Instance.isThisTheFinalLevel)
         {
             enterContestBtn.SetActive(true);
@@ -124,7 +165,8 @@ public class LevelSelection : MonoBehaviour
             racebtn.GetComponent<Button>().enabled = true;
         }
 
-        
+        yield return null;
+        StartCoroutine(MyUpdate());
 
 
     }
@@ -578,8 +620,80 @@ public class LevelSelection : MonoBehaviour
     {
         GameManager.Instance.ButtonClick();
     }
+
+    private bool isPanel;
+
+    public void CrownPanelToggle()
+    {
+        StartCoroutine(testmusic());
+        
+        if (!isPanel)
+        {
+            crownPanel.transform.DOScale(1.2f, 0.5f).SetEase(Ease.OutBounce);
+            isPanel = true;
+        }
+        
+        else if (isPanel)
+        {
+            crownPanel.transform.DOScale(0f, 0.5f).SetEase(Ease.OutBounce);
+            isPanel = false;
+        }
+    }
+
+    IEnumerator testmusic()
+    {
+        
+        UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip("https://file-examples.com/wp-content/uploads/2017/11/file_example_OOG_1MG.ogg", AudioType.OGGVORBIS);
+        if (www.result == UnityWebRequest.Result.ConnectionError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log("Audio Loaded");
+            AudioClip myClip = DownloadHandlerAudioClip.GetContent(www);
+            AudioManager.Instance.musicTracks.MusicTrackAudioSource.clip = myClip;
+        }
+
+        yield return null;
+    }
+    
+    public void DownloadSound(string url)
+    {
+        StartCoroutine(SoundRequest(url, (UnityWebRequest req) =>
+        {
+            if (req.isNetworkError || req.isHttpError)
+            {
+                Debug.Log($"{req.error}: {req.downloadHandler.text}");
+            }
+            else
+            {
+                // Get the sound out using a helper class
+                AudioClip clip = DownloadHandlerAudioClip.GetContent(req);
+                // Load the clip into our audio source and play
+                AudioManager.Instance.musicTracks.MusicTrackAudioSource.Stop();
+                AudioManager.Instance.musicTracks.MusicTrackAudioSource.clip = clip;
+                AudioManager.Instance.musicTracks.MusicTrackAudioSource.Play();
+                Debug.Log("GT PLaying ");
+            }
+        }));
+    }
+
+    IEnumerator SoundRequest(string url, Action<UnityWebRequest> callback)
+    {
+        // Note, we try to download an OGGVORBIS (ogg) file because Windows doesn't support
+        // MPEG readily. If you're on a mac, you can try MPEG (mp3)
+        using (UnityWebRequest req = UnityWebRequestMultimedia.GetAudioClip
+            ("https://cf-media.sndcdn.com/when46Cx8MCO.128.mp3?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiKjovL2NmLW1lZGlhLnNuZGNkbi5jb20vd2hlbjQ2Q3g4TUNPLjEyOC5tcDMqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNjU0MTUyMTUxfX19XX0_&Signature=akuMtQDeyGqduG760EfCAOIY-zrK0a17yOArA-CupkvQVcX1~B7s-u-42k6b6qzCkzrKTIo-tdZIz31aIOPmo~FOtTKDaDRau~BP5kZ52YlRmVylqcGZRGIDCjXQvGYFsTmolHB6cQ4Ku5BUqfZSup3eMcPN3Xafohlxylefkj~rHyfddrnqj~RD8k8NK1lUKj5RIlvB~mBhSu2RKODa6PCynka2IO3394wLA6Un-yXpB6OPJwYw1Yo6eEk1Po1l9ob1gzk2kWOvGN~vO7ud50tXBDPTHQ-FS-Is~OO2Zua6uWDEBkNRG2BnK0WkFMOm3nJ2YKUki3-BstV7JT2kNw__&Key-Pair-Id=APKAI6TU7MMXM5DG6EPQ", AudioType.MPEG))
+        {
+            yield return req.SendWebRequest();
+            callback(req);
+        }
+    }
     
 }
+
+
 
 
 
