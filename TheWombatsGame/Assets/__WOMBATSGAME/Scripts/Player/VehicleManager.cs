@@ -67,6 +67,7 @@ public class VehicleManager : MonoBehaviour
         public TextMeshProUGUI timerText;
         public Slider boostSlider;
     }
+    
 
     
     

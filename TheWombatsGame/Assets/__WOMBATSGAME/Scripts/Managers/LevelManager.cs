@@ -137,8 +137,9 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public float boostOnValue;
     [HideInInspector] public float breakValue;
     [HideInInspector] public float defaultValue;
-
     
+    public int crownsCollected;
+    public GameObject crownParentGO;
 
     private void Awake()
     {
@@ -155,7 +156,7 @@ public class LevelManager : MonoBehaviour
         if (_gameManager != null)
             totalLaps = _gameManager.numberOfLaps;
 
-        #region CodeToComment
+        /*#region CodeToComment
         if (_gameManager)
         {
             if (_gameManager.memeberIndex == 0)        //murph
@@ -207,7 +208,7 @@ public class LevelManager : MonoBehaviour
               
         }
           
-        #endregion
+        #endregion*/
           
         _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
           
@@ -233,8 +234,7 @@ public class LevelManager : MonoBehaviour
     public List<Renderer> leftWheels, rightWheels;
     private void Start()
     {
-        
-        
+
         Ana_LevelStart();
         InitializingVariables();
         SceneStart();
@@ -313,6 +313,8 @@ public class LevelManager : MonoBehaviour
     void SceneStart()
     {
         startTime = Time.time;
+        
+       
         
         //Game Start - Flyover Camera 
         _uiManager.flyThroughCamCityName.text = SceneManager.GetActiveScene().name + " TOUR ";
@@ -494,6 +496,9 @@ public class LevelManager : MonoBehaviour
     private void Update()
     {
 
+        
+        Debug.Log(" Total Crowns " + PlayerPrefs.GetInt("TotalCrowns"));
+        
         /*if (isGameStarted)
         {
            
@@ -554,6 +559,8 @@ public class LevelManager : MonoBehaviour
                 tempPrefab =  (GameObject)Instantiate(nightObstaclesPf, nightParent);
                 tempPrefab.tag = "TEMP";
             }*/
+            
+            
             
             if (_gameManager.lightingMode == 1)
             {
@@ -633,6 +640,7 @@ public class LevelManager : MonoBehaviour
             
             _uiManager.StatusIndicatorPanelGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
                 "LAP : " + (lapCounter+1) + "/" + totalLaps;
+            UIManager.Instance.StatusIndicatorPanelGO.transform.GetChild(1).gameObject.SetActive(false);
 
             if (lapCounter == totalLaps - 1)
             {
@@ -648,6 +656,32 @@ public class LevelManager : MonoBehaviour
             lapCounter++;
             
             startTime = Time.time;
+
+            crownParentGO = GameObject.FindGameObjectWithTag("CrownDad");
+
+            if (crownParentGO != null)
+            {
+                if ((SceneManager.GetActiveScene().name == "LONDON" && _gameManager.lightingMode == 1)
+                    || (SceneManager.GetActiveScene().name == "ROME" && _gameManager.lightingMode == 2)
+                    || (SceneManager.GetActiveScene().name == "SYDNEY" && _gameManager.lightingMode == 1)
+                    || (SceneManager.GetActiveScene().name == "PARIS" && _gameManager.lightingMode == 2))
+                {
+                    if(PlayerPrefs.GetInt("TotalCrowns") <= 20)
+                        crownParentGO.SetActive(true);
+                    else
+                    {
+                        crownParentGO.SetActive(false);
+                    }
+                    
+                }
+                else if ((SceneManager.GetActiveScene().name == "LONDON" && _gameManager.lightingMode == 2)
+                          || (SceneManager.GetActiveScene().name == "ROME" && _gameManager.lightingMode == 1)
+                          || (SceneManager.GetActiveScene().name == "SYDNEY" && _gameManager.lightingMode == 2)
+                          || (SceneManager.GetActiveScene().name == "PARIS" && _gameManager.lightingMode == 1))
+                {
+                    crownParentGO.SetActive(false);
+                }
+            }
         }
         
        
@@ -663,7 +697,7 @@ public class LevelManager : MonoBehaviour
     }
 
 
-    void StatusIndicator()
+    public void StatusIndicator()
     {
         #region STATUS INDICATOR
 
@@ -687,6 +721,8 @@ public class LevelManager : MonoBehaviour
             
         #endregion
     }
+    
+    
 
     #region ALLABOUTBOOST
     
@@ -915,6 +951,7 @@ public class LevelManager : MonoBehaviour
     private int y;
     IEnumerator RaceFinished()
     {
+        
         _gameManager.playerPosi = _levelProgressUI.playerPosi;
         
         if (_gameManager.lightingMode == 2 && SceneManager.GetActiveScene().name == "MILAN")
@@ -923,20 +960,40 @@ public class LevelManager : MonoBehaviour
         switch (PlayerPrefs.GetInt("LevelIndex"))
         {
             case 2:
-                if(SceneManager.GetActiveScene().name == "LONDON" && _gameManager.lightingMode == 1)
+                if (SceneManager.GetActiveScene().name == "LONDON" && _gameManager.lightingMode == 1)
+                {
+                    if(PlayerPrefs.GetInt("TotalCrowns") <= 20)
+                        PlayerPrefs.SetInt("TotalCrowns",PlayerPrefs.GetInt("TotalCrowns")+LevelManager.Instance.crownsCollected);
                     PlayerPrefs.SetInt("LevelIndex",3);            //ROME NIGHT
+                }
+                    
                 break;
             case 3:
-                if(SceneManager.GetActiveScene().name == "ROME" && _gameManager.lightingMode == 2)
+                if (SceneManager.GetActiveScene().name == "ROME" && _gameManager.lightingMode == 2)
+                {
+                    if(PlayerPrefs.GetInt("TotalCrowns") <= 20)
+                        PlayerPrefs.SetInt("TotalCrowns",PlayerPrefs.GetInt("TotalCrowns")+LevelManager.Instance.crownsCollected);
                     PlayerPrefs.SetInt("LevelIndex",4);            //SYDNEY DAY
+                }
+                   
                 break;
             case 4:
-                if(SceneManager.GetActiveScene().name == "SYDNEY" && _gameManager.lightingMode == 1)
+                if (SceneManager.GetActiveScene().name == "SYDNEY" && _gameManager.lightingMode == 1)
+                {
+                    if(PlayerPrefs.GetInt("TotalCrowns") <= 20)
+                        PlayerPrefs.SetInt("TotalCrowns",PlayerPrefs.GetInt("TotalCrowns")+LevelManager.Instance.crownsCollected);
                     PlayerPrefs.SetInt("LevelIndex",5);            //PARIS NIGHT
+                }
+                   
                 break;
             case 5:
-                if(SceneManager.GetActiveScene().name == "PARIS" && _gameManager.lightingMode == 2)
+                if (SceneManager.GetActiveScene().name == "PARIS" && _gameManager.lightingMode == 2)
+                {
+                    if(PlayerPrefs.GetInt("TotalCrowns") <= 20)
+                        PlayerPrefs.SetInt("TotalCrowns",PlayerPrefs.GetInt("TotalCrowns")+LevelManager.Instance.crownsCollected);
                     PlayerPrefs.SetInt("LevelIndex",6);            //EGYPT DAY
+                }
+                    
                 break;
             case 6:
                 if(SceneManager.GetActiveScene().name == "EGYPT" && _gameManager.lightingMode == 1)
@@ -1266,7 +1323,7 @@ public class LevelManager : MonoBehaviour
         GameManager.Instance.canControlCar = true;
         _gameControls.gestureState = GameControls.GestureState.Release;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.3f);
         playerCarCollidersToToggle.enabled = true;
         
         

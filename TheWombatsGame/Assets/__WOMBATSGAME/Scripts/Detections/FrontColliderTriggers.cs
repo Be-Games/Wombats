@@ -5,6 +5,7 @@ using DG.Tweening;
 using SWS;
 using UnityEngine;
 using Lofelt.NiceVibrations;
+using TMPro;
 using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,7 +14,7 @@ public class FrontColliderTriggers : MonoBehaviour
 {
     private GameObject currentPersonRagdoll;
     private static FrontColliderTriggers _instance;
-
+    
     public static FrontColliderTriggers Instance
     {
         get
@@ -144,6 +145,8 @@ public class FrontColliderTriggers : MonoBehaviour
 
         if (other.gameObject.CompareTag("Coin"))
         {
+           
+            
             LevelManager.Instance.currentScore++;
             UIManager.Instance.scoreText.text = LevelManager.Instance.currentScore.ToString();
             //other.gameObject.GetComponent<BoxCollider>().enabled = false;                                            //For the triggered pickup
@@ -159,6 +162,28 @@ public class FrontColliderTriggers : MonoBehaviour
         {
             LevelManager.Instance.rubixTower.GetComponent<DOTweenAnimation>().DOPlay();
             Invoke("TowerFallAnimation",4f);
+        }
+        
+        if (other.gameObject.CompareTag("Crown"))
+        {
+            //increase score
+            ++LevelManager.Instance.crownsCollected;
+            
+            UIManager.Instance.StatusIndicatorPanelGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "        " +
+                LevelManager.Instance.crownsCollected + " / 5 ";
+            UIManager.Instance.StatusIndicatorPanelGO.transform.GetChild(1).gameObject.SetActive(true);
+            
+            LevelManager.Instance.StatusIndicator();
+            
+            
+            
+            
+            //hide crown
+            other.gameObject.SetActive(false);
+            
+            //crown collect SOUND
+            if(LevelManager.Instance._audioManager!=null && LevelManager.Instance._audioManager.isSFXenabled)
+                LevelManager.Instance._audioManager.sfxAll.crownCollect.PlayOneShot(LevelManager.Instance._audioManager.sfxAll.crownCollect.clip);
         }
     }
 

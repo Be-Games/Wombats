@@ -95,6 +95,7 @@ public class GameManager : MonoBehaviour
 
     public string currentLevelName,nextLevelName;
     public int currentLI, nextLI;
+    
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -120,7 +121,7 @@ public class GameManager : MonoBehaviour
     {
         
         PlayerPrefs.GetInt("MyTotalCoins", 0);
-
+        PlayerPrefs.GetInt("TotalCrowns", 0);
 
         PlayerPrefs.GetInt("Car" + 1, 1);
         PlayerPrefs.GetInt("Car" + 2, 0);
