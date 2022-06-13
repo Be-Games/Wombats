@@ -65,8 +65,11 @@ public class FrontColliderTriggers : MonoBehaviour
         {
             LevelManager.Instance.canBoostNow = false;
             
+
+#if UNITY_ANDROID
             if(AudioManager.Instance.isHapticEnabled)
                 HapticPatterns.PlayConstant(1f, 0.0f, 0.5f);
+#endif
 
             if (other.gameObject.name == "man")
             {
@@ -109,8 +112,11 @@ public class FrontColliderTriggers : MonoBehaviour
             {
                 other.GetComponent<ClickOrTapToExplode>().DestroyStuff();
                 
+
+#if UNITY_ANDROID
                 if(AudioManager.Instance.isHapticEnabled)
                     HapticPatterns.PlayConstant(1f, 0.0f, 0.5f);
+#endif
                 
                 //random crash sound SOUND
                 if (LevelManager.Instance._audioManager != null && LevelManager.Instance._audioManager.isSFXenabled)
@@ -198,8 +204,12 @@ public class FrontColliderTriggers : MonoBehaviour
     {
         if (!LevelManager.Instance.isCrashed)
         {
+            
+#if UNITY_ANDROID
             if(AudioManager.Instance.isHapticEnabled)
                 HapticPatterns.PlayConstant(1f, 0.0f, 0.5f);
+#endif
+            
             GameManager.Instance.canControlCar = false;
             objectToDestroy = disableCollidedObject;
             

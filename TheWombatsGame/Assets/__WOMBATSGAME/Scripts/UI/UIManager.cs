@@ -79,6 +79,10 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI tips_txt;
 
     public TextMeshProUGUI cityName;
+
+    public GameObject brakeBtn;
+    public TMP_Dropdown controlToggleDD;
+    public TMP_Dropdown graphicsToggleDD;
     
     private void OnEnable()
     {
@@ -92,6 +96,27 @@ public class UIManager : MonoBehaviour
 
         //Ini tips text with 1 random tip
         tips_txt.text = allTips[UnityEngine.Random.Range(0, allTips.Length)];
+
+        
+        if (PlayerPrefs.GetInt("Control") == 1)
+        {
+            brakeBtn.SetActive(true);
+        }
+        else if(PlayerPrefs.GetInt("Control") == 0)
+        {
+            brakeBtn.SetActive(false);
+        }
+        
+        controlToggleDD.value = PlayerPrefs.GetInt("Control");
+
+       
+        
+    }
+
+    private void Start()
+    {
+        graphicsToggleDD.value =  PlayerPrefs.GetInt("Graphics");
+        Debug.Log( PlayerPrefs.GetInt("Graphics"));
     }
 
     public void settingsBtnDT()
@@ -151,23 +176,68 @@ public class UIManager : MonoBehaviour
         LevelManager.Instance.skip();
     }
     
-    /*void OnApplicationPause(bool pauseStatus)
+    void OnApplicationPause(bool pauseStatus)
     {
-        if (!pauseStatus)
+        if (LevelManager.Instance.isGameStarted)
         {
-            Time.timeScale = 1;
-            pauseScreen.DOAnchorPos(new Vector2(1500,0f), 0.25f).SetEase(Ease.Flash);
+            /*if (!pauseStatus)
+            {
+                Debug.Log("Resume");
+                Time.timeScale = 1;
+                pauseScreen.DOAnchorPos(new Vector2(1500,0f), 0f).SetEase(Ease.Flash);
         
-            //Random Tip
-            tips_txt.text = allTips[UnityEngine.Random.Range(0, allTips.Length)];
+                //Random Tip
+                tips_txt.text = allTips[UnityEngine.Random.Range(0, allTips.Length)];
+            }*/
+
+            if (pauseStatus)
+            {
+                Debug.Log("pause");
+                pauseScreen.anchoredPosition = Vector2.zero;
+                currentTrackName.text = LevelManager.Instance._audioManager.musicTracks.MusicTrackAudioSource.clip.name;
+                cityName.text = SceneManager.GetActiveScene().name;
+                Time.timeScale = 0;
+            } 
         }
-        else if (pauseStatus)
+        
+    }
+
+    public void ToggleControls()
+    {
+        if (controlToggleDD.value == 0)
+            PlayerPrefs.SetInt("Control", 0);
+        
+        if (controlToggleDD.value == 1)
+            PlayerPrefs.SetInt("Control", 1);
+        
+        if (PlayerPrefs.GetInt("Control") == 1)
         {
-            pauseScreen.DOAnchorPos(Vector2.zero, 0.25f).SetEase(Ease.Flash).OnComplete(PauseMenu);
-            currentTrackName.text = LevelManager.Instance._audioManager.musicTracks.MusicTrackAudioSource.clip.name;
-            cityName.text = SceneManager.GetActiveScene().name;
-            
+            brakeBtn.SetActive(true);
         }
-    }*/
+        else if(PlayerPrefs.GetInt("Control") == 0)
+        {
+            brakeBtn.SetActive(false);
+        }
+    }
+
+    public void BreakBtn()
+    {
+        LevelManager.Instance._gameControls.gestureState = GameControls.GestureState.Break;
+    }
+
+    public void ChangeGraphics()
+    {
+        if (graphicsToggleDD.value == 0)
+        {
+            QualitySettings.SetQualityLevel(2);
+        }
+        
+        if (graphicsToggleDD.value == 1)
+        {
+            QualitySettings.SetQualityLevel(3);
+        }
+        
+        PlayerPrefs.SetInt("Graphics", graphicsToggleDD.value);
+    }
 
 }

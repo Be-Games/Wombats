@@ -1620,7 +1620,7 @@ Transform:
   m_GameObject: {fileID: 1790412407605724275}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1790412407898456174}
   - {fileID: 1790412406838951183}
@@ -3565,6 +3565,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1790412407210212147}
     m_Modifications:
+    - target: {fileID: 1969455600245242, guid: 2e2c5cc6dbfa3b74cb4282ae02628d22, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1969455600245242, guid: 2e2c5cc6dbfa3b74cb4282ae02628d22, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
@@ -11399,6 +11403,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1790412406812394424}
     m_Modifications:
+    - target: {fileID: 1611733839842676, guid: 192bf7b63be563747b93b5af4539d86a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1611733839842676, guid: 192bf7b63be563747b93b5af4539d86a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295

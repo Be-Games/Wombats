@@ -13,6 +13,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -28,6 +29,10 @@ public class MainMenuManager : MonoBehaviour
     private bool canOffset = false;
 
     public DOTweenAnimation leftCar,centreCar,rightCar;
+
+    public Material[] leftcarMat, centreCarMat, rightCarMat;//y,b,r
+    public MeshRenderer leftCarMesh, centreCarMesh, rightCarMesh;
+    public ParticleSystem leftCarPS, centreCarPS, rightCarPS;
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -35,6 +40,11 @@ public class MainMenuManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         canOffset = true;
+    }
+
+    private void Awake()
+    {
+        CarColorSwitch();
     }
 
     private void Start()
@@ -53,7 +63,7 @@ public class MainMenuManager : MonoBehaviour
         settingsBtn.GetComponent<Button>().enabled = false;
         //playBtn.GetComponent<Button>().enabled = false;
 
-        
+       
         
         StartCoroutine("HomeScreenEnable");
 
@@ -62,7 +72,58 @@ public class MainMenuManager : MonoBehaviour
         
 
     }
-    
+
+    void CarColorSwitch()
+    {
+        int randomCase = Random.Range(0, 3);
+
+        switch (randomCase)
+        {
+            
+            case 0:                                                                //y,b,r
+                leftCarMesh.material = leftcarMat[0];
+                ParticleSystem.MainModule settings = leftCarPS.transform.GetChild(0).GetComponent<ParticleSystem>().main;
+                settings.startColor = new ParticleSystem.MinMaxGradient( new Color(1,0.92f,0.016f,0.4f));
+                
+                centreCarMesh.material = centreCarMat[1];
+                ParticleSystem.MainModule settings2 = centreCarPS.transform.GetChild(0).GetComponent<ParticleSystem>().main;
+                settings2.startColor = new ParticleSystem.MinMaxGradient( new Color(0,0,1,0.4f));
+                
+                rightCarMesh.material = rightCarMat[2];
+                ParticleSystem.MainModule settings3 = rightCarPS.transform.GetChild(0).GetComponent<ParticleSystem>().main;
+                settings3.startColor = new ParticleSystem.MinMaxGradient( new Color(1,0,0,0.4f));
+                
+                break;
+            case 1:                                                                //b,r,y
+                leftCarMesh.material = leftcarMat[1];
+                ParticleSystem.MainModule settings4 = leftCarPS.transform.GetChild(0).GetComponent<ParticleSystem>().main;
+                settings4.startColor = new ParticleSystem.MinMaxGradient( new Color(0,0,1,0.4f));
+                
+                centreCarMesh.material = centreCarMat[2];
+                ParticleSystem.MainModule settings5 = centreCarPS.transform.GetChild(0).GetComponent<ParticleSystem>().main;
+                settings5.startColor = new ParticleSystem.MinMaxGradient( new Color(1,0,0,0.4f));
+                
+                rightCarMesh.material = rightCarMat[0];
+                ParticleSystem.MainModule settings6 = rightCarPS.transform.GetChild(0).GetComponent<ParticleSystem>().main;
+                settings6.startColor = new ParticleSystem.MinMaxGradient( new Color(1,0.92f,0.016f,0.4f));
+                break;
+            
+            case 2:                                                                //r,y,b
+                leftCarMesh.material = leftcarMat[2];
+                ParticleSystem.MainModule settings7 = leftCarPS.transform.GetChild(0).GetComponent<ParticleSystem>().main;
+                settings7.startColor = new ParticleSystem.MinMaxGradient( new Color(1,0,0,0.4f));
+                
+                centreCarMesh.material = centreCarMat[0];
+                ParticleSystem.MainModule settings8 = centreCarPS.transform.GetChild(0).GetComponent<ParticleSystem>().main;
+                settings8.startColor = new ParticleSystem.MinMaxGradient( new Color(1,0.92f,0.016f,0.4f));
+                
+                rightCarMesh.material = rightCarMat[1];
+                ParticleSystem.MainModule settings9 = rightCarPS.transform.GetChild(0).GetComponent<ParticleSystem>().main;
+                settings9.startColor = new ParticleSystem.MinMaxGradient( new Color(0,0,1,0.4f));
+                
+                break;
+        }
+    }
     
     IEnumerator HomeScreenEnable()
     {
@@ -92,6 +153,8 @@ public class MainMenuManager : MonoBehaviour
     {
         if(canOffset)
             homeRoadTexture.mainTextureOffset = new Vector2(0f, xOffset);
+        
+        
     }
 
   

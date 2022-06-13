@@ -63,6 +63,13 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator CarInitialPush()
     {
+        
+        foreach (var wheel in wheels)
+        {
+            if(wheel != null)
+                wheel.GetComponent<DOTweenAnimation>().DOPause();
+        }
+        
         targetSpeed = normalSpeed;
         
         playerPF.speed = 0.5f;
@@ -87,11 +94,11 @@ public class PlayerController : MonoBehaviour
                     if (!LevelManager.Instance.isBoosting)
                     {
 
-                        /*foreach (var wheel in wheels)
+                        foreach (var wheel in wheels)
                         {
-                            wheel.transform.DOLocalRotate(new Vector3(0f, 0f, 0f), 0.1f, RotateMode.FastBeyond360)
-                                .SetEase(Ease.Flash).SetLoops(-1, LoopType.Incremental);
-                        }*/
+                            if(wheel != null)
+                                wheel.GetComponent<DOTweenAnimation>().DOPause();
+                        }
                         
                         LevelManager.Instance.SetCameraDampValue(LevelManager.Instance.breakValue);
                     
@@ -135,11 +142,11 @@ public class PlayerController : MonoBehaviour
                 {
                     if (!LevelManager.Instance.isBoosting)
                     {
-                        /*foreach (var wheel in wheels)
+                        foreach (var wheel in wheels)
                         {
-                            wheel.transform.DORotate(new Vector3(-100f, 0f, 0f), 0.1f, RotateMode.FastBeyond360)
-                                .SetEase(Ease.Flash).SetLoops(-1, LoopType.Incremental);
-                        }*/
+                            if(wheel != null)
+                                wheel.GetComponent<DOTweenAnimation>().DOPlay();
+                        }
                         
                        LevelManager.Instance.SetCameraDampValue(LevelManager.Instance.defaultValue);
                     
