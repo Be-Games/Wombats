@@ -49,6 +49,8 @@ public class EnemyController : MonoBehaviour
     public Transform leftCarTransform, centreCarTransform, rightCarTransform;
 
     public bool isSlowed;
+    
+    public GameObject[] wheels;
     private void Start()
     {
         movementDuration = 0.15f;
@@ -60,6 +62,12 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator IniCarPush()
     {
+        foreach (var wheel in wheels)
+        {
+            if(wheel != null)
+                wheel.GetComponent<DOTweenAnimation>().DOPlay();
+        }
+        
         if (currentEnemyNumber == -1)
         {
             enemyCarModelGO.transform.localPosition = new Vector3(enemyCarModelGO.transform.localPosition.x -  xOffSet,0f,0f);
@@ -67,7 +75,7 @@ public class EnemyController : MonoBehaviour
             Dec = LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().carSpeedSettings.Dec;
             enemySpeed = LevelManager.Instance._playerVehicleManager.carSpeedSettings.normalSpeed+UnityEngine.Random.Range(-0.1f,0.7f);
             
-           
+            wheels = LevelManager.Instance.enemyLeftVisual.GetComponent<VehicleManager>().bodyTrigger.wheels;
         }
         if (currentEnemyNumber == 1)
         {
@@ -75,6 +83,8 @@ public class EnemyController : MonoBehaviour
             Acc = LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().carSpeedSettings.Acc;
             Dec = LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().carSpeedSettings.Dec;
             enemySpeed = LevelManager.Instance._playerVehicleManager.carSpeedSettings.normalSpeed+UnityEngine.Random.Range(-0.1f,0.7f);
+            
+            wheels = LevelManager.Instance.enemyRightVisual.GetComponent<VehicleManager>().bodyTrigger.wheels;
         }
         
         if (SceneManager.GetActiveScene().name == "LIVERPOOL")
@@ -101,6 +111,12 @@ public class EnemyController : MonoBehaviour
             {
                 
             }*/
+            
+            foreach (var wheel in wheels)
+            {
+                if(wheel != null)
+                    wheel.GetComponent<DOTweenAnimation>().DOPlay();
+            }
             
             float target = enemySpeed;
             
@@ -206,6 +222,12 @@ public class EnemyController : MonoBehaviour
 
     public void slowDown()
     {
+        foreach (var wheel in wheels)
+        {
+            if(wheel != null)
+                wheel.GetComponent<DOTweenAnimation>().DOPause();
+        }
+        
         isSlowed = true;
         enemyPF.speed = 0;
         /*StartCoroutine(SpeedToZero());*/

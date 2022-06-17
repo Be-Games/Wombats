@@ -141,6 +141,10 @@ public class LevelManager : MonoBehaviour
     public int crownsCollected;
     public GameObject crownParentGO;
 
+    
+    public Transform room1T, room2T, room3T,room4T;
+    public GameObject room1Pf, room2Pf, room3Pf,room4Pf;
+    private GameObject tempRoom1, tempRoom2, tempRoom3,tempRoom4;
     private void Awake()
     {
         _instance = this;
@@ -156,7 +160,7 @@ public class LevelManager : MonoBehaviour
         if (_gameManager != null)
             totalLaps = _gameManager.numberOfLaps;
 
-        /*#region CodeToComment
+        #region CodeToComment
         if (_gameManager)
         {
             if (_gameManager.memeberIndex == 0)        //murph
@@ -208,11 +212,15 @@ public class LevelManager : MonoBehaviour
               
         }
           
-        #endregion*/
+        #endregion
           
         _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
           
-         
+        tempPrefabD =  (GameObject)Instantiate(dayObstaclesPf, dayParent);
+        tempPrefabD.tag = "TEMPD";
+    
+        tempPrefabN =  (GameObject)Instantiate(nightObstaclesPf, nightParent);
+        tempPrefabN.tag = "TEMPN";
         
         
         _playerVehicleManager = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleManager>();
@@ -227,6 +235,40 @@ public class LevelManager : MonoBehaviour
         boostOnValue = -3f;
         breakValue = -1.50f;
         defaultValue = -2.1f;
+
+        int randomRoom = Random.Range(0, 4);
+        switch (randomRoom)
+        {
+            case 0:
+                tempRoom1 =  (GameObject)Instantiate(room1Pf,room1T.transform);
+                tempRoom1.transform.localScale = Vector3.one;
+                break;
+            
+            case 1:
+                tempRoom2 =  (GameObject)Instantiate(room2Pf,room2T.transform);
+                tempRoom2.transform.localScale = Vector3.one;
+                break;
+            
+            case 2:
+                tempRoom3 =  (GameObject)Instantiate(room3Pf,room3T.transform);
+                tempRoom3.transform.localScale = Vector3.one;
+                break;
+            
+            case 3:
+                tempRoom4 =  (GameObject)Instantiate(room4Pf,room4T.transform);
+                tempRoom4.transform.localScale = Vector3.one;
+                break;
+            
+            case 4:
+                tempRoom1 =  (GameObject)Instantiate(room1Pf,room1T.transform);
+                tempRoom1.transform.localScale = Vector3.one;
+                break;
+            
+        }
+
+        
+        
+        
 
     }
 
@@ -336,33 +378,21 @@ public class LevelManager : MonoBehaviour
     
     void LightingAndObstaclesChecker()
     {
-        if (_gameManager.lightingMode == 1)
+        
+        if (GameManager.Instance.lightingMode == 1)
         {
-            tempPrefabD =  (GameObject)Instantiate(dayObstaclesPf, dayParent);
-            tempPrefabD.tag = "TEMPD";
+            tempPrefabD.SetActive(true);
+            tempPrefabN.SetActive(false);
         }
         
         
-        if (_gameManager.lightingMode == 2)
+        else if (GameManager.Instance.lightingMode == 2)
         {
-            tempPrefabN =  (GameObject)Instantiate(nightObstaclesPf, nightParent);
-            tempPrefabN.tag = "TEMPN";
+            tempPrefabD.SetActive(false);
+            tempPrefabN.SetActive(true);
         }
        
         
-        /*if (_gameManager.lightingMode == 1)
-        {
-            //DAY OBSTACLES
-            tempPrefab =  (GameObject)Instantiate(dayObstaclesPf, dayParent);
-            tempPrefab.tag = "TEMP";
-        }
-        
-        if (_gameManager.lightingMode == 2)
-        {
-            //NIGHT OBSTACLES
-            tempPrefab =  (GameObject)Instantiate(nightObstaclesPf, nightParent);
-            tempPrefab.tag = "TEMP";
-        }*/
     }
     
     void WeatherSetup()
@@ -472,6 +502,12 @@ public class LevelManager : MonoBehaviour
 
         startConfetti.SetActive(true);
         
+
+#if UNITY_ANDROID
+        if(AudioManager.Instance.isHapticEnabled)
+            HapticPatterns.PlayConstant(1f, 0.0f, 0.3f);
+#endif
+        
         if (_audioManager!=null && _audioManager.isMusicEnabled)
         {
             _audioManager.musicTracks.MusicTrackAudioSource.Play();
@@ -492,34 +528,6 @@ public class LevelManager : MonoBehaviour
 
     }
     
-
-    private void Update()
-    {
-
-        
-        Debug.Log(" Total Crowns " + PlayerPrefs.GetInt("TotalCrowns"));
-        
-        /*if (isGameStarted)
-        {
-           
-            if (lapCounter >= 1)
-            {
-                if (isGameStarted )
-                {
-                
-                    float t = Time.time - startTime;
-                    string minutes = ((int) t / 60).ToString();
-                    string seconds = (t % 60).ToString("f2");
-            
-                    // levelTimeObjects[lapCounter-1].GetComponent<TextMeshProUGUI>().text = "Lap " + (lapCounter) + " : " + minutes + ":" +
-                    //                                                                       seconds;
-            
-                }
-            }
-
-        }*/
-
-    }
     
     
 
@@ -542,46 +550,19 @@ public class LevelManager : MonoBehaviour
         if (lapCounter < totalLaps)
         {
             
-            /*if (_gameManager.lightingMode == 1)
-            {
-                Destroy(GameObject.FindGameObjectWithTag("TEMP"));
-                
-                //DAY OBSTACLES
-                tempPrefab =  (GameObject)Instantiate(dayObstaclesPf, dayParent);
-                tempPrefab.tag = "TEMP";
-            }
-        
-            if (_gameManager.lightingMode == 2)
-            {
-                Destroy(GameObject.FindGameObjectWithTag("TEMP"));
-                
-                //NIGHT OBSTACLES
-                tempPrefab =  (GameObject)Instantiate(nightObstaclesPf, nightParent);
-                tempPrefab.tag = "TEMP";
-            }*/
-            
-            
-            
             if (_gameManager.lightingMode == 1)
             {
                 if (lapCounter == 1)
                 {
-                    if (GameObject.FindGameObjectWithTag("TEMPD") != null) 
-                    { 
-                        Destroy(GameObject.FindGameObjectWithTag("TEMPD"));
-                
-                        //NIGHT OBSTACLES
-                        tempPrefabN =  (GameObject)Instantiate(nightObstaclesPf, nightParent);
-                        tempPrefabN.tag = "TEMPN";
-                    }
+                    tempPrefabD.SetActive(false);
+                    tempPrefabN.SetActive(true);
                 }
-                
+        
+        
                 else if (lapCounter == 2)
                 {
-                    if (GameObject.FindGameObjectWithTag("TEMPN") != null)
-                    {
-                        Destroy(GameObject.FindGameObjectWithTag("TEMPN"));
-                    }
+                    tempPrefabD.SetActive(true);
+                    tempPrefabN.SetActive(false);
                 }
                 
             }
@@ -590,22 +571,15 @@ public class LevelManager : MonoBehaviour
             {
                 if (lapCounter == 1)
                 {
-                    if (GameObject.FindGameObjectWithTag("TEMPN") != null) 
-                    { 
-                        Destroy(GameObject.FindGameObjectWithTag("TEMPN"));
-                
-                        //DAY OBSTACLES
-                        tempPrefabD =  (GameObject)Instantiate(dayObstaclesPf, dayParent);
-                        tempPrefabD.tag = "TEMPD";
-                    }
+                    tempPrefabD.SetActive(true);
+                    tempPrefabN.SetActive(false);
                 }
-                
+        
+        
                 else if (lapCounter == 2)
                 {
-                    if (GameObject.FindGameObjectWithTag("TEMPD") != null)
-                    {
-                        Destroy(GameObject.FindGameObjectWithTag("TEMPD"));
-                    }
+                    tempPrefabD.SetActive(false);
+                    tempPrefabN.SetActive(true);
                 }
                 
             }
@@ -743,10 +717,7 @@ public class LevelManager : MonoBehaviour
                     foreach (var abc in boostFiller)
                     {
                         DOTween.To(() => abc.fillAmount, 
-                                x => abc.fillAmount = x, 0.332f, 0.3f)
-                            .OnUpdate(() => {
-                        
-                            });
+                                x => abc.fillAmount = x, 0.332f, 0.3f);
                     }
 
                     break;
@@ -755,10 +726,7 @@ public class LevelManager : MonoBehaviour
                     foreach (var abc in boostFiller)
                     {
                         DOTween.To(() => abc.fillAmount, 
-                                x => abc.fillAmount = x, 0.699f, 0.3f)
-                            .OnUpdate(() => {
-                        
-                            });
+                                x => abc.fillAmount = x, 0.699f, 0.3f);
                     }
 
                     break;
@@ -812,8 +780,11 @@ public class LevelManager : MonoBehaviour
             _uiManager.BoostBtn.GetComponent<DOTweenAnimation>().DOPause();
             _uiManager.BoostBtn.transform.DOScale(new Vector3(0.4f, 0.4f, 0.4f), 0f);
         
+
+#if UNITY_ANDROID
             if(AudioManager.Instance.isHapticEnabled)
                 HapticPatterns.PlayConstant(1f, 0.0f, 0.5f);
+#endif
             
             CarBoostOn();
             
@@ -854,10 +825,7 @@ public class LevelManager : MonoBehaviour
     {
         //Camera Far Distance
         DOTween.To(() => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,         ////damping camera effect
-                x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x,zOffsetValue, 0.8f)
-            .OnUpdate(() => {
-                        
-            });
+                x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x,zOffsetValue, 0.8f);
     }
     void CarBoostOn()
     {
@@ -894,10 +862,7 @@ public class LevelManager : MonoBehaviour
         foreach (var abc in boostFiller)                    
         {
             DOTween.To(() => abc.fillAmount, 
-                    x => abc.fillAmount = x, 0f, 9f)
-                .OnUpdate(() => {
-                        
-                });
+                    x => abc.fillAmount = x, 0f, 9f);
         }
         
         //ppl disable
@@ -1088,6 +1053,11 @@ public class LevelManager : MonoBehaviour
         PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins") + currentScore);
         
         PlayerPrefs.Save();
+        
+#if UNITY_ANDROID
+        if(AudioManager.Instance.isHapticEnabled)
+            HapticPatterns.PlayConstant(1f, 0.0f, 0.35f);
+#endif
         
         if (_levelProgressUI.playerPosi == 1)
         {

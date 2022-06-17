@@ -77,12 +77,16 @@ public class GameControls : MonoBehaviour
 
         }
 
-        if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary && !stopTouch) || Input.GetKeyDown(KeyCode.Space))
+        if (PlayerPrefs.GetInt("Control") == 0)
         {
-            gestureState = GestureState.Break;
-            
-            
+            if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary && !stopTouch) || Input.GetKeyDown(KeyCode.Space))
+            {
+                gestureState = GestureState.Break;
+                
+            }
         }
+        
+        
         
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended || Input.GetKeyUp(KeyCode.Space))
         {

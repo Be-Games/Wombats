@@ -159,12 +159,15 @@ public class Tut_PlayerController : MonoBehaviour
 
         if ((gamecontrols.gestureState == Tut_Gamecontrols.GestureState.Release))                            //Release Breaks
         {
-                   
-            DOTween.To(() => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
-                    x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -2.11f, 0.5f)
-                .OnUpdate(() => {
+            if (targetSpeed != boostSpeed)
+            {
+                DOTween.To(() => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z,                     ////damping camera effect
+                        x => defCMVCCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = x, -3f, 0.5f)
+                    .OnUpdate(() => {
               
-                });
+                    });
+            }
+            
 
 
                     
