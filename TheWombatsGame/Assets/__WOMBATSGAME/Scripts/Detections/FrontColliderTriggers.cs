@@ -204,6 +204,8 @@ public class FrontColliderTriggers : MonoBehaviour
     {
         if (!LevelManager.Instance.isCrashed)
         {
+            LevelManager.Instance.boostLines.gameObject.SetActive(false);
+            LevelManager.Instance.tordFace.animation.Play("Sad_Animation",-1);
             
 #if UNITY_ANDROID
             if(AudioManager.Instance.isHapticEnabled)

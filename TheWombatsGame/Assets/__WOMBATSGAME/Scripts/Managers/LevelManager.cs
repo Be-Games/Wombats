@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using Coffee.UIEffects;
 using DG.Tweening;
+using DragonBones;
 using Lofelt.NiceVibrations;
 using NatSuite.Examples;
 using PathCreation.Examples;
@@ -11,6 +12,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Analytics;
+using Transform = UnityEngine.Transform;
 
 public class LevelManager : MonoBehaviour
 {
@@ -145,6 +147,10 @@ public class LevelManager : MonoBehaviour
     public Transform room1T, room2T, room3T,room4T;
     public GameObject room1Pf, room2Pf, room3Pf,room4Pf;
     private GameObject tempRoom1, tempRoom2, tempRoom3,tempRoom4;
+
+    public UnityArmatureComponent tordFace;
+    public ParticleSystem boostLines;
+    
     private void Awake()
     {
         _instance = this;
@@ -160,7 +166,9 @@ public class LevelManager : MonoBehaviour
         if (_gameManager != null)
             totalLaps = _gameManager.numberOfLaps;
 
-        #region CodeToComment
+        _uiManager.GetComponent<Canvas>().worldCamera = flyOverCameraGO.transform.GetChild(0).GetComponent<Camera>();
+
+        /*#region CodeToComment
         if (_gameManager)
         {
             if (_gameManager.memeberIndex == 0)        //murph
@@ -212,7 +220,7 @@ public class LevelManager : MonoBehaviour
               
         }
           
-        #endregion
+        #endregion*/
           
         _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
           
@@ -431,6 +439,8 @@ public class LevelManager : MonoBehaviour
         flyOverCameraGO.SetActive(false);
         mainCameraGO.SetActive(true);
         
+        _uiManager.gameObject.GetComponent<Canvas>().worldCamera =  mainCameraGO.GetComponent<Camera>();
+        
         if(_gameManager.weatherEffect == 0)
             envManager.Clear();
         if (_gameManager.weatherEffect == 1)
@@ -522,7 +532,9 @@ public class LevelManager : MonoBehaviour
 
     void RaceStarted()
     {
-
+        boostLines.gameObject.SetActive(false);
+        tordFace.animation.Play("Idle_State",-1);
+        
         GameManager.Instance.canControlCar = true;                        // Car Gestures Enabled
         _gameControls.gestureState = GameControls.GestureState.Release;
 
@@ -749,6 +761,8 @@ public class LevelManager : MonoBehaviour
     void BoostActivated()
     {
         
+        
+        
         //ENABLE BOOST BTN
         _uiManager.BoostBtn.GetComponent<Button>().enabled = true;
         
@@ -829,6 +843,9 @@ public class LevelManager : MonoBehaviour
     }
     void CarBoostOn()
     {
+        boostLines.gameObject.SetActive(true);
+        tordFace.animation.Play("Happy_Animation",-1);
+        
         SetCameraDampValue(boostOnValue);
         
         //blur boost panel appear
@@ -875,6 +892,8 @@ public class LevelManager : MonoBehaviour
 
     void CarBoostOff()
     {
+        boostLines.gameObject.SetActive(false);
+        tordFace.animation.Play("Idle_State",-1);
         
         //DISABLE ALL THE BOOST PICKUPS
         foreach (GameObject x in boostPickUps)                                                            //Disable all the boost pickups
@@ -1190,6 +1209,8 @@ public class LevelManager : MonoBehaviour
     //CONTINUE BTN ON CRASH
     public void ResetCar()
     {
+        boostLines.gameObject.SetActive(false);
+        tordFace.animation.Play("Idle_State",-1);
         
         // PickUpTrigger.Instance.HideHuman();
         if(_audioManager!=null)
