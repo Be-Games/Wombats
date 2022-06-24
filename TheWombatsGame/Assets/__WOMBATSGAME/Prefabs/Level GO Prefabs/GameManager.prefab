@@ -884,7 +884,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1378684839110068954
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3681,7 +3681,6 @@ GameObject:
   - component: {fileID: 5944686588678570789}
   - component: {fileID: 3474557126214154631}
   - component: {fileID: 1920189169}
-  - component: {fileID: 5772045504665548671}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -3719,7 +3718,7 @@ MonoBehaviour:
   lightingMode: 1
   canControlCar: 0
   weatherEffect: 0
-  charNumber: 3
+  charNumber: 1
   playerPosi: 0
   memeberIndex: 0
   selectedCarModelPLAYER: 0
@@ -3763,7 +3762,7 @@ MonoBehaviour:
   - {fileID: 3164801320055785997, guid: 004e68efc884d40498fde073dc99ab45, type: 3}
   - {fileID: 3164801320055785997, guid: ef4fa357d7a2fe74baaac7da5a752dfb, type: 3}
   - {fileID: 3164801320055785997, guid: 5ca80a4cbc016fe41a68f7f879af23e5, type: 3}
-  numberOfLaps: 1
+  numberOfLaps: 2
   currentCoins_txt: {fileID: 3477641928541477312}
   coinsPanel: {fileID: 1271104657968465333}
   isForCoinsReward: 0
@@ -3822,18 +3821,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fpsText: {fileID: 1604610172}
   deltaTime: 0
---- !u!114 &5772045504665548671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6307174297545802506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2eab89df6dfad2b46a3283052885cd42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6307174297851468930
 GameObject:
   m_ObjectHideFlags: 0

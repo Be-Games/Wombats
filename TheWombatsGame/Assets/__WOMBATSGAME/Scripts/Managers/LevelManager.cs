@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
@@ -12,6 +13,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Analytics;
+using Random = UnityEngine.Random;
 using Transform = UnityEngine.Transform;
 
 public class LevelManager : MonoBehaviour
@@ -147,9 +149,9 @@ public class LevelManager : MonoBehaviour
     public Transform room1T, room2T, room3T,room4T;
     public GameObject room1Pf, room2Pf, room3Pf,room4Pf;
     private GameObject tempRoom1, tempRoom2, tempRoom3,tempRoom4;
-
-    public UnityArmatureComponent tordFace;
+    
     public ParticleSystem boostLines;
+    public UnityArmatureComponent[] riggedPpl;
     
     private void Awake()
     {
@@ -168,7 +170,7 @@ public class LevelManager : MonoBehaviour
 
         _uiManager.GetComponent<Canvas>().worldCamera = flyOverCameraGO.transform.GetChild(0).GetComponent<Camera>();
 
-        /*#region CodeToComment
+        #region CodeToComment
         if (_gameManager)
         {
             if (_gameManager.memeberIndex == 0)        //murph
@@ -220,7 +222,7 @@ public class LevelManager : MonoBehaviour
               
         }
           
-        #endregion*/
+        #endregion
           
         _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
           
@@ -294,6 +296,9 @@ public class LevelManager : MonoBehaviour
         UpdateIcons();
 
         SceneNameAndIndex();
+        
+        if(GameManager.Instance.charNumber != 0)
+            riggedPpl[GameManager.Instance.charNumber-1].gameObject.SetActive(true);
         
     }
 
@@ -382,6 +387,9 @@ public class LevelManager : MonoBehaviour
        enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeL.GetComponent<ParticleSystem>().Stop();
        enemyRightVisual.GetComponent<VehicleManager>().carEffects.carBreakSmokeR.GetComponent<ParticleSystem>().Stop();*/
        #endregion
+       
+       
+       
     }
     
     void LightingAndObstaclesChecker()
@@ -533,15 +541,14 @@ public class LevelManager : MonoBehaviour
     void RaceStarted()
     {
         boostLines.gameObject.SetActive(false);
-        tordFace.animation.Play("Idle_State",-1);
+        LevelManager.Instance.riggedPpl[GameManager.Instance.charNumber-1].animation.Play("Idle_State",-1);
         
         GameManager.Instance.canControlCar = true;                        // Car Gestures Enabled
         _gameControls.gestureState = GameControls.GestureState.Release;
 
     }
     
-    
-    
+
 
     public void LapManager()
     {
@@ -844,7 +851,7 @@ public class LevelManager : MonoBehaviour
     void CarBoostOn()
     {
         boostLines.gameObject.SetActive(true);
-        tordFace.animation.Play("Happy_Animation",-1);
+        LevelManager.Instance.riggedPpl[GameManager.Instance.charNumber-1].animation.Play("Happy_Animation",-1);
         
         SetCameraDampValue(boostOnValue);
         
@@ -893,7 +900,7 @@ public class LevelManager : MonoBehaviour
     void CarBoostOff()
     {
         boostLines.gameObject.SetActive(false);
-        tordFace.animation.Play("Idle_State",-1);
+        LevelManager.Instance.riggedPpl[GameManager.Instance.charNumber-1].animation.Play("Idle_State",-1);
         
         //DISABLE ALL THE BOOST PICKUPS
         foreach (GameObject x in boostPickUps)                                                            //Disable all the boost pickups
@@ -935,6 +942,8 @@ public class LevelManager : MonoBehaviour
     private int y;
     IEnumerator RaceFinished()
     {
+
+        _uiManager.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
         
         _gameManager.playerPosi = _levelProgressUI.playerPosi;
         
@@ -1210,7 +1219,7 @@ public class LevelManager : MonoBehaviour
     public void ResetCar()
     {
         boostLines.gameObject.SetActive(false);
-        tordFace.animation.Play("Idle_State",-1);
+        LevelManager.Instance.riggedPpl[GameManager.Instance.charNumber-1].animation.Play("Idle_State",-1);
         
         // PickUpTrigger.Instance.HideHuman();
         if(_audioManager!=null)

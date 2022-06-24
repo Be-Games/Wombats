@@ -210,6 +210,9 @@ public class PlayerController : MonoBehaviour
     
     public void MoveLeft()
     {
+        if (!LevelManager.Instance.isBoosting)
+            LevelManager.Instance.riggedPpl[GameManager.Instance.charNumber-1].animation.Play("Left_Turn",1);
+        
         //laneswitch SOUND
         if(LevelManager.Instance._audioManager!=null && LevelManager.Instance._audioManager.isSFXenabled)
             LevelManager.Instance._audioManager.Play(LevelManager.Instance._audioManager.sfxAll.laneSwitch);
@@ -225,8 +228,9 @@ public class PlayerController : MonoBehaviour
                 
                 DOTween.To(() => LevelManager.Instance.defCMVCCam.gameObject.GetComponent<CinemachineCameraOffset>().m_Offset.x, 
                         x => LevelManager.Instance.defCMVCCam.gameObject.GetComponent<CinemachineCameraOffset>().m_Offset.x = x, -cameraOffsetxOffset, 0.3f)
-                    .OnUpdate(() => {
-                        
+                    .OnComplete(() => {
+                        if (!LevelManager.Instance.isBoosting)
+                            LevelManager.Instance.riggedPpl[GameManager.Instance.charNumber-1].animation.Play("Idle_State",-1);
                     });
                 
                 
@@ -241,8 +245,9 @@ public class PlayerController : MonoBehaviour
                 
                 DOTween.To(() => LevelManager.Instance.defCMVCCam.gameObject.GetComponent<CinemachineCameraOffset>().m_Offset.x, 
                         x => LevelManager.Instance.defCMVCCam.gameObject.GetComponent<CinemachineCameraOffset>().m_Offset.x = x, 0, 0.3f)
-                    .OnUpdate(() => {
-                        
+                    .OnComplete(() => {
+                        if (!LevelManager.Instance.isBoosting)
+                            LevelManager.Instance.riggedPpl[GameManager.Instance.charNumber-1].animation.Play("Idle_State",-1);
                     });
                 
                 currentPosition = 0;
@@ -253,6 +258,9 @@ public class PlayerController : MonoBehaviour
     
     public void MoveRight()
     {
+        if (!LevelManager.Instance.isBoosting)
+            LevelManager.Instance.riggedPpl[GameManager.Instance.charNumber-1].animation.Play("Right_Turn",1);
+        
         //laneswitch SOUND
         if(LevelManager.Instance._audioManager!=null && LevelManager.Instance._audioManager.isSFXenabled)
             LevelManager.Instance._audioManager.Play(LevelManager.Instance._audioManager.sfxAll.laneSwitch);
@@ -267,8 +275,9 @@ public class PlayerController : MonoBehaviour
                 
                 DOTween.To(() => LevelManager.Instance.defCMVCCam.gameObject.GetComponent<CinemachineCameraOffset>().m_Offset.x, 
                         x => LevelManager.Instance.defCMVCCam.gameObject.GetComponent<CinemachineCameraOffset>().m_Offset.x = x, cameraOffsetxOffset, 0.3f)
-                    .OnUpdate(() => {
-                        
+                    .OnComplete(() => {
+                        if (!LevelManager.Instance.isBoosting)
+                            LevelManager.Instance.riggedPpl[GameManager.Instance.charNumber-1].animation.Play("Idle_State",-1);
                     });
                 
                 currentPosition = 1;
@@ -281,8 +290,9 @@ public class PlayerController : MonoBehaviour
                 
                 DOTween.To(() => LevelManager.Instance.defCMVCCam.gameObject.GetComponent<CinemachineCameraOffset>().m_Offset.x, 
                         x => LevelManager.Instance.defCMVCCam.gameObject.GetComponent<CinemachineCameraOffset>().m_Offset.x = x, 0, 0.3f)
-                    .OnUpdate(() => {
-                        
+                    .OnComplete(() => {
+                        if (!LevelManager.Instance.isBoosting)
+                            LevelManager.Instance.riggedPpl[GameManager.Instance.charNumber-1].animation.Play("Idle_State",-1);
                     });
                 
                 currentPosition = 0;

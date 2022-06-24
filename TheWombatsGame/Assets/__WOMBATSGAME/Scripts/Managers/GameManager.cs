@@ -181,7 +181,7 @@ public class GameManager : MonoBehaviour
         if (numberOfLaps == 0)
             numberOfLaps = 2;
         
-        charNumber = 1;
+        //charNumber = 1;
         
         /*isSettingVisible = false;
         settingsPanel.GetComponent<RectTransform>().localScale = new Vector3(1f,0f,1f);*/
