@@ -1,0 +1,202 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Facebook.Unity;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class CrossWordManager : MonoBehaviour
+{
+	public GameObject loginUI;
+	public GameObject gameUI;
+
+	//public GameObject LoggedInUI;
+	//public GameObject NotLoggedInUI;
+	public GameObject Friend;
+	private static string applink = "";//Put your own Applink here.
+
+	void Awake(){
+
+		
+		
+		
+		if (!FB.IsInitialized) {
+			FB.Init (InitCallBack);
+		}
+	}
+
+	void InitCallBack(){
+		PlayerInput.Instance.debugText.text = "FB has been initialized.";
+		ShowUI ();
+	}
+
+	private void Start()
+	{
+		loginUI.SetActive(true);
+		gameUI.SetActive(false);
+		
+		/*
+		if (!FB.IsLoggedIn)
+		{
+			
+			loginUI.SetActive(true);
+			gameUI.SetActive(false);
+		}
+		else if (FB.IsLoggedIn)
+		{
+			loginUI.SetActive(false);
+			gameUI.SetActive(true);
+			
+			//ChallengeCallback(IAppLinkResult result);
+		}*/
+	}
+
+	public void Login()
+	{
+
+		PlayerInput.Instance.debugText.text = "Logging In";
+		
+		if (!FB.IsLoggedIn) {
+			FB.LogInWithReadPermissions (new List<string>{ "user_friends" }, LoginCallBack);
+		}
+	}
+
+	void LoginCallBack(ILoginResult result){
+		if (result.Error == null) {
+			PlayerInput.Instance.debugText.text = "FB has logged in.";
+			ShowUI ();
+			
+			loginUI.SetActive(false);
+			gameUI.SetActive(true);
+			
+			
+		} else {
+			PlayerInput.Instance.debugText.text = "Error during login: " + result.Error;
+		}
+	}
+
+	void ShowUI(){
+		if (FB.IsLoggedIn) {
+			//LoggedInUI.SetActive (true);
+			//NotLoggedInUI.SetActive (false);
+			FB.API ("me/picture?width=100&height=100", HttpMethod.GET, PictureCallBack);
+			FB.API ("me?fields=first_name", HttpMethod.GET, NameCallBack);
+			FB.API ("me/friends", HttpMethod.GET, FriendCallBack);
+			FB.GetAppLink (ApplinkCallback);
+		} else {
+			//LoggedInUI.SetActive (false);
+			//NotLoggedInUI.SetActive (true);
+		}
+	}
+
+	void PictureCallBack(IGraphResult result){
+		Texture2D image = result.Texture;
+		//LoggedInUI.transform.Find ("ProfilePicture").GetComponent<Image> ().sprite = Sprite.Create (image, new Rect (0, 0, 100, 100), new Vector2 (0.5f, 0.5f));
+	}
+
+	void NameCallBack(IGraphResult result){
+		IDictionary<string, object> profile = result.ResultDictionary;
+		PlayerInput.Instance.player1Name.text = profile ["first_name"] + "'s turn";
+		//LoggedInUI.transform.Find ("Name").GetComponent<Text> ().text = "Hello " + 
+	}
+
+	public void LogOut(){
+		FB.LogOut ();
+		ShowUI ();
+	}
+
+	public void Share(){
+		FB.ShareLink (new System.Uri("http://brainivore.com"), "This game is awesome!", "A description of the game.", new System.Uri("http://brainivore.com/Images/Logo.png"));
+	}
+
+	/*public void Invite(){
+		//FB.AppRequest (message: "You should really try this game.", title: "Check this super game!");
+		FB.Mobile.AppInvite(new System.Uri(applink), new System.Uri("http://brainivore.com/Images/Logo.png"), InviteCallback);
+	}
+
+	void InviteCallback(IAppInviteResult result){
+		if (result.Cancelled) {
+			Debug.Log ("Invite cancelled.");		
+		} else if (!string.IsNullOrEmpty (result.Error)) {
+			Debug.Log ("Error in invite:" + result.Error);
+		} else {
+			Debug.Log ("Invite was successful:" + result.RawResult);
+		}
+	}*/                    
+	
+	
+
+	public void Challenge(){
+		FB.AppRequest ("Challenge for Word Game", null, new List<object>{ "app_users" }, null, null, PlayerInput.Instance.acceptedWords[0] + PlayerInput.Instance.acceptedWords[1] , "Challenge your friends!", ChallengeCallback);
+	}
+
+	void ChallengeCallback(IAppRequestResult result){
+		if (result.Cancelled) {
+			PlayerInput.Instance.debugText.text = "Challenge cancelled.";		
+		} else if (!string.IsNullOrEmpty (result.Error)) {
+			PlayerInput.Instance.debugText.text = "Error in challenge:" + result.Error;
+		} else {
+			
+			PlayerInput.Instance.player1Turn.SetActive(false);
+			PlayerInput.Instance.player2Turn.SetActive(true);
+			
+			PlayerInput.Instance.debugText.text = "Challenge was successful:" + result.RawResult;
+		}
+	}
+
+	void FriendCallBack(IGraphResult result){
+		IDictionary<string, object> data = result.ResultDictionary;
+		List<object> friends = (List<object>)data ["data"];
+		foreach (object obj in friends) {
+			Dictionary<string, object> dictio = (Dictionary<string, object>)obj;
+			CreateFriend(dictio ["name"].ToString (), dictio ["id"].ToString ());
+		}
+	}
+
+	void CreateFriend(string name, string id){
+		GameObject myFriend = Instantiate (Friend);
+		//Transform parent = LoggedInUI.transform.Find ("ListContainer").Find ("FriendList");
+		//myFriend.transform.SetParent (parent);
+		myFriend.GetComponentInChildren<Text> ().text = name;
+		FB.API(id + "/picture?width=100&height=100", HttpMethod.GET, delegate(IGraphResult result) {
+			myFriend.GetComponentInChildren<Image>().sprite = Sprite.Create (result.Texture, new Rect (0, 0, 100, 100), new Vector2 (0.5f, 0.5f));
+		});
+	}
+
+	void ApplinkCallback(IAppLinkResult result){
+		if (string.IsNullOrEmpty (result.Error)) {
+			Debug.Log ("Applink done:" + result.RawResult);
+			IDictionary<string, object> dictio = result.ResultDictionary;
+			if (dictio.ContainsKey ("target_url")) {
+				string url = dictio ["target_url"].ToString ();
+				string keyword = "request_ids=";
+				int k = 0;
+				while (k < url.Length - keyword.Length && !url.Substring (k, keyword.Length).Equals (keyword))
+					k++;
+				k += keyword.Length;
+				int l = k;
+				while (url [l] != '&' && url [l] != '%')
+					l++;
+				string id = url.Substring (k, l - k);
+				FB.API ("/" + id + "_" + AccessToken.CurrentAccessToken.UserId, HttpMethod.GET, RequestCallback);
+			}
+		} else {
+			Debug.Log ("Applink error:" + result.Error);
+		}
+	}
+
+	void RequestCallback(IGraphResult result){
+		Debug.Log ("Request callback");
+		if (string.IsNullOrEmpty (result.Error)) {
+			IDictionary<string, object> dictio = result.ResultDictionary;
+			if (dictio.ContainsKey ("data"))
+				Debug.Log (dictio ["data"]);
+			if (dictio.ContainsKey ("id"))
+				FB.API ("/" + dictio ["id"], HttpMethod.DELETE, null);
+		} else {
+			Debug.Log ("Error in request:" + result.Error);
+		}
+	}
+
+}
