@@ -28,23 +28,30 @@ public class MobileNotification : MonoBehaviour
         };
         AndroidNotificationCenter.RegisterNotificationChannel(channel);
         
+        
+
+       
+       
+    }
+
+    private void OnApplicationQuit()
+    {
         var notification = new AndroidNotification();
         notification.Title = "Come Back!";
-        notification.Text = "Your Text";
+        notification.Text = "The Concert is about to begin!!";
         notification.SmallIcon = "icon_s";
         notification.LargeIcon = "icon_l";
-        notification.FireTime = System.DateTime.Now.AddHours(48);
-
+        notification.FireTime = System.DateTime.Now.AddSeconds(15);
+        
         //Send the Notif
         var id =  AndroidNotificationCenter.SendNotification(notification, "channel_id");
 
-       if (AndroidNotificationCenter.CheckScheduledNotificationStatus(id) == NotificationStatus.Scheduled)
-       {
-           AndroidNotificationCenter.CancelAllNotifications();
-           AndroidNotificationCenter.SendNotification(notification, "channel_id");
-       }
-       
+        if (AndroidNotificationCenter.CheckScheduledNotificationStatus(id) == NotificationStatus.Scheduled)
+        {
+            AndroidNotificationCenter.CancelAllNotifications();
+            AndroidNotificationCenter.SendNotification(notification, "channel_id");
+        }
     }
-    
+
 #endif
 }

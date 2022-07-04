@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Rewarded : MonoBehaviour
 {
@@ -27,11 +28,20 @@ public class Rewarded : MonoBehaviour
         
         IronSource.Agent.shouldTrackNetworkState(true);
         IronSourceEvents.onRewardedVideoAvailabilityChangedEvent += RewardedVideoAvailabilityChangedEvent;
+        
+        if (SceneManager.GetActiveScene().name =="PlayerSelection")
+        {
+            Debug.Log("This");
+            IronSourceEvents.onRewardedVideoAdClosedEvent += RewardedVideoAdClosedEvent2;
+        }
+        
         IronSourceEvents.onRewardedVideoAdClosedEvent += RewardedVideoAdClosedEvent;
     }
 
     public void rewarded()
     {
+        
+        
         if (IronSource.Agent.isRewardedVideoAvailable())
         {
             Debug.Log("Works");
@@ -52,6 +62,7 @@ public class Rewarded : MonoBehaviour
     
     public void rewardedForConcert()
     {
+
         if (IronSource.Agent.isRewardedVideoAvailable())
         {
             Debug.Log("Works");
@@ -70,7 +81,7 @@ public class Rewarded : MonoBehaviour
 
     }
 
-    void RewardedVideoAdClosedEvent()
+    public void RewardedVideoAdClosedEvent()
     {
         IronSource.Agent.init(appkey, IronSourceAdUnits.REWARDED_VIDEO);
         IronSource.Agent.shouldTrackNetworkState(true);
@@ -86,7 +97,14 @@ public class Rewarded : MonoBehaviour
             Debug.Log("For Revive");
             LevelManager.Instance.ShowRevivePanel();
         }
+
         
+        
+    }
+
+    void RewardedVideoAdClosedEvent2()
+    {
+       PlayerSelection.Instance.postCarAd();
     }
 
     void RewardedVideoAvailabilityChangedEvent(bool available)

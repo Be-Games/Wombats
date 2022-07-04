@@ -14,6 +14,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+using NiobiumStudios;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -36,6 +37,9 @@ public class MainMenuManager : MonoBehaviour
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        
+        if(PlayerPrefs.GetInt("isTutShown")==1)
+            DailyRewards.instance.onClaimPrize += OnClaimPrizeDailyRewards;
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -46,12 +50,37 @@ public class MainMenuManager : MonoBehaviour
     {
         CarColorSwitch();
     }
+    
+
+    void OnDisable()
+    {
+        DailyRewards.instance.onClaimPrize -= OnClaimPrizeDailyRewards;
+    }
+
+    // this is your integration function. Can be on Start or simply a function to be called
+    public void OnClaimPrizeDailyRewards(int day)
+    {
+        //This returns a Reward object
+        Reward myReward = DailyRewards.instance.GetReward(day);
+
+        // And you can access any property
+        print(myReward.unit);   // This is your reward Unit name
+        print(myReward.reward); // This is your reward count
+
+        var rewardsCount = PlayerPrefs.GetInt ("MyTotalCoins", 0);
+        rewardsCount += myReward.reward;
+
+        PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins") + rewardsCount);
+        
+        PlayerPrefs.Save ();
+    }
+    
 
     private void Start()
     {
         
         
-        PlayerPrefs.GetInt("isTutShown",0);
+        
         
         xOffset = 0;
         

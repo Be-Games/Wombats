@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
     public int additionalCoinsToBeGivenBasedOnRank;
     public int timesForCoins;
 
-    public bool isThisTheFinalLevel;
+        //public bool isThisTheFinalLevel;
 
     public int carIndex = 0;
 
@@ -112,6 +112,8 @@ public class GameManager : MonoBehaviour
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        
+        PlayerPrefs.GetInt("isTutShown",0);
     }
 
     // called second
@@ -126,7 +128,7 @@ public class GameManager : MonoBehaviour
             coinsPanel.SetActive(false);
         }
 
-        if (scene.name == "PlayerSelection" || scene.name == "LevelSelection")
+        if (scene.name == "PlayerSelection")
         {
             graphicsDropDown.gameObject.SetActive(true);
             graphicsDropDown.value =  PlayerPrefs.GetInt("Graphics");

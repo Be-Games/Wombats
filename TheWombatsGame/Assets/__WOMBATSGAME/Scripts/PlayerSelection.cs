@@ -20,8 +20,7 @@ public class PlayerSelection : MonoBehaviour
     public TextMeshProUGUI currrentMemberName;
 
     public int index;
-
-   [SerializeField] private GameObject _gameManager;
+    
    
    [Space(50)]
    //Car Selection Variables
@@ -70,12 +69,27 @@ public class PlayerSelection : MonoBehaviour
        currentTotalCoins.text = PlayerPrefs.GetInt("TotalCoins").ToString();
        
    }
+   private static PlayerSelection _instance;
+    
+   public static PlayerSelection Instance
+   {
+       get
+       {
+           return _instance;
+       }
+   }
+
+   private void Awake()
+   {
+       _instance = this;
+   }
 
    private void Start()
    {
-       _gameManager = GameObject.FindWithTag("GameManager");
        
-       index = _gameManager.GetComponent<GameManager>().charNumber-1;
+       index = GameManager.Instance.charNumber-1;
+       
+       GameManager.Instance.rewardedAd.IniRewardedSystem();
        
        PlayerPrefs.SetInt("Car" + 1, 1);
 
@@ -130,9 +144,11 @@ public class PlayerSelection : MonoBehaviour
            }
            
        }
-
+       
        StartCoroutine(MyUpdate());
 
+       
+       carDetailsPanel.transform.DOScale(0f, 0.5f).SetEase(Ease.Linear);
 
    }
 
@@ -271,6 +287,26 @@ public class PlayerSelection : MonoBehaviour
        
     }
 
+    public bool adForCar = false;
+
+    public void unlockCar()
+    {
+        GameManager.Instance.rewardedAd.rewardedForConcert();
+        adForCar = true;
+    }
+
+    public void postCarAd()
+    {
+        PlayerPrefs.SetInt("Car" + GameManager.Instance.carIndex, 1);
+        foreach (Transform child in unlockCelebration[index].transform)
+        {
+            child.GetComponent<ParticleSystem>().Play();
+        } 
+        PlayerSelection.Instance.lockImage.SetActive(false);
+        if(AudioManager.Instance.isSFXenabled)
+            AudioManager.Instance.sfxAll.unlockCar.PlayOneShot(AudioManager.Instance.sfxAll.unlockCar.clip);
+    }
+
     public void RewardAdAndUnlockCar()
     {
         GameManager.Instance.isForCarInterstitial = true;
@@ -305,20 +341,20 @@ public class PlayerSelection : MonoBehaviour
 
     void RunScene()
     {
-        _gameManager.GetComponent<GameManager>().charNumber = index + 1;
-        _gameManager.GetComponent<GameManager>().memeberIndex = index;
-        _gameManager.GetComponent<GameManager>().selectedCarModelPLAYER = GameManager.Instance.carIndex;
+        GameManager.Instance.GetComponent<GameManager>().charNumber = index + 1;
+        GameManager.Instance.GetComponent<GameManager>().memeberIndex = index;
+        GameManager.Instance.GetComponent<GameManager>().selectedCarModelPLAYER = GameManager.Instance.carIndex;
 
-        _gameManager.GetComponent<GameManager>().enemyCar1 = GameManager.Instance.carIndex + 2;
-        _gameManager.GetComponent<GameManager>().enemyCar2 = GameManager.Instance.carIndex + 1;
+        GameManager.Instance.GetComponent<GameManager>().enemyCar1 = GameManager.Instance.carIndex + 2;
+        GameManager.Instance.GetComponent<GameManager>().enemyCar2 = GameManager.Instance.carIndex + 1;
 
         if ((GameManager.Instance.carIndex + 1) > 9)
         {
-            _gameManager.GetComponent<GameManager>().enemyCar1 = 0;
-            _gameManager.GetComponent<GameManager>().enemyCar2 = 0;
+            GameManager.Instance.GetComponent<GameManager>().enemyCar1 = 0;
+            GameManager.Instance.GetComponent<GameManager>().enemyCar2 = 0;
         }
 
-        _gameManager.GetComponent<GameManager>().LoadScene("LevelSelection");
+        GameManager.Instance.GetComponent<GameManager>().LoadScene("LevelSelection");
     }
     
     //---------------------------------------------------------------------------------------
@@ -427,8 +463,160 @@ public class PlayerSelection : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        switch (GameManager.Instance.carIndex)
+        {
+            case 1:
+                DOTween.To(() => accImage.fillAmount, 
+                        x => accImage.fillAmount = x, 0.1f, 0.2f)
+                    .OnComplete(() => {
+                        accValue.text = "25";
+                    });
+                
+                
 
-   
+                DOTween.To(() => speedImage.fillAmount, 
+                        x => speedImage.fillAmount = x, 0.13f, 0.2f)
+                    .OnComplete(() => {
+                        speedValue.text = "35";
+                    });
+
+                break;
+            case 2:
+                DOTween.To(() => accImage.fillAmount, 
+                        x => accImage.fillAmount = x, 0.15f, 0.2f)
+                    .OnComplete(() => {
+                        accValue.text = "35";
+                    });
+                
+                
+
+                DOTween.To(() => speedImage.fillAmount, 
+                        x => speedImage.fillAmount = x, 0.18f, 0.2f)
+                    .OnComplete(() => {
+                        speedValue.text = "45";
+                    });
+
+                break;
+            case 3:
+                DOTween.To(() => accImage.fillAmount, 
+                        x => accImage.fillAmount = x, 0.23f, 0.2f)
+                    .OnComplete(() => {
+                        accValue.text = "45";
+                    });
+                
+                
+
+                DOTween.To(() => speedImage.fillAmount, 
+                        x => speedImage.fillAmount = x, 0.26f, 0.2f)
+                    .OnComplete(() => {
+                        speedValue.text = "55";
+                    });
+
+                break;
+            case 4:
+                DOTween.To(() => accImage.fillAmount, 
+                        x => accImage.fillAmount = x, 0.3f, 0.2f)
+                    .OnComplete(() => {
+                        accValue.text = "55";
+                    });
+                
+                
+
+                DOTween.To(() => speedImage.fillAmount, 
+                        x => speedImage.fillAmount = x, 0.34f, 0.2f)
+                    .OnComplete(() => {
+                        speedValue.text = "65";
+                    });
+
+                break;
+            case 5:
+                DOTween.To(() => accImage.fillAmount, 
+                        x => accImage.fillAmount = x, 0.4f, 0.2f)
+                    .OnComplete(() => {
+                        accValue.text = "65";
+                    });
+                
+                
+
+                DOTween.To(() => speedImage.fillAmount, 
+                        x => speedImage.fillAmount = x, 0.42f, 0.2f)
+                    .OnComplete(() => {
+                        speedValue.text = "75";
+                    });
+
+                break;
+            case 6:
+                DOTween.To(() => accImage.fillAmount, 
+                        x => accImage.fillAmount = x, 0.48f, 0.2f)
+                    .OnComplete(() => {
+                        accValue.text = "75";
+                    });
+                
+                
+
+                DOTween.To(() => speedImage.fillAmount, 
+                        x => speedImage.fillAmount = x, 0.52f, 0.2f)
+                    .OnComplete(() => {
+                        speedValue.text = "85";
+                    });
+
+                break;
+            case 7:
+                DOTween.To(() => accImage.fillAmount, 
+                        x => accImage.fillAmount = x, 0.57f, 0.2f)
+                    .OnComplete(() => {
+                        accValue.text = "85";
+                    });
+                
+                
+
+                DOTween.To(() => speedImage.fillAmount, 
+                        x => speedImage.fillAmount = x, 0.6f, 0.2f)
+                    .OnComplete(() => {
+                        speedValue.text = "95";
+                    });
+
+                break;
+            case 8:
+                DOTween.To(() => accImage.fillAmount, 
+                        x => accImage.fillAmount = x, 0.62f, 0.2f)
+                    .OnComplete(() => {
+                        accValue.text = "95";
+                    });
+                
+                
+
+                DOTween.To(() => speedImage.fillAmount, 
+                        x => speedImage.fillAmount = x, 0.63f, 0.2f)
+                    .OnComplete(() => {
+                        speedValue.text = "105";
+                    });
+
+                break;
+            case 9:
+                DOTween.To(() => accImage.fillAmount, 
+                        x => accImage.fillAmount = x, 0.7f, 0.2f)
+                    .OnComplete(() => {
+                        accValue.text = "105";
+                    });
+                
+                
+
+                DOTween.To(() => speedImage.fillAmount, 
+                        x => speedImage.fillAmount = x, 0.7f, 0.2f)
+                    .OnComplete(() => {
+                        speedValue.text = "115";
+                    });
+
+                break;
+            
+        }
+        
+    }
+
+
     //CAR SELECTION MANAGEMENT
 
     public void NextCarSelectionBtn()
@@ -551,6 +739,20 @@ public class PlayerSelection : MonoBehaviour
     public void ButtonClick()
     {
         GameManager.Instance.ButtonClick();
+    }
+
+    public GameObject carDetailsPanel;
+    public Image accImage, speedImage;
+    public TextMeshProUGUI accValue, speedValue;
+
+    public void CarDetailsBtn()
+    {
+        if(carDetailsPanel.transform.localScale.x == 0f)
+            carDetailsPanel.transform.DOScale(1.2f, 0.5f).SetEase(Ease.Linear);
+        else
+        {
+            carDetailsPanel.transform.DOScale(0f, 0.5f).SetEase(Ease.Linear);
+        }
     }
     
 }

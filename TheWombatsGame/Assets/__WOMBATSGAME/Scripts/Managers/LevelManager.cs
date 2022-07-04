@@ -947,8 +947,8 @@ public class LevelManager : MonoBehaviour
         
         _gameManager.playerPosi = _levelProgressUI.playerPosi;
         
-        if (_gameManager.lightingMode == 2 && SceneManager.GetActiveScene().name == "MILAN")
-            _gameManager.isThisTheFinalLevel = true;
+        /*if (_gameManager.lightingMode == 2 && SceneManager.GetActiveScene().name == "MILAN")
+            _gameManager.isThisTheFinalLevel = true;*/
         
         switch (PlayerPrefs.GetInt("LevelIndex"))
         {

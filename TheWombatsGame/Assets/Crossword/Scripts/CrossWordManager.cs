@@ -8,55 +8,25 @@ using UnityEngine.UI;
 
 public class CrossWordManager : MonoBehaviour
 {
-	public GameObject loginUI;
-	public GameObject gameUI;
-
-	//public GameObject LoggedInUI;
-	//public GameObject NotLoggedInUI;
+	public GameObject LoggedInUI;
+	public GameObject NotLoggedInUI;
 	public GameObject Friend;
 	private static string applink = "";//Put your own Applink here.
 
-	void Awake(){
+	public TextMeshProUGUI debugText;
 
-		
-		
-		
+	void Awake(){
 		if (!FB.IsInitialized) {
 			FB.Init (InitCallBack);
 		}
 	}
 
 	void InitCallBack(){
-		PlayerInput.Instance.debugText.text = "FB has been initialized.";
+		Debug.Log ("FB has been initialized.");
 		ShowUI ();
 	}
 
-	private void Start()
-	{
-		loginUI.SetActive(true);
-		gameUI.SetActive(false);
-		
-		/*
-		if (!FB.IsLoggedIn)
-		{
-			
-			loginUI.SetActive(true);
-			gameUI.SetActive(false);
-		}
-		else if (FB.IsLoggedIn)
-		{
-			loginUI.SetActive(false);
-			gameUI.SetActive(true);
-			
-			//ChallengeCallback(IAppLinkResult result);
-		}*/
-	}
-
-	public void Login()
-	{
-
-		PlayerInput.Instance.debugText.text = "Logging In";
-		
+	public void Login(){
 		if (!FB.IsLoggedIn) {
 			FB.LogInWithReadPermissions (new List<string>{ "user_friends" }, LoginCallBack);
 		}
@@ -64,41 +34,36 @@ public class CrossWordManager : MonoBehaviour
 
 	void LoginCallBack(ILoginResult result){
 		if (result.Error == null) {
-			PlayerInput.Instance.debugText.text = "FB has logged in.";
+			Debug.Log("FB has logged in.");  ;
 			ShowUI ();
-			
-			loginUI.SetActive(false);
-			gameUI.SetActive(true);
-			
-			
 		} else {
-			PlayerInput.Instance.debugText.text = "Error during login: " + result.Error;
+			debugText.text =  "Error during login: " + result.Error;
 		}
 	}
 
 	void ShowUI(){
 		if (FB.IsLoggedIn) {
-			//LoggedInUI.SetActive (true);
-			//NotLoggedInUI.SetActive (false);
+			Debug.Log("FB has logged in."); 
+			LoggedInUI.SetActive (true);
+			NotLoggedInUI.SetActive (false);
 			FB.API ("me/picture?width=100&height=100", HttpMethod.GET, PictureCallBack);
 			FB.API ("me?fields=first_name", HttpMethod.GET, NameCallBack);
-			FB.API ("me/friends", HttpMethod.GET, FriendCallBack);
+			//FB.API ("me/friends", HttpMethod.GET, FriendCallBack);
 			FB.GetAppLink (ApplinkCallback);
 		} else {
-			//LoggedInUI.SetActive (false);
-			//NotLoggedInUI.SetActive (true);
+			LoggedInUI.SetActive (false);
+			NotLoggedInUI.SetActive (true);
 		}
 	}
 
 	void PictureCallBack(IGraphResult result){
 		Texture2D image = result.Texture;
-		//LoggedInUI.transform.Find ("ProfilePicture").GetComponent<Image> ().sprite = Sprite.Create (image, new Rect (0, 0, 100, 100), new Vector2 (0.5f, 0.5f));
+		LoggedInUI.transform.Find ("ProfilePicture").GetComponent<Image> ().sprite = Sprite.Create (image, new Rect (0, 0, 100, 100), new Vector2 (0.5f, 0.5f));
 	}
 
 	void NameCallBack(IGraphResult result){
 		IDictionary<string, object> profile = result.ResultDictionary;
-		PlayerInput.Instance.player1Name.text = profile ["first_name"] + "'s turn";
-		//LoggedInUI.transform.Find ("Name").GetComponent<Text> ().text = "Hello " + 
+		LoggedInUI.transform.Find ("Name").GetComponent<TextMeshProUGUI> ().text = "Hello " + profile ["first_name"];
 	}
 
 	public void LogOut(){
@@ -123,25 +88,19 @@ public class CrossWordManager : MonoBehaviour
 		} else {
 			Debug.Log ("Invite was successful:" + result.RawResult);
 		}
-	}*/                    
-	
-	
+	}*/                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 
 	public void Challenge(){
-		FB.AppRequest ("Challenge for Word Game", null, new List<object>{ "app_users" }, null, null, PlayerInput.Instance.acceptedWords[0] + PlayerInput.Instance.acceptedWords[1] , "Challenge your friends!", ChallengeCallback);
+		FB.AppRequest ("Custom message", null, new List<object>{ "app_users" }, null, null, "Whats Up", "Challenge your friends!", ChallengeCallback);
 	}
 
 	void ChallengeCallback(IAppRequestResult result){
 		if (result.Cancelled) {
-			PlayerInput.Instance.debugText.text = "Challenge cancelled.";		
+			debugText.text =   "Challenge cancelled.";		
 		} else if (!string.IsNullOrEmpty (result.Error)) {
-			PlayerInput.Instance.debugText.text = "Error in challenge:" + result.Error;
+			debugText.text ="Error in challenge:" + result.Error;
 		} else {
-			
-			PlayerInput.Instance.player1Turn.SetActive(false);
-			PlayerInput.Instance.player2Turn.SetActive(true);
-			
-			PlayerInput.Instance.debugText.text = "Challenge was successful:" + result.RawResult;
+			Debug.Log("Challenge was successful:" + result.RawResult);
 		}
 	}
 
@@ -156,8 +115,8 @@ public class CrossWordManager : MonoBehaviour
 
 	void CreateFriend(string name, string id){
 		GameObject myFriend = Instantiate (Friend);
-		//Transform parent = LoggedInUI.transform.Find ("ListContainer").Find ("FriendList");
-		//myFriend.transform.SetParent (parent);
+		Transform parent = LoggedInUI.transform.Find ("ListContainer").Find ("FriendList");
+		myFriend.transform.SetParent (parent);
 		myFriend.GetComponentInChildren<Text> ().text = name;
 		FB.API(id + "/picture?width=100&height=100", HttpMethod.GET, delegate(IGraphResult result) {
 			myFriend.GetComponentInChildren<Image>().sprite = Sprite.Create (result.Texture, new Rect (0, 0, 100, 100), new Vector2 (0.5f, 0.5f));
@@ -166,9 +125,16 @@ public class CrossWordManager : MonoBehaviour
 
 	void ApplinkCallback(IAppLinkResult result){
 		if (string.IsNullOrEmpty (result.Error)) {
-			Debug.Log ("Applink done:" + result.RawResult);
+			
+			Debug.Log("Applink done:" + result.RawResult); 
+			
 			IDictionary<string, object> dictio = result.ResultDictionary;
-			if (dictio.ContainsKey ("target_url")) {
+			Debug.Log(dictio);
+			
+			if (dictio.ContainsKey ("target_url"))
+			{
+				debugText.text = "Welcome";
+				
 				string url = dictio ["target_url"].ToString ();
 				string keyword = "request_ids=";
 				int k = 0;
@@ -182,16 +148,16 @@ public class CrossWordManager : MonoBehaviour
 				FB.API ("/" + id + "_" + AccessToken.CurrentAccessToken.UserId, HttpMethod.GET, RequestCallback);
 			}
 		} else {
-			Debug.Log ("Applink error:" + result.Error);
+			debugText.text =  "Applink error:" + result.Error;
 		}
 	}
 
 	void RequestCallback(IGraphResult result){
-		Debug.Log ("Request callback");
+		debugText.text =  "Request callback";
 		if (string.IsNullOrEmpty (result.Error)) {
 			IDictionary<string, object> dictio = result.ResultDictionary;
 			if (dictio.ContainsKey ("data"))
-				Debug.Log (dictio ["data"]);
+				debugText.text = "" + dictio ["data"];
 			if (dictio.ContainsKey ("id"))
 				FB.API ("/" + dictio ["id"], HttpMethod.DELETE, null);
 		} else {

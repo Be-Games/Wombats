@@ -17,6 +17,8 @@ public class ConcertManagement : MonoBehaviour
     public RuntimeAnimatorController first, second, third;
 
     public TextMeshProUGUI posText;
+    public Image bronze, silver, gold;
+    public GameObject plaqueGO;
 
     public GameObject fullConcertPanel, RewardStuff, bottomBtns;
     public Button collectCoinsBtn,rewardCoinsBtn;
@@ -24,20 +26,30 @@ public class ConcertManagement : MonoBehaviour
     public TextMeshProUGUI adCoins;
     
     //exclusive for competition
-    public GameObject lastLevelButtons;
-    public Button EnterCompiBtn;
-    private string URLforCompi;
+    //public GameObject lastLevelButtons;
+    //public Button EnterCompiBtn;
+    //private string URLforCompi;
+
+    public Transform coinTargetPos;
+    public GameObject coinImagePrefab;
+    public Transform coinParent;
+    
     
 
     private void Start()
     {
+        /*bronze.gameObject.SetActive(false);
+        silver.gameObject.SetActive(false);
+        gold.gameObject.SetActive(false);*/
+        
         _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
         if (GameManager.Instance != null)
         { 
              if (GameManager.Instance.playerPosi == 1)
         {
-            posText.text = "#1";
+            posText.text = "1";
+            gold.gameObject.SetActive(true);
             
             if (GameManager.Instance.charNumber == 1 )
             {
@@ -78,7 +90,8 @@ public class ConcertManagement : MonoBehaviour
         
              if (GameManager.Instance.playerPosi == 2)
         {
-            posText.text = "#2";
+            posText.text = "2";
+            silver.gameObject.SetActive(true);
             
             if (GameManager.Instance.charNumber == 1 )
             {
@@ -119,7 +132,8 @@ public class ConcertManagement : MonoBehaviour
         
             if (GameManager.Instance.playerPosi == 3)
         {
-            posText.text = "#3";
+            posText.text = "3";
+            bronze.gameObject.SetActive(true);
             
             if (GameManager.Instance.charNumber == 1 )
             {
@@ -164,11 +178,12 @@ public class ConcertManagement : MonoBehaviour
         rewardedCoins.text = GameManager.Instance.additionalCoinsToBeGivenBasedOnRank.ToString();
         adCoins.text = "+" + GameManager.Instance.timesForCoins;
         
-        lastLevelButtons.SetActive(false);
-        lastLevelButtons.transform.DOLocalMoveY(-5000f, 0.5f);
+        //lastLevelButtons.SetActive(false);
+        //lastLevelButtons.transform.DOLocalMoveY(-5000f, 0.5f);
 
         fullConcertPanel.transform.DOLocalMoveY(-5000f, 0f);
         posText.transform.DOScale(Vector3.zero, 0f);
+        plaqueGO.transform.DOScale(Vector3.zero, 0f);
         RewardStuff.transform.DOScale(Vector3.zero, 0f);
         bottomBtns.transform.DOLocalMoveY(-5000f, 0.5f);
         
@@ -181,7 +196,10 @@ public class ConcertManagement : MonoBehaviour
         yield return new WaitForSeconds(3f);
         fullConcertPanel.transform.DOLocalMoveY(0f, 0.5f);
         yield return new WaitForSeconds(1f);
+        plaqueGO.transform.DOScale(new Vector3(1f,1f,1f), 0.6f).SetEase(Ease.Linear);
+        yield return new WaitForSeconds(1f);
         posText.transform.DOScale(new Vector3(1f,1f,1f), 2f).SetEase(Ease.OutElastic);
+        
         yield return new WaitForSeconds(1f);
         RewardStuff.transform.DOScale(new Vector3(1f,1f,1f), 2f).SetEase(Ease.OutElastic);
     }
@@ -194,6 +212,10 @@ public class ConcertManagement : MonoBehaviour
         
         collectCoinsBtn.enabled = false;
         collectCoinsBtn.transform.DOScale(new Vector3(0f,0f,0f), 1f).SetEase(Ease.OutElastic);
+
+        float f = 2f;
+        
+        
         
         StartCoroutine(CountRewardCoins());
         
@@ -201,10 +223,16 @@ public class ConcertManagement : MonoBehaviour
 
     IEnumerator CountRewardCoins()
     {
+        GameObject coin = Instantiate(coinImagePrefab,coinParent);
         
-        yield return new WaitForSeconds(0.001f);
+        coin.transform.DOMove(coinTargetPos.position, 0.3f).SetEase(Ease.InOutBounce).OnUpdate(() => {
+            AudioManager.Instance.sfxAll.coinCollectMenu.PlayOneShot( AudioManager.Instance.sfxAll.coinCollectMenu.clip);
+        }).OnComplete(() => {
+            Destroy(coin);
+        });
+
+        yield return new WaitForSeconds(0f);
         rewardCoinsCounter--;
-        yield return new WaitForSeconds(0.001f);
         PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins")+1);
         rewardedCoins.text = rewardCoinsCounter.ToString();
 
@@ -214,19 +242,20 @@ public class ConcertManagement : MonoBehaviour
         }
         else
         {
-            if (GameManager.Instance.isThisTheFinalLevel)
+            bottomBtns.transform.DOLocalMoveY(0f, 0.5f);
+            /*if (GameManager.Instance.isThisTheFinalLevel)
             {
-                lastLevelButtons.SetActive(true);
-                lastLevelButtons.transform.DOLocalMoveY(0f, 0.5f);
-                URLforCompi = "https://www.toneden.io/the-wombats-5/post/the-wombats-official-game-competition";
+                //lastLevelButtons.SetActive(true);
+               // lastLevelButtons.transform.DOLocalMoveY(0f, 0.5f);
+                //URLforCompi = "https://www.toneden.io/the-wombats-5/post/the-wombats-official-game-competition";
 
             }
             else
             {
-                lastLevelButtons.SetActive(false);
-                lastLevelButtons.transform.DOLocalMoveY(-5000f, 0.5f);
-                bottomBtns.transform.DOLocalMoveY(0f, 0.5f);
-            }
+               // lastLevelButtons.SetActive(false);
+               // lastLevelButtons.transform.DOLocalMoveY(-5000f, 0.5f);
+                
+            }*/
             
         }
         
@@ -343,10 +372,10 @@ public class ConcertManagement : MonoBehaviour
         
     }
 
-    public void EnterContest()
+    /*public void EnterContest()
     {
         Application.OpenURL(URLforCompi);
-    }
+    }*/
 
     public void RewardedCoins()
     { 

@@ -30,14 +30,21 @@ public class LevelSelection : MonoBehaviour
 
     public GameObject garageBtn, playerSelectBtn;
 
-    public GameObject enterContestBtn;
+    //public GameObject enterContestBtn;
 
     public GameObject nightLightsGO;
 
-    public GameObject jublieeSpecial;
+    //public GameObject jublieeSpecial;
 
-    public GameObject crownPanel;
-    
+    //public GameObject crownPanel;
+
+    public GameObject[] wombatPlayer;
+    public GameObject[] murphCars, danCars, tordCars;
+    public GameObject murphPO, danPO, tordPO;
+
+    public Transform[] levelImages;
+    public GameObject[] musicImgs;
+    public TextMeshProUGUI[] levelNameText, musicNameText;
 
     void OnEnable()
     {
@@ -55,6 +62,35 @@ public class LevelSelection : MonoBehaviour
        
         
         index = PlayerPrefs.GetInt("LevelIndex")-1;
+
+        foreach (var mem in wombatPlayer)
+        {
+            mem.SetActive(false);
+        }
+
+        foreach (var VARIABLE in murphCars)
+        {
+            VARIABLE.SetActive(false);
+        }
+
+        foreach (var VARIABLE in tordCars)
+        {
+            VARIABLE.SetActive(false);
+        }
+
+        foreach (var VARIABLE in danCars)
+        {
+            VARIABLE.SetActive(false);
+        }
+
+        foreach (var VARIABLE in musicImgs)
+        {
+            VARIABLE.SetActive(false);
+        }
+        
+        murphPO.SetActive(false);
+        danPO.SetActive(false);
+        tordPO.SetActive(false);
         
     }
 
@@ -76,22 +112,94 @@ public class LevelSelection : MonoBehaviour
     
     private void Start()
     {
+        foreach (var lvlImg in levelImages)
+        {
+            lvlImg.transform.DOScaleX(0, 0);
+        }
+        foreach (var a in levelNameText)
+        {
+            a.transform.DOScaleX(0, 0);
+        }
+        foreach (var b in musicNameText)
+        {
+            b.transform.DOScaleX(0, 0);
+        }
+        
+        
+        
+        
         /*garageBtn.SetActive(false);
         playerSelectBtn.SetActive(false);*/
         
-        musicUrl = "https://soundcloud.com/thewombats/greek-tragedy?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing";
         
-        crownPanel.transform.DOScale(0f, 0f).SetEase(Ease.OutBounce);
+        //crownPanel.transform.DOScale(0f, 0f).SetEase(Ease.OutBounce);
         isPanel = false;
         
-        StartCoroutine("Index");
-        enterContestBtn.SetActive(false);
+        //StartCoroutine("Index");
+        //enterContestBtn.SetActive(false);
         
-        StartCoroutine(MyUpdate());
+        //StartCoroutine(MyUpdate());
+
+        StartCoroutine(SetPlayerAndCar());
+        StartCoroutine(OpeningAnimation());
 
     }
 
-    private string musicUrl;
+    private int i = 0;
+
+    IEnumerator SetPlayerAndCar()
+    {
+        yield return new WaitForSeconds(0.1f);
+        wombatPlayer[GameManager.Instance.memeberIndex].SetActive(true);
+
+        if (wombatPlayer[0].activeInHierarchy)
+        {
+            murphPO.SetActive(true);
+            murphCars[GameManager.Instance.selectedCarModelPLAYER-1].SetActive(true);
+        }
+
+
+        if (wombatPlayer[1].activeInHierarchy)
+        {
+            danPO.SetActive(true);
+            danCars[GameManager.Instance.selectedCarModelPLAYER-1].SetActive(true);
+        }
+
+
+        if (wombatPlayer[2].activeInHierarchy)
+        {
+            tordPO.SetActive(true);
+            tordCars[GameManager.Instance.selectedCarModelPLAYER-1].SetActive(true);
+        }
+
+    }
+    
+    IEnumerator OpeningAnimation()
+    {
+        yield return new WaitForSeconds(0.05f);
+        levelImages[i].transform.DOScaleX(1.1f, 0.1f).OnComplete(() =>
+        {
+
+            levelNameText[i].transform.DOScaleX(1f, 0.1f).OnComplete(() =>
+            {
+                musicImgs[i].SetActive(true);
+                musicNameText[i].transform.DOScaleX(1f, 0.1f).OnComplete(() =>
+                {
+                    i++;
+                    if (i < 4)
+                        StartCoroutine(OpeningAnimation());
+                });
+                
+
+            });
+
+        });
+
+    }
+    
+    
+    
+    
 
     public void menuBtn()
     {
@@ -114,14 +222,14 @@ public class LevelSelection : MonoBehaviour
 
         
         //JUBLIEE PANEL
-        if (index == 1 || index == 10)
+        /*if (index == 1 || index == 10)
         {
             jublieeSpecial.SetActive(true);
         }
         else
         {
             jublieeSpecial.SetActive(false);
-        }
+        }*/
         
         /*//CROWN PANEL
         if (index == 1 || index == 2 || index == 3 || index == 4)
@@ -134,10 +242,10 @@ public class LevelSelection : MonoBehaviour
         }*/
         
         
-        if (GameManager.Instance.isThisTheFinalLevel)
+        /*if (GameManager.Instance.isThisTheFinalLevel)
         {
             enterContestBtn.SetActive(true);
-        }
+        }*/
 
         prevBtn.SetActive(index != 0);
 
@@ -623,7 +731,7 @@ public class LevelSelection : MonoBehaviour
 
     private bool isPanel;
 
-    public void CrownPanelToggle()
+    /*/*public void CrownPanelToggle()
     {
         StartCoroutine(testmusic());
         
@@ -638,7 +746,7 @@ public class LevelSelection : MonoBehaviour
             crownPanel.transform.DOScale(0f, 0.5f).SetEase(Ease.OutBounce);
             isPanel = false;
         }
-    }
+    }#1#
 
     IEnumerator testmusic()
     {
@@ -689,7 +797,7 @@ public class LevelSelection : MonoBehaviour
             yield return req.SendWebRequest();
             callback(req);
         }
-    }
+    }*/
     
 }
 
