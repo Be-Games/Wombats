@@ -152,6 +152,8 @@ public class LevelManager : MonoBehaviour
     
     public ParticleSystem boostLines;
     public UnityArmatureComponent[] riggedPpl;
+
+    public TextMeshProUGUI playerName;
     
     private void Awake()
     {
@@ -170,7 +172,7 @@ public class LevelManager : MonoBehaviour
 
         _uiManager.GetComponent<Canvas>().worldCamera = flyOverCameraGO.transform.GetChild(0).GetComponent<Camera>();
 
-        #region CodeToComment
+        /*#region CodeToComment
         if (_gameManager)
         {
             if (_gameManager.memeberIndex == 0)        //murph
@@ -222,7 +224,7 @@ public class LevelManager : MonoBehaviour
               
         }
           
-        #endregion
+        #endregion*/
           
         _audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
           
@@ -299,7 +301,14 @@ public class LevelManager : MonoBehaviour
         
         if(GameManager.Instance.charNumber != 0)
             riggedPpl[GameManager.Instance.charNumber-1].gameObject.SetActive(true);
-        
+
+        if (GameManager.Instance.charNumber - 1 == 0)
+            playerName.text = "MURPH";
+        if (GameManager.Instance.charNumber - 1 == 1)
+            playerName.text = "DAN";
+        if (GameManager.Instance.charNumber - 1 == 2)
+            playerName.text = "TORD";
+
     }
 
     void SceneNameAndIndex()
@@ -1243,6 +1252,8 @@ public class LevelManager : MonoBehaviour
     IEnumerator CarReset()
     {
         Ana_LevelContinue();
+        
+        LevelManager.Instance.riggedPpl[GameManager.Instance.charNumber-1].animation.Play("Idle_State",-1);
         
         _uiManager.crashedPanel.SetActive(false);
         smokeTransitionPostCrashEffect.SetActive(true);

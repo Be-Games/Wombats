@@ -20,10 +20,12 @@ public class ConcertManagement : MonoBehaviour
     public Image bronze, silver, gold;
     public GameObject plaqueGO;
 
-    public GameObject fullConcertPanel, RewardStuff, bottomBtns;
+    public GameObject fullConcertPanel;
+    public GameObject[] rewardGOs;
     public Button collectCoinsBtn,rewardCoinsBtn;
     public TextMeshProUGUI rewardedCoins;
     public TextMeshProUGUI adCoins;
+    public GameObject collectLvlBtn, nextLvlBtn;
     
     //exclusive for competition
     //public GameObject lastLevelButtons;
@@ -33,6 +35,8 @@ public class ConcertManagement : MonoBehaviour
     public Transform coinTargetPos;
     public GameObject coinImagePrefab;
     public Transform coinParent;
+
+    public TextMeshProUGUI dottedLine;
     
     
 
@@ -42,13 +46,25 @@ public class ConcertManagement : MonoBehaviour
         silver.gameObject.SetActive(false);
         gold.gameObject.SetActive(false);*/
         
+        nextLvlBtn.SetActive(false);
+
+        for (int i = 0; i < 3; i++)
+        {
+            rewardGOs[i].GetComponent<RectTransform>().DOAnchorPosX(5000,0f);
+        }
+        rewardGOs[3].GetComponent<RectTransform>().DOAnchorPosX(-5000,0f);
+        
+        rewardGOs[4].transform.DOLocalMoveY(-5000, 0f);
+
+        dottedLine.text = "";
+        
         _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
         if (GameManager.Instance != null)
         { 
              if (GameManager.Instance.playerPosi == 1)
         {
-            posText.text = "1";
+            posText.text = "1st";
             gold.gameObject.SetActive(true);
             
             if (GameManager.Instance.charNumber == 1 )
@@ -90,7 +106,7 @@ public class ConcertManagement : MonoBehaviour
         
              if (GameManager.Instance.playerPosi == 2)
         {
-            posText.text = "2";
+            posText.text = "2nd";
             silver.gameObject.SetActive(true);
             
             if (GameManager.Instance.charNumber == 1 )
@@ -132,7 +148,7 @@ public class ConcertManagement : MonoBehaviour
         
             if (GameManager.Instance.playerPosi == 3)
         {
-            posText.text = "3";
+            posText.text = "3rd";
             bronze.gameObject.SetActive(true);
             
             if (GameManager.Instance.charNumber == 1 )
@@ -182,11 +198,9 @@ public class ConcertManagement : MonoBehaviour
         //lastLevelButtons.transform.DOLocalMoveY(-5000f, 0.5f);
 
         fullConcertPanel.transform.DOLocalMoveY(-5000f, 0f);
-        posText.transform.DOScale(Vector3.zero, 0f);
-        plaqueGO.transform.DOScale(Vector3.zero, 0f);
-        RewardStuff.transform.DOScale(Vector3.zero, 0f);
-        bottomBtns.transform.DOLocalMoveY(-5000f, 0.5f);
-        
+        //posText.transform.DOScale(0, 0f);
+        plaqueGO.transform.DOScale(0, 0f);
+
         StartCoroutine(DoTweenPanels());
         
     }
@@ -196,12 +210,50 @@ public class ConcertManagement : MonoBehaviour
         yield return new WaitForSeconds(3f);
         fullConcertPanel.transform.DOLocalMoveY(0f, 0.5f);
         yield return new WaitForSeconds(1f);
-        plaqueGO.transform.DOScale(new Vector3(1f,1f,1f), 0.6f).SetEase(Ease.Linear);
-        yield return new WaitForSeconds(1f);
-        posText.transform.DOScale(new Vector3(1f,1f,1f), 2f).SetEase(Ease.OutElastic);
+        plaqueGO.transform.DOScale(1f, 2f).SetEase(Ease.OutBounce).OnUpdate(() =>{
+
+            rewardGOs[0].GetComponent<RectTransform>().DOAnchorPos(new Vector2(0,98),0.5f);
+            rewardGOs[1].GetComponent<RectTransform>().DOAnchorPos(new Vector2(-100,-18),0.5f);
+            rewardGOs[2].GetComponent<RectTransform>().DOAnchorPos(new Vector2(70,-15),0.5f);
+            rewardGOs[3].GetComponent<RectTransform>().DOAnchorPos(new Vector2(0,-200),0.5f);
+        });
+        //posText.transform.DOScale(1f, 2f).SetEase(Ease.OutBounce).OnUpdate(() =>
         
-        yield return new WaitForSeconds(1f);
-        RewardStuff.transform.DOScale(new Vector3(1f,1f,1f), 2f).SetEase(Ease.OutElastic);
+        
+        yield return new WaitForSeconds(0.3f);
+
+        dottedLine.text = "-";
+        yield return new WaitForSeconds(0.1f);
+        dottedLine.text = "--";
+        yield return new WaitForSeconds(0.1f);
+        dottedLine.text = "---";
+        yield return new WaitForSeconds(0.1f);
+        dottedLine.text = "----";
+        yield return new WaitForSeconds(0.1f);
+        dottedLine.text = "-----";
+        yield return new WaitForSeconds(0.1f);
+        dottedLine.text = "------";
+        yield return new WaitForSeconds(0.1f);
+        dottedLine.text = "-------";
+        yield return new WaitForSeconds(0.1f);
+        dottedLine.text = "--------";
+        yield return new WaitForSeconds(0.1f);
+        dottedLine.text = "---------";
+        yield return new WaitForSeconds(0.1f);
+        dottedLine.text = "----------";
+        yield return new WaitForSeconds(0.1f);
+        dottedLine.text = "-----------";
+        yield return new WaitForSeconds(0.1f);
+        dottedLine.text = "------------";
+        yield return new WaitForSeconds(0.1f);
+        dottedLine.text = "-------------";
+        yield return new WaitForSeconds(0.1f);
+        dottedLine.text = "--------------";
+        
+        
+        yield return new WaitForSeconds(1.5f);
+        
+        rewardGOs[4].transform.DOLocalMoveY(-893, 0.5f);
     }
     
     public int rewardCoinsCounter;
@@ -242,7 +294,9 @@ public class ConcertManagement : MonoBehaviour
         }
         else
         {
-            bottomBtns.transform.DOLocalMoveY(0f, 0.5f);
+            nextLvlBtn.SetActive(true);
+            collectCoinsBtn.gameObject.SetActive(false);
+            //bottomBtns.transform.DOLocalMoveY(0f, 0.5f);
             /*if (GameManager.Instance.isThisTheFinalLevel)
             {
                 //lastLevelButtons.SetActive(true);
