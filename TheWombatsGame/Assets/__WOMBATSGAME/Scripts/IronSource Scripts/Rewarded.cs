@@ -31,7 +31,7 @@ public class Rewarded : MonoBehaviour
         
         if (SceneManager.GetActiveScene().name =="PlayerSelection")
         {
-            Debug.Log("This");
+            //Debug.Log("This");
             IronSourceEvents.onRewardedVideoAdClosedEvent += RewardedVideoAdClosedEvent2;
         }
         

@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         
-        
+        PlayerPrefs.GetInt("MyTotalCoins", 0);
 
         selectedCarModelPLAYER = 1;
         enemyCar1 = selectedCarModelPLAYER+1;
@@ -108,7 +108,8 @@ public class GameManager : MonoBehaviour
     GUIStyle textStyle = new GUIStyle();
 
     public TextMeshProUGUI fpsText;
-
+    
+    
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -157,7 +158,7 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.GetInt("Control",0);
         PlayerPrefs.GetInt("Graphics", 0);
         
-        Debug.Log( PlayerPrefs.GetInt("Graphics"));
+        //Debug.Log( PlayerPrefs.GetInt("Graphics"));
         
         timeleft = updateInterval;
 
@@ -167,7 +168,7 @@ public class GameManager : MonoBehaviour
         
         StartCoroutine(AutoSetGraphics());
         
-        PlayerPrefs.GetInt("MyTotalCoins", 0);
+        
         PlayerPrefs.GetInt("TotalCrowns", 0);
 
         PlayerPrefs.GetInt("Car" + 1, 1);
@@ -278,9 +279,12 @@ public class GameManager : MonoBehaviour
     
     private void Update()
     {
+        Debug.Log( PlayerPrefs.GetInt("MyTotalCoins"));
+        Debug.Log( "reward" + PlayerPrefs.GetInt("MY_REWARD_KEY"));
+        
         currentCoins_txt.text = PlayerPrefs.GetInt("MyTotalCoins").ToString();
         
-        timeleft -= Time.deltaTime;
+        /*timeleft -= Time.deltaTime;
         accum += Time.timeScale / Time.deltaTime;
         ++frames;
 
@@ -292,7 +296,7 @@ public class GameManager : MonoBehaviour
             timeleft = updateInterval;
             accum = 0.0f;
             frames = 0;
-        }
+        }*/
         
     }
     
@@ -365,5 +369,7 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("Graphics", graphicsDropDown.value);
         
     }
+    
+     
 }
 

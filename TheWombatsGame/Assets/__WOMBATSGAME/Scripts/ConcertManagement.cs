@@ -45,6 +45,8 @@ public class ConcertManagement : MonoBehaviour
         /*bronze.gameObject.SetActive(false);
         silver.gameObject.SetActive(false);
         gold.gameObject.SetActive(false);*/
+
+        coinTargetPos = GameObject.FindGameObjectWithTag("CoinTarget").transform;
         
         nextLvlBtn.SetActive(false);
 
@@ -178,7 +180,7 @@ public class ConcertManagement : MonoBehaviour
             if (GameManager.Instance.charNumber == 3)
             {
                 bandMemPf[2].GetComponent<Animator>().runtimeAnimatorController = third;                //us
-                Instantiate(bandMemPf[2], fP.transform.position,fP.transform.rotation,parentF);
+                Instantiate(bandMemPf[2], fP.transform.position,tP.transform.rotation,parentF);
             
                 bandMemPf[0].GetComponent<Animator>().runtimeAnimatorController = first;
                 Instantiate(bandMemPf[0], fP.transform.position,fP.transform.rotation,parentF);

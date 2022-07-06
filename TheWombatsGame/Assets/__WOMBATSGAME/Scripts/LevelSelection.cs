@@ -45,6 +45,10 @@ public class LevelSelection : MonoBehaviour
     public Transform[] levelImages;
     public GameObject[] musicImgs;
     public TextMeshProUGUI[] levelNameText, musicNameText;
+    public Image bgImg;
+    public Color[] bgImageColors;
+
+    public Color selectedColorBtn, normalColorBtn;
 
     void OnEnable()
     {
@@ -56,13 +60,19 @@ public class LevelSelection : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         
-        if(PlayerPrefs.GetInt("LevelIndex") == 0)
-            PlayerPrefs.SetInt("LevelIndex",2);   //change to 2
+        /*if(PlayerPrefs.GetInt("LevelIndex") == 0)
+            PlayerPrefs.SetInt("LevelIndex",2); */  //change to 2
         
        
         
-        index = PlayerPrefs.GetInt("LevelIndex")-1;
+        index = PlayerPrefs.GetInt("LevelIndex");
+        Debug.Log(PlayerPrefs.GetInt("LevelIndex"));
+        
+        
+    }
 
+    private void Awake()
+    {
         foreach (var mem in wombatPlayer)
         {
             mem.SetActive(false);
@@ -92,6 +102,27 @@ public class LevelSelection : MonoBehaviour
         danPO.SetActive(false);
         tordPO.SetActive(false);
         
+        foreach (var lvlImg in levelImages)
+        {
+            lvlImg.transform.DOScaleX(0, 0);
+        }
+        foreach (var a in levelNameText)
+        {
+            a.transform.DOScaleX(0, 0);
+        }
+        foreach (var b in musicNameText)
+        {
+            b.transform.DOScaleX(0, 0);
+        }
+
+        foreach (var x in levelImages)
+        {
+            x.GetComponent<Button>().interactable = false;
+            x.GetComponent<Image>().color = normalColorBtn;
+        }
+        
+        StartCoroutine(SetPlayerAndCar());
+        StartCoroutine(OpeningAnimation());
     }
 
     public void LoadGarage()
@@ -112,37 +143,7 @@ public class LevelSelection : MonoBehaviour
     
     private void Start()
     {
-        foreach (var lvlImg in levelImages)
-        {
-            lvlImg.transform.DOScaleX(0, 0);
-        }
-        foreach (var a in levelNameText)
-        {
-            a.transform.DOScaleX(0, 0);
-        }
-        foreach (var b in musicNameText)
-        {
-            b.transform.DOScaleX(0, 0);
-        }
-        
-        
-        
-        
-        /*garageBtn.SetActive(false);
-        playerSelectBtn.SetActive(false);*/
-        
-        
-        //crownPanel.transform.DOScale(0f, 0f).SetEase(Ease.OutBounce);
-        isPanel = false;
-        
-        //StartCoroutine("Index");
-        //enterContestBtn.SetActive(false);
-        
-        //StartCoroutine(MyUpdate());
-
-        StartCoroutine(SetPlayerAndCar());
-        StartCoroutine(OpeningAnimation());
-
+        StartCoroutine(MyUpdate());
     }
 
     private int i = 0;
@@ -154,6 +155,7 @@ public class LevelSelection : MonoBehaviour
 
         if (wombatPlayer[0].activeInHierarchy)
         {
+            bgImg.color = bgImageColors[0];
             murphPO.SetActive(true);
             murphCars[GameManager.Instance.selectedCarModelPLAYER-1].SetActive(true);
         }
@@ -161,6 +163,7 @@ public class LevelSelection : MonoBehaviour
 
         if (wombatPlayer[1].activeInHierarchy)
         {
+            bgImg.color = bgImageColors[1];
             danPO.SetActive(true);
             danCars[GameManager.Instance.selectedCarModelPLAYER-1].SetActive(true);
         }
@@ -168,6 +171,7 @@ public class LevelSelection : MonoBehaviour
 
         if (wombatPlayer[2].activeInHierarchy)
         {
+            bgImg.color = bgImageColors[2];
             tordPO.SetActive(true);
             tordCars[GameManager.Instance.selectedCarModelPLAYER-1].SetActive(true);
         }
@@ -176,7 +180,7 @@ public class LevelSelection : MonoBehaviour
     
     IEnumerator OpeningAnimation()
     {
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.03f);
         levelImages[i].transform.DOScaleX(1.1f, 0.1f).OnComplete(() =>
         {
 
@@ -186,7 +190,7 @@ public class LevelSelection : MonoBehaviour
                 musicNameText[i].transform.DOScaleX(1f, 0.1f).OnComplete(() =>
                 {
                     i++;
-                    if (i < 4)
+                    if (i < 19)
                         StartCoroutine(OpeningAnimation());
                 });
                 
@@ -198,30 +202,11 @@ public class LevelSelection : MonoBehaviour
     }
     
     
-    
-    
-
-    public void menuBtn()
-    {
-        if (garageBtn.activeInHierarchy)
-        {
-            garageBtn.SetActive(false);
-            playerSelectBtn.SetActive(false);
-        }
-        else if (!garageBtn.activeInHierarchy)
-        {
-            garageBtn.SetActive(true);
-            playerSelectBtn.SetActive(true);
-        }
-        
-       
-    }
-
     IEnumerator MyUpdate()
     {
 
         
-        //JUBLIEE PANEL
+        /*//JUBLIEE PANEL
         /*if (index == 1 || index == 10)
         {
             jublieeSpecial.SetActive(true);
@@ -229,9 +214,9 @@ public class LevelSelection : MonoBehaviour
         else
         {
             jublieeSpecial.SetActive(false);
-        }*/
+        }#1#
         
-        /*//CROWN PANEL
+        /#1#/CROWN PANEL
         if (index == 1 || index == 2 || index == 3 || index == 4)
         {
             crownPanel.SetActive(true);
@@ -239,19 +224,19 @@ public class LevelSelection : MonoBehaviour
         else
         {
             crownPanel.SetActive(false);
-        }*/
+        }#1#
         
         
         /*if (GameManager.Instance.isThisTheFinalLevel)
         {
             enterContestBtn.SetActive(true);
-        }*/
+        }#1#
 
         prevBtn.SetActive(index != 0);
 
-        nextBtn.SetActive(index != (20)-1);
+        nextBtn.SetActive(index != (20)-1);*/
         
-        for (int i = 1; i <= 19; i++)
+        /*for (int i = 1; i <= 19; i++)
         {
             if ( PlayerPrefs.GetInt("LevelIndex") == i)
             {
@@ -271,34 +256,27 @@ public class LevelSelection : MonoBehaviour
         else
         {
             racebtn.GetComponent<Button>().enabled = true;
+        }*/
+
+        for (int j = 0; j <= index; j++)
+        {
+            levelImages[j].GetComponent<Button>().interactable = true;
+            if (j == index)
+            {
+                levelImages[j].GetComponent<Image>().color = Color.Lerp(normalColorBtn, selectedColorBtn,
+                    Mathf.PingPong(Time.time * 2f, 2));
+            }
+               
         }
+        
+
 
         yield return null;
         StartCoroutine(MyUpdate());
 
 
     }
-
-    public void EnterContest()
-    {
-        Application.OpenURL("https://www.toneden.io/the-wombats-5/post/the-wombats-official-game-competition");
-    }
-
-    void DAYMODE()
-    {
-        //RenderSettings.skybox = daySkyboxmat;
-        RenderSettings.ambientSkyColor = daycolor;
-        RenderSettings.fog = false;
-        nightLightsGO.SetActive(false);
-    }
-
-    void NIGHTMODE()
-    {
-        //RenderSettings.skybox = nightSkyboxmat;
-        RenderSettings.ambientSkyColor = nightColor;
-        RenderSettings.fog = true;
-        nightLightsGO.SetActive(true);
-    }
+    
 
     public void nextIndex()
     {
@@ -318,7 +296,7 @@ public class LevelSelection : MonoBehaviour
         StartCoroutine("Index");
     }
 
-    IEnumerator Index()
+    /*IEnumerator Index()
     {
         yield return null;
         
@@ -693,11 +671,11 @@ public class LevelSelection : MonoBehaviour
         }
         
         //
-    }
+    }*/
     
     
    
-    public void RaceBtn()
+    /*public void RaceBtn()
     {
         if (currentSceneName != "Tutorial")
         {
@@ -707,29 +685,17 @@ public class LevelSelection : MonoBehaviour
         
         GameManager.Instance.GetComponent<GameManager>().LoadScene(currentSceneName);
 
-    }
+    }*/
+    
 
-    public void playTut(string sceneName)
-    {
-        GameManager.Instance.GetComponent<GameManager>().LoadScene(sceneName);
-    }
-
-    public void Vibrate()
-    {
-        //GameManager.Instance.VibrateOnce();
-    }
-
-    public void backToPlayerSelection()
-    {
-        GameManager.Instance.LoadScene("PlayerSelection");
-    }
+    
     
     public void ButtonClick()
     {
         GameManager.Instance.ButtonClick();
     }
 
-    private bool isPanel;
+   
 
     /*/*public void CrownPanelToggle()
     {
@@ -798,6 +764,115 @@ public class LevelSelection : MonoBehaviour
             callback(req);
         }
     }*/
+
+    public void LevelSelectedBtn()
+    {
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
+        
+        switch (UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name)
+        {
+            case "LD":
+
+                lightingIndex = 1;
+                currentSceneName = "LONDON";
+                break;
+            case "RN":
+
+                lightingIndex = 2;
+                currentSceneName = "ROME";
+                break;
+            case "SD":
+
+                lightingIndex = 1;
+                currentSceneName = "SYDNEY";
+                break;
+            case "PN":
+
+                lightingIndex = 2;
+                currentSceneName = "PARIS";
+                break;
+            case "ED":
+
+                lightingIndex = 1;
+                currentSceneName = "EGYPT";
+                break;
+            case "CN":
+
+                lightingIndex = 2;
+                currentSceneName = "CARDIFF";
+                break;
+            case "GD":
+
+                lightingIndex = 1;
+                currentSceneName = "GLASGOW";
+                break;
+            case "TN":
+
+                lightingIndex = 2;
+                currentSceneName = "TOKYO";
+                break;
+            case "MD":
+
+                lightingIndex = 1;
+                currentSceneName = "MILAN";
+                break;
+            case "LN":
+
+                lightingIndex = 2;
+                currentSceneName = "LONDON";
+                break;
+            
+            case "RD":
+
+                lightingIndex = 1;
+                currentSceneName = "ROME";
+                break;
+            case "SN":
+
+                lightingIndex = 2;
+                currentSceneName = "SYDNEY";
+                break;
+            case "PD":
+
+                lightingIndex = 1;
+                currentSceneName = "PARIS";
+                break;
+            case "EN":
+
+                lightingIndex = 2;
+                currentSceneName = "EGYPT";
+                break;
+            case "CD":
+
+                lightingIndex = 1;
+                currentSceneName = "CARDIFF";
+                break;
+            case "GN":
+
+                lightingIndex = 2;
+                currentSceneName = "GLASGOW";
+                break;
+            case "TD":
+
+                lightingIndex = 1;
+                currentSceneName = "TOKYO";
+                break;
+            case "LID":
+
+                lightingIndex = 1;
+                currentSceneName = "LIVERPOOL";
+                break;
+            case "MN":
+
+                lightingIndex = 2;
+                currentSceneName = "MILAN";
+                break;
+                
+        }
+        
+        GameManager.Instance.GetComponent<GameManager>().lightingMode = lightingIndex;
+        GameManager.Instance.GetComponent<GameManager>().LoadScene(currentSceneName);
+    }
     
 }
 

@@ -34,16 +34,17 @@ public class MainMenuManager : MonoBehaviour
     public Material[] leftcarMat, centreCarMat, rightCarMat;//y,b,r
     public MeshRenderer leftCarMesh, centreCarMesh, rightCarMesh;
     public ParticleSystem leftCarPS, centreCarPS, rightCarPS;
+    
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         
-        if(PlayerPrefs.GetInt("isTutShown")==1)
-            DailyRewards.instance.onClaimPrize += OnClaimPrizeDailyRewards;
+        
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         canOffset = true;
+        DailyRewards.instance.onClaimPrize += OnClaimPrizeDailyRewards;
     }
 
     private void Awake()
@@ -64,13 +65,16 @@ public class MainMenuManager : MonoBehaviour
         Reward myReward = DailyRewards.instance.GetReward(day);
 
         // And you can access any property
-        print(myReward.unit);   // This is your reward Unit name
-        print(myReward.reward); // This is your reward count
+       // print(myReward.unit);   // This is your reward Unit name
+        //print(myReward.reward); // This is your reward count
 
-        var rewardsCount = PlayerPrefs.GetInt ("MyTotalCoins", 0);
+        var rewardsCount = PlayerPrefs.GetInt ("MY_REWARD_KEY", 0);
         rewardsCount += myReward.reward;
 
-        PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins") + rewardsCount);
+        PlayerPrefs.SetInt ("MY_REWARD_KEY", rewardsCount);
+        
+
+        PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins") + PlayerPrefs.GetInt("MY_REWARD_KEY"));
         
         PlayerPrefs.Save ();
     }
@@ -78,8 +82,7 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
-        
-        
+    
         
         
         xOffset = 0;
@@ -246,6 +249,21 @@ public class MainMenuManager : MonoBehaviour
     {
         if(AudioManager.Instance.isSFXenabled)
             AudioManager.Instance.sfxAll.carEngineStartScreen.PlayOneShot(AudioManager.Instance.sfxAll.carEngineStartScreen.clip);
+        
+        
+    }
+    
+    
+
+    public void BeGamesApps()
+    {
+#if UNITY_IOS
+        Application.OpenURL("https://apps.apple.com/us/developer/be-games-ltd/id1616417202");
+#endif
+#if UNITY_ANDROID
+        Application.OpenURL("https://play.google.com/store/apps/dev?id=5179828509890507004");
+#endif
+        
     }
     
 }
