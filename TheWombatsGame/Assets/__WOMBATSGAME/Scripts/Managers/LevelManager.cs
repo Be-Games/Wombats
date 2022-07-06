@@ -181,6 +181,12 @@ public class LevelManager : MonoBehaviour
         #region CodeToComment
         if (_gameManager)
         {
+            if (_gameManager.selectedCarModelPLAYER == 8 || _gameManager.selectedCarModelPLAYER == 9 ||_gameManager.selectedCarModelPLAYER ==7)
+            {
+                _gameManager.enemyCar1 = 8;
+                _gameManager.enemyCar2 = 7;
+            }
+            
             if (_gameManager.memeberIndex == 0)        //murph
             {
                 playerCarPrefab = Instantiate(_gameManager.murphPrefabs[_gameManager.selectedCarModelPLAYER-1],

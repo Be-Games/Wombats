@@ -66,9 +66,7 @@ public class LevelSelection : MonoBehaviour
        
         
         index = PlayerPrefs.GetInt("LevelIndex");
-        Debug.Log(PlayerPrefs.GetInt("LevelIndex"));
-        
-        
+
     }
 
     private void Awake()

@@ -169,7 +169,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(AutoSetGraphics());
         
         
-        PlayerPrefs.GetInt("TotalCrowns", 0);
+        //PlayerPrefs.GetInt("TotalCrowns", 0);
 
         PlayerPrefs.GetInt("Car" + 1, 1);
         PlayerPrefs.GetInt("Car" + 2, 0);
@@ -279,9 +279,7 @@ public class GameManager : MonoBehaviour
     
     private void Update()
     {
-        Debug.Log( PlayerPrefs.GetInt("MyTotalCoins"));
-        Debug.Log( "reward" + PlayerPrefs.GetInt("MY_REWARD_KEY"));
-        
+
         currentCoins_txt.text = PlayerPrefs.GetInt("MyTotalCoins").ToString();
         
         /*timeleft -= Time.deltaTime;

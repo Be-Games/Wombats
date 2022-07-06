@@ -40,8 +40,7 @@ public class Rewarded : MonoBehaviour
 
     public void rewarded()
     {
-        
-        
+
         if (IronSource.Agent.isRewardedVideoAvailable())
         {
             Debug.Log("Works");
@@ -63,6 +62,7 @@ public class Rewarded : MonoBehaviour
     public void rewardedForConcert()
     {
 
+        
         if (IronSource.Agent.isRewardedVideoAvailable())
         {
             Debug.Log("Works");

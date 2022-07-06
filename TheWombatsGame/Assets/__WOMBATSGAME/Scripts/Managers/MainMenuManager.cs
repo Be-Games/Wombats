@@ -78,6 +78,11 @@ public class MainMenuManager : MonoBehaviour
         
         PlayerPrefs.Save ();
     }
+
+    public void ClaimCoinBtn()
+    {
+        AudioManager.Instance.Play(AudioManager.Instance.sfxAll.unlockCar);
+    }
     
 
     private void Start()
@@ -201,7 +206,6 @@ public class MainMenuManager : MonoBehaviour
 
     public void PlayGame()
     {
-
         UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
         
         leftCar.DOKill();
