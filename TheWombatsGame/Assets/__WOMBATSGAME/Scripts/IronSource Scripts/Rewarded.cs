@@ -40,7 +40,7 @@ public class Rewarded : MonoBehaviour
 
     public void rewarded()
     {
-
+        
         if (IronSource.Agent.isRewardedVideoAvailable())
         {
             Debug.Log("Works");
@@ -83,8 +83,8 @@ public class Rewarded : MonoBehaviour
 
     public void RewardedVideoAdClosedEvent()
     {
-        IronSource.Agent.init(appkey, IronSourceAdUnits.REWARDED_VIDEO);
-        IronSource.Agent.shouldTrackNetworkState(true);
+        /*IronSource.Agent.init(appkey, IronSourceAdUnits.REWARDED_VIDEO);
+        IronSource.Agent.shouldTrackNetworkState(true);*/
 
         if (GameManager.Instance.isForCoinsReward)
         {

@@ -176,7 +176,7 @@ public class LevelManager : MonoBehaviour
             totalLaps = 1;
         }
 
-        _uiManager.GetComponent<Canvas>().worldCamera = flyOverCameraGO.transform.GetChild(0).GetComponent<Camera>();
+        //_uiManager.GetComponent<Canvas>().worldCamera = flyOverCameraGO.transform.GetChild(0).GetComponent<Camera>();
 
         #region CodeToComment
         if (_gameManager)
@@ -468,7 +468,7 @@ public class LevelManager : MonoBehaviour
         flyOverCameraGO.SetActive(false);
         mainCameraGO.SetActive(true);
         
-        _uiManager.gameObject.GetComponent<Canvas>().worldCamera =  mainCameraGO.GetComponent<Camera>();
+       // _uiManager.gameObject.GetComponent<Canvas>().worldCamera =  mainCameraGO.GetComponent<Camera>();
         
         if(_gameManager.weatherEffect == 0)
             envManager.Clear();
@@ -1435,7 +1435,7 @@ public class LevelManager : MonoBehaviour
 
     public void ShowRevivePanel()
     {
-        _uiManager.receiveLifePanel.SetActive(true);
+        UIManager.Instance.receiveLifePanel.SetActive(true);
     }
 
     public void Vibrate()

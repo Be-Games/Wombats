@@ -116,7 +116,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         graphicsToggleDD.value =  PlayerPrefs.GetInt("Graphics");
-        Debug.Log( PlayerPrefs.GetInt("Graphics"));
+        //Debug.Log( PlayerPrefs.GetInt("Graphics"));
     }
 
     public void settingsBtnDT()
