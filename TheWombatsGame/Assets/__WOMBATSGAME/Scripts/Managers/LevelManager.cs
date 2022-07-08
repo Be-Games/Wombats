@@ -602,7 +602,8 @@ public class LevelManager : MonoBehaviour
                 else if (lapCounter == 2)
                 {
                     tempPrefabD.SetActive(true);
-                    tempPrefabN.SetActive(false);
+                    //tempPrefabN.SetActive(false);
+                    Destroy(tempPrefabN);
                 }
                 
             }
@@ -618,8 +619,9 @@ public class LevelManager : MonoBehaviour
         
                 else if (lapCounter == 2)
                 {
-                    tempPrefabD.SetActive(false);
+                   // tempPrefabD.SetActive(false);
                     tempPrefabN.SetActive(true);
+                    Destroy(tempPrefabD);
                 }
                 
             }
