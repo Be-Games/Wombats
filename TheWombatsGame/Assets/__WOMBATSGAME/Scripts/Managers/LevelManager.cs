@@ -1435,7 +1435,7 @@ public class LevelManager : MonoBehaviour
 
     public void ShowRevivePanel()
     {
-        Invoke("RevivePanel",2f);
+        Invoke("RevivePanel",1f);
         
     }
 
