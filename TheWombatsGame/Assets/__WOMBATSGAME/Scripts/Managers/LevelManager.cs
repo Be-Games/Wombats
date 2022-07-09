@@ -1435,6 +1435,12 @@ public class LevelManager : MonoBehaviour
 
     public void ShowRevivePanel()
     {
+        Invoke("RevivePanel",2f);
+        
+    }
+
+    void RevivePanel()
+    {
         UIManager.Instance.receiveLifePanel.SetActive(true);
     }
 

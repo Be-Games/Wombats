@@ -45,6 +45,7 @@ public class Rewarded : MonoBehaviour
         {
             Debug.Log("Works");
             IronSource.Agent.showRewardedVideo();
+            LevelManager.Instance.ShowRevivePanel();
             LevelManager.Instance.Ana_AdShown("rewarded");
         }
         else
@@ -92,11 +93,11 @@ public class Rewarded : MonoBehaviour
             PlayerPrefs.SetInt("MyTotalCoins", PlayerPrefs.GetInt("MyTotalCoins") + GameManager.Instance.timesForCoins);
             GameManager.Instance.isForCoinsReward = false;
         }
-        else
+        /*else
         {
             Debug.Log("For Revive");
             LevelManager.Instance.ShowRevivePanel();
-        }
+        }*/
 
         
         
